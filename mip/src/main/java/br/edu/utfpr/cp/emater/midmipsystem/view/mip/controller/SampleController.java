@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping (value = "/pest-survey/list-collected-samples")
+@RequestMapping (value = "/mip/sample/pest")
 public class SampleController {
 
     private final SamplePestRepository samplePestRepository;
@@ -49,7 +49,7 @@ public class SampleController {
         this.operationSuccessMessage = false;
     }
     
-    @RequestMapping (value = "", method = RequestMethod.GET)
+    @RequestMapping (value = "/list", method = RequestMethod.GET)
     public String listAll(@RequestParam int mipPestSurveyId, Model data) {
         MipPestSurvey mipPestSurvey = mipPestSurveyRepository.findById(new Long(mipPestSurveyId)).orElseThrow();
 
@@ -59,9 +59,17 @@ public class SampleController {
 
         this.resetOperationSuccessMessage();
         
-        data.addAttribute("urlDelete", this.environment.getProperty("app.view.route.delete.mip.pest"));
+        data.addAttribute("urlDelete", this.environment.getProperty("app.view.route.mip.sample.pest.delete"));
         
-        return this.environment.getProperty("app.view.route.mip.list.collected-samples");
+        return this.environment.getProperty("app.view.route.mip.sample.pest.list");
     }
-    
+
+    @RequestMapping (value = "/delete", method = RequestMethod.POST)
+    public String delete (@RequestParam int samplePestId) {
+        samplePestRepository.deleteById(new Long(samplePestId));
+
+        this.setOperationSuccessMessage();
+        
+        return this.environment.getProperty("app.view.route.create.success.mip.pest-survey");
+    }    
 }

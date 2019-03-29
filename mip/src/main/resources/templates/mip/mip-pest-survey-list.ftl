@@ -68,7 +68,7 @@
 
                                     <#assign seeListLabel><@spring.message "modal.button.seeList" /></#assign> 
 
-                                    <a href="/pest-survey/list-collected-samples?mipPestSurveyId=${mipPestSurvey.id}">
+                                    <a href="/mip/sample/pest/list?mipPestSurveyId=${mipPestSurvey.id}">
                                         <i class="material-icons" style="color: #004900" title="${seeListLabel}">list</i>
 
                                     </a>
