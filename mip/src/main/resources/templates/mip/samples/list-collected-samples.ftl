@@ -54,16 +54,16 @@
                                 <td>${samplePest.defoliation}</td>
                                 <td>${samplePest.growthPhase}</td>
                                 <td>
-                                    <#assign deleteLabel><@spring.message "table.list.remove-from-survey" /></#assign>
+                                    <#assign detailsLabel><@spring.message "table.list.see-detail" /></#assign>
+
+                                    <a href="#">
+                                        <i class="material-icons" style="color: #004900" title="${detailsLabel}">details</i>                                    
+
+                                    <#assign deleteLabel><@spring.message "table.list.remove-sample" /></#assign>
 
                                     <a href="#deleteModal" class="text-danger" data-toggle="modal" data-id="${samplePest.id}" data-name="${samplePest.sampleDate}">
                                         <i class="material-icons" data-toggle="tooltip" title="${deleteLabel}">clear</i>
                                     </a>
-
-                                    <a href="#list-pest-modal" class="text-danger" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Listar">clear</i>
-                                    </a>
-                                    
                                 </td>
                             </tr>
 
