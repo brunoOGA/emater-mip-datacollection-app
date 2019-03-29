@@ -78,9 +78,6 @@
         </form>
     </div>
 
-    <!-- Add Modal HTML -->
-    <#include "list-pests.ftl">
-
     <!-- Delete Modal HTML -->
     <#include "delete-modal.ftl">
 
