@@ -17,7 +17,6 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="/macroregion">Macrorregião</a>
                 <a class="dropdown-item" href="/region">Região</a>
-                <#--  <a class="dropdown-item" href="/city">Município</a>  -->
                 <a class="dropdown-item" href="/farmer">Produtor</a>
                 <a class="dropdown-item" href="/supervisor">Responsável Técnico</a>
                 <a class="dropdown-item" href="/field">Unidade de Referência</a>
@@ -43,6 +42,16 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="/pest">Insetos Pragas</a>
                 <a class="dropdown-item" href="/pest-survey">Flutuação das Pragas</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                <i class="material-icons align-middle">local_hospital</i>
+                <span class="align-middle">Manejo Integrado de Doenças</span>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/pest">Leitura de Lâminas</a>
             </div>
         </li>
 
