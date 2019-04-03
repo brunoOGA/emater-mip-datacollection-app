@@ -63,8 +63,7 @@
                                 <td>
                                     <#assign colectionLabel><@spring.message "modal.button.collect" /></#assign> 
 
-                                    <#--  <a href="/pest-survey/add-sample?mipPestSurveyId=${mipPestSurvey.id}">  -->
-                                    <a href="#">
+                                    <a href="/mid/blade-reading/create?surveyFieldId=${bladeReading.surveyFieldId}">
                                         <i class="material-icons" style="color: #004900" title="${colectionLabel}">add_circle</i>
 
                                     <#assign seeListLabel><@spring.message "modal.button.seeList" /></#assign> 

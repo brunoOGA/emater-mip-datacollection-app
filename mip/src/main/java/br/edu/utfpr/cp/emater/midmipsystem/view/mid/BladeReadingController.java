@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.core.env.Environment;
 
 @Controller
@@ -39,6 +39,7 @@ public class BladeReadingController {
     public String listAll(Model data) {
 
         var bladeReading = BladeReadingDTO.builder()
+            .surveyFieldId(new Long(1))
             .farmerName("John Farmer")
             .fieldCityName("Apucarana")
             .fieldLocation("Hope place")
@@ -56,5 +57,11 @@ public class BladeReadingController {
         this.resetOperationSuccessMessage();
                 
         return this.environment.getProperty("app.view.route.template.list.mid.blade-reading");
+    }
+
+    @RequestMapping (value = "/create", method = RequestMethod.GET)
+    public String create(@RequestParam int surveyFieldId) {
+
+        return this.environment.getProperty("app.view.route.template.sample.create.blade-reading"); 
     }
 }

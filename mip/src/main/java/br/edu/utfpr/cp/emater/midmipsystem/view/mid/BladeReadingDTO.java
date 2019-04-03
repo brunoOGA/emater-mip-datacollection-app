@@ -1,12 +1,15 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
+import java.io.Serializable;
+
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class BladeReadingDTO {
+public class BladeReadingDTO implements Serializable {
 
+    private Long surveyFieldId;
     private String harvestName;
     private String fieldName;
     private String fieldLocation;
