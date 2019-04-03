@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import freemarker.core.Environment;
+import org.springframework.core.env.Environment;
 
 @Controller
 @RequestMapping (value = "/mid/blade-reading")
@@ -55,6 +55,6 @@ public class BladeReadingController {
 
         this.resetOperationSuccessMessage();
                 
-        return this.environment.getProperty("app.view.route.template.main.mip.pest");
+        return this.environment.getProperty("app.view.route.template.list.mid.blade-reading");
     }
 }

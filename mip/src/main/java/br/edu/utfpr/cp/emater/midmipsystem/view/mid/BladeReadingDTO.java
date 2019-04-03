@@ -13,7 +13,5 @@ public class BladeReadingDTO {
     private String fieldCityName;
     private String seedName;
     private String farmerName;
-    private String supervisorNames[];    
-
-    private BladeReadingDTO() {}
+    private String supervisorNames[];
 }
