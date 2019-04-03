@@ -51,7 +51,7 @@
                 <span class="align-middle">Manejo Integrado de Doenças</span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/pest">Leitura de Lâminas</a>
+                <a class="dropdown-item" href="/mid/blade-reading/list">Leitura de Lâminas</a>
             </div>
         </li>
 
