@@ -51,32 +51,28 @@
                 <div class="tab-content">
                     <div id="collector-and-sample-date-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "table.list.sample-data" />
+                            <@spring.message "table.list.dates" />
                         </div>
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col">
-                                    <label for="sampleDate"><@spring.message "table.list.colletion-date" /></label>
-                                    <input type="date" class="form-control" id="sampleDate" name="sampleDate" required>
+                                    <label for="collector-install-date"><@spring.message "table.list.collector-install-date" /></label>
+                                    <input type="date" class="form-control" id="collector-install-date" name="collector-install-date" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col">
-                                    <label for="growthPhase"><@spring.message "table.list.growth-phase" /></label>
-                                    <select class="form-control" id="growthPhase" name="growthPhase" required>
-                                        <#--  <#list growthPhases as growthPhase>
-                                            <option value="${growthPhase}">${growthPhase}</option>
-                                        </#list>  -->
-                                    </select>
+                                    <label for="colletion-date"><@spring.message "table.list.colletion-date" /></label>
+                                    <input type="date" class="form-control" id="colletion-date" name="colletion-date" required>
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col">
-                                    <label for="defoliation"><@spring.message "table.list.defoliation-rate" /></label>
-                                    <input type="number" class="form-control" id="defoliation" name="defoliation" required>
-                                </div>
+                            <div class="form-check col">
+                                <input class="form-check-input" type="checkbox" id="sporeCollector" name="sporeCollector">
+                                <label class="form-check-label" for="sporeCollector">
+                                    <@spring.message "table.list.spore-collector" />
+                                </label>
                             </div>
                                 
                         </div>
@@ -84,25 +80,46 @@
 
                     <div id="spore-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "table.list.sample-pest-population" />
+                            <@spring.message "table.list.spore-collector-tab" />
                         </div>
-                        <div class="card-body table-responsive-md">
-                            <table id="mainTable" class="table table-striped table-hover">
-                                <thead style="background-color: #004900; color: white">
-                                    <tr>
-                                        <th><@spring.message "table.list.pest-name" /></th>
-                                        <th><@spring.message "table.list.average-found" /></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="mainTable-body">
-                                    <#--  <#list pestList as pest>
-                                        <tr>
-                                            <td>${pest.usualName} - ${pest.scientificName} (${pest.pestSize.getName()})</td>
-                                            <td><input class="form-control" id="${pest.id}" name="${'pest_'+pest.id}" type="text" placeholder="0.0"></td>
-                                        </tr>                                    
-                                    </#list>  -->
-                                </tbody>
-                            </table>
+                        <div class="card-body">
+        
+                            <div class="form-row">
+                                <div class="form-check col">
+                                    <input class="form-check-input" type="checkbox" id="blade-installed-pre-cold" name="blade-installed-pre-cold">
+                                    <label class="form-check-label" for="blade-installed-pre-cold">
+                                        <@spring.message "table.list.blade-installed-pre-cold" />
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reading-blade-responsible-name"><@spring.message "table.list.reading-blade-responsible-name" /></label>
+                                    <input type="text" class="form-control" id="reading-blade-responsible-name" name="reading-blade-responsible-name" required maxlength="50" >
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reading-blade-responsible-name-entity"><@spring.message "table.list.reading-blade-responsible-name-entity" /></label>
+                                    <input type="text" class="form-control" id="reading-blade-responsible-name-entity" name="reading-blade-responsible-name-entity" required maxlength="50" >
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="blade-reading-date"><@spring.message "table.list.blade-reading-date" /></label>
+                                    <input type="date" class="form-control" id="blade-reading-date" name="blade-reading-date" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="blade-reading-rust-result"><@spring.message "table.list.blade-reading-rust-result" /> </label>
+                                    <input type="number" step="1" class="form-control" id="blade-reading-rust-result" name="blade-reading-rust-result">
+                                </div>                                
+                            </div>
                         </div>
                     </div>
 
