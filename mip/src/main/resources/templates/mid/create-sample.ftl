@@ -83,25 +83,15 @@
                             <@spring.message "table.list.spore-collector-tab" />
                         </div>
                         <div class="card-body">
-        
                             <div class="form-row">
-                                <div class="form-check col">
-                                    <input class="form-check-input" type="checkbox" id="blade-installed-pre-cold" name="blade-installed-pre-cold">
-                                    <label class="form-check-label" for="blade-installed-pre-cold">
-                                        <@spring.message "table.list.blade-installed-pre-cold" />
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
+                                <div class="form-group col">
                                     <label for="reading-blade-responsible-name"><@spring.message "table.list.reading-blade-responsible-name" /></label>
                                     <input type="text" class="form-control" id="reading-blade-responsible-name" name="reading-blade-responsible-name" required maxlength="50" >
                                 </div>
                             </div>
 
                             <div class="form-row">
-                                <div class="form-group">
+                                <div class="form-group col">
                                     <label for="reading-blade-responsible-name-entity"><@spring.message "table.list.reading-blade-responsible-name-entity" /></label>
                                     <input type="text" class="form-control" id="reading-blade-responsible-name-entity" name="reading-blade-responsible-name-entity" required maxlength="50" >
                                 </div>
@@ -116,10 +106,22 @@
 
                             <div class="form-row">
                                 <div class="form-group col">
-                                    <label for="blade-reading-rust-result"><@spring.message "table.list.blade-reading-rust-result" /> </label>
-                                    <input type="number" step="1" class="form-control" id="blade-reading-rust-result" name="blade-reading-rust-result">
-                                </div>                                
+                                    <label for="blade-reading-rust-result"><@spring.message "table.list.blade-reading-rust-result" /></label>
+                                    <select class="form-control" id="blade-reading-rust-result" name="blade-reading-rust-result" required>
+                                        <#list asiaticRustTypes as asiaticRustType>
+                                            <option value="${asiaticRustType}">${asiaticRustType.description}</option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>                            
+
+                            <div class="form-check col">
+                                <input class="form-check-input" type="checkbox" id="blade-installed-pre-cold" name="blade-installed-pre-cold">
+                                <label class="form-check-label" for="blade-installed-pre-cold">
+                                    <@spring.message "table.list.blade-installed-pre-cold" />
+                                </label>
                             </div>
+
                         </div>
                     </div>
 
