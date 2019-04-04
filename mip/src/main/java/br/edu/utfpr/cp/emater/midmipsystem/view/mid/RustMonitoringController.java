@@ -64,6 +64,7 @@ public class RustMonitoringController {
         data.addAttribute("asiaticRustTypesSpore", RustMonitoringSampleDTO.AsiaticRustTypesSporeCollector.values());
         data.addAttribute("asiaticRustTypesInspection", RustMonitoringSampleDTO.AsiaticRustTypesInspection.values());
         data.addAttribute("growthPhases", RustMonitoringSampleDTO.GrowthPhase.values());
+        data.addAttribute("surveyFieldId", surveyFieldId);
 
         return this.environment.getProperty("app.view.route.template.sample.create.rust-monitoring"); 
     }

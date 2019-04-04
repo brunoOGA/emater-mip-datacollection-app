@@ -1,5 +1,12 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RustMonitoringSampleDTO {
 
     public enum AsiaticRustTypesSporeCollector {
@@ -73,4 +80,51 @@ public class RustMonitoringSampleDTO {
             this.description = description;
         }
     }    
+
+    private int surveyFieldId;
+    private String collectorInstallDate;
+    private String colletionDate;
+    private String readingBladeResponsibleName;
+    private String readingBladeResponsibleNameEntity;
+    private String bladeReadingDate;
+    private String bladeReadingRustResultCollector;
+    private boolean bladeInstalledPreCold;
+    private String growthPhase;
+    private String bladeReadingRustResultInspection;
+    private boolean asiaticRustApplication;
+    private boolean otherDiseasesApplication;
+    private String fungicideApplicationDate;
+    private String fungicideNotes;
+
+    @Override
+    public String toString() {
+        return String.format("surveyFieldId = %d " +
+                            "collectorInstallDate = %s" +
+                            "colletionDate = %s" +
+                            "readingBladeResponsibleName = %s" +
+                            "readingBladeResponsibleNameEntity = %s" +
+                            "bladeReadingDate = %s" +
+                            "bladeReadingRustResultCollector = %s" +
+                            "bladeInstalledPreCold = %b" +
+                            "growthPhase = %s" +
+                            "bladeReadingRustResultInspection = %s" +
+                            "asiaticRustApplication = %b" +
+                            "otherDiseasesApplication = %b" +
+                            "fungicideApplicationDate = %s" +
+                            "fungicideNotes = %s", 
+                            this.surveyFieldId,
+                            this.collectorInstallDate,
+                            this.colletionDate,
+                            this.readingBladeResponsibleName,
+                            this.readingBladeResponsibleNameEntity,
+                            this.bladeReadingDate,
+                            this.bladeReadingRustResultCollector,
+                            this.bladeInstalledPreCold,
+                            this.growthPhase,
+                            this.bladeReadingRustResultInspection,
+                            this.asiaticRustApplication,
+                            this.otherDiseasesApplication,
+                            this.fungicideApplicationDate,
+                            this.fungicideNotes);
+    }
 }

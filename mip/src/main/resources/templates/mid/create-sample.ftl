@@ -22,9 +22,9 @@
     <!-- Add Menu -->
     <#include "/menubar.ftl">
 
-        <form action="/pest-survey/save-sample" method="post" class="card" style="margin: 15px">
+        <form action="/mid/rust-monitoring/sample/create" method="post" class="card" style="margin: 15px">
 
-            <#--  <input type="hidden" name="mipPestSurveyId" value="${mipPestSurveyId}">  -->
+            <input type="hidden" name="surveyFieldId" value="${surveyFieldId}">
 
             <div class="card-header text-white" style="background-color: #004900">
                 <h2 class="card-title" style="display: inline"><@spring.message "card.title.sample" /></h2>
@@ -57,14 +57,14 @@
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="collector-install-date"><@spring.message "table.list.collector-install-date" /></label>
-                                    <input type="date" class="form-control" id="collector-install-date" name="collector-install-date" required>
+                                    <input type="date" class="form-control" id="collector-install-date" name="collectorInstallDate" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="colletion-date"><@spring.message "table.list.colletion-date" /></label>
-                                    <input type="date" class="form-control" id="colletion-date" name="colletion-date" required>
+                                    <input type="date" class="form-control" id="colletion-date" name="colletionDate" required>
                                 </div>
                             </div>
 
@@ -86,28 +86,28 @@
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="reading-blade-responsible-name"><@spring.message "table.list.reading-blade-responsible-name" /></label>
-                                    <input type="text" class="form-control" id="reading-blade-responsible-name" name="reading-blade-responsible-name" required maxlength="50" >
+                                    <input type="text" class="form-control" id="reading-blade-responsible-name" name="readingBladeResponsibleName" required maxlength="50" >
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="reading-blade-responsible-name-entity"><@spring.message "table.list.reading-blade-responsible-name-entity" /></label>
-                                    <input type="text" class="form-control" id="reading-blade-responsible-name-entity" name="reading-blade-responsible-name-entity" required maxlength="50" >
+                                    <input type="text" class="form-control" id="reading-blade-responsible-name-entity" name="readingBladeResponsibleNameEntity" required maxlength="50" >
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="blade-reading-date"><@spring.message "table.list.blade-reading-date" /></label>
-                                    <input type="date" class="form-control" id="blade-reading-date" name="blade-reading-date" required>
+                                    <input type="date" class="form-control" id="blade-reading-date" name="bladeReadingDate" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="blade-reading-rust-result-collector"><@spring.message "table.list.blade-reading-rust-result-collector" /></label>
-                                    <select class="form-control" id="blade-reading-rust-result-collector" name="blade-reading-rust-result-collector" required>
+                                    <select class="form-control" id="blade-reading-rust-result-collector" name="bladeReadingRustResultCollector" required>
                                         <#list asiaticRustTypesSpore as asiaticRustType>
                                             <option value="${asiaticRustType}">${asiaticRustType.description}</option>
                                         </#list>
@@ -116,7 +116,7 @@
                             </div>                            
 
                             <div class="form-check col">
-                                <input class="form-check-input" type="checkbox" id="blade-installed-pre-cold" name="blade-installed-pre-cold">
+                                <input class="form-check-input" type="checkbox" id="blade-installed-pre-cold" name="bladeInstalledPreCold">
                                 <label class="form-check-label" for="blade-installed-pre-cold">
                                     <@spring.message "table.list.blade-installed-pre-cold" />
                                 </label>
@@ -144,7 +144,7 @@
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="blade-reading-rust-result-inspection"><@spring.message "table.list.blade-reading-rust-result-inspection" /></label>
-                                    <select class="form-control" id="blade-reading-rust-result-inspection" name="blade-reading-rust-result-inspection" required>
+                                    <select class="form-control" id="blade-reading-rust-result-inspection" name="bladeReadingRustResultInspection" required>
                                         <#list asiaticRustTypesInspection as asiaticRustType>
                                             <option value="${asiaticRustType}">${asiaticRustType.description}</option>
                                         </#list>
@@ -163,14 +163,14 @@
                         <div class="card-body">
 
                             <div class="form-check col">
-                                <input class="form-check-input" type="checkbox" id="asiatic-rust-application" name="asiatic-rust-application">
+                                <input class="form-check-input" type="checkbox" id="asiatic-rust-application" name="asiaticRustApplication">
                                 <label class="form-check-label" for="asiatic-rust-application">
                                     <@spring.message "table.list.blade-reading.sample.asiatic-rust" />
                                 </label>
                             </div>
 
                             <div class="form-check col">
-                                <input class="form-check-input" type="checkbox" id="other-diseases-application" name="other-diseases-application">
+                                <input class="form-check-input" type="checkbox" id="other-diseases-application" name="otherDiseasesApplication">
                                 <label class="form-check-label" for="other-diseases-application">
                                     <@spring.message "table.list.blade-reading.sample.other-diseases" />
                                 </label>
@@ -179,14 +179,14 @@
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="fungicide-application-date"><@spring.message "table.list.blade-reading.sample.fungicide-date" /></label>
-                                    <input type="date" class="form-control" id="fungicide-application-date" name="fungicide-application-date" required>
+                                    <input type="date" class="form-control" id="fungicide-application-date" name="fungicideApplicationDate" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="fungicide-notes"><@spring.message "table.list.blade-reading.sample.notes" /></label>
-                                    <input type="text" class="form-control" id="fungicide-notes" name="fungicide-notes" maxlength="50" >
+                                    <input type="text" class="form-control" id="fungicide-notes" name="fungicideNotes" >
                                 </div>
                             </div>
 
