@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.core.env.Environment;
 
 @Controller
-@RequestMapping (value = "/mid/blade-reading")
-public class BladeReadingController {
+@RequestMapping (value = "/mid/rust-monitoring")
+public class RustMonitoringController {
 
     private final Environment environment;
 
@@ -30,7 +30,7 @@ public class BladeReadingController {
 
 
     @Autowired
-    public BladeReadingController(Environment environment) {
+    public RustMonitoringController(Environment environment) {
         this.environment = environment;
         this.operationSuccessMessage = false;
     }
@@ -38,7 +38,7 @@ public class BladeReadingController {
     @RequestMapping (value = "/list", method = RequestMethod.GET)
     public String listAll(Model data) {
 
-        var bladeReading = BladeReadingDTO.builder()
+        var bladeReading = RustMonitoringDTO.builder()
             .surveyFieldId(new Long(1))
             .farmerName("John Farmer")
             .fieldCityName("Apucarana")
@@ -49,22 +49,22 @@ public class BladeReadingController {
             .supervisorNames(new String[] {"John", "Michel"})
             .build();
         
-        List<BladeReadingDTO> bladeReadingList = List.of(bladeReading, bladeReading, bladeReading);
+        List<RustMonitoringDTO> bladeReadingList = List.of(bladeReading, bladeReading, bladeReading);
 
-        data.addAttribute("bladeReadingList", bladeReadingList);
+        data.addAttribute("rustMonitoringList", bladeReadingList);
         data.addAttribute("success", this.operationSuccessMessage);
 
         this.resetOperationSuccessMessage();
                 
-        return this.environment.getProperty("app.view.route.template.list.mid.blade-reading");
+        return this.environment.getProperty("app.view.route.template.list.mid.rust-monitoring");
     }
 
     @RequestMapping (value = "/create", method = RequestMethod.GET)
     public String create(@RequestParam int surveyFieldId, Model data) {
-        data.addAttribute("asiaticRustTypesSpore", BladeReadingSampleDTO.AsiaticRustTypesSporeCollector.values());
-        data.addAttribute("asiaticRustTypesInspection", BladeReadingSampleDTO.AsiaticRustTypesInspection.values());
-        data.addAttribute("growthPhases", BladeReadingSampleDTO.GrowthPhase.values());
+        data.addAttribute("asiaticRustTypesSpore", RustMonitoringSampleDTO.AsiaticRustTypesSporeCollector.values());
+        data.addAttribute("asiaticRustTypesInspection", RustMonitoringSampleDTO.AsiaticRustTypesInspection.values());
+        data.addAttribute("growthPhases", RustMonitoringSampleDTO.GrowthPhase.values());
 
-        return this.environment.getProperty("app.view.route.template.sample.create.blade-reading"); 
+        return this.environment.getProperty("app.view.route.template.sample.create.rust-monitoring"); 
     }
 }

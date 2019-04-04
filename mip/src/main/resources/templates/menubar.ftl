@@ -51,7 +51,7 @@
                 <span class="align-middle">Manejo Integrado de Doenças</span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/mid/blade-reading/list">Monitoramento da Ferrugem</a>
+                <a class="dropdown-item" href="/mid/rust-monitoring/list">Monitoramento da Ferrugem</a>
             </div>
         </li>
 

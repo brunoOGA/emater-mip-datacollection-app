@@ -47,23 +47,23 @@
                         </tr>
                     </thead>
                     <tbody id="mainTable-body">
-                        <#list bladeReadingList as bladeReading>
+                        <#list rustMonitoringList as rustMonitoring>
                             <tr>
-                                <td>${bladeReading.harvestName}</td>
-                                <td>${bladeReading.fieldName}</td>
-                                <td>${bladeReading.fieldLocation}</td>
-                                <td>${bladeReading.fieldCityName}</td>
-                                <td>${bladeReading.seedName}</td>
-                                <td>${bladeReading.farmerName}</td>
+                                <td>${rustMonitoring.harvestName}</td>
+                                <td>${rustMonitoring.fieldName}</td>
+                                <td>${rustMonitoring.fieldLocation}</td>
+                                <td>${rustMonitoring.fieldCityName}</td>
+                                <td>${rustMonitoring.seedName}</td>
+                                <td>${rustMonitoring.farmerName}</td>
                                 <td>
-                                    <#list bladeReading.supervisorNames as supervisor>
+                                    <#list rustMonitoring.supervisorNames as supervisor>
                                         <span>${supervisor}</span> <br>
                                     </#list>
 							    </td>
                                 <td>
                                     <#assign colectionLabel><@spring.message "modal.button.collect" /></#assign> 
 
-                                    <a href="/mid/blade-reading/create?surveyFieldId=${bladeReading.surveyFieldId}">
+                                    <a href="/mid/rust-monitoring/create?surveyFieldId=${rustMonitoring.surveyFieldId}">
                                         <i class="material-icons" style="color: #004900" title="${colectionLabel}">add_circle</i>
 
                                     <#assign seeListLabel><@spring.message "modal.button.seeList" /></#assign> 

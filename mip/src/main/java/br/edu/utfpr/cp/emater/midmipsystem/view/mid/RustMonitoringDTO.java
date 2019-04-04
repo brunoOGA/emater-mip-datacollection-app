@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class BladeReadingDTO implements Serializable {
+public class RustMonitoringDTO implements Serializable {
 
     private Long surveyFieldId;
     private String harvestName;

@@ -1,6 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
-public class BladeReadingSampleDTO {
+public class RustMonitoringSampleDTO {
 
     public enum AsiaticRustTypesSporeCollector {
         NO_RUST_SPORES ("1 - Sem Esporos de Ferrugem"),
