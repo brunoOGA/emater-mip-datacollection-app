@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><@spring.message "page.pest.sample" /></title>
+    <title><@spring.message "card.title.sample" /></title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -51,7 +51,7 @@
                 <div class="tab-content">
                     <div id="collector-and-sample-date-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "card.title.mid.blade-reading.sample.dates" />
+                            <@spring.message "card.title.mid.rust-monitoring.sample.dates" />
                         </div>
                         <div class="card-body">
                             <div class="form-row">
@@ -80,7 +80,7 @@
 
                     <div id="spore-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "card.title.mid.blade-reading.sample.spore-collector" />
+                            <@spring.message "card.title.mid.rust-monitoring.sample.spore-collector" />
                         </div>
                         <div class="card-body">
                             <div class="form-row">
@@ -127,7 +127,7 @@
 
                     <div id="inspection-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "card.title.mid.blade-reading.sample.spore-inspection" />
+                            <@spring.message "card.title.mid.rust-monitoring.sample.spore-inspection" />
                         </div>
                         <div class="card-body">
                             <div class="form-row">
@@ -157,7 +157,7 @@
 
                     <div id="fungicide-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "card.title.mid.blade-reading.sample.fungicides" />
+                            <@spring.message "card.title.mid.rust-monitoring.sample.fungicides" />
                         </div>
 
                         <div class="card-body">

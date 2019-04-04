@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><@spring.message "card.title.blade-reading" /></title>
+    <title><@spring.message "card.title.rust-monitoring" /></title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -23,7 +23,7 @@
 
         <form action="#" method="post" class="card" style="margin: 15px">
             <div class="card-header text-white" style="background-color: #004900">
-                <h2><@spring.message "card.title.blade-reading" /></h2>
+                <h2><@spring.message "card.title.rust-monitoring" /></h2>
             </div>
 
             <div class="card-body table-responsive-md">
@@ -68,8 +68,7 @@
 
                                     <#assign seeListLabel><@spring.message "modal.button.seeList" /></#assign> 
 
-                                    <#--  <a href="/mip/sample/pest/list?mipPestSurveyId=${mipPestSurvey.id}">  -->
-                                    <a href="#">
+                                    <a href="/mid/rust-monitoring/sample/list?surveyFieldId=${rustMonitoring.surveyFieldId}">
                                         <i class="material-icons" style="color: #004900" title="${seeListLabel}">list</i>
 
                                     </a>
