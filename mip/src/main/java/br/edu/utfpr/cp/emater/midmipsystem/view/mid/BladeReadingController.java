@@ -61,7 +61,9 @@ public class BladeReadingController {
 
     @RequestMapping (value = "/create", method = RequestMethod.GET)
     public String create(@RequestParam int surveyFieldId, Model data) {
-        data.addAttribute("asiaticRustTypes", BladeReadingSampleDTO.AsiaticRustTypes.values());
+        data.addAttribute("asiaticRustTypesSpore", BladeReadingSampleDTO.AsiaticRustTypesSporeCollector.values());
+        data.addAttribute("asiaticRustTypesInspection", BladeReadingSampleDTO.AsiaticRustTypesInspection.values());
+        data.addAttribute("growthPhases", BladeReadingSampleDTO.GrowthPhase.values());
 
         return this.environment.getProperty("app.view.route.template.sample.create.blade-reading"); 
     }

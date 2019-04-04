@@ -51,7 +51,7 @@
                 <div class="tab-content">
                     <div id="collector-and-sample-date-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "table.list.dates" />
+                            <@spring.message "card.title.mid.blade-reading.sample.dates" />
                         </div>
                         <div class="card-body">
                             <div class="form-row">
@@ -80,7 +80,7 @@
 
                     <div id="spore-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "table.list.spore-collector-tab" />
+                            <@spring.message "card.title.mid.blade-reading.sample.spore-collector" />
                         </div>
                         <div class="card-body">
                             <div class="form-row">
@@ -106,9 +106,9 @@
 
                             <div class="form-row">
                                 <div class="form-group col">
-                                    <label for="blade-reading-rust-result"><@spring.message "table.list.blade-reading-rust-result" /></label>
-                                    <select class="form-control" id="blade-reading-rust-result" name="blade-reading-rust-result" required>
-                                        <#list asiaticRustTypes as asiaticRustType>
+                                    <label for="blade-reading-rust-result-collector"><@spring.message "table.list.blade-reading-rust-result-collector" /></label>
+                                    <select class="form-control" id="blade-reading-rust-result-collector" name="blade-reading-rust-result-collector" required>
+                                        <#list asiaticRustTypesSpore as asiaticRustType>
                                             <option value="${asiaticRustType}">${asiaticRustType.description}</option>
                                         </#list>
                                     </select>
@@ -127,50 +127,38 @@
 
                     <div id="inspection-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "table.list.sample-pest-population" />
+                            <@spring.message "card.title.mid.blade-reading.sample.spore-inspection" />
                         </div>
-                        <div class="card-body table-responsive-md">
-                            <table id="mainTable" class="table table-striped table-hover">
-                                <thead style="background-color: #004900; color: white">
-                                    <tr>
-                                        <th><@spring.message "table.list.pest-name" /></th>
-                                        <th><@spring.message "table.list.average-found" /></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="mainTable-body">
-                                    <#--  <#list pestList as pest>
-                                        <tr>
-                                            <td>${pest.usualName} - ${pest.scientificName} (${pest.pestSize.getName()})</td>
-                                            <td><input class="form-control" id="${pest.id}" name="${'pest_'+pest.id}" type="text" placeholder="0.0"></td>
-                                        </tr>                                    
-                                    </#list>  -->
-                                </tbody>
-                            </table>
-                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col">
+                                    <label for="growthPhase"><@spring.message "table.list.blade-reading.growth-phase" /></label>
+                                <select class="form-control" id="growthPhase" name="growthPhase" required>
+                                    <#list growthPhases as growthPhase>
+                                        <option value="${growthPhase}">${growthPhase.description}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                        </div>   
+
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="blade-reading-rust-result-inspection"><@spring.message "table.list.blade-reading-rust-result-inspection" /></label>
+                                <select class="form-control" id="blade-reading-rust-result-inspection" name="blade-reading-rust-result-inspection" required>
+                                    <#list asiaticRustTypesInspection as asiaticRustType>
+                                        <option value="${asiaticRustType}">${asiaticRustType.description}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                        </div>                           
+                        
                     </div>
 
                     <div id="fungicide-tab" class="card" style="margin-top: 15px">
                         <div class="card-header text-white" style="background-color: #004900">
-                            <@spring.message "table.list.sample-pest-population" />
+                            <@spring.message "card.title.mid.blade-reading.sample.fungicides" />
                         </div>
-                        <div class="card-body table-responsive-md">
-                            <table id="mainTable" class="table table-striped table-hover">
-                                <thead style="background-color: #004900; color: white">
-                                    <tr>
-                                        <th><@spring.message "table.list.pest-name" /></th>
-                                        <th><@spring.message "table.list.average-found" /></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="mainTable-body">
-                                    <#--  <#list pestList as pest>
-                                        <tr>
-                                            <td>${pest.usualName} - ${pest.scientificName} (${pest.pestSize.getName()})</td>
-                                            <td><input class="form-control" id="${pest.id}" name="${'pest_'+pest.id}" type="text" placeholder="0.0"></td>
-                                        </tr>                                    
-                                    </#list>  -->
-                                </tbody>
-                            </table>
-                        </div>
+
                     </div>
 
                 </div>
