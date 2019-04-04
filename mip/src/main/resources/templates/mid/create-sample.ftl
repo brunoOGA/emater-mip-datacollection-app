@@ -68,12 +68,12 @@
                                 </div>
                             </div>
 
-                            <div class="form-check col">
+                            <#--  <div class="form-check col">
                                 <input class="form-check-input" type="checkbox" id="sporeCollector" name="sporeCollector">
                                 <label class="form-check-label" for="sporeCollector">
                                     <@spring.message "table.list.spore-collector" />
                                 </label>
-                            </div>
+                            </div>  -->
                                 
                         </div>
                     </div>
@@ -129,29 +129,30 @@
                         <div class="card-header text-white" style="background-color: #004900">
                             <@spring.message "card.title.mid.blade-reading.sample.spore-inspection" />
                         </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col">
+                                        <label for="growthPhase"><@spring.message "table.list.blade-reading.growth-phase" /></label>
+                                    <select class="form-control" id="growthPhase" name="growthPhase" required>
+                                        <#list growthPhases as growthPhase>
+                                            <option value="${growthPhase}">${growthPhase.description}</option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>   
 
-                        <div class="form-row">
-                            <div class="form-group col">
-                                    <label for="growthPhase"><@spring.message "table.list.blade-reading.growth-phase" /></label>
-                                <select class="form-control" id="growthPhase" name="growthPhase" required>
-                                    <#list growthPhases as growthPhase>
-                                        <option value="${growthPhase}">${growthPhase.description}</option>
-                                    </#list>
-                                </select>
-                            </div>
-                        </div>   
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="blade-reading-rust-result-inspection"><@spring.message "table.list.blade-reading-rust-result-inspection" /></label>
+                                    <select class="form-control" id="blade-reading-rust-result-inspection" name="blade-reading-rust-result-inspection" required>
+                                        <#list asiaticRustTypesInspection as asiaticRustType>
+                                            <option value="${asiaticRustType}">${asiaticRustType.description}</option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>                           
 
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label for="blade-reading-rust-result-inspection"><@spring.message "table.list.blade-reading-rust-result-inspection" /></label>
-                                <select class="form-control" id="blade-reading-rust-result-inspection" name="blade-reading-rust-result-inspection" required>
-                                    <#list asiaticRustTypesInspection as asiaticRustType>
-                                        <option value="${asiaticRustType}">${asiaticRustType.description}</option>
-                                    </#list>
-                                </select>
-                            </div>
-                        </div>                           
-                        
+                        </div>                        
                     </div>
 
                     <div id="fungicide-tab" class="card" style="margin-top: 15px">
@@ -159,6 +160,37 @@
                             <@spring.message "card.title.mid.blade-reading.sample.fungicides" />
                         </div>
 
+                        <div class="card-body">
+
+                            <div class="form-check col">
+                                <input class="form-check-input" type="checkbox" id="asiatic-rust-application" name="asiatic-rust-application">
+                                <label class="form-check-label" for="asiatic-rust-application">
+                                    <@spring.message "table.list.blade-reading.sample.asiatic-rust" />
+                                </label>
+                            </div>
+
+                            <div class="form-check col">
+                                <input class="form-check-input" type="checkbox" id="other-diseases-application" name="other-diseases-application">
+                                <label class="form-check-label" for="other-diseases-application">
+                                    <@spring.message "table.list.blade-reading.sample.other-diseases" />
+                                </label>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="fungicide-application-date"><@spring.message "table.list.blade-reading.sample.fungicide-date" /></label>
+                                    <input type="date" class="form-control" id="fungicide-application-date" name="fungicide-application-date" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="fungicide-notes"><@spring.message "table.list.blade-reading.sample.notes" /></label>
+                                    <input type="text" class="form-control" id="fungicide-notes" name="fungicide-notes" maxlength="50" >
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
