@@ -41,6 +41,14 @@ public class RustMonitoringSampleController {
 
     @RequestMapping (value = "/list", method = RequestMethod.GET)
     public String listAll (@RequestParam int surveyFieldId, Model data) {
+
+        // RustMonitoringSampleDTO.builder()
+        //         .asiaticRustApplication(true)
+        //         .bladeInstalledPreCold(true)
+        //         .bladeReadingDate("")
+
+
+        // data.addAttribute("rustMonitoringSamples", arg1);
         data.addAttribute("success", false);
 
         return this.environment.getProperty("app.view.route.template.sample.list.rust-monitoring");

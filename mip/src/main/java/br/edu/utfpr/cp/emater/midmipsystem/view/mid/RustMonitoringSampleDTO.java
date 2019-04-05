@@ -1,9 +1,16 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -82,35 +89,43 @@ public class RustMonitoringSampleDTO {
     }    
 
     private int surveyFieldId;
-    private String collectorInstallDate;
-    private String colletionDate;
+
+    @DateTimeFormat (iso = ISO.DATE)
+    private LocalDate collectorInstallDate;
+
+    @DateTimeFormat (iso = ISO.DATE)
+    private LocalDate colletionDate;
     private String readingBladeResponsibleName;
     private String readingBladeResponsibleNameEntity;
-    private String bladeReadingDate;
+
+    @DateTimeFormat (iso = ISO.DATE)
+    private LocalDate bladeReadingDate;
     private String bladeReadingRustResultCollector;
     private boolean bladeInstalledPreCold;
     private String growthPhase;
     private String bladeReadingRustResultInspection;
     private boolean asiaticRustApplication;
     private boolean otherDiseasesApplication;
-    private String fungicideApplicationDate;
+
+    @DateTimeFormat (iso = ISO.DATE)
+    private LocalDate fungicideApplicationDate;
     private String fungicideNotes;
 
     @Override
     public String toString() {
         return String.format("surveyFieldId = %d " +
-                            "collectorInstallDate = %s" +
-                            "colletionDate = %s" +
+                            "collectorInstallDate = %tD" +
+                            "colletionDate = %tD" +
                             "readingBladeResponsibleName = %s" +
                             "readingBladeResponsibleNameEntity = %s" +
-                            "bladeReadingDate = %s" +
+                            "bladeReadingDate = %tD" +
                             "bladeReadingRustResultCollector = %s" +
                             "bladeInstalledPreCold = %b" +
                             "growthPhase = %s" +
                             "bladeReadingRustResultInspection = %s" +
                             "asiaticRustApplication = %b" +
                             "otherDiseasesApplication = %b" +
-                            "fungicideApplicationDate = %s" +
+                            "fungicideApplicationDate = %tD" +
                             "fungicideNotes = %s", 
                             this.surveyFieldId,
                             this.collectorInstallDate,
