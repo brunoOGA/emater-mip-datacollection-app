@@ -24,7 +24,7 @@
 
         <form action="#" method="post" class="card" style="margin: 15px;">
             <div class="card-header text-white" style="background-color: #004900">
-                <h2 class="card-title" style="display: inline"><@spring.message "card.title.survey-field" /></h2>
+                <h2 class="card-title" style="display: inline">Amostras de Monitoramento de Ferrugem para <strong>${farmerName}</strong> em <strong>${harvestName}</strong></h2>
 
                 <#--  <a href="#" class="btn btn-success float-right" data-toggle="modal">
                     <i class="material-icons align-middle">&#xE147;</i>
@@ -74,12 +74,11 @@
                                 <td>${aSample.fungicideApplicationDate}</td>
                                 <td>${aSample.fungicideNotes}</td>
                                 <td>
-                                button
-                                    <#--  <#assign deleteLabel><@spring.message "table.list.remove-from-survey" /></#assign>
+                                    <#assign deleteLabel><@spring.message "table.list.remove-from-survey" /></#assign>
 
-                                    <a href="#deleteModal" class="text-danger" data-toggle="modal" data-id="${surveyField.id}" data-name="${surveyField.seedName}">
+                                    <a href="#deleteModal" class="text-danger" data-toggle="modal" data-id="${aSample.surveyFieldId}" data-name="${aSample.colletionDate}">
                                         <i class="material-icons" data-toggle="tooltip" title="${deleteLabel}">clear</i>
-                                    </a>  -->
+                                    </a>
                                 </td>
                             </tr>
 
@@ -95,7 +94,7 @@
     </div>
 
     <!-- Delete Modal HTML -->
-    <#--  <#include "delete-modal.ftl">   -->
+    <#include "delete-modal.ftl"> 
 
     <!-- External JS libs -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

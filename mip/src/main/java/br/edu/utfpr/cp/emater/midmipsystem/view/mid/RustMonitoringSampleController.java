@@ -40,7 +40,7 @@ public class RustMonitoringSampleController {
 
         System.out.println(sample);
 
-        return this.environment.getProperty("app.view.route.mide.sample.rust-monitoring.create.success");
+        return this.environment.getProperty("app.view.route.mid.sample.rust-monitoring.create.success");
     }
 
     @RequestMapping (value = "/list", method = RequestMethod.GET)
@@ -67,7 +67,18 @@ public class RustMonitoringSampleController {
 
         data.addAttribute("rustMonitoringSamples", rustMonitoringSamples);
         data.addAttribute("success", false);
+        data.addAttribute("urlDelete", "/mid/rust-monitoring/sample/delete");
+        data.addAttribute("farmerName", "John Farmer");
+        data.addAttribute("harvestName", "Safra 2019/2020");
 
         return this.environment.getProperty("app.view.route.template.sample.list.rust-monitoring");
+    }
+
+    @RequestMapping (value = "/delete", method = RequestMethod.POST)
+    public String delete (@RequestParam int surveyFieldId) {
+
+        System.out.println("Deleting survey field id = " + surveyFieldId);
+
+        return environment.getProperty("app.view.route.mid.sample.rust-monitoring.delete.success");
     }
 }
