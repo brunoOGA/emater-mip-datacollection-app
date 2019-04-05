@@ -58,51 +58,32 @@
                         </tr>
                     </thead>
                     <tbody id="mainTable-body">
-                        <tr>
-                            <td class="col-sm-1"><@spring.message "table.list.colletion-date" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.reading-blade-responsible-name" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.reading-blade-responsible-name-entity" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-reading-date" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-reading-rust-result-collector" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-installed-pre-cold" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-reading.growth-phase" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-reading-rust-result-inspection" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-reading.sample.asiatic-rust" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-reading.sample.other-diseases" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-reading.sample.fungicide-date" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.blade-reading.sample.notes" /></td>
-                            <td class="col-sm-1"><@spring.message "table.list.action" /></td>    
-                        </tr>
-                        <#--  <#list surveyFields as surveyField>
+                        <#list rustMonitoringSamples as aSample>
 
                             <tr>
-                                <td>${surveyField.harvest.name}</td>
-                                <td>${surveyField.seedName}</td>
-                                <td>${surveyField.questionData.rustResistant?string('Sim', 'Não')}</td>
-                                <td>${surveyField.questionData.bt?string('Sim', 'Não')}</td>
-                                <td>${surveyField.sporeCollectorPresent?string('Sim', 'Não')}</td>
-                                <td>${surveyField.dateData.sowedDate?string.medium}</td>
-                                <td>${surveyField.dateData.emergenceDate?string.medium}</td>
-                                <td>${surveyField.dateData.harvestDate?string.medium}</td>
-                                <td>${surveyField.productivityData.productivityField}</td>
-                                <td>${surveyField.productivityData.productivityFarmer}</td>
-                                <td>${surveyField.productivityData.separatedWeight?string('Sim', 'Não')}</td>
-                                <td>${surveyField.sizeData.totalArea}</td>
-                                <td>${surveyField.sizeData.totalPlantedArea}</td>
-                                <td>${surveyField.sizeData.plantPerMeter}</td>
-                                <td>${surveyField.locationData.latitute}</td>
-                                <td>${surveyField.locationData.longitude}</td>
-                                <td>${surveyField.field.name}</td>
+                                <td>${aSample.colletionDate}</td>
+                                <td>${aSample.readingBladeResponsibleName}</td>
+                                <td>${aSample.readingBladeResponsibleNameEntity}</td>
+                                <td>${aSample.bladeReadingDate}</td>
+                                <td>${aSample.bladeReadingRustResultCollector}</td>
+                                <td>${aSample.bladeInstalledPreCold?string('Sim', 'Não')}</td>
+                                <td>${aSample.growthPhase}</td>
+                                <td>${aSample.bladeReadingRustResultInspection}</td>
+                                <td>${aSample.asiaticRustApplication?string('Sim', 'Não')}</td>
+                                <td>${aSample.otherDiseasesApplication?string('Sim', 'Não')}</td>
+                                <td>${aSample.fungicideApplicationDate}</td>
+                                <td>${aSample.fungicideNotes}</td>
                                 <td>
-                                    <#assign deleteLabel><@spring.message "table.list.remove-from-survey" /></#assign>
+                                button
+                                    <#--  <#assign deleteLabel><@spring.message "table.list.remove-from-survey" /></#assign>
 
                                     <a href="#deleteModal" class="text-danger" data-toggle="modal" data-id="${surveyField.id}" data-name="${surveyField.seedName}">
                                         <i class="material-icons" data-toggle="tooltip" title="${deleteLabel}">clear</i>
-                                    </a>
+                                    </a>  -->
                                 </td>
                             </tr>
 
-                        </#list>  -->
+                        </#list>
 
                     </tbody>
                 </table>

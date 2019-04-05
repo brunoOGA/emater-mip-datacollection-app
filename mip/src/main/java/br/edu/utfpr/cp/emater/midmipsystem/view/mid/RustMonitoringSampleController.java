@@ -1,5 +1,9 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -42,13 +46,26 @@ public class RustMonitoringSampleController {
     @RequestMapping (value = "/list", method = RequestMethod.GET)
     public String listAll (@RequestParam int surveyFieldId, Model data) {
 
-        // RustMonitoringSampleDTO.builder()
-        //         .asiaticRustApplication(true)
-        //         .bladeInstalledPreCold(true)
-        //         .bladeReadingDate("")
+        RustMonitoringSampleDTO sample = RustMonitoringSampleDTO.builder()
+                .asiaticRustApplication(true)
+                .bladeInstalledPreCold(true)
+                .bladeReadingDate(LocalDate.now())
+                .bladeReadingRustResultCollector(RustMonitoringSampleDTO.AsiaticRustTypesSporeCollector.FEASIBLE_SPORES_GROUPED.getDescription())
+                .bladeReadingRustResultInspection(RustMonitoringSampleDTO.AsiaticRustTypesInspection.VISIBLE_DAMAGE_ALL_CROP.getDescription())
+                .collectorInstallDate(LocalDate.now())
+                .colletionDate(LocalDate.now())
+                .fungicideApplicationDate(LocalDate.now())
+                .fungicideNotes("notes ...")
+                .growthPhase(RustMonitoringSampleDTO.GrowthPhase.R5_2.getDescription())
+                .otherDiseasesApplication(true)
+                .readingBladeResponsibleName("John")
+                .readingBladeResponsibleNameEntity("Entity")
+                .surveyFieldId(12)
+                .build();
 
+        var rustMonitoringSamples = List.of(sample, sample, sample);
 
-        // data.addAttribute("rustMonitoringSamples", arg1);
+        data.addAttribute("rustMonitoringSamples", rustMonitoringSamples);
         data.addAttribute("success", false);
 
         return this.environment.getProperty("app.view.route.template.sample.list.rust-monitoring");
