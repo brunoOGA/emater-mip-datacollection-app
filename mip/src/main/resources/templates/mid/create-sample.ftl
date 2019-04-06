@@ -179,7 +179,7 @@
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="fungicide-application-date"><@spring.message "table.list.blade-reading.sample.fungicide-date" /></label>
-                                    <input type="date" class="form-control" id="fungicide-application-date" name="fungicideApplicationDate" required>
+                                    <input type="date" class="form-control" id="fungicide-application-date" name="fungicideApplicationDate">
                                 </div>
                             </div>
 
