@@ -13,6 +13,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.domain.base.SupervisorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.base.State;
+import br.edu.utfpr.cp.emater.midmipsystem.domain.mid.RustMonitoringSample;
+import br.edu.utfpr.cp.emater.midmipsystem.domain.mid.RustMonitoringSampleOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.domain.mid.RustMonitoringSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.MipPestSurvey;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.MipPestSurveyRepository;
@@ -34,6 +37,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.SurveyFieldRepository;
 import freemarker.template.Configuration;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -55,13 +59,14 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 @EnableJpaAuditing
 public class MipApplication {
 
-        private FreeMarkerConfigurer freeMarkerConfigurer;
-        @Autowired
-        public MipApplication (FreeMarkerConfigurer freeMarkerConfigurer) {
-                this.freeMarkerConfigurer = freeMarkerConfigurer;
+    private FreeMarkerConfigurer freeMarkerConfigurer;
 
-                this.freeMarkerConfigurer.getConfiguration().addAutoImport("spring", "spring.ftl");
-        }
+    @Autowired
+    public MipApplication(FreeMarkerConfigurer freeMarkerConfigurer) {
+        this.freeMarkerConfigurer = freeMarkerConfigurer;
+
+        this.freeMarkerConfigurer.getConfiguration().addAutoImport("spring", "spring.ftl");
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(MipApplication.class, args);
@@ -110,6 +115,9 @@ class CLR implements CommandLineRunner {
 
     @Autowired
     private SamplePestRepository samplePestRepository;
+    
+    @Autowired
+    private RustMonitoringSampleRepository rustMonitoringSampleRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -120,9 +128,9 @@ class CLR implements CommandLineRunner {
 
         City c1 = cityRepository.save(new City(null, "Itapejara D'Oeste", State.PR));
         City c2 = cityRepository.save(new City(null, "Mariópolis", State.PR));
-        City c3 = cityRepository.save(new City(null, "Pato Branco", State.PR));        
-        City c4 = cityRepository.save(new City(null, "Apucarana", State.PR));        
-        City c5 = cityRepository.save(new City(null, "Campo Mourão", State.PR));        
+        City c3 = cityRepository.save(new City(null, "Pato Branco", State.PR));
+        City c4 = cityRepository.save(new City(null, "Apucarana", State.PR));
+        City c5 = cityRepository.save(new City(null, "Campo Mourão", State.PR));
 
         Region r1 = regionRepository.save(new Region(null, "Apucarana", mr1, null));
         Region r2 = regionRepository.save(new Region(null, "Campo Mourão", mr2, null));
@@ -286,6 +294,34 @@ class CLR implements CommandLineRunner {
 
         SamplePest sp1 = samplePestRepository
                 .save(new SamplePest(null, new Date(), 3, 4, GrowthPhase.R2, pestOccurrences, mps1));
+
+        SurveyField sfRetrieved = surveyFieldRepository.findAll().get(0);
+        var rustMonitoringSample1 = RustMonitoringSample.builder()
+                                                    .collectorInstallDate(LocalDate.now())
+                                                    .surveyFieldId(sfRetrieved.getId())
+                                                    .build();
+        
+        var rustMonitoringSample1Saved = rustMonitoringSampleRepository.save(rustMonitoringSample1);
+        
+        var rmsOccurence1 = RustMonitoringSampleOccurrence.builder()
+                                    .asiaticRustApplication(true)
+                                    .bladeInstalledPreCold(false)
+                                    .bladeReadingDate(LocalDate.now())
+                                    .bladeReadingRustResultCollector(RustMonitoringSampleOccurrence.AsiaticRustTypesSporeCollector.NO_RUST_SPORES_NO_FEASIBILITY_TEST)
+                                    .bladeReadingRustResultInspection(RustMonitoringSampleOccurrence.AsiaticRustTypesInspection.VISIBLE_DAMAGE_ALL_CROP)
+                                    .collectorInstallDate(LocalDate.now())
+                                    .colletionDate(LocalDate.now())
+                                    .fungicideApplicationDate(LocalDate.now())
+                                    .fungicideNotes("Notes")
+                                    .growthPhase(RustMonitoringSampleOccurrence.GrowthPhase.R2)
+                                    .otherDiseasesApplication(true)
+                                    .readingBladeResponsibleName("A name")
+                                    .readingBladeResponsibleNameEntity("An entity")
+                                    .build();
+        
+        rustMonitoringSample1Saved.addSample(rmsOccurence1);
+        
+        rustMonitoringSampleRepository.saveAndFlush(rustMonitoringSample1Saved);
     }
 
 }

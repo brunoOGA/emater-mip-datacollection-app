@@ -2,7 +2,6 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
 import java.io.Serializable;
 
-import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.SurveyField;
 import lombok.Builder;
 import lombok.Getter;
 

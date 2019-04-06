@@ -1,8 +1,8 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
+import br.edu.utfpr.cp.emater.midmipsystem.domain.mid.RustMonitoringSample;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.utfpr.cp.emater.midmipsystem.domain.mid.RustMonitoringSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.SurveyField;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyFieldService;
 
 import org.springframework.core.env.Environment;
@@ -46,12 +47,15 @@ public class RustMonitoringController {
     }
 
     private List<SurveyFieldDTO> populateSurveyFieldDTOList () {
-        var allRustMonitoringSamples = rustMonitoringSampleRepository.findAll();
+        List<RustMonitoringSample> allRustMonitoringSamples = rustMonitoringSampleRepository.findAll();
 
         if (allRustMonitoringSamples.size() > 0) {
-            System.out.println("OKOKOKOKOK");
-
-            return new ArrayList<>();
+            var surveyFieldDTOs = new ArrayList<SurveyFieldDTO>();
+            
+            for (RustMonitoringSample aRMS: allRustMonitoringSamples) 
+                surveyFieldDTOs.add(surveyFieldService.convertFrom(surveyFieldService.findById(aRMS.getSurveyFieldId()).orElseThrow()));
+            
+            return surveyFieldDTOs;
         } else
             return new ArrayList<>();
     }
@@ -59,22 +63,7 @@ public class RustMonitoringController {
     @RequestMapping (value = "/list", method = RequestMethod.GET)
     public String listAll(Model data) {
 
-        // var bladeReading = RustMonitoringDTO.builder()
-        //     .surveyFieldId(new Long(1))
-        //     .farmerName("John Farmer")
-        //     .fieldCityName("Apucarana")
-        //     .fieldLocation("Hope place")
-        //     .fieldName("My farm")
-        //     .harvestName("Safra 2018/2019")
-        //     .seedName("Special Seed")
-        //     .supervisorNames(new String[] {"John", "Michel"})
-        //     .build();
-        
-        // List<RustMonitoringDTO> bladeReadingList = List.of(bladeReading, bladeReading, bladeReading);
-        List<SurveyFieldDTO> surveyFieldList = this.populateSurveyFieldDTOList();
-
-        data.addAttribute("surveyFieldList", surveyFieldService.listAllSurveyFields());
-        // data.addAttribute("rustMonitoringList", bladeReadingList);
+        data.addAttribute("surveyFieldList", this.populateSurveyFieldDTOList());
         data.addAttribute("success", this.operationSuccessMessage);
 
         this.resetOperationSuccessMessage();

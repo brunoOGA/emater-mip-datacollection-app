@@ -68,12 +68,12 @@
                                 <td>
                                     <#assign colectionLabel><@spring.message "modal.button.collect" /></#assign> 
 
-                                    <a href="/mid/rust-monitoring/create?surveyFieldId=${rustMonitoring.surveyFieldId}">
+                                    <a href="/mid/rust-monitoring/create?surveyFieldId=${surveyField.surveyFieldId}">
                                         <i class="material-icons" style="color: #004900" title="${colectionLabel}">add_circle</i>
 
                                     <#assign seeListLabel><@spring.message "modal.button.seeList" /></#assign> 
 
-                                    <a href="/mid/rust-monitoring/sample/list?surveyFieldId=${rustMonitoring.surveyFieldId}">
+                                    <a href="/mid/rust-monitoring/sample/list?rustMonitoringId=${surveyField.surveyFieldId}">
                                         <i class="material-icons" style="color: #004900" title="${seeListLabel}">list</i>
 
                                     </a>

@@ -28,7 +28,7 @@ public class SurveyFieldService {
     }
 
     // It should return an immutable object!
-    public Optional<SurveyField> listById (Long id) {
+    public Optional<SurveyField> findById (Long id) {
         return surveyFieldRepository.findById(id);
     }
 
@@ -37,6 +37,7 @@ public class SurveyFieldService {
         String supervisors[] = surveyField.getField().getSupervisors().stream().map(s -> s.getName()).collect(Collectors.toList()).toArray(new String[]{});
 
         return SurveyFieldDTO.builder()
+                    .surveyFieldId(surveyField.getId())
                     .farmerName(surveyField.getField().getFarmer().getName())
                     .fieldCityName(surveyField.getField().getCity().getName())
                     .fieldLocation(surveyField.getField().getLocation())

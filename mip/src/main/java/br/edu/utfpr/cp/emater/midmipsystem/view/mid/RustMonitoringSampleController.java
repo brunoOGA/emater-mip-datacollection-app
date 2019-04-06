@@ -44,27 +44,9 @@ public class RustMonitoringSampleController {
     }
 
     @RequestMapping (value = "/list", method = RequestMethod.GET)
-    public String listAll (@RequestParam int surveyFieldId, Model data) {
+    public String listAll (@RequestParam int rustMonitoringId, Model data) {
 
-        RustMonitoringSampleDTO sample = RustMonitoringSampleDTO.builder()
-                .asiaticRustApplication(true)
-                .bladeInstalledPreCold(true)
-                .bladeReadingDate(LocalDate.now())
-                .bladeReadingRustResultCollector(RustMonitoringSampleDTO.AsiaticRustTypesSporeCollector.FEASIBLE_SPORES_GROUPED.getDescription())
-                .bladeReadingRustResultInspection(RustMonitoringSampleDTO.AsiaticRustTypesInspection.VISIBLE_DAMAGE_ALL_CROP.getDescription())
-                .collectorInstallDate(LocalDate.now())
-                .colletionDate(LocalDate.now())
-                .fungicideApplicationDate(LocalDate.now())
-                .fungicideNotes("notes ...")
-                .growthPhase(RustMonitoringSampleDTO.GrowthPhase.R5_2.getDescription())
-                .otherDiseasesApplication(true)
-                .readingBladeResponsibleName("John")
-                .readingBladeResponsibleNameEntity("Entity")
-                .surveyFieldId(12)
-                .build();
-
-        var rustMonitoringSamples = List.of(sample, sample, sample);
-
+        
         data.addAttribute("rustMonitoringSamples", rustMonitoringSamples);
         data.addAttribute("success", false);
         data.addAttribute("urlDelete", "/mid/rust-monitoring/sample/delete");
