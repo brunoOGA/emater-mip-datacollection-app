@@ -2,12 +2,13 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
 import java.io.Serializable;
 
+import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.SurveyField;
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class RustMonitoringDTO implements Serializable {
+public class SurveyFieldDTO implements Serializable {
 
     private Long surveyFieldId;
     private String harvestName;

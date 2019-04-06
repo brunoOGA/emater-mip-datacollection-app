@@ -52,16 +52,16 @@
                         </tr>
                     </thead>
                     <tbody id="mainTable-body">
-                        <#list rustMonitoringList as rustMonitoring>
+                        <#list surveyFieldList as surveyField>
                             <tr>
-                                <td>${rustMonitoring.harvestName}</td>
-                                <td>${rustMonitoring.fieldName}</td>
-                                <td>${rustMonitoring.fieldLocation}</td>
-                                <td>${rustMonitoring.fieldCityName}</td>
-                                <td>${rustMonitoring.seedName}</td>
-                                <td>${rustMonitoring.farmerName}</td>
+                                <td>${surveyField.harvestName}</td>
+                                <td>${surveyField.fieldName}</td>
+                                <td>${surveyField.fieldLocation}</td>
+                                <td>${surveyField.fieldCityName}</td>
+                                <td>${surveyField.seedName}</td>
+                                <td>${surveyField.farmerName}</td>
                                 <td>
-                                    <#list rustMonitoring.supervisorNames as supervisor>
+                                    <#list surveyField.supervisorNames as supervisor>
                                         <span>${supervisor}</span> <br>
                                     </#list>
 							    </td>

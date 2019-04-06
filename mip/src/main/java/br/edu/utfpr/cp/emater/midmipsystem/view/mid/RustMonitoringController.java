@@ -45,7 +45,7 @@ public class RustMonitoringController {
         this.operationSuccessMessage = false;
     }
 
-    private List<RustMonitoringDTO> populateRustMonitoringDTOList () {
+    private List<SurveyFieldDTO> populateSurveyFieldDTOList () {
         var allRustMonitoringSamples = rustMonitoringSampleRepository.findAll();
 
         if (allRustMonitoringSamples.size() > 0) {
@@ -71,10 +71,10 @@ public class RustMonitoringController {
         //     .build();
         
         // List<RustMonitoringDTO> bladeReadingList = List.of(bladeReading, bladeReading, bladeReading);
-        List<RustMonitoringDTO> bladeReadingList = this.populateRustMonitoringDTOList();
+        List<SurveyFieldDTO> surveyFieldList = this.populateSurveyFieldDTOList();
 
-        data.addAttribute("rustMonitoringList", bladeReadingList);
-        data.addAttribute("urlCreate", "/mid/rust-monitoring/create");
+        data.addAttribute("surveyFieldList", surveyFieldService.listAllSurveyFields());
+        // data.addAttribute("rustMonitoringList", bladeReadingList);
         data.addAttribute("success", this.operationSuccessMessage);
 
         this.resetOperationSuccessMessage();
