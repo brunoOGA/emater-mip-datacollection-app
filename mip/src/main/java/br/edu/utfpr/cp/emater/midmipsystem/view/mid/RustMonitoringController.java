@@ -74,6 +74,7 @@ public class RustMonitoringController {
         List<RustMonitoringDTO> bladeReadingList = this.populateRustMonitoringDTOList();
 
         data.addAttribute("rustMonitoringList", bladeReadingList);
+        data.addAttribute("urlCreate", "/mid/rust-monitoring/create");
         data.addAttribute("success", this.operationSuccessMessage);
 
         this.resetOperationSuccessMessage();

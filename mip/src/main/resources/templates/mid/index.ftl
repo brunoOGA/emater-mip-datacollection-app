@@ -23,7 +23,12 @@
 
         <form action="#" method="post" class="card" style="margin: 15px">
             <div class="card-header text-white" style="background-color: #004900">
-                <h2><@spring.message "card.title.rust-monitoring" /></h2>
+                <h2 class="card-title" style="display: inline"><@spring.message "card.title.rust-monitoring" /></h2>
+
+                <a href="#select-survey-field-modal" class="btn btn-success float-right" data-toggle="modal">
+                    <i class="material-icons align-middle">&#xE147;</i>
+                    <span class="align-middle"><@spring.message "card.button.new.mid.sample.rust-monitoring" /></span>
+                </a>
             </div>
 
             <div class="card-body table-responsive-md">
@@ -85,6 +90,9 @@
         </form>
 
     </div>
+
+    <!-- Add Modal HTML -->
+    <#include "select-survey-field-modal.ftl">    
 
     <!-- External JS libs -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
