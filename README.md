@@ -26,5 +26,9 @@ Atualmente, as seguintes tecnologias são usadas:
 - Dr. Nelson Harger (Coordenador Estadual do Projeto Grãos)
 
 ## Alunos participantes do projeto
-- Lucas Barbosa da Costa (Engenharia de Computação, UTFPR - CP)
-- Gabriel Grazionale (Engenharia de Software, UTFPR - CP)
+- Lucas Barbosa da Costa (Engenharia de Computação (Concluído 2018/2), UTFPR - CP)
+- Gabriel Grazionale (Engenharia de Software (Concluído 2018/2), UTFPR - CP)
+- Thales Martins Ferreira (Engenharia de Computação (TCC 2 em andamento), UTFPR - CP)
+- Flavio Vinicius Martins Dos Santos (Engenharia de Computação (TCC 2 em andamento), UTFPR - CP)
+- Erik Henrique De Oliveira Zambeli (Engenharia De Software (TCC 1 em andamento), UTFPR - CP)
+
