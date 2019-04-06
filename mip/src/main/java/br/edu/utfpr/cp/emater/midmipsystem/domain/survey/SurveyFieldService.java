@@ -1,4 +1,4 @@
-package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
+package br.edu.utfpr.cp.emater.midmipsystem.domain.survey;
 
 import java.util.Arrays;
 import java.util.Collections;

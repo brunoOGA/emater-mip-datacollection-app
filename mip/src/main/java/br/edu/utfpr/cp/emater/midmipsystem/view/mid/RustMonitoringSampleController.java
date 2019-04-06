@@ -47,7 +47,7 @@ public class RustMonitoringSampleController {
     public String listAll (@RequestParam int rustMonitoringId, Model data) {
 
         
-        data.addAttribute("rustMonitoringSamples", rustMonitoringSamples);
+//        data.addAttribute("rustMonitoringSamples", rustMonitoringSamples);
         data.addAttribute("success", false);
         data.addAttribute("urlDelete", "/mid/rust-monitoring/sample/delete");
         data.addAttribute("farmerName", "John Farmer");

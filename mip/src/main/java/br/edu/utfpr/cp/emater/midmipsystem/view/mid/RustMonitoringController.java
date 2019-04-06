@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.utfpr.cp.emater.midmipsystem.domain.mid.RustMonitoringSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.SurveyField;
-import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyFieldService;
+import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.SurveyFieldService;
 
 import org.springframework.core.env.Environment;
 
