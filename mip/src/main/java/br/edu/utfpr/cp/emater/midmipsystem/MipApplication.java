@@ -1,6 +1,8 @@
 package br.edu.utfpr.cp.emater.midmipsystem;
 
 
+import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.MacroRegionRepository;
 import java.util.Locale;
 
 
@@ -23,11 +25,12 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 public class MipApplication {
 
     private FreeMarkerConfigurer freeMarkerConfigurer;
+    
 
     @Autowired
     public MipApplication(FreeMarkerConfigurer freeMarkerConfigurer) {
         this.freeMarkerConfigurer = freeMarkerConfigurer;
-
+        
         this.freeMarkerConfigurer.getConfiguration().addAutoImport("spring", "spring.ftl");
     }
 
@@ -45,9 +48,21 @@ public class MipApplication {
 
 @Component
 class CLR implements CommandLineRunner {
+    
+    private MacroRegionRepository macroRegionRepository;
+    
+    @Autowired
+    CLR (MacroRegionRepository macroRegionRepository) {
+        this.macroRegionRepository = macroRegionRepository;
+    }
 
     @Override
     public void run(String... args) throws Exception {
+        
+        var mr1 = macroRegionRepository.save(MacroRegion.builder().name("Macro Noroeste").build());
+        var mr2 = macroRegionRepository.save(MacroRegion.builder().name("Macro Norte").build());
+        var mr3 = macroRegionRepository.save(MacroRegion.builder().name("Macro Oeste").build());
+        var mr4 = macroRegionRepository.save(MacroRegion.builder().name("Macro Sul").build());
         
     }
 
