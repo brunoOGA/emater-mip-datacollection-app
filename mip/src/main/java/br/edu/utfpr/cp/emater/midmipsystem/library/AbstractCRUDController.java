@@ -1,18 +1,14 @@
-package br.edu.utfpr.cp.emater.midmipsystem.library.controllers;
+package br.edu.utfpr.cp.emater.midmipsystem.library;
 
 import org.springframework.ui.Model;
 
 public abstract class AbstractCRUDController<T> {
     
-    protected Create create;
-    protected Read read;
-    protected Update update;
-    protected Delete delete;
-    
-    public abstract String create (T anEntity);
+    public abstract String create (T anEntity, Model someData);
     public abstract String readAll(Model someData);    
     public abstract String update (T anEntity);
     public abstract void delete (int aId);
+    public abstract String goNew ();
     
     
     protected boolean operationSuccessMessage;

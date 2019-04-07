@@ -34,9 +34,14 @@
             <div class="card-body table-responsive-md">
 
                 <!-- Add Success Message -->
-                <#if success>
-                    <#include "/success-msg.ftl">                    
+                <#if success??>
+                    <#include "/success-msg.ftl">   
+
+                <#elseif fail??>
+                    <#include "/fail-msg.ftl">   
+       
                 </#if>
+                
 
                 <#include "main-table.ftl">
 

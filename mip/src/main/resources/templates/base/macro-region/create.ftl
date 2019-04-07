@@ -21,21 +21,31 @@
         <!-- Add Menu -->
         <#include "/menubar.ftl">
 
-        <form action="#" method="post" class="card" style="margin: 15px">
+        <form action="/base/macro-region/create" method="post" class="card" style="margin: 15px">
             <div class="card-header text-white" style="background-color: #004900">
                 <h2 class="card-title" style="display: inline"><@spring.message "title.macro-region"/></h2>
             </div>
 
             <div class="card-body">
+                <div class="card" style="margin: 15px">
+                    <div class="card-header">
+                        <h4 class="card-title" style="display: inline"><@spring.message "button.new.macro-region"/></h4>
+                    </div>
 
-                <div class="form-group">
-                    <label><@spring.message "label.macro-region.name" /></label>
-                        <input type="text" class="form-control" name="name" required autofocus maxlength="25" />
-                </div>        
-            </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label><@spring.message "label.macro-region.name" /></label>
+                            <input type="text" class="form-control" name="name" required autofocus maxlength="50" />
+                        </div>        
+                    </div>
+                </div>
 
             <div class="card-footer text-muted text-right">
-                <input type="submit" class="btn btn-success" value="Criar">
+				<#assign buttonCancel><@spring.message "label.cancel" /></#assign>
+                <#assign buttonCreate><@spring.message "label.create" /></#assign>
+
+                <input type="button" class="btn btn-secondary" value="${buttonCancel}" onclick="history.back()">
+                <input type="submit" class="btn btn-success" value="${buttonCreate}">
             </div>
         </form>
     </div>

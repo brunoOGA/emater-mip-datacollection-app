@@ -1,7 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base.macroRegion;
 
 import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.MacroRegionService;
-import br.edu.utfpr.cp.emater.midmipsystem.library.controllers.AbstractCRUDController;
+import br.edu.utfpr.cp.emater.midmipsystem.library.AbstractCRUDController;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -25,10 +25,14 @@ public class MacroRegionController extends AbstractCRUDController<MacroRegionDTO
     }
 
     @Override
-    public String create(MacroRegionDTO entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @RequestMapping (value = "/create", method = RequestMethod.POST)
+    public String create(MacroRegionDTO entity, Model someData) {
+        
+        
+        return "redirect:/base/macro-region/readAll?sucess=true;message=OK";
     }
     
+    @Override
     @RequestMapping (value = "/new", method = RequestMethod.GET)
     public String goNew () {
         return this.environment.getProperty("view.route.template.new.base.macro-region");
@@ -38,9 +42,6 @@ public class MacroRegionController extends AbstractCRUDController<MacroRegionDTO
     @RequestMapping (value = "/readAll", method = RequestMethod.GET)
     public String readAll(Model data) {
         data.addAttribute("macroregions", macroRegionService.readAll());
-        data.addAttribute("success", this.operationSuccessMessage);
-
-        this.resetOperationSuccessMessage();
         
         return this.environment.getProperty("view.route.template.index.base.macro-region");
     }

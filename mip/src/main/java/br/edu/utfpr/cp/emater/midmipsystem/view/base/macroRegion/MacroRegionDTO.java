@@ -14,5 +14,4 @@ class MacroRegionDTO implements Serializable {
     
     private int id;
     private String name;
-    
 }
