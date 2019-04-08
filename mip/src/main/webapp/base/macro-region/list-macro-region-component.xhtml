@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">      
+
+    <body>
+
+        <ui:composition template="./../../main-template.xhtml">
+
+            <ui:define name="content">
+                <b:container fluid="true">
+                    <b:panel title="Gerenciamento de Macrorregiões" collapsible="false">
+                        <h:form>
+                            <b:growl id="growlMsg" globalOnly="true" placementFrom="top"
+                                     show-detail="true" show-summary="false" allowDismiss="true"
+                                     escape="true" />
+                            <b:dataTable value="#{macroRegionController.macroRegions}" var="macroRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                                <b:dataTableColumn label="Nome" value="#{macroRegion.name}" />
+                                <b:dataTableColumn label="Alterar">
+                                    <b:commandButton value="Alterar" icon="edit">
+                                    </b:commandButton>
+                                </b:dataTableColumn>  
+                                <b:dataTableColumn label="Apagar">
+                                    <b:commandButton value="Apagar" iconAwesome="trash" action="#{macroRegionController.delete(macroRegion.id)}">
+                                    </b:commandButton>
+                                </b:dataTableColumn>
+                            </b:dataTable>                        
+
+                        </h:form>
+                    </b:panel>                    
+                </b:container>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
