@@ -10,6 +10,7 @@
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <title>Facelets Template</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </h:head>
 
     <h:body>
@@ -24,7 +25,12 @@
                                   <b:navLink value="Macrorregião" href="/base/macro-region/list-macro-region-component.xhtml"></b:navLink>
                                 </b:dropMenu>
                           </b:navbarLinks>
-                </b:navBar> 
+                </b:navBar>
+                
+                <b:growl id="growlMsg" globalOnly="true" placementFrom="top"
+                         show-detail="true" show-summary="false" allowDismiss="true"
+                         escape="true" />
+                
             </ui:insert>
         </div>
 

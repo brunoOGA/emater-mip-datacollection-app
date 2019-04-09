@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">      
+
+    <h:form>
+        <b:dataTable value="#{macroRegionController.readAll()}" var="aMacroRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+
+            <b:dataTableColumn label="Nome" value="#{aMacroRegion.name}" />
+
+            <b:dataTableColumn label="Ações" class="col-md-1">                                    
+                <a href="#" class="text-warning" data-toggle="modal">
+                    <i class="fa fa-2x fa-edit" data-toggle="tooltip" title="Alterar" />
+                </a>
+                <a href="#" class="text-danger" data-toggle="modal">
+                    <i class="fa fa-2x fa-trash" data-toggle="tooltip" title="Excluir" />
+                </a>
+            </b:dataTableColumn>  
+
+        </b:dataTable>          
+    </h:form>     
+</ui:composition>

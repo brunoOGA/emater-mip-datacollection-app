@@ -5,6 +5,6 @@ import java.util.List;
 public interface ICRUDController<T> {
     
     public List<T> readAll();
-    public void create();
+    public String create();
     
 }

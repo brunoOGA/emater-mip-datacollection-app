@@ -7,57 +7,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">      
 
     <body>
-
-
-
-
         <ui:composition template="./../../main-template.xhtml">
 
             <ui:define name="content">
                 <b:container fluid="true">
-                    <h:form >
 
-                        <b:panel collapsible="false" >
-                            <f:facet name="heading" >
-                                <h2>Gerenciamento de Macrorregião</h2>
-                                <a href="#new-entity" class="btn btn-success float-right" data-toggle="modal">
-                                    <span class="align-middle">Criar Nova Macrorregião</span>
-                                </a>
-                            </f:facet>
+                    <b:panel collapsible="false" >
 
-                            <b:growl id="growlMsg" globalOnly="true" placementFrom="top"
-                                     show-detail="true" show-summary="false" allowDismiss="true"
-                                     escape="true" />
-                            <b:dataTable value="#{macroRegionController.readAll()}" var="macroRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
-                                <b:dataTableColumn label="Nome" value="#{macroRegion.name}" />
-                                <b:dataTableColumn label="Alterar">
-                                    <b:commandButton value="Alterar" icon="edit">
-                                    </b:commandButton>
-                                </b:dataTableColumn>  
-                                <b:dataTableColumn label="Apagar">
-                                    <b:commandButton value="Apagar" iconAwesome="trash" action="#{macroRegionController.delete(macroRegion.id)}">
-                                    </b:commandButton>
-                                </b:dataTableColumn>
-                            </b:dataTable>                        
+                        <f:facet name="heading" >
+                            <h2>Gerenciamento de Macrorregião</h2>
+                            <a href="#create-modal" class="btn btn-success" data-toggle="modal">
+                                <span class="align-middle">Criar Nova Macrorregião</span>
+                            </a>
+                        </f:facet>
+
+                        <ui:include src="list.xhtml"></ui:include>
+                        <ui:include src="create.xhtml"></ui:include>
+<!--                        <ui:include src="update.xhtml"></ui:include>
+                        <ui:include src="delete.xhtml"></ui:include>-->
 
 
-                        </b:panel>    
-
-                        <b:modal id="new-entity" title="Criar Nova Macrorregião" styleClass="modalPseudoClass">
-
-
-                            <b:panelGrid columns="1">
-                                <b:inputText label="Nome" value="#{macroRegionController.name}" />
-                            </b:panelGrid>
-
-                            <f:facet name="footer">
-                                <b:button value="Cancelar" dismiss="modal" />
-                                <b:commandButton look="success" value="Criar" action="#{macroRegionController.create()}">
-                                </b:commandButton>
-                            </f:facet>
-
-                        </b:modal>
-                    </h:form>     
+                    </b:panel>
                 </b:container>
             </ui:define>
         </ui:composition>

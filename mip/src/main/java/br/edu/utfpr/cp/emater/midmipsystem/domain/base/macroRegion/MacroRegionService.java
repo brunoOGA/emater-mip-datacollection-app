@@ -1,7 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion;
 
-import br.edu.utfpr.cp.emater.midmipsystem.library.AnyPersistenceException;
-import br.edu.utfpr.cp.emater.midmipsystem.library.EntityAlreadyExistsException;
+import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.AnyPersistenceException;
+import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityAlreadyExistsException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
