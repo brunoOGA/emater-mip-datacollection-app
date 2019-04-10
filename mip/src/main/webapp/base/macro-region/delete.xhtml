@@ -6,5 +6,13 @@
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">      
 
-delete
+    <b:form>
+        <b:modal id="delete-modal" title="Apagar Macrorregião" styleClass="modalPseudoClass">
+            Tem certeza que deseja apagar a macrorregião
+            <f:facet name="footer">
+                <b:button value="Close" dismiss="modal" />
+                <b:button value="Ok" look="primary" dismiss="modal" />
+            </f:facet>
+        </b:modal>
+    </b:form>
 </ui:composition>

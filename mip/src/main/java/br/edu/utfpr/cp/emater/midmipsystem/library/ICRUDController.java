@@ -6,5 +6,6 @@ public interface ICRUDController<T> {
     
     public List<T> readAll();
     public String create();
+    public String delete(int id);
     
 }
