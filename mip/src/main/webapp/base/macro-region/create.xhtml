@@ -1,37 +1,64 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:b="http://bootsfaces.net/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">      
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+
+    <body>
+        <ui:composition template="./../../main-template.xhtml">
+
+            <ui:define name="content">                
+
+                <b:form>
+                    <b:container fluid="true">
+
+                        <b:breadcrumbs>
+                            <b:navLink icon-awesome="info-circle" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
+                            
+                            <f:facet name="first">
+                                <b:iconAwesome value="info-circle" />
+                                Gerenciamento de Informações
+                            </f:facet> 
+                            
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Macrorregião" outcome="/base/macro-region/index.xhtml"/>
+                                                        
+                            <f:facet name="end">
+                                Criar Nova Macrorregião
+                            </f:facet> 
+                        </b:breadcrumbs>                        
+
+                        <b:panel collapsible="false" >
+
+                            <f:facet name="heading" >
+                                <h2>Gerenciamento de Macrorregião</h2>
+                            </f:facet>
+
+                            <b:panel look="success" collapsible="false" title="Criar Nova Macrorregião">
+
+                                <b:panelGrid id="data-entry" columns="1">
+                                    <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}">
+                                        <f:validateBean></f:validateBean>
+                                    </b:inputText>
+                                    <b:message for="name-input" ></b:message>
+                                </b:panelGrid>
+
+                                <f:facet name="footer">
+
+                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                                    <b:commandButton look="success" value="Criar" action="#{macroRegionController.create()}" ></b:commandButton>
+
+                                </f:facet>
 
 
-    <b:modal id="create-modal" title="Criar Nova Macrorregião" styleClass="modalPseudoClass">
-        <b:form>
+                            </b:panel>
+                        </b:panel>
+                    </b:container>
+                </b:form>
+            </ui:define>
+        </ui:composition>
 
-            <b:panelGrid id="data-entry" columns="1">
-                <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}">
-                    <f:validateBean></f:validateBean>
-                </b:inputText>
-                <b:message for="name-input" ></b:message>
-            </b:panelGrid>
+    </body>
+</html>
 
-            <b:row>
-                <b:column span="8"></b:column>
-                <b:column span="2">
-                    <b:button value="Cancelar" dismiss="modal"></b:button>
-                </b:column>
-                <b:column span="2">
-                    <!--<b:commandButton onsuccess="location.reload();" ajax="true" update="data-entry" look="success" value="Criar" action="#{macroRegionController.create()}" >-->
-                    <b:commandButton ajax="true" update="data-entry" look="success" value="Criar" action="#{macroRegionController.create()}" >
-                    <!--<b:commandButton look="success" value="Criar" action="#{macroRegionController.create()}" >-->
-                    </b:commandButton>
-                </b:column>
-            </b:row>
-
-        </b:form>
-
-    </b:modal>
-
-</ui:composition>

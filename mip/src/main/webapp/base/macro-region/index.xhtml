@@ -12,20 +12,29 @@
             <ui:define name="content">
                 <b:container fluid="true">
 
+                    <b:breadcrumbs>
+                        <b:navLink icon-awesome="info-circle" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
+                        <f:facet name="first">
+                            <b:iconAwesome value="info-circle" />
+                            Gerenciamento de Informações
+                        </f:facet> 
+                        <f:facet name="end">
+                            <b:iconAwesome value="globe" />
+                            Gerenciamento de Macrorregião
+                        </f:facet> 
+                    </b:breadcrumbs>
+
                     <b:panel collapsible="false" >
 
                         <f:facet name="heading" >
                             <h2>Gerenciamento de Macrorregião</h2>
-                            <a href="#create-modal" class="btn btn-success" data-toggle="modal">
+                            <a href="create.xhtml" class="btn btn-success" data-toggle="modal">
                                 <span class="align-middle">Criar Nova Macrorregião</span>
                             </a>
                         </f:facet>
 
                         <ui:include src="list.xhtml"></ui:include>
-                        <ui:include src="create.xhtml"></ui:include>
-<!--                        <ui:include src="update.xhtml"></ui:include>
-                        <ui:include src="delete.xhtml"></ui:include>-->
-
+                        <!--<ui:include src="delete.xhtml"></ui:include>-->
 
                     </b:panel>
                 </b:container>
