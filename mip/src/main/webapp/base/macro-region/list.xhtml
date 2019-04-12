@@ -11,10 +11,9 @@
 
             <b:dataTableColumn label="Nome" value="#{aMacroRegion.name}" />
 
-            <b:dataTableColumn label="Ações" class="col-md-1">                                    
-                <a href="#" class="text-warning" data-toggle="modal">
-                    <i class="fa fa-2x fa-edit" data-toggle="tooltip" title="Alterar" />
-                </a>
+            <b:dataTableColumn label="Ações" class="col-md-1"> 
+                <b:commandLink action="#{macroRegionController.prepareUpdate(aMacroRegion.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                    
                 <a href="#" class="text-danger" data-toggle="modal">
                     <i class="fa fa-2x fa-trash" data-toggle="tooltip" title="Excluir" />
                 </a>

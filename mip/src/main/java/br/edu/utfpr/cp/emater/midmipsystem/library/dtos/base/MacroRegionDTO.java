@@ -15,6 +15,6 @@ public class MacroRegionDTO implements Serializable {
 
     private Long id;
     
-    @Size (min = 3, max = 50, message = "O nome da macrorregião deve ter entre 3 e 50 caracteres")
+    @Size (min = 5, max = 50, message = "O nome da macrorregião deve ter entre 5 e 50 caracteres")
     protected String name;
 }

@@ -9,10 +9,12 @@ import javax.persistence.Id;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.text.WordUtils;
 
 @Entity
 @Getter
+@Setter
 @EqualsAndHashCode (onlyExplicitlyIncluded = true)
 public class MacroRegion extends AuditingPersistenceEntity implements Serializable {
     
@@ -21,11 +23,15 @@ public class MacroRegion extends AuditingPersistenceEntity implements Serializab
     
     @EqualsAndHashCode.Include
     private String name;
+    
+    public void setName (String name) {
+        this.name = WordUtils.capitalize(name.toLowerCase());
+    }
 
     @Builder
     public static MacroRegion create (String name) {
         MacroRegion instance = new MacroRegion();
-        instance.name = WordUtils.capitalize(name.toLowerCase());;
+        instance.setName(name);
         
         return instance;
     }
