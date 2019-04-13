@@ -6,7 +6,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityAlreadyExist
 import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
