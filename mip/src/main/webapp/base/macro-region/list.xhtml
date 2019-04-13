@@ -13,10 +13,7 @@
 
             <b:dataTableColumn label="Ações" class="col-md-1"> 
                 <b:commandLink action="#{macroRegionController.prepareUpdate(aMacroRegion.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                    
-                <a href="#" class="text-danger" data-toggle="modal">
-                    <i class="fa fa-2x fa-trash" data-toggle="tooltip" title="Excluir" />
-                </a>
+                <b:commandLink action="#{macroRegionController.prepareDelete(aMacroRegion.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
             </b:dataTableColumn>  
 
         </b:dataTable>          

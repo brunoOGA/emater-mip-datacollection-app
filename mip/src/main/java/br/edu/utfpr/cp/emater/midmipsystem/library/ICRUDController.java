@@ -6,7 +6,9 @@ public interface ICRUDController<T> {
     
     public List<T> readAll();
     public String create();
-    public String prepareUpdate (Long id);
+    public String prepareUpdate (Long anId);
     public String update();
+    public String prepareDelete (Long anId);
+    public String delete();
     
 }

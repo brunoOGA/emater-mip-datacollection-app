@@ -84,4 +84,15 @@ public class MacroRegionService {
             throw new AnyPersistenceException();
         }
     }
+
+    public void delete(Long anId) throws EntityNotFoundException {
+        MacroRegion existentEntity = macroRegionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        
+        try {
+            macroRegionRepository.delete(existentEntity);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

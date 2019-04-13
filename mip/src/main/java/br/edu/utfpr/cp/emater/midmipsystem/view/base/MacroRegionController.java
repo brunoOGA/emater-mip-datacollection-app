@@ -78,7 +78,7 @@ public class MacroRegionController extends MacroRegionDTO implements ICRUDContro
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser alterada porque não foi encontrada na base de dados!"));
             return "update.xhtml";
-        
+
         } catch (AnyPersistenceException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
             return "index.xhtml";
@@ -86,4 +86,37 @@ public class MacroRegionController extends MacroRegionDTO implements ICRUDContro
 
     }
 
+    @Override
+    public String prepareDelete(Long anId) {
+
+        try {
+            MacroRegionDTO dto = macroRegionService.readById(anId);
+            this.setId(dto.getId());
+            this.setName(dto.getName());
+
+            return "delete.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser excluída porque não foi encontrada na base de dados!"));
+            return "index.xhtml";
+        }
+    }
+
+    @Override
+    public String delete() {
+
+        try {
+            macroRegionService.delete(this.getId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião [%s] excluída!", this.getName())));
+            return "index.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser excluída porque não foi encontrada na base de dados!"));
+            return "index.xhtml";
+
+//        } catch (AnyPersistenceException e) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+//            return "index.xhtml";
+        }
+    }
 }
