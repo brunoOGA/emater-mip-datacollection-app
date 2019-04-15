@@ -1,6 +1,6 @@
-package br.edu.utfpr.cp.emater.midmipsystem.domain.base.region;
+package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.library.AuditingPersistenceEntity;
 import java.io.Serializable;
 import java.util.HashSet;

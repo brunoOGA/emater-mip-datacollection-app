@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CityDTO implements Serializable {
-     
+    
+    private Long id;
     private String name;
     private String state;
 }

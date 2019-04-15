@@ -1,4 +1,4 @@
-package br.edu.utfpr.cp.emater.midmipsystem.library;
+package br.edu.utfpr.cp.emater.midmipsystem.service;
 
 
 import java.util.List;

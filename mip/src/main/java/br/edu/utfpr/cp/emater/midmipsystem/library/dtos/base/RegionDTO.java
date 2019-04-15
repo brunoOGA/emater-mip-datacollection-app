@@ -21,8 +21,8 @@ public class RegionDTO implements Serializable {
     private String name;
     
     @NotNull (message = "Deve ser informada uma macrorregião")
-    private String macroRegion;
+    private MacroRegionDTO macroRegion;
     
     @NotNull (message = "Deve ser informada pelo menos uma cidade que compoe a região")
-    private Set<String> cities;
+    private Set<CityDTO> cities;
 }

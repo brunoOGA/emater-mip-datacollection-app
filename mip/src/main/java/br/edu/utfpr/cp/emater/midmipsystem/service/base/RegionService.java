@@ -1,12 +1,13 @@
-package br.edu.utfpr.cp.emater.midmipsystem.domain.base.region;
+package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.*;
-import br.edu.utfpr.cp.emater.midmipsystem.library.ICRUDService;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
+import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.MacroRegionDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.RegionDTO;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.AnyPersistenceException;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityAlreadyExistsException;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,8 +65,8 @@ public class RegionService implements ICRUDService<RegionDTO> {
         return RegionDTO.builder()
                 .id(aRegion.getId())
                 .name(aRegion.getName())
-                .macroRegion(aRegion.getMacroRegion().getName())
-                .cities(aRegion.getCities().stream().map(City::getName).collect(Collectors.toSet()))
+//                .macroRegion(aRegion.getMacroRegion())
+//                .cities(aRegion.getCities().stream().map(City::getName).collect(Collectors.toSet()))
                 .build();
     }
 //

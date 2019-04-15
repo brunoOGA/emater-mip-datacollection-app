@@ -1,8 +1,8 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.MacroRegionService;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.region.RegionService;
-import br.edu.utfpr.cp.emater.midmipsystem.library.ICRUDController;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.CityDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.MacroRegionDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.RegionDTO;
@@ -31,10 +31,6 @@ public class RegionController extends RegionDTO implements ICRUDController<Regio
     
     public List<MacroRegionDTO> readAllMacroRegions() {
         return macroRegionService.readAll();
-    }
-    
-    public List<CityDTO> readAllCities() {
-        return Stream.of(new CityDTO("A city", "A state"), new CityDTO("another city", "another state")).collect(Collectors.toList());
     }
 
     @Override

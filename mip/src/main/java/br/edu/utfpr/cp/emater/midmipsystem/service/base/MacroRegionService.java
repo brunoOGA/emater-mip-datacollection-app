@@ -1,9 +1,11 @@
-package br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion;
+package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.MacroRegionDTO;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.AnyPersistenceException;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityAlreadyExistsException;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

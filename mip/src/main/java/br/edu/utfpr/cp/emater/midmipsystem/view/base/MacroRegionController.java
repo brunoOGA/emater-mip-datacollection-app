@@ -1,11 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.MacroRegionService;
-import br.edu.utfpr.cp.emater.midmipsystem.library.ICRUDController;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.MacroRegionDTO;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.AnyPersistenceException;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityAlreadyExistsException;
-import br.edu.utfpr.cp.emater.midmipsystem.library.exceptions.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

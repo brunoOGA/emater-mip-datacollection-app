@@ -1,4 +1,4 @@
-package br.edu.utfpr.cp.emater.midmipsystem.domain.base.region;
+package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 public enum State {
 

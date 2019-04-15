@@ -1,13 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem;
 
 
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.MacroRegion;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.macroRegion.MacroRegionRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.region.City;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.region.CityRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.region.Region;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.region.RegionRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.base.region.State;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.CityRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import java.util.Locale;
 
 
