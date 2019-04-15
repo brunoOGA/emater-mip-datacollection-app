@@ -7,7 +7,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">      
 
     <h:form>
-        <b:dataTable value="#{macroRegionController.readAll()}" var="aMacroRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+        <b:dataTable responsive="true" value="#{macroRegionController.readAll()}" var="aMacroRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
             <b:dataTableColumn label="Nome" value="#{aMacroRegion.name}" />
 

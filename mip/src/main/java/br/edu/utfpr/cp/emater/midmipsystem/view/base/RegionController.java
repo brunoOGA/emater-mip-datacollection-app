@@ -1,42 +1,57 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
-import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.CityDTO;
-import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.MacroRegionDTO;
-import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.RegionDTO;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegionController extends RegionDTO implements ICRUDController<RegionDTO> {
-    
+public class RegionController extends Region implements ICRUDController<Region> {
+
     private final RegionService regionService;
-    private final MacroRegionService macroRegionService;
-    
+
     @Autowired
-    public RegionController (RegionService aRegionService, MacroRegionService aMacroRegionService) {
+    public RegionController(RegionService aRegionService) {
         this.regionService = aRegionService;
-        this.macroRegionService = aMacroRegionService;
     }
 
     @Override
-    public List<RegionDTO> readAll() {
+    public List<Region> readAll() {
         return regionService.readAll();
     }
-    
-    public List<MacroRegionDTO> readAllMacroRegions() {
-//        return macroRegionService.readAll();
-return null;
+
+    public List<MacroRegion> readAllMacroRegions() {
+        return regionService.readAllMacroRegions();
+    }
+
+    public List<City> readAllCities() {
+        return regionService.readAllCities();
     }
 
     @Override
     public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        Region newRegion = Region.builder().name(this.getName()).macroRegion(this.getMacroRegion()).build();
+
+            System.out.println(this.getCities());
+
+//        try {
+//            macroRegionService.create(newMacroRegion);
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião [%s] criada com sucesso!", this.getName())));
+//            return "index.xhtml";
+//
+//        } catch (EntityAlreadyExistsException e) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma macrorregião com esse nome! Use um nome diferente."));
+//            return "create.xhtml";
+//
+//        } catch (AnyPersistenceException e) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+//            return "index.xhtml";
+//        }
+        return "index.xhtml";
     }
 
     @Override
@@ -58,7 +73,5 @@ return null;
     public String delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
+
 }

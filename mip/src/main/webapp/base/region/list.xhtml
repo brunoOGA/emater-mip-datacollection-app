@@ -7,11 +7,11 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">      
 
     <h:form>
-        <b:dataTable value="#{regionController.readAll()}" var="aRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+        <b:dataTable responsive="true" value="#{regionController.readAll()}" var="aRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
             <b:dataTableColumn label="Nome" value="#{aRegion.name}" />
-            <b:dataTableColumn label="Macrorregião" value="#{aRegion.macroRegion}" />
-            <b:dataTableColumn label="Municípios" value="#{aRegion.cities}" />
+            <b:dataTableColumn label="Macrorregião" value="#{aRegion.macroRegionName}" />
+            <b:dataTableColumn label="Municípios" value="#{aRegion.cityNames}" />
             
 
             <b:dataTableColumn label="Ações" class="col-md-1"> 

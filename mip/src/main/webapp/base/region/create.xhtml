@@ -22,7 +22,7 @@
                                 Gerenciamento de Informações
                             </f:facet> 
 
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Macrorregião" outcome="/base/macro-region/index.xhtml"/>
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Região" outcome="/base/region/index.xhtml"/>
 
                             <f:facet name="end">
                                 Criar Nova Região
@@ -39,28 +39,30 @@
 
                                 <b:panelGrid id="data-entry" columns="1">
                                     <b:formGroup>
-                                        <b:inputText id="name-input" label="Nome" value="#{regionController.name}">
-                                            <f:validateBean></f:validateBean>
-                                        </b:inputText>
+                                        <b:inputText id="name-input" label="Nome" value="#{regionController.name}" required="true"></b:inputText>
                                         <b:message for="name-input" ></b:message>
                                     </b:formGroup>
 
                                     <b:formGroup>
                                         <b:selectOneMenu value="#{regionController.macroRegion}" required="true" label="Macrorregião">
                                             <f:selectItem itemLabel="(Selecione uma macrorregião)" itemValue="" />
-                                            <f:selectItems value="#{regionController.readAllMacroRegions()}" var="macroRegion" itemValue="#{macroRegion.name}" itemLabel="#{macroRegion.name}" />
+                                            <f:selectItems value="#{regionController.readAllMacroRegions()}" var="macroRegion" itemValue="#{macroRegion.id}" itemLabel="#{macroRegion.name}" />
                                         </b:selectOneMenu>
                                         <b:message for="@previous" />
                                     </b:formGroup>
 
-                                    <b:formGroup>
-                                        <b:dataTable value="#{regionController.readAllCities()}" var="aCity" select="true" selection-mode="single" selected-items="rows" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                                    <b:panel title="Selecione as cidades que devem fazer parte da região*" collapsible="false">
+                                        <b:formGroup>
+                                            <b:dataTable responsive="true" value="#{regionController.readAllCities()}" var="aCity" select="true" selection-mode="multiple" selected-items="rows" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
-                                            <b:dataTableColumn label="Município" value="#{aCity.name}" />
-                                            <b:dataTableColumn label="Estado" value="#{aCity.state}" />
-                                            
-                                        </b:dataTable>  
-                                    </b:formGroup>
+                                                <b:dataTableColumn selectionMode="multiple" value="#{regionController.cities}" />
+                                                <b:dataTableColumn label="Município" value="#{aCity.name}" />
+                                                <b:dataTableColumn label="Estado" value="#{aCity.state.name}" />
+
+                                            </b:dataTable>  
+                                        </b:formGroup>
+                                    </b:panel>
+
 
                                 </b:panelGrid>
 

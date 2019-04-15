@@ -7,23 +7,17 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.text.WordUtils;
 
 
 @Entity
-@Getter (AccessLevel.PUBLIC)
-@Setter (AccessLevel.PACKAGE)
+@Getter
+@Setter
 @EqualsAndHashCode (onlyExplicitlyIncluded = true)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class City extends AuditingPersistenceEntity implements Serializable {
     
     @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -38,5 +32,19 @@ public class City extends AuditingPersistenceEntity implements Serializable {
         
     void setName (String name) {
         this.name = WordUtils.capitalize(name.toLowerCase());
+    }
+    
+    @Builder
+    public static City create (String name, State state) {
+        City instance = new City();
+        instance.setName(name);
+        instance.setState(state);
+        
+        return instance;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s)", this.getName(), this.getState());
     }
 }

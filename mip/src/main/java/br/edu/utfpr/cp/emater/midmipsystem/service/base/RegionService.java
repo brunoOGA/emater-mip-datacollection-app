@@ -1,13 +1,10 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
-import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.MacroRegionDTO;
-import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.RegionDTO;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,24 +12,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegionService implements ICRUDService<RegionDTO> {
+public class RegionService implements ICRUDService<Region> {
 
     private final RegionRepository regionRepository;
+    private final MacroRegionService macroRegionService;
+    private final CityService cityService;
 
     @Autowired
-    public RegionService(RegionRepository aRegionRepository) {
+    public RegionService(RegionRepository aRegionRepository, MacroRegionService aMacroRegionService, CityService aCityService) {
         this.regionRepository = aRegionRepository;
+        this.macroRegionService = aMacroRegionService;
+        this.cityService = aCityService;
     }
 
     @Override
-    public List<RegionDTO> readAll() {
-        List<RegionDTO> result = new ArrayList<>();
-
-        for (Region currentRegion : regionRepository.findAll()) {
-            result.add(this.convertToDTO(currentRegion));
-        }
-
-        return result;
+    public List<Region> readAll() {
+        return List.copyOf(regionRepository.findAll());
+    }
+    
+    public List<MacroRegion> readAllMacroRegions() {
+        return this.macroRegionService.readAll();
+    }
+    
+    public List<City> readAllCities() {
+        var allCities = this.cityService.readAll();
+        var citiesWithinARegion = this.readAll().stream().flatMap(currentRegion -> currentRegion.getCities().stream()).collect(Collectors.toList());
+        
+        var citiesWithoutRegion = new ArrayList<City> (allCities);
+        citiesWithoutRegion.removeAll(citiesWithinARegion);
+        
+        return citiesWithoutRegion;
     }
 
 //    public MacroRegionDTO readById(Long id) throws EntityNotFoundException {
@@ -61,14 +70,6 @@ public class RegionService implements ICRUDService<RegionDTO> {
 //        return MacroRegion.builder().name(aDTO.getName()).build();
 //    }
 //
-    private RegionDTO convertToDTO(Region aRegion) {
-        return RegionDTO.builder()
-                .id(aRegion.getId())
-                .name(aRegion.getName())
-//                .macroRegion(aRegion.getMacroRegion())
-//                .cities(aRegion.getCities().stream().map(City::getName).collect(Collectors.toSet()))
-                .build();
-    }
 //
 //    private void updateMacroRegionAttributes(MacroRegion original, MacroRegionDTO updated) {
 //        original.setName(updated.getName());

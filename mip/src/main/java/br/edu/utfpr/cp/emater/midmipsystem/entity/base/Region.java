@@ -1,9 +1,9 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,7 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import lombok.AccessLevel;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,8 +20,8 @@ import lombok.Setter;
 import org.apache.commons.text.WordUtils;
 
 @Entity
-@Getter (AccessLevel.PUBLIC)
-@Setter (AccessLevel.PACKAGE)
+@Getter
+@Setter
 @EqualsAndHashCode (onlyExplicitlyIncluded = true)
 public class Region extends AuditingPersistenceEntity implements Serializable {
     
@@ -28,13 +29,16 @@ public class Region extends AuditingPersistenceEntity implements Serializable {
     private Long id;
     
     @EqualsAndHashCode.Include
+    @Size (min = 5, max = 50, message = "O nome da macrorregião deve ter entre 5 e 50 caracteres")
     private String name;
     
     @EqualsAndHashCode.Include
     @ManyToOne (fetch = FetchType.EAGER)
+    @NotNull (message = "Uma região deve fazer parte de uma macrorregião")
     private MacroRegion macroRegion;
 
     @OneToMany
+    @NotNull (message = "Um região deve possuir pelo menos uma cidade")
     private Set<City> cities;
     
     @Builder
@@ -64,5 +68,17 @@ public class Region extends AuditingPersistenceEntity implements Serializable {
 
     private void createCityContainer() {
         this.setCities(new HashSet<City>());
+    }
+    
+    public String getMacroRegionName() {
+        return this.getMacroRegion().getName();
+    }
+    
+    public Long getMacroRegionId() {
+        return this.getMacroRegion().getId();
+    }
+    
+    public Set getCityNames() {
+        return this.getCities();
     }
 }
