@@ -30,7 +30,8 @@ public class RegionController extends RegionDTO implements ICRUDController<Regio
     }
     
     public List<MacroRegionDTO> readAllMacroRegions() {
-        return macroRegionService.readAll();
+//        return macroRegionService.readAll();
+return null;
     }
 
     @Override

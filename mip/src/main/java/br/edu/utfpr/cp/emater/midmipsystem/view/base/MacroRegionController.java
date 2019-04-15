@@ -1,10 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
-import br.edu.utfpr.cp.emater.midmipsystem.library.dtos.base.MacroRegionDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MacroRegionController extends MacroRegionDTO implements ICRUDController<MacroRegionDTO> {
+public class MacroRegionController extends MacroRegion implements ICRUDController<MacroRegion> {
 
     private MacroRegionService macroRegionService;
 
@@ -23,17 +24,17 @@ public class MacroRegionController extends MacroRegionDTO implements ICRUDContro
     }
 
     @Override
-    public List<MacroRegionDTO> readAll() {
+    public List<MacroRegion> readAll() {
         return macroRegionService.readAll();
     }
 
     @Override
     public String create() {
-        MacroRegionDTO dto = MacroRegionDTO.builder().name(this.name).build();
+        MacroRegion newMacroRegion = MacroRegion.builder().name(this.getName()).build();
 
         try {
-            macroRegionService.create(dto);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião [%s] criada com sucesso!", dto.getName())));
+            macroRegionService.create(newMacroRegion);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião [%s] criada com sucesso!", this.getName())));
             return "index.xhtml";
 
         } catch (EntityAlreadyExistsException e) {
@@ -50,9 +51,9 @@ public class MacroRegionController extends MacroRegionDTO implements ICRUDContro
     public String prepareUpdate(Long anId) {
 
         try {
-            MacroRegionDTO dto = macroRegionService.readById(anId);
-            this.setId(dto.getId());
-            this.setName(dto.getName());
+            MacroRegion existentMacroRegion = macroRegionService.readById(anId);
+            this.setId(existentMacroRegion.getId());
+            this.setName(existentMacroRegion.getName());
 
             return "update.xhtml";
 
@@ -64,11 +65,11 @@ public class MacroRegionController extends MacroRegionDTO implements ICRUDContro
 
     @Override
     public String update() {
-        MacroRegionDTO dto = MacroRegionDTO.builder().id(this.getId()).name(this.getName()).build();
+        MacroRegion updatedEntity = MacroRegion.builder().id(this.getId()).name(this.getName()).build();
 
         try {
-            macroRegionService.update(dto);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião alterada para [%s]!", dto.getName())));
+            macroRegionService.update(updatedEntity);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião alterada para [%s]!", updatedEntity.getName())));
             return "index.xhtml";
 
         } catch (EntityAlreadyExistsException e) {
@@ -90,9 +91,9 @@ public class MacroRegionController extends MacroRegionDTO implements ICRUDContro
     public String prepareDelete(Long anId) {
 
         try {
-            MacroRegionDTO dto = macroRegionService.readById(anId);
-            this.setId(dto.getId());
-            this.setName(dto.getName());
+            MacroRegion exixtentMacroRegion = macroRegionService.readById(anId);
+            this.setId(exixtentMacroRegion.getId());
+            this.setName(exixtentMacroRegion.getName());
 
             return "delete.xhtml";
 
@@ -113,10 +114,14 @@ public class MacroRegionController extends MacroRegionDTO implements ICRUDContro
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser excluída porque não foi encontrada na base de dados!"));
             return "index.xhtml";
-
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
+            
+        } catch (EntityInUseException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser excluída porque está sendo usada por uma região!"));
+            return "index.xhtml";
+            
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
         }
     }
 }

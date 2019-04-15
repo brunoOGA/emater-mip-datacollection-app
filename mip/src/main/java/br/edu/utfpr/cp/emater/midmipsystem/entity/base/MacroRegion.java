@@ -1,11 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.library.AuditingPersistenceEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -14,8 +14,8 @@ import lombok.Setter;
 import org.apache.commons.text.WordUtils;
 
 @Entity
-@Getter (AccessLevel.PUBLIC)
-@Setter (AccessLevel.PACKAGE)
+@Getter
+@Setter
 @EqualsAndHashCode (onlyExplicitlyIncluded = true)
 public class MacroRegion extends AuditingPersistenceEntity implements Serializable {
     
@@ -23,6 +23,7 @@ public class MacroRegion extends AuditingPersistenceEntity implements Serializab
     private Long id;
     
     @EqualsAndHashCode.Include
+    @Size (min = 5, max = 50, message = "O nome da macrorregião deve ter entre 5 e 50 caracteres")
     private String name;
     
     public void setName (String name) {
@@ -30,8 +31,9 @@ public class MacroRegion extends AuditingPersistenceEntity implements Serializab
     }
 
     @Builder
-    public static MacroRegion create (String name) {
+    public static MacroRegion create (Long id, String name) {
         MacroRegion instance = new MacroRegion();
+        instance.setId(id);
         instance.setName(name);
         
         return instance;

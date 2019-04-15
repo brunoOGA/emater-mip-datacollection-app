@@ -1,6 +1,5 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.library.AuditingPersistenceEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
