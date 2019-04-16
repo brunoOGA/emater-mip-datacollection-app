@@ -39,28 +39,27 @@
 
                                 <b:panelGrid id="data-entry" columns="1">
                                     <b:formGroup>
-                                        <b:inputText id="name-input" label="Nome" value="#{regionController.name}" required="true"></b:inputText>
+                                        <b:inputText id="name-input" label="Nome" value="#{regionController.name}"></b:inputText>
                                         <b:message for="name-input" ></b:message>
                                     </b:formGroup>
 
                                     <b:formGroup>
-                                        <b:selectOneMenu value="#{regionController.macroRegion}" required="true" label="Macrorregião">
+                                        <b:selectOneMenu required="true" required-message="Deve ser selecionada uma macrorregião" id="macro-region-select" value="#{regionController.macroRegion}" label="Macrorregião">
                                             <f:selectItem itemLabel="(Selecione uma macrorregião)" itemValue="" />
-                                            <f:selectItems value="#{regionController.readAllMacroRegions()}" var="macroRegion" itemValue="#{macroRegion.id}" itemLabel="#{macroRegion.name}" />
+                                            <f:selectItems value="#{regionController.readAllMacroRegions()}" var="macroRegion" itemValue="#{macroRegion}" itemLabel="#{macroRegion.name}" />
                                         </b:selectOneMenu>
-                                        <b:message for="@previous" />
+                                        <b:message for="macro-region-select" />
                                     </b:formGroup>
 
-                                    <b:panel title="Selecione as cidades que devem fazer parte da região*" collapsible="false">
-                                        <b:formGroup>
-                                            <b:dataTable responsive="true" value="#{regionController.readAllCities()}" var="aCity" select="true" selection-mode="multiple" selected-items="rows" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                                    <b:panel title="Selecione as cidades que devem fazer parte da região" collapsible="false">
 
-                                                <b:dataTableColumn selectionMode="multiple" value="#{regionController.cities}" />
-                                                <b:dataTableColumn label="Município" value="#{aCity.name}" />
-                                                <b:dataTableColumn label="Estado" value="#{aCity.state.name}" />
+                                        <b:dataTable onselect="ajax:regionController.addCity(aCity)" ondeselect="ajax:regionController.removeCity(aCity)" responsive="true" value="#{regionController.readAllCities()}" var="aCity" select="true" selected-items="rows" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json" >
 
-                                            </b:dataTable>  
-                                        </b:formGroup>
+                                            <b:dataTableColumn selectionMode="multiple" value="#{regionController.cities}" />
+                                            <b:dataTableColumn label="Município" value="#{aCity.name}" />
+                                            <b:dataTableColumn label="Estado" value="#{aCity.state.name}" />
+
+                                        </b:dataTable>  
                                     </b:panel>
 
 
