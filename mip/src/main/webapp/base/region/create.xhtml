@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">      
 
     <body>
         <ui:composition template="./../../main-template.xhtml">
@@ -51,15 +52,20 @@
                                         <b:message for="macro-region-select" />
                                     </b:formGroup>
 
+
                                     <b:panel title="Selecione as cidades que devem fazer parte da região" collapsible="false">
+                                        <!--<b:formGroup>-->
+                                            <p:dataTable reflow="true" rows="5" paginator="true" id="checkboxDT" var="aCity" value="#{regionController.readAllCities()}" selection="#{regionController.selectedCities}" rowKey="#{aCity.id}" style="margin-bottom:0">
+                                                <p:column selectionMode="multiple" style="width:36px;text-align:center"/>
+                                                <p:column headerText="Município" sortBy="#{aCity.name}" filterBy="#{aCity.name}">
+                                                    <h:outputText value="#{aCity.name}" />
+                                                </p:column>
+                                                <p:column headerText="Estado" sortBy="#{aCity.state}" filterBy="#{aCity.state}">
+                                                    <h:outputText value="#{aCity.state.name}" />
+                                                </p:column>
+                                            </p:dataTable>
 
-                                        <b:dataTable onselect="ajax:regionController.addCity(aCity)" ondeselect="ajax:regionController.removeCity(aCity)" responsive="true" value="#{regionController.readAllCities()}" var="aCity" select="true" selected-items="rows" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json" >
-
-                                            <b:dataTableColumn selectionMode="multiple" value="#{regionController.cities}" />
-                                            <b:dataTableColumn label="Município" value="#{aCity.name}" />
-                                            <b:dataTableColumn label="Estado" value="#{aCity.state.name}" />
-
-                                        </b:dataTable>  
+                                        <!--</b:formGroup>-->
                                     </b:panel>
 
 

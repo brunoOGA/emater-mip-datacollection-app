@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -57,7 +58,7 @@ public class Region extends AuditingPersistenceEntity implements Serializable {
 
     public boolean addCity(City city) {
 
-        if (isThereACityContainer())
+        if (!isThereACityContainer())
             createCityContainer();
 
         return this.getCities().add(city);
@@ -71,7 +72,7 @@ public class Region extends AuditingPersistenceEntity implements Serializable {
     }
 
     private boolean isThereACityContainer() {
-        return this.getCities() == null;
+        return !(this.getCities() == null);
     }
 
     private void createCityContainer() {
@@ -86,8 +87,8 @@ public class Region extends AuditingPersistenceEntity implements Serializable {
         return this.getMacroRegion().getId();
     }
 
-    public Set getCityNames() {
-        return this.getCities();
+    public Set<String> getCityNames() {
+        return this.getCities().stream().map(City::getName).collect(Collectors.toSet());
     }
 
     @Override

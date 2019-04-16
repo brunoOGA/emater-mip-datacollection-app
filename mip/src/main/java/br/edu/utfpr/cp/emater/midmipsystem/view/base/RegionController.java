@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -22,6 +24,10 @@ import org.springframework.web.context.annotation.RequestScope;
 public class RegionController extends Region implements ICRUDController<Region> {
 
     private final RegionService regionService;
+    
+    @Getter
+    @Setter
+    private List<City> selectedCities;
 
     @Autowired
     public RegionController(RegionService aRegionService) {
@@ -44,11 +50,11 @@ public class RegionController extends Region implements ICRUDController<Region> 
     @Override
     public String create() {
         var newRegion = Region.builder().name(this.getName()).macroRegion(this.getMacroRegion()).build();
-        newRegion.setCities(this.getCities());
+//        newRegion.setCities(this.getCities());
         
         System.out.println(newRegion.getName());
         System.out.println(newRegion.getMacroRegionName());
-        System.out.println(newRegion.getCityNames());
+        System.out.println(this.selectedCities);
 
 //        try {
 //            regionService.create(newRegion);
