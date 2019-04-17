@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -29,10 +30,8 @@
                           </b:navbarLinks>
                 </b:navBar>
 
-                <b:growl id="growlMsg" globalOnly="true" placementFrom="top"
-                         show-detail="true" show-summary="false" allowDismiss="true"
-                         escape="true" />
-
+                <p:growl id="growl" showDetail="true" sticky="true" />  
+<!--                <p:messages id="messages" showDetail="true" closable="true"></p:messages>-->
             </ui:insert>
         </div>
 

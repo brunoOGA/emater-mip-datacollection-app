@@ -69,7 +69,7 @@ public class RegionService implements ICRUDService<Region> {
     
     public void create(Region aRegion) throws EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
-        var theMacroRegion = macroRegionService.readById(aRegion.getId());    
+        var theMacroRegion = macroRegionService.readById(aRegion.getMacroRegionId());    
         var theCities = retrieveCities(aRegion.getCities().stream().map(City::getId).collect(Collectors.toSet()));
         
         var newRegion = Region.builder().name(aRegion.getName()).macroRegion(theMacroRegion).build();

@@ -8,6 +8,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
-@RequestScope
 public class RegionController extends Region implements ICRUDController<Region> {
 
     private final RegionService regionService;
@@ -46,38 +47,39 @@ public class RegionController extends Region implements ICRUDController<Region> 
     public List<City> readAllCities() {
         return regionService.readAllCities();
     }
+    
+    private boolean checkCityWasSelected() {
+        return (this.getSelectedCities() == null || this.getSelectedCities().size() == 0);
+    }
 
     @Override
     public String create() {
 
-        if (this.getSelectedCities() == null || this.getSelectedCities().size() == 0) {
+        if (this.checkCityWasSelected()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Uma região deve possuir pelo menos uma cidade"));
             return "create.xhtml";
         }
 
         var newRegion = Region.builder().name(this.getName()).macroRegion(this.getMacroRegion()).build();
-        newRegion.setCities(this.getCities());
-        
-        return "index.xhtml";
+        newRegion.setCities(new HashSet<City>(this.getSelectedCities()));
 
-//        try {
-//            regionService.create(newRegion);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Região [%s] criada com sucesso!", newRegion.getName())));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma região com esse nome nessa macrorregião! Use um nome diferente, ou selecione outra macrorregião."));
-//            return "create.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "A região não pode ser criada porque a cidade ou a macrorregião não foram encontradas na base de dados!"));
-//            return "create.xhtml";
-//
-//        }
+        try {
+            regionService.create(newRegion);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Região [%s] criada com sucesso!", newRegion.getName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma região com esse nome nessa macrorregião! Use um nome diferente, ou selecione outra macrorregião."));
+            return "create.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "A região não pode ser criada porque a cidade ou a macrorregião não foram encontradas na base de dados!"));
+            return "create.xhtml";
+            
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
     }
 
     @Override
