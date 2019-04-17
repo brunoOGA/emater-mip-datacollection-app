@@ -40,7 +40,6 @@ public class Region extends AuditingPersistenceEntity implements Serializable {
     private MacroRegion macroRegion;
 
     @OneToMany
-//    @NotNull(message = "Um região deve possuir pelo menos uma cidade")
     private Set<City> cities;
 
     @Builder

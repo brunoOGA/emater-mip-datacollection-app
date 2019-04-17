@@ -24,7 +24,7 @@ import org.springframework.web.context.annotation.RequestScope;
 public class RegionController extends Region implements ICRUDController<Region> {
 
     private final RegionService regionService;
-    
+
     @Getter
     @Setter
     private List<City> selectedCities;
@@ -46,15 +46,19 @@ public class RegionController extends Region implements ICRUDController<Region> 
     public List<City> readAllCities() {
         return regionService.readAllCities();
     }
-  
+
     @Override
     public String create() {
+
+        if (this.getSelectedCities() == null || this.getSelectedCities().size() == 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Uma região deve possuir pelo menos uma cidade"));
+            return "create.xhtml";
+        }
+
         var newRegion = Region.builder().name(this.getName()).macroRegion(this.getMacroRegion()).build();
-//        newRegion.setCities(this.getCities());
+        newRegion.setCities(this.getCities());
         
-        System.out.println(newRegion.getName());
-        System.out.println(newRegion.getMacroRegionName());
-        System.out.println(this.selectedCities);
+        return "index.xhtml";
 
 //        try {
 //            regionService.create(newRegion);
@@ -68,13 +72,12 @@ public class RegionController extends Region implements ICRUDController<Region> 
 //        } catch (AnyPersistenceException e) {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
 //            return "index.xhtml";
-//            
+//
 //        } catch (EntityNotFoundException ex) {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "A região não pode ser criada porque a cidade ou a macrorregião não foram encontradas na base de dados!"));
 //            return "create.xhtml";
 //
 //        }
-return "index.xhtml";
     }
 
     @Override

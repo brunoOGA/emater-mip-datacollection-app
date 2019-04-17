@@ -53,9 +53,9 @@
                                     </b:formGroup>
 
 
-                                    <b:panel title="Selecione as cidades que devem fazer parte da região" collapsible="false">
-                                        <!--<b:formGroup>-->
-                                            <p:dataTable reflow="true" rows="5" paginator="true" id="checkboxDT" var="aCity" value="#{regionController.readAllCities()}" selection="#{regionController.selectedCities}" rowKey="#{aCity.id}" style="margin-bottom:0">
+                                    <b:panel title="Selecione as cidades que devem fazer parte da região*" collapsible="false">
+                                        <b:formGroup>                                            
+                                            <p:dataTable reflow="true" rows="5" paginator="true" var="aCity" value="#{regionController.readAllCities()}" selection="#{regionController.selectedCities}" rowKey="#{aCity.id}" style="margin-bottom:0">
                                                 <p:column selectionMode="multiple" style="width:36px;text-align:center"/>
                                                 <p:column headerText="Município" sortBy="#{aCity.name}" filterBy="#{aCity.name}">
                                                     <h:outputText value="#{aCity.name}" />
@@ -64,11 +64,11 @@
                                                     <h:outputText value="#{aCity.state.name}" />
                                                 </p:column>
                                             </p:dataTable>
-
-                                        <!--</b:formGroup>-->
+                                        </b:formGroup>
                                     </b:panel>
 
-
+                                    <b:messages/>
+                                    
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
