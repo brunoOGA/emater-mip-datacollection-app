@@ -36,19 +36,23 @@ public class RegionService implements ICRUDService<Region> {
     public List<Region> readAll() {
         return List.copyOf(regionRepository.findAll());
     }
-    
+
     public List<MacroRegion> readAllMacroRegions() {
         return this.macroRegionService.readAll();
     }
-    
-    public List<City> readAllCities() {
+
+    public List<City> readAllCitiesWithoutRegion() {
         var allCities = this.cityService.readAll();
         var citiesWithinARegion = this.readAll().stream().flatMap(currentRegion -> currentRegion.getCities().stream()).collect(Collectors.toList());
-        
-        var citiesWithoutRegion = new ArrayList<City> (allCities);
+
+        var citiesWithoutRegion = new ArrayList<City>(allCities);
         citiesWithoutRegion.removeAll(citiesWithinARegion);
-        
+
         return citiesWithoutRegion;
+    }
+
+    public Region readById(Long anId) throws EntityNotFoundException {
+        return regionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
     }
 
 //    public MacroRegionDTO readById(Long id) throws EntityNotFoundException {
@@ -57,26 +61,27 @@ public class RegionService implements ICRUDService<Region> {
 //        return this.convertToDTO(entity);
 //    }
 //
-    
-    private Set<City> retrieveCities (Set<Long> ids) throws EntityNotFoundException {
+    private Set<City> retrieveCities(Set<Long> ids) throws EntityNotFoundException {
         var result = new HashSet<City>();
-        
-        for (Long id: ids)
+
+        for (Long id : ids) {
             result.add(cityService.readById(id));
-        
+        }
+
         return result;
     }
-    
+
     public void create(Region aRegion) throws EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
-        var theMacroRegion = macroRegionService.readById(aRegion.getMacroRegionId());    
+        var theMacroRegion = macroRegionService.readById(aRegion.getMacroRegionId());
         var theCities = retrieveCities(aRegion.getCities().stream().map(City::getId).collect(Collectors.toSet()));
-        
+
         var newRegion = Region.builder().name(aRegion.getName()).macroRegion(theMacroRegion).build();
         newRegion.setCities(theCities);
 
-        if (regionRepository.findAll().stream().anyMatch(currentRegion -> currentRegion.equals(newRegion)))
+        if (regionRepository.findAll().stream().anyMatch(currentRegion -> currentRegion.equals(newRegion))) {
             throw new EntityAlreadyExistsException();
+        }
 
         try {
             regionRepository.save(newRegion);
@@ -95,23 +100,32 @@ public class RegionService implements ICRUDService<Region> {
 //        original.setName(updated.getName());
 //    }
 //
-//    public void update(MacroRegionDTO aMacroRegionDTO) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-//
-//        MacroRegion existentEntity = macroRegionRepository.findById(aMacroRegionDTO.getId()).orElseThrow(EntityNotFoundException::new);
-//        MacroRegion aNewEntityJustForEqualsComparison = MacroRegion.builder().name(aMacroRegionDTO.getName()).build();
-//
-//        if (macroRegionRepository.findAll().stream().anyMatch(currentMR -> currentMR.equals(aNewEntityJustForEqualsComparison)))
-//            throw new EntityAlreadyExistsException();
-//        
-//        this.updateMacroRegionAttributes(existentEntity, aMacroRegionDTO);
-//        
-//        try {
-//            macroRegionRepository.saveAndFlush(existentEntity);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
+
+    public void update(Region aRegion) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+
+        Region existentRegion = regionRepository.findById(aRegion.getId()).orElseThrow(EntityNotFoundException::new);
+        
+        var allRegionsWithoutExistentRegion = new ArrayList<Region>(regionRepository.findAll());
+        allRegionsWithoutExistentRegion.remove(existentRegion);
+        
+        if (allRegionsWithoutExistentRegion.stream().anyMatch(currentRegion -> currentRegion.equals(aRegion))) {
+            throw new EntityAlreadyExistsException();
+        }
+
+        var theMacroRegion = macroRegionService.readById(aRegion.getMacroRegionId());
+        var theCities = retrieveCities(aRegion.getCities().stream().map(City::getId).collect(Collectors.toSet()));        
+        
+        try {
+            existentRegion.setName(aRegion.getName());
+            existentRegion.setMacroRegion(aRegion.getMacroRegion());
+            existentRegion.setCities(aRegion.getCities());
+
+            regionRepository.saveAndFlush(existentRegion);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
 //
 //    public void delete(Long anId) throws EntityNotFoundException {
 //        MacroRegion existentEntity = macroRegionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
