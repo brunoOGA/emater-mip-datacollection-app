@@ -16,7 +16,7 @@
 
             <b:dataTableColumn label="Ações" class="col-md-1"> 
                 <b:commandLink action="#{regionController.prepareUpdate(aRegion.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                <b:commandLink action="#{macroRegionController.prepareDelete(aMacroRegion.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
+                <b:commandLink action="#{regionController.prepareDelete(aRegion.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
             </b:dataTableColumn>  
 
         </b:dataTable>          

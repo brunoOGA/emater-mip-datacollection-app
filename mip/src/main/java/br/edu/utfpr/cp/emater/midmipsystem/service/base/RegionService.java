@@ -6,16 +6,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -55,12 +55,6 @@ public class RegionService implements ICRUDService<Region> {
         return regionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
     }
 
-//    public MacroRegionDTO readById(Long id) throws EntityNotFoundException {
-//        MacroRegion entity = macroRegionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-//
-//        return this.convertToDTO(entity);
-//    }
-//
     private Set<City> retrieveCities(Set<Long> ids) throws EntityNotFoundException {
         var result = new HashSet<City>();
 
@@ -90,16 +84,6 @@ public class RegionService implements ICRUDService<Region> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    private MacroRegion prepareEntityForPersistence(MacroRegionDTO aDTO) {
-//        return MacroRegion.builder().name(aDTO.getName()).build();
-//    }
-//
-//
-//    private void updateMacroRegionAttributes(MacroRegion original, MacroRegionDTO updated) {
-//        original.setName(updated.getName());
-//    }
-//
 
     public void update(Region aRegion) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 
@@ -126,15 +110,18 @@ public class RegionService implements ICRUDService<Region> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void delete(Long anId) throws EntityNotFoundException {
-//        MacroRegion existentEntity = macroRegionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//        
-//        try {
-//            macroRegionRepository.delete(existentEntity);
-//            
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
+    public void delete(Long anId) throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+        Region existentRegion = regionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        
+        try {
+            regionRepository.delete(existentRegion);
+            
+        } catch (DataIntegrityViolationException cve) {
+            throw new EntityInUseException();
+            
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
 }
