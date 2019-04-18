@@ -12,8 +12,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
+@RequestScope
 public class MacroRegionController extends MacroRegion implements ICRUDController<MacroRegion> {
 
     private MacroRegionService macroRegionService;
@@ -105,10 +107,10 @@ public class MacroRegionController extends MacroRegion implements ICRUDControlle
 
     @Override
     public String delete() {
-
+        
         try {
             macroRegionService.delete(this.getId());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião [%s] excluída!", this.getName())));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Macrorregião excluída!"));
             return "index.xhtml";
 
         } catch (EntityNotFoundException ex) {

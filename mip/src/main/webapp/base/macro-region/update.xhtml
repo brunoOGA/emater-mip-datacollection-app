@@ -40,6 +40,8 @@
                                 <b:panelGrid id="data-entry" columns="1">
                                     <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}"></b:inputText>
                                     <b:message for="name-input" ></b:message>
+                                    
+                                    <h:inputHidden value="#{macroRegionController.id}" ></h:inputHidden>
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
