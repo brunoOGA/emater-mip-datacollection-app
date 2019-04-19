@@ -63,18 +63,19 @@ public class FarmerService implements ICRUDService<Farmer> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-//        MacroRegion existentEntity = macroRegionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//        
-//        try {
-//            macroRegionRepository.delete(existentEntity);
-//            
-//        } catch (DataIntegrityViolationException cve) {
-//            throw new EntityInUseException();
-//            
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
+
+    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        
+        var existentFarmer = farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        
+        try {
+            farmerRepository.delete(existentFarmer);
+            
+        } catch (DataIntegrityViolationException cve) {
+            throw new EntityInUseException();
+            
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
 }
