@@ -16,35 +16,51 @@
 
                         <b:breadcrumbs>
                             <b:navLink icon-awesome="info-circle" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
-                            
+
                             <f:facet name="first">
                                 <b:iconAwesome value="info-circle" />
                                 Gerenciamento de Informações
                             </f:facet> 
-                            
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Produtor" outcome="/base/farmer/index.xhtml"/>
-                                                        
+
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Responsável Técnico" outcome="/base/supervisor/index.xhtml"/>
+
                             <f:facet name="end">
-                                Criar Novo Produtor
+                                Criar Novo Responsável Técnico
                             </f:facet> 
                         </b:breadcrumbs>                        
 
                         <b:panel collapsible="false" >
 
                             <f:facet name="heading" >
-                                <h2>Gerenciamento de Produtor</h2>
+                                <h2>Gerenciamento de Responsável Técnico</h2>
                             </f:facet>
 
-                            <b:panel look="success" collapsible="false" title="Criar Novo Produtor">
+                            <b:panel look="success" collapsible="false" title="Criar Novo Responsável Técnico">
 
                                 <b:panelGrid id="data-entry" columns="1">
-                                    <b:inputText id="name-input" label="Nome" value="#{farmerController.name}"></b:inputText>
-                                    <b:message for="@previous" ></b:message>
+                                    <b:formGroup>
+                                        <b:inputText label="Nome" value="#{supervisorController.name}"></b:inputText>
+                                        <b:message for="@previous" ></b:message>                                        
+                                    </b:formGroup>
+
+                                    <b:formGroup>
+                                        <b:inputText label="e-mail" value="#{supervisorController.email}"></b:inputText>
+                                        <b:message for="@previous" ></b:message>                                        
+                                    </b:formGroup>
+                                    
+                                    <b:formGroup>
+                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionada uma região" value="#{supervisorController.region}" label="Região">
+                                            <f:selectItem itemLabel="(Selecione uma região)" itemValue="" />
+                                            <f:selectItems value="#{supervisorController.readAllRegions()}" var="aRegion" itemValue="#{aRegion}" itemLabel="#{aRegion.name}" />
+                                        </b:selectOneMenu>
+                                        <b:message for="@previous" />
+                                    </b:formGroup>                                    
+
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
                                     <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="success" value="Criar" action="#{farmerController.create()}" ></b:commandButton>
+                                    <b:commandButton look="success" value="Criar" action="#{supervisorController.create()}" ></b:commandButton>
                                 </f:facet>
 
                             </b:panel>

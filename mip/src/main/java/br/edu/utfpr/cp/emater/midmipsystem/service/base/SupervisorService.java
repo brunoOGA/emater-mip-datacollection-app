@@ -2,6 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -19,15 +20,21 @@ import org.springframework.stereotype.Component;
 public class SupervisorService implements ICRUDService<Supervisor> {
 
     private final SupervisorRepository supervisorRepository;
+    private final RegionService regionService;
 
     @Autowired
-    public SupervisorService(SupervisorRepository aSupervisorRepository) {
+    public SupervisorService(SupervisorRepository aSupervisorRepository, RegionService aRegionService) {
         this.supervisorRepository = aSupervisorRepository;
+        this.regionService = aRegionService;
     }
 
     @Override
     public List<Supervisor> readAll() {
         return List.copyOf(supervisorRepository.findAll());
+    }
+    
+    public List<Region> readAllRegions() {
+        return this.regionService.readAll();
     }
 
 //    @Override
@@ -35,19 +42,19 @@ public class SupervisorService implements ICRUDService<Supervisor> {
 //        return farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 //    }
 //
-//    public void create(Farmer aFarmer) throws EntityAlreadyExistsException, AnyPersistenceException {
-//
-//        if (farmerRepository.findAll().stream().anyMatch(currentFarmer -> currentFarmer.equals(aFarmer))) {
-//            throw new EntityAlreadyExistsException();
-//        }
-//
-//        try {
-//            farmerRepository.save(aFarmer);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
+    public void create(Supervisor aSupervisor) throws EntityAlreadyExistsException, AnyPersistenceException {
+
+        if (supervisorRepository.findAll().stream().anyMatch(currentSupervisor -> currentSupervisor.equals(aSupervisor))) {
+            throw new EntityAlreadyExistsException();
+        }
+
+        try {
+            supervisorRepository.save(aSupervisor);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
 //
 //    public void update(Farmer aFarmer) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 //
@@ -80,11 +87,6 @@ public class SupervisorService implements ICRUDService<Supervisor> {
 //            throw new AnyPersistenceException();
 //        }
 //    }
-
-    @Override
-    public void create(Supervisor entity) throws EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public Supervisor readById(Long anId) throws EntityNotFoundException {

@@ -2,6 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
@@ -24,7 +25,6 @@ public class SupervisorController extends Supervisor implements ICRUDController<
 
     private SupervisorService supervisorService;
     
-
     @Autowired
     public SupervisorController(SupervisorService aSupervisorService) {
         this.supervisorService = aSupervisorService;
@@ -34,25 +34,29 @@ public class SupervisorController extends Supervisor implements ICRUDController<
     public List<Supervisor> readAll() {
         return supervisorService.readAll();
     }
+    
+    public List<Region> readAllRegions() {
+        return supervisorService.readAllRegions();
+    }    
 
-//    @Override
-//    public String create() {
-//        var newFarmer = Farmer.builder().name(this.getName()).build();
-//
-//        try {
-//            farmerService.create(newFarmer);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Produtor [%s] criado com sucesso!", this.getName())));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um produtor com esse nome! Use um nome diferente."));
-//            return "create.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
+    @Override
+    public String create() {
+        var newSupervisor = Supervisor.builder().name(this.getName()).email(this.getEmail()).region(this.getRegion()).build();
+
+        try {
+            supervisorService.create(newSupervisor);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Responsável Técnico [%s] criado com sucesso!", this.getName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um responsável técnico com esse nome! Use um nome diferente."));
+            return "create.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+    }
 //
 //    @Override
 //    public String prepareUpdate(Long anId) {
@@ -132,10 +136,6 @@ public class SupervisorController extends Supervisor implements ICRUDController<
 //        }
 //    }
 
-    @Override
-    public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareUpdate(Long anId) {
