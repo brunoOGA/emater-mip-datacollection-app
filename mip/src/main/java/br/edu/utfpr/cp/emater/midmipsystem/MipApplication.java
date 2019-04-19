@@ -4,10 +4,12 @@ package br.edu.utfpr.cp.emater.midmipsystem;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.CityRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import java.util.Locale;
 
 
@@ -43,12 +45,14 @@ class CLR implements CommandLineRunner {
     private MacroRegionRepository macroRegionRepository;
     private RegionRepository regionRepository;
     private CityRepository cityRepository;
+    private FarmerRepository farmerRepository;
     
     @Autowired
-    CLR (MacroRegionRepository macroRegionRepository, RegionRepository aRegionRepository, CityRepository aCityRepository) {
+    CLR (MacroRegionRepository macroRegionRepository, RegionRepository aRegionRepository, CityRepository aCityRepository, FarmerRepository aFarmerRepository) {
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
         this.cityRepository = aCityRepository;
+        this.farmerRepository = aFarmerRepository;
     }
 
     @Override
@@ -96,8 +100,12 @@ class CLR implements CommandLineRunner {
 //        var r20 = regionRepository.save(Region.builder().name("Toledo").macroRegion(mr2).build());
 //        var r21 = regionRepository.save(Region.builder().name("Umuarama").macroRegion(mr1).build());
 //        var r22 = regionRepository.save(Region.builder().name("União da Vitória").macroRegion(mr4).build());
-        
-        
+
+        var f1 = farmerRepository.save(Farmer.builder().name("Gilson Dariva").build());
+        var f2 = farmerRepository.save(Farmer.builder().name("LUIZ ARCANGELO GIORDANI").build());
+        var f3 = farmerRepository.save(Farmer.builder().name("Maurílio Bertoldo").build());
+        var f4 = farmerRepository.save(Farmer.builder().name("Rafael Oldoni").build());
+        var f5 = farmerRepository.save(Farmer.builder().name("Clemente Carnieletto").build());        
     }
 
 }
