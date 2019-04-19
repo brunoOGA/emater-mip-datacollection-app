@@ -99,54 +99,43 @@ public class SupervisorController extends Supervisor implements ICRUDController<
         }
 
     }
-//
-//    @Override
-//    public String prepareDelete(Long anId) {
-//
-//        try {
-//            var exixtentFarmer = farmerService.readById(anId);
-//            this.setId(exixtentFarmer.getId());
-//            this.setName(exixtentFarmer.getName());
-//
-//            return "delete.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque não foi encontrado na base de dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
-//    @Override
-//    public String delete() {
-//        
-//        try {
-//            farmerService.delete(this.getId());
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Produtor excluído!"));
-//            return "index.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque não foi encontrado na base de dados!"));
-//            return "index.xhtml";
-//            
-//        } catch (EntityInUseException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque está sendo usado em uma unidade de referência!"));
-//            return "index.xhtml";
-//            
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-
 
     @Override
     public String prepareDelete(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        try {
+            var existentSupervisor = supervisorService.readById(anId);
+            this.setId(existentSupervisor.getId());
+            this.setName(existentSupervisor.getName());
+
+            return "delete.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Responsável técnico não pode ser excluído porque não foi encontrado na base de dados!"));
+            return "index.xhtml";
+        }
     }
 
     @Override
     public String delete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        try {
+            supervisorService.delete(this.getId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Responsável técnico excluído!"));
+            return "index.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Responsável técnico não pode ser excluído porque não foi encontrado na base de dados!"));
+            return "index.xhtml";
+            
+        } catch (EntityInUseException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Responsável técnico não pode ser excluído porque está sendo usado em uma unidade de referência!"));
+            return "index.xhtml";
+            
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
     }
 
 }

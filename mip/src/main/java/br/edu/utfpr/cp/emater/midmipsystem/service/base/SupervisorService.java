@@ -80,27 +80,20 @@ public class SupervisorService implements ICRUDService<Supervisor> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-//        
-//        var existentFarmer = farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//        
-//        try {
-//            farmerRepository.delete(existentFarmer);
-//            
-//        } catch (DataIntegrityViolationException cve) {
-//            throw new EntityInUseException();
-//            
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
 
-
-    @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        var existentSupervisor = supervisorRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        
+        try {
+            supervisorRepository.delete(existentSupervisor);
+            
+        } catch (DataIntegrityViolationException cve) {
+            throw new EntityInUseException();
+            
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
     }
 
-    
 }
