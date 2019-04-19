@@ -124,25 +124,20 @@ public class FieldService implements ICRUDService<Field> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-//        
-//        var existentSupervisor = supervisorRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//        
-//        try {
-//            supervisorRepository.delete(existentSupervisor);
-//            
-//        } catch (DataIntegrityViolationException cve) {
-//            throw new EntityInUseException();
-//            
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
 
-    @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        var existentField = fieldRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        
+        try {
+            fieldRepository.delete(existentField);
+            
+        } catch (DataIntegrityViolationException cve) {
+            throw new EntityInUseException();
+            
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
     }
 
 }

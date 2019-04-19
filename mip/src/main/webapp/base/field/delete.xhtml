@@ -22,32 +22,32 @@
                                 Gerenciamento de Informações
                             </f:facet> 
 
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Responsável Técnico" outcome="/base/supervisor/index.xhtml"/>
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Unidade de Referência" outcome="/base/field/index.xhtml"/>
 
                             <f:facet name="end">
-                                Excluir Responsável Técnico
+                                Excluir Unidade de Referência
                             </f:facet> 
                         </b:breadcrumbs>                        
 
                         <b:panel collapsible="false" >
 
                             <f:facet name="heading" >
-                                <h2>Gerenciamento de Responsável Técnico</h2>
+                                <h2>Gerenciamento de Unidade de Referência</h2>
                             </f:facet>
 
-                            <b:panel look="danger" collapsible="false" title="Excluir Responsável Técnico">
+                            <b:panel look="danger" collapsible="false" title="Excluir Unidade de Referência">
 
                                 <b:panelGrid id="data-entry" columns="1">
-                                    <h3>Tem certeza que deseja excluir o responsável técnico [#{supervisorController.name}]</h3>
+                                    <h3>Tem certeza que deseja excluir a unidade de referência [#{fieldController.name}]</h3>
 
                                     <b:alert severity="danger">Essa ação <strong>NÃO</strong> pode ser desfeita.</b:alert>
                                     
-                                    <h:inputHidden value="#{supervisorController.id}" ></h:inputHidden>
+                                    <h:inputHidden value="#{fieldController.id}" ></h:inputHidden>
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
                                     <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="danger" value="Excluir" action="#{supervisorController.delete()}" ></b:commandButton>
+                                    <b:commandButton look="danger" value="Excluir" action="#{fieldController.delete()}" ></b:commandButton>
                                 </f:facet>
 
                             </b:panel>
