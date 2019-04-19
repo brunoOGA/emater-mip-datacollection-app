@@ -3,21 +3,15 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerService;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,6 +22,8 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
+
+// Note that there are issues to resolve regarding the match of supervisors and cities
 
 @Component
 @RequestScope
@@ -111,6 +107,10 @@ public class FieldController extends Field implements ICRUDController<Field> {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Unidade de referência [%s] criado com sucesso!", this.getName())));
             return "index.xhtml";
 
+        } catch (SupervisorNotAllowedInCity ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Um ou mais responsáveis técnicos selecionados não atendem a cidade selecionada para essa UR!"));
+            return "create.xhtml";
+
         } catch (EntityAlreadyExistsException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma unidade de referência com esse nome, nessa cidade para esse produtor!"));
             return "create.xhtml";
@@ -178,8 +178,13 @@ public class FieldController extends Field implements ICRUDController<Field> {
                     .build();
 
             fieldService.update(updatedField);
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência alterada"));
             return "index.xhtml";
+
+        } catch (SupervisorNotAllowedInCity ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Um ou mais responsáveis técnicos selecionados não atendem a cidade selecionada para essa UR!"));
+            return "update.xhtml";
 
         } catch (EntityAlreadyExistsException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma unidade de referência com esse nome, nessa cidade para esse produtor!"));
@@ -214,7 +219,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
 
     @Override
     public String delete() {
-        
+
         try {
             fieldService.delete(this.getId());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência excluída!"));
@@ -223,11 +228,11 @@ public class FieldController extends Field implements ICRUDController<Field> {
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser excluída porque não foi encontrada na base de dados!"));
             return "index.xhtml";
-            
+
         } catch (EntityInUseException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser excluída porque está sendo usado em uma pesquisa!"));
             return "index.xhtml";
-            
+
         } catch (AnyPersistenceException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
             return "index.xhtml";

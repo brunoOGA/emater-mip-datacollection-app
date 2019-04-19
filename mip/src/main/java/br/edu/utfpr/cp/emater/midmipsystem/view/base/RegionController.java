@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+// Note that there are issues to resolve when updating a Region
+
 @Component
 @RequestScope
 public class RegionController extends Region implements ICRUDController<Region> {

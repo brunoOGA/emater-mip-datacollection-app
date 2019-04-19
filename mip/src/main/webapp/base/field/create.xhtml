@@ -66,7 +66,7 @@
 
                                     <b:formGroup>
                                         <b:selectMultiMenu enableFiltering="true" required="true" required-message="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}" label="Responsável Técnico">
-                                            <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor.getIdAsString()}" itemLabel="#{aSupervisor.name}" />
+                                            <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor.getIdAsString()}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
                                         </b:selectMultiMenu>
                                         <b:message for="@previous" />
                                     </b:formGroup>

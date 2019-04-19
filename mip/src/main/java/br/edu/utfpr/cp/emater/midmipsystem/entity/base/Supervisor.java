@@ -52,4 +52,8 @@ public class Supervisor extends Person implements Serializable {
     public String getIdAsString() {
         return String.valueOf(this.getId());
     }
+    
+    public String getCitiesInRegionNames() {
+        return this.getRegion().getCities().toString();
+    }
 }
