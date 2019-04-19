@@ -9,7 +9,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.base.CityRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import java.util.Locale;
 
 
@@ -46,13 +48,15 @@ class CLR implements CommandLineRunner {
     private RegionRepository regionRepository;
     private CityRepository cityRepository;
     private FarmerRepository farmerRepository;
+    private SupervisorRepository supervisorRepository;
     
     @Autowired
-    CLR (MacroRegionRepository macroRegionRepository, RegionRepository aRegionRepository, CityRepository aCityRepository, FarmerRepository aFarmerRepository) {
+    CLR (MacroRegionRepository macroRegionRepository, RegionRepository aRegionRepository, CityRepository aCityRepository, FarmerRepository aFarmerRepository, SupervisorRepository aSupervisorRepository) {
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
         this.cityRepository = aCityRepository;
         this.farmerRepository = aFarmerRepository;
+        this.supervisorRepository = aSupervisorRepository;
     }
 
     @Override
@@ -105,7 +109,12 @@ class CLR implements CommandLineRunner {
         var f2 = farmerRepository.save(Farmer.builder().name("LUIZ ARCANGELO GIORDANI").build());
         var f3 = farmerRepository.save(Farmer.builder().name("Maurílio Bertoldo").build());
         var f4 = farmerRepository.save(Farmer.builder().name("Rafael Oldoni").build());
-        var f5 = farmerRepository.save(Farmer.builder().name("Clemente Carnieletto").build());        
+        var f5 = farmerRepository.save(Farmer.builder().name("Clemente Carnieletto").build());     
+        
+        var s1 = supervisorRepository.save(Supervisor.builder().name("Lari Maroli").email("maroli@emater.pr.gov.br").region(r7).build());
+        var s2 = supervisorRepository.save(Supervisor.builder().name("IVANDERSON BORELLI").email("borelli@emater.pr.gov.br").region(r17).build());
+        var s3 = supervisorRepository.save(Supervisor.builder().name("José Francisco Vilas Boas").email("villas@emater.pr.gov.br").region(r17).build());
+        var s4 = supervisorRepository.save(Supervisor.builder().name("Vilmar Grando").email("grando@emater.pr.gov.br").region(r17).build());
     }
 
 }
