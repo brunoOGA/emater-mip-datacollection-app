@@ -50,46 +50,46 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
             return "index.xhtml";
         }
     }
-//
-//    @Override
-//    public String prepareUpdate(Long anId) {
-//
-//        try {
-//            MacroRegion existentMacroRegion = macroRegionService.readById(anId);
-//            this.setId(existentMacroRegion.getId());
-//            this.setName(existentMacroRegion.getName());
-//
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser alterada porque não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
-//    @Override
-//    public String update() {
-//        MacroRegion updatedEntity = MacroRegion.builder().id(this.getId()).name(this.getName()).build();
-//
-//        try {
-//            macroRegionService.update(updatedEntity);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião alterada para [%s]!", updatedEntity.getName())));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma macrorregião com esse nome! Use um nome diferente."));
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser alterada porque não foi encontrada na base de dados!"));
-//            return "update.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//
-//    }
+
+    @Override
+    public String prepareUpdate(Long anId) {
+
+        try {
+            Farmer existentFarmer = farmerService.readById(anId);
+            this.setId(existentFarmer.getId());
+            this.setName(existentFarmer.getName());
+
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser alterado porque não foi encontrado na base de dados!"));
+            return "index.xhtml";
+        }
+    }
+
+    @Override
+    public String update() {
+        var updatedEntity = Farmer.builder().id(this.getId()).name(this.getName()).build();
+
+        try {
+            farmerService.update(updatedEntity);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Produtor alterado para [%s]!", updatedEntity.getName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um produtor com esse nome! Use um nome diferente."));
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser alterado porque não foi encontrado na base de dados!"));
+            return "update.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+
+    }
 //
 //    @Override
 //    public String prepareDelete(Long anId) {
@@ -129,15 +129,6 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
 //        }
 //    }
 
-    @Override
-    public String prepareUpdate(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareDelete(Long anId) {
