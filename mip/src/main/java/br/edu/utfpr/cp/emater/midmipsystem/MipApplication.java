@@ -5,12 +5,14 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.CityRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import java.util.Locale;
 
@@ -49,14 +51,16 @@ class CLR implements CommandLineRunner {
     private CityRepository cityRepository;
     private FarmerRepository farmerRepository;
     private SupervisorRepository supervisorRepository;
+    private FieldRepository fieldRepository;
     
     @Autowired
-    CLR (MacroRegionRepository macroRegionRepository, RegionRepository aRegionRepository, CityRepository aCityRepository, FarmerRepository aFarmerRepository, SupervisorRepository aSupervisorRepository) {
+    CLR (MacroRegionRepository macroRegionRepository, RegionRepository aRegionRepository, CityRepository aCityRepository, FarmerRepository aFarmerRepository, SupervisorRepository aSupervisorRepository, FieldRepository aFieldRepository) {
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
         this.cityRepository = aCityRepository;
         this.farmerRepository = aFarmerRepository;
         this.supervisorRepository = aSupervisorRepository;
+        this.fieldRepository = aFieldRepository;
     }
 
     @Override
@@ -115,6 +119,26 @@ class CLR implements CommandLineRunner {
         var s2 = supervisorRepository.save(Supervisor.builder().name("IVANDERSON BORELLI").email("borelli@emater.pr.gov.br").region(r17).build());
         var s3 = supervisorRepository.save(Supervisor.builder().name("José Francisco Vilas Boas").email("villas@emater.pr.gov.br").region(r17).build());
         var s4 = supervisorRepository.save(Supervisor.builder().name("Vilmar Grando").email("grando@emater.pr.gov.br").region(r17).build());
+        
+        var field1 = Field.builder().name("Trevo").location("").city(c1).farmer(f1).build();
+        field1.addSupervisor(s1);
+        var persistentField1 = fieldRepository.save(field1);
+        
+        var field2 = Field.builder().name("Carnieletto").location("").city(c3).farmer(f5).build();
+        field2.addSupervisor(s4);
+        var persistentField2 = fieldRepository.save(field2);
+        
+        var field3 = Field.builder().name("Oldoni").location("").city(c3).farmer(f4).build();
+        field3.addSupervisor(s4);
+        var persistentField3 = fieldRepository.save(field3);
+        
+        var field4 = Field.builder().name("MIP e MID").location("").city(c2).farmer(f2).build();
+        field4.addSupervisor(s2);
+        var persistentField4 = fieldRepository.save(field4);
+        
+        var field5 = Field.builder().name("Bertoldo").location("1").city(c3).farmer(f3).build();
+        field5.addSupervisor(s3);
+        var persistentField5 = fieldRepository.save(field5);
     }
 
 }
