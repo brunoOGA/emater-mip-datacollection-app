@@ -32,24 +32,24 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
         return farmerService.readAll();
     }
 
-//    @Override
-//    public String create() {
-//        MacroRegion newMacroRegion = MacroRegion.builder().name(this.getName()).build();
-//
-//        try {
-//            macroRegionService.create(newMacroRegion);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião [%s] criada com sucesso!", this.getName())));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma macrorregião com esse nome! Use um nome diferente."));
-//            return "create.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
+    @Override
+    public String create() {
+        var newFarmer = Farmer.builder().name(this.getName()).build();
+
+        try {
+            farmerService.create(newFarmer);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Produtor [%s] criado com sucesso!", this.getName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um produtor com esse nome! Use um nome diferente."));
+            return "create.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+    }
 //
 //    @Override
 //    public String prepareUpdate(Long anId) {
@@ -128,11 +128,6 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
 //            return "index.xhtml";
 //        }
 //    }
-
-    @Override
-    public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareUpdate(Long anId) {

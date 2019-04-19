@@ -22,33 +22,30 @@
                                 Gerenciamento de Informações
                             </f:facet> 
                             
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Macrorregião" outcome="/base/macro-region/index.xhtml"/>
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Produtor" outcome="/base/farmer/index.xhtml"/>
                                                         
                             <f:facet name="end">
-                                Criar Nova Macrorregião
+                                Criar Novo Produtor
                             </f:facet> 
                         </b:breadcrumbs>                        
 
                         <b:panel collapsible="false" >
 
                             <f:facet name="heading" >
-                                <h2>Gerenciamento de Macrorregião</h2>
+                                <h2>Gerenciamento de Produtor</h2>
                             </f:facet>
 
-                            <b:panel look="success" collapsible="false" title="Criar Nova Macrorregião">
+                            <b:panel look="success" collapsible="false" title="Criar Novo Produtor">
 
                                 <b:panelGrid id="data-entry" columns="1">
-                                    <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}"></b:inputText>
-                                    <b:message for="name-input" ></b:message>
+                                    <b:inputText id="name-input" label="Nome" value="#{farmerController.name}"></b:inputText>
+                                    <b:message for="@previous" ></b:message>
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
-
                                     <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="success" value="Criar" action="#{macroRegionController.create()}" ></b:commandButton>
-
+                                    <b:commandButton look="success" value="Criar" action="#{farmerController.create()}" ></b:commandButton>
                                 </f:facet>
-
 
                             </b:panel>
                         </b:panel>

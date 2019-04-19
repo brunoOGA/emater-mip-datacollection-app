@@ -7,13 +7,14 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FarmerService {
+public class FarmerService implements ICRUDService<Farmer> {
 
     private final FarmerRepository farmerRepository;
 
@@ -30,19 +31,19 @@ public class FarmerService {
 //        return macroRegionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 //    }
 //
-//    public void create(MacroRegion aMacroRegion) throws EntityAlreadyExistsException, AnyPersistenceException {
-//
-//        if (macroRegionRepository.findAll().stream().anyMatch(currentMR -> currentMR.equals(aMacroRegion))) {
-//            throw new EntityAlreadyExistsException();
-//        }
-//
-//        try {
-//            macroRegionRepository.save(aMacroRegion);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
+    public void create(Farmer aFarmer) throws EntityAlreadyExistsException, AnyPersistenceException {
+
+        if (farmerRepository.findAll().stream().anyMatch(currentFarmer -> currentFarmer.equals(aFarmer))) {
+            throw new EntityAlreadyExistsException();
+        }
+
+        try {
+            farmerRepository.save(aFarmer);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
 //
 //    public void update(MacroRegion aMacroRegion) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 //
