@@ -22,47 +22,64 @@
                                 Gerenciamento de Informações
                             </f:facet> 
 
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Responsável Técnico" outcome="/base/supervisor/index.xhtml"/>
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Unidade de Referência" outcome="/base/field/index.xhtml"/>
 
                             <f:facet name="end">
-                                Alterar Responsável Técnico
+                                Alterar Unidade de Referência
                             </f:facet> 
                         </b:breadcrumbs>                        
 
                         <b:panel collapsible="false" >
 
                             <f:facet name="heading" >
-                                <h2>Gerenciamento de Responsável Técnico</h2>
+                                <h2>Gerenciamento de Unidade de Referência</h2>
                             </f:facet>
 
-                            <b:panel look="warning" collapsible="false" title="Alterar Responsável Técnico">
+                            <b:panel look="warning" collapsible="false" title="Alterar Unidade de Referência">
 
                                 <b:panelGrid id="data-entry" columns="1">
                                     <b:formGroup>
-                                        <b:inputText label="Nome" value="#{supervisorController.name}"></b:inputText>
+                                        <b:inputText label="Identificação" value="#{fieldController.name}"></b:inputText>
                                         <b:message for="@previous" ></b:message>                                        
                                     </b:formGroup>
 
                                     <b:formGroup>
-                                        <b:inputText label="e-mail" value="#{supervisorController.email}"></b:inputText>
+                                        <b:inputText label="Localização" value="#{fieldController.location}"></b:inputText>
                                         <b:message for="@previous" ></b:message>                                        
                                     </b:formGroup>
 
                                     <b:formGroup>
-                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionada uma região" value="#{supervisorController.region}" label="Região">
-                                            <f:selectItem itemLabel="(Selecione uma região)" itemValue="" />
-                                            <f:selectItems value="#{supervisorController.readAllRegions()}" var="aRegion" itemValue="#{aRegion}" itemLabel="#{aRegion.name}" />
+                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um município" value="#{fieldController.city}" label="Município">
+                                            <f:selectItem itemLabel="(Selecione um município)" itemValue="" />
+                                            <f:selectItems value="#{fieldController.readAllCities()}" var="aCity" itemValue="#{aCity}" itemLabel="#{aCity.name}" />
                                         </b:selectOneMenu>
                                         <b:message for="@previous" />
-                                    </b:formGroup>                
-                                    
-                                    <h:inputHidden value="#{supervisorController.id}" ></h:inputHidden>
+                                    </b:formGroup>                                    
+
+                                    <b:formGroup>
+                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um produtor" value="#{fieldController.farmer}" label="Produtor">
+                                            <f:selectItem itemLabel="(Selecione um produtor)" itemValue="" />
+                                            <f:selectItems value="#{fieldController.readAllFarmers()}" var="aFarmer" itemValue="#{aFarmer}" itemLabel="#{aFarmer.name}" />
+                                        </b:selectOneMenu>
+                                        <b:message for="@previous" />
+                                    </b:formGroup>                                    
+
+                                    <b:formGroup>
+                                        <b:selectMultiMenu enableFiltering="true" required="true" required-message="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}" label="Responsável Técnico">
+                                            <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor.getIdAsString()}" itemLabel="#{aSupervisor.name}" />
+                                        </b:selectMultiMenu>
+                                        <b:message for="@previous" />
+                                    </b:formGroup>
+
+                                    <h:inputHidden value="#{fieldController.id}" ></h:inputHidden>
+
+
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
 
                                     <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="warning" value="Alterar" action="#{supervisorController.update()}" ></b:commandButton>
+                                    <b:commandButton look="warning" value="Alterar" action="#{fieldController.update()}" ></b:commandButton>
 
                                 </f:facet>
 

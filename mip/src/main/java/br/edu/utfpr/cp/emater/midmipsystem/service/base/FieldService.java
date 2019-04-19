@@ -59,10 +59,11 @@ public class FieldService implements ICRUDService<Field> {
 //        return this.regionService.readAll();
 //    }
 //
-//    @Override
-//    public Supervisor readById(Long anId) throws EntityNotFoundException {
-//        return supervisorRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//    }
+    @Override
+    public Field readById(Long anId) throws EntityNotFoundException {
+        return fieldRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+    }
+    
     private Set<Supervisor> retrieveSupervisors (Set<Supervisor> someSupervisors) throws EntityNotFoundException {
         var result = new HashSet<Supervisor>();
         
@@ -93,30 +94,36 @@ public class FieldService implements ICRUDService<Field> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void update(Supervisor aSupervisor) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
-//        
-//        var existentSupervisor = supervisorRepository.findById(aSupervisor.getId()).orElseThrow(EntityNotFoundException::new);
-//        
-//        var allSupervisorsWithoutExistentSupervisor = new ArrayList<Supervisor>(supervisorRepository.findAll());
-//        allSupervisorsWithoutExistentSupervisor.remove(existentSupervisor);
-//
-//        if (allSupervisorsWithoutExistentSupervisor.stream().anyMatch(currentSupervisor -> currentSupervisor.equals(aSupervisor)))
-//            throw new EntityAlreadyExistsException();
-//                
-//        try {
-//            existentSupervisor.setName(aSupervisor.getName());
-//            existentSupervisor.setEmail(aSupervisor.getEmail());
-//            
-//            var theRegion = regionService.readById(aSupervisor.getRegionId());
-//            existentSupervisor.setRegion(theRegion);
-//            
-//            supervisorRepository.saveAndFlush(existentSupervisor);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
+
+    @Override
+    public void update(Field aField) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
+        
+        var existentField = fieldRepository.findById(aField.getId()).orElseThrow(EntityNotFoundException::new);
+        
+        var allFieldsWithoutExistentField = new ArrayList<Field>(fieldRepository.findAll());
+        allFieldsWithoutExistentField.remove(existentField);
+
+        if (allFieldsWithoutExistentField.stream().anyMatch(currentField -> currentField.equals(aField)))
+            throw new EntityAlreadyExistsException();
+                
+        try {
+            existentField.setName(aField.getName());
+            existentField.setLocation(aField.getLocation());
+            
+            var theCity = cityService.readById(aField.getCityId());
+            var theFarmer = farmerService.readById(aField.getFarmerId());
+            var someSupervisors = this.retrieveSupervisors(aField.getSupervisors());
+
+            existentField.setCity(theCity);
+            existentField.setFarmer(theFarmer);
+            existentField.setSupervisors(someSupervisors);
+            
+            fieldRepository.saveAndFlush(existentField);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
 //
 //    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 //        
@@ -132,17 +139,6 @@ public class FieldService implements ICRUDService<Field> {
 //            throw new AnyPersistenceException();
 //        }
 //    }
-
-
-    @Override
-    public Field readById(Long anId) throws EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update(Field entity) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {

@@ -17,8 +17,10 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
@@ -58,16 +60,17 @@ public class FieldController extends Field implements ICRUDController<Field> {
     public List<Supervisor> readAllSupervisors() {
         return fieldService.readAllSupervisors();
     }
-    
+
     private Set<Long> convertStringSupervisorsIdToSetId() {
-        
+
         String stringIDs[] = this.getSelectedSupervisors().split(",");
-        
+
         var result = new HashSet<Long>();
-        
-        for (String currentStringID: stringIDs)
+
+        for (String currentStringID : stringIDs) {
             result.add(new Long(currentStringID));
-        
+        }
+
         return result;
     }
 
@@ -76,7 +79,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
         var result = new HashSet<Supervisor>();
 
         var allSupervisorEntities = fieldService.readAllSupervisors();
-        
+
         for (Long currentId : ids) {
             result.add(
                     allSupervisorEntities
@@ -104,7 +107,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
                     .build();
 
             fieldService.create(newField);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Unidade de referência [%s] criado com sucesso!", this.getName())));
             return "index.xhtml";
 
@@ -121,49 +124,78 @@ public class FieldController extends Field implements ICRUDController<Field> {
             return "index.xhtml";
         }
     }
-//
-//    @Override
-//    public String prepareUpdate(Long anId) {
-//
-//        try {
-//            Supervisor existentSupervisor = supervisorService.readById(anId);
-//            this.setId(existentSupervisor.getId());
-//            this.setName(existentSupervisor.getName());
-//            this.setEmail(existentSupervisor.getEmail());
-//            this.setRegion(existentSupervisor.getRegion());
-//
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser alterado porque não foi encontrado na base de dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
-//    @Override
-//    public String update() {
-//        var updatedSupervisor = Supervisor.builder().id(this.getId()).name(this.getName()).email(this.getEmail()).region(this.getRegion()).build();
-//
-//        try {
-//            supervisorService.update(updatedSupervisor);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Responsável técnico alterado"));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um responsável técnico com esse nome! Use um nome diferente."));
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Responsável técnico não pode ser alterado porque não foi encontrado na base de dados!"));
-//            return "update.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//
-//    }
-//
+
+    private String convertEntitySupervisorsToStringId(Set<Supervisor> supervisors) {
+
+        var idList = supervisors.stream().map(Supervisor::getId).collect(Collectors.toList());
+        var count = idList.size() - 1;
+
+        var idListStringBuilder = new StringBuilder();
+
+        for (Long currentId : idList) {
+            idListStringBuilder.append(String.valueOf(currentId));
+
+            if (count > 0) {
+                idListStringBuilder.append(",");
+                count--;
+            }
+        }
+
+        return idListStringBuilder.toString();
+    }
+
+    @Override
+    public String prepareUpdate(Long anId) {
+
+        try {
+            Field existentField = fieldService.readById(anId);
+            this.setId(existentField.getId());
+            this.setName(existentField.getName());
+            this.setLocation(existentField.getLocation());
+            this.setCity(existentField.getCity());
+            this.setFarmer(existentField.getFarmer());
+            this.setSelectedSupervisors(convertEntitySupervisorsToStringId(existentField.getSupervisors()));
+
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser alterado porque não foi encontrado na base de dados!"));
+            return "index.xhtml";
+        }
+    }
+
+    @Override
+    public String update() {
+
+        try {
+            var updatedField = Field.builder()
+                    .id(this.getId())
+                    .name(this.getName())
+                    .location(this.getLocation())
+                    .city(this.getCity())
+                    .farmer(this.getFarmer())
+                    .supervisors(retrieveSupervisors(this.convertStringSupervisorsIdToSetId()))
+                    .build();
+
+            fieldService.update(updatedField);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência alterada"));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma unidade de referência com esse nome, nessa cidade para esse produtor!"));
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser alterada porque não foi encontrada na base de dados!"));
+            return "update.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+
+    }
+
 //    @Override
 //    public String prepareDelete(Long anId) {
 //
@@ -201,17 +233,6 @@ public class FieldController extends Field implements ICRUDController<Field> {
 //            return "index.xhtml";
 //        }
 //    }
-
-    @Override
-    public String prepareUpdate(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     public String prepareDelete(Long anId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

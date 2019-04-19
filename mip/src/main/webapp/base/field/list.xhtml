@@ -16,8 +16,8 @@
             <b:dataTableColumn label="Responsável Técnico" value="#{aField.supervisorNames}" />
 
             <b:dataTableColumn label="Ações" class="col-md-1"> 
-                <b:commandLink action="#{fieldController.prepareUpdate(aSupervisor.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                <b:commandLink action="#{fieldController.prepareDelete(aSupervisor.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
+                <b:commandLink action="#{fieldController.prepareUpdate(aField.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                <b:commandLink action="#{fieldController.prepareDelete(aField.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
             </b:dataTableColumn>  
 
         </b:dataTable>          
