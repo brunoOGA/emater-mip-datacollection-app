@@ -23,8 +23,9 @@ public class Supervisor extends Person implements Serializable {
     private Region region;
 
     @Builder
-    private static Supervisor create (String name, String email, Region region) {
+    private static Supervisor create (Long id, String name, String email, Region region) {
         Supervisor instance = new Supervisor();
+        instance.setId(id);
         instance.setName(name);
         instance.setEmail(email);
         instance.setRegion(region);

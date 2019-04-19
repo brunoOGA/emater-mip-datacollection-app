@@ -11,6 +11,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,11 +38,11 @@ public class SupervisorService implements ICRUDService<Supervisor> {
         return this.regionService.readAll();
     }
 
-//    @Override
-//    public Farmer readById(Long anId) throws EntityNotFoundException {
-//        return farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//    }
-//
+    @Override
+    public Supervisor readById(Long anId) throws EntityNotFoundException {
+        return supervisorRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+    }
+
     public void create(Supervisor aSupervisor) throws EntityAlreadyExistsException, AnyPersistenceException {
 
         if (supervisorRepository.findAll().stream().anyMatch(currentSupervisor -> currentSupervisor.equals(aSupervisor))) {
@@ -55,23 +56,30 @@ public class SupervisorService implements ICRUDService<Supervisor> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void update(Farmer aFarmer) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-//
-//        var existentFarmer = farmerRepository.findById(aFarmer.getId()).orElseThrow(EntityNotFoundException::new);
-//
-//        if (farmerRepository.findAll().stream().anyMatch(currentFarmer -> currentFarmer.equals(aFarmer)))
-//            throw new EntityAlreadyExistsException();
-//                
-//        try {
-//            existentFarmer.setName(aFarmer.getName());
-//            
-//            farmerRepository.saveAndFlush(existentFarmer);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
+
+    public void update(Supervisor aSupervisor) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
+        
+        var existentSupervisor = supervisorRepository.findById(aSupervisor.getId()).orElseThrow(EntityNotFoundException::new);
+        
+        var allSupervisorsWithoutExistentSupervisor = new ArrayList<Supervisor>(supervisorRepository.findAll());
+        allSupervisorsWithoutExistentSupervisor.remove(existentSupervisor);
+
+        if (allSupervisorsWithoutExistentSupervisor.stream().anyMatch(currentSupervisor -> currentSupervisor.equals(aSupervisor)))
+            throw new EntityAlreadyExistsException();
+                
+        try {
+            existentSupervisor.setName(aSupervisor.getName());
+            existentSupervisor.setEmail(aSupervisor.getEmail());
+            
+            var theRegion = regionService.readById(aSupervisor.getRegionId());
+            existentSupervisor.setRegion(theRegion);
+            
+            supervisorRepository.saveAndFlush(existentSupervisor);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
 //
 //    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 //        
@@ -88,15 +96,6 @@ public class SupervisorService implements ICRUDService<Supervisor> {
 //        }
 //    }
 
-    @Override
-    public Supervisor readById(Long anId) throws EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update(Supervisor entity) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
