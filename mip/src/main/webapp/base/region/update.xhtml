@@ -4,8 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+      xmlns:f="http://xmlns.jcp.org/jsf/core">      
 
     <body>
         <ui:composition template="./../../main-template.xhtml">
@@ -46,32 +45,22 @@
                                     </b:formGroup>
 
                                     <b:formGroup>
-                                        <b:selectOneMenu required="true" required-message="Deve ser selecionada uma macrorregião" id="macro-region-select" value="#{regionController.macroRegion}" label="Macrorregião">
+                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionada uma macrorregião" id="macro-region-select" value="#{regionController.macroRegion}" label="Macrorregião">
                                             <f:selectItem itemLabel="(Selecione uma macrorregião)" itemValue="" />
                                             <f:selectItems value="#{regionController.readAllMacroRegions()}" var="macroRegion" itemValue="#{macroRegion}" itemLabel="#{macroRegion.name}" />
                                         </b:selectOneMenu>
                                         <b:message for="macro-region-select" />
                                     </b:formGroup>
 
+                                    <b:formGroup>
+                                        <b:selectMultiMenu enableFiltering="true" required="true" required-message="Deve ser selecionado pelo menos um município" value="#{regionController.selectedCities}" label="Municípios">
+                                            <f:selectItems value="#{regionController.readAllCitiesForUpdate()}" var="aCity" itemValue="#{aCity.getIdAsString()}" itemLabel="#{aCity.name} (#{aCity.state})" />
+                                        </b:selectMultiMenu>
+                                        <b:message for="@previous" />
+                                    </b:formGroup>
 
-                                    <b:panel title="Selecione as cidades que devem fazer parte da região*" collapsible="false">
-                                        <b:formGroup>                                            
-                                            <p:dataTable reflow="true" rows="5" paginator="true" var="aCity" value="#{regionController.readAllCitiesForUpdate()}" selection="#{regionController.selectedCities}" rowKey="#{aCity.id}" style="margin-bottom:0">
-                                                <p:column selectionMode="multiple" style="width:36px;text-align:center"/>
-                                                
-                                                <p:column headerText="Município" sortBy="#{aCity.name}" filterBy="#{aCity.name}">
-                                                    <h:outputText value="#{aCity.name}" />
-                                                </p:column>
-                                                
-                                                <p:column headerText="Estado" sortBy="#{aCity.state}" filterBy="#{aCity.state}">
-                                                    <h:outputText value="#{aCity.state.name}" />
-                                                </p:column>
-                                            </p:dataTable>
-                                        </b:formGroup>
-                                    </b:panel>
+                                    <h:inputHidden value="#{regionController.id}" ></h:inputHidden>
 
-                                    <b:messages />
-                                    
                                 </b:panelGrid>
 
 
@@ -81,7 +70,6 @@
                                     <b:commandButton look="warning" value="Alterar" action="#{regionController.update()}" ></b:commandButton>
 
                                 </f:facet>
-
 
                             </b:panel>
                         </b:panel>

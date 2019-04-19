@@ -12,21 +12,25 @@ import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
+@RequestScope
 public class RegionController extends Region implements ICRUDController<Region> {
 
     private final RegionService regionService;
 
     @Getter
     @Setter
-    private List<City> selectedCities;
+    private String selectedCities;
 
     @Autowired
     public RegionController(RegionService aRegionService) {
@@ -47,32 +51,67 @@ public class RegionController extends Region implements ICRUDController<Region> 
     }
 
     public List<City> readAllCitiesForUpdate() {
+        
         var allCitiesWithoutRegion = this.readAllCitiesWithoutRegion();
-        var citiesInThisRegion = this.getCities();
 
-        ArrayList<City> allCities = new ArrayList<City>(allCitiesWithoutRegion);
-        allCities.addAll(citiesInThisRegion);
+        if (this.getCities() != null) {
+            
+            var citiesInThisRegion = this.getCities();
+            var allCities = new ArrayList<City>(allCitiesWithoutRegion);
+            allCities.addAll(citiesInThisRegion);
 
-        return allCities;
+            return allCities;
+            
+        } else 
+            return allCitiesWithoutRegion;
+
     }
 
-    private boolean checkCityWasSelected() {
-        return (this.getSelectedCities() == null || this.getSelectedCities().size() == 0);
+    private Set<Long> convertStringCitiesIdToSetId() {
+
+        String stringIDs[] = this.getSelectedCities().split(",");
+
+        var result = new HashSet<Long>();
+
+        for (String currentStringID : stringIDs) {
+            result.add(new Long(currentStringID));
+        }
+
+        return result;
+    }
+
+    private Set<City> retrieveCities(Set<Long> ids) throws EntityNotFoundException {
+
+        var result = new HashSet<City>();
+
+        var allCityEntities = regionService.readAllCities();
+
+        for (Long currentId : ids) {
+            result.add(
+                    allCityEntities
+                            .stream()
+                            .filter(
+                                    currentCity -> currentCity
+                                            .getId().equals(currentId))
+                            .findAny()
+                            .orElseThrow(EntityNotFoundException::new));
+        }
+
+        return result;
     }
 
     @Override
     public String create() {
 
-        if (this.checkCityWasSelected()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Uma região deve possuir pelo menos uma cidade"));
-            return "create.xhtml";
-        }
-
-        var newRegion = Region.builder().name(this.getName()).macroRegion(this.getMacroRegion()).build();
-        newRegion.setCities(new HashSet<City>(this.getSelectedCities()));
-
         try {
+            var newRegion = Region.builder()
+                    .name(this.getName())
+                    .macroRegion(this.getMacroRegion())
+                    .cities(retrieveCities(this.convertStringCitiesIdToSetId()))
+                    .build();
+
             regionService.create(newRegion);
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Região [%s] criada com sucesso!", newRegion.getName())));
             return "index.xhtml";
 
@@ -90,6 +129,25 @@ public class RegionController extends Region implements ICRUDController<Region> 
         }
     }
 
+    private String convertEntityCitiesToStringId(Set<City> cities) {
+
+        var idList = cities.stream().map(City::getId).collect(Collectors.toList());
+        var count = idList.size() - 1;
+
+        var idListStringBuilder = new StringBuilder();
+
+        for (Long currentId : idList) {
+            idListStringBuilder.append(String.valueOf(currentId));
+
+            if (count > 0) {
+                idListStringBuilder.append(",");
+                count--;
+            }
+        }
+
+        return idListStringBuilder.toString();
+    }
+
     @Override
     public String prepareUpdate(Long anId) {
 
@@ -100,7 +158,7 @@ public class RegionController extends Region implements ICRUDController<Region> 
             this.setMacroRegion(existentRegion.getMacroRegion());
             this.setCities(existentRegion.getCities());
 
-            this.setSelectedCities(new ArrayList<City>(existentRegion.getCities()));
+            this.setSelectedCities(convertEntityCitiesToStringId(existentRegion.getCities()));
 
             return "update.xhtml";
 
@@ -113,17 +171,18 @@ public class RegionController extends Region implements ICRUDController<Region> 
     @Override
     public String update() {
 
-        if (this.checkCityWasSelected()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Uma região deve possuir pelo menos uma cidade"));
-            return "update.xhtml";
-        }
-
-        var updatedRegion = Region.builder().id(this.getId()).name(this.getName()).macroRegion(this.getMacroRegion()).build();
-        updatedRegion.setCities(new HashSet<City>(this.getSelectedCities()));
-
         try {
+            var updatedRegion = Region.builder()
+                    .id(this.getId())
+                    .name(this.getName())
+                    .macroRegion(this.getMacroRegion())
+                    .cities(retrieveCities(this.convertStringCitiesIdToSetId()))
+                    .build();
+
             regionService.update(updatedRegion);
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Região alterada!"));
+
             return "index.xhtml";
 
         } catch (EntityAlreadyExistsException e) {
@@ -173,7 +232,7 @@ public class RegionController extends Region implements ICRUDController<Region> 
         } catch (AnyPersistenceException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
         }
-        
+
         return "index.xhtml";
     }
 

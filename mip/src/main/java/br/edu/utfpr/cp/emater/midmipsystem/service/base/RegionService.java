@@ -40,6 +40,10 @@ public class RegionService implements ICRUDService<Region> {
     public List<MacroRegion> readAllMacroRegions() {
         return this.macroRegionService.readAll();
     }
+    
+    public List<City> readAllCities() {
+        return cityService.readAll();
+    }
 
     public List<City> readAllCitiesWithoutRegion() {
         var allCities = this.cityService.readAll();

@@ -40,11 +40,12 @@ public class Region extends AuditingPersistenceEntity implements Serializable {
     private Set<City> cities;
 
     @Builder
-    public static Region create(Long id, String name, MacroRegion macroRegion) {
+    public static Region create(Long id, String name, MacroRegion macroRegion, Set<City> cities) {
         Region result = new Region();
         result.setId(id);
         result.setName(name);
         result.setMacroRegion(macroRegion);
+        result.setCities(cities);
 
         return result;
     }

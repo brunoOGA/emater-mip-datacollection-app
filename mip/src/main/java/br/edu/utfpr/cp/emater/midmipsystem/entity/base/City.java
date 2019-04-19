@@ -42,6 +42,10 @@ public class City extends AuditingPersistenceEntity implements Serializable {
         
         return instance;
     }
+    
+    public String getIdAsString() {
+        return String.valueOf(this.getId());
+    }
 
     @Override
     public String toString() {
