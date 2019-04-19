@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
@@ -11,12 +12,17 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -26,7 +32,11 @@ import org.springframework.web.context.annotation.RequestScope;
 public class FieldController extends Field implements ICRUDController<Field> {
 
     private FieldService fieldService;
-    
+
+    @Getter
+    @Setter
+    private String selectedSupervisors;
+
     @Autowired
     public FieldController(FieldService aFieldService) {
         this.fieldService = aFieldService;
@@ -36,29 +46,81 @@ public class FieldController extends Field implements ICRUDController<Field> {
     public List<Field> readAll() {
         return fieldService.readAll();
     }
+
+    public List<City> readAllCities() {
+        return fieldService.readAllCities();
+    }
+
+    public List<Farmer> readAllFarmers() {
+        return fieldService.readAllFarmers();
+    }
+
+    public List<Supervisor> readAllSupervisors() {
+        return fieldService.readAllSupervisors();
+    }
     
-//    public List<Region> readAllRegions() {
-//        return supervisorService.readAllRegions();
-//    }    
-//
-//    @Override
-//    public String create() {
-//        var newSupervisor = Supervisor.builder().name(this.getName()).email(this.getEmail()).region(this.getRegion()).build();
-//
-//        try {
-//            supervisorService.create(newSupervisor);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Responsável Técnico [%s] criado com sucesso!", this.getName())));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um responsável técnico com esse nome! Use um nome diferente."));
-//            return "create.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
+    private Set<Long> convertStringSupervisorsIdToSetId() {
+        
+        String stringIDs[] = this.getSelectedSupervisors().split(",");
+        
+        var result = new HashSet<Long>();
+        
+        for (String currentStringID: stringIDs)
+            result.add(new Long(currentStringID));
+        
+        return result;
+    }
+
+    private Set<Supervisor> retrieveSupervisors(Set<Long> ids) throws EntityNotFoundException {
+
+        var result = new HashSet<Supervisor>();
+
+        var allSupervisorEntities = fieldService.readAllSupervisors();
+        
+        for (Long currentId : ids) {
+            result.add(
+                    allSupervisorEntities
+                            .stream()
+                            .filter(
+                                    currentSupervisor -> currentSupervisor
+                                            .getId().equals(currentId))
+                            .findAny()
+                            .orElseThrow(EntityNotFoundException::new));
+        }
+
+        return result;
+    }
+
+    @Override
+    public String create() {
+
+        try {
+            var newField = Field.builder()
+                    .name(this.getName())
+                    .location(this.getLocation())
+                    .city(this.getCity())
+                    .farmer(this.getFarmer())
+                    .supervisors(retrieveSupervisors(this.convertStringSupervisorsIdToSetId()))
+                    .build();
+
+            fieldService.create(newField);
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Unidade de referência [%s] criado com sucesso!", this.getName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma unidade de referência com esse nome, nessa cidade para esse produtor!"));
+            return "create.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser criada porque não foram encontradas as referências para cidade, produtor ou responsável técnico na base de dados!"));
+            return "index.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+    }
 //
 //    @Override
 //    public String prepareUpdate(Long anId) {
@@ -139,11 +201,6 @@ public class FieldController extends Field implements ICRUDController<Field> {
 //            return "index.xhtml";
 //        }
 //    }
-
-    @Override
-    public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareUpdate(Long anId) {

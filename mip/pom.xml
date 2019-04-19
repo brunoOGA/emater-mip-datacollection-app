@@ -40,12 +40,18 @@
     <dependencies>
             
         <!--JSF dependencies-->
-        <dependency> 
+<!--        <dependency> 
             <groupId>org.joinfaces</groupId>
             <artifactId>jsf-spring-boot-starter</artifactId>
+        </dependency>-->
+        
+        <dependency> 
+            <groupId>org.joinfaces</groupId>
+            <artifactId>bootsfaces-spring-boot-starter</artifactId>
         </dependency>
         
-        <dependency>
+        
+<!--        <dependency>
             <groupId>net.bootsfaces</groupId>
             <artifactId>bootsfaces</artifactId>
             <version>1.4.1</version>
@@ -55,7 +61,7 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>7.0</version>
-        </dependency>
+        </dependency>-->
         
         <!--Original dependencies-->
         <dependency>

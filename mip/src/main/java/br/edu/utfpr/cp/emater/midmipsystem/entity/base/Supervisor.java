@@ -48,4 +48,8 @@ public class Supervisor extends Person implements Serializable {
     public Long getMacroRegionId() {
         return this.getRegion().getMacroRegionId();
     }
+    
+    public String getIdAsString() {
+        return String.valueOf(this.getId());
+    }
 }

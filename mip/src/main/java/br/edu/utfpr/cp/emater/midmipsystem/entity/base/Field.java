@@ -48,7 +48,7 @@ public class Field extends AuditingPersistenceEntity implements Serializable {
     private Set<Supervisor> supervisors;
     
     @Builder
-    public static Field create (Long id, String name, String location, City city, Farmer farmer) {
+    public static Field create (Long id, String name, String location, City city, Farmer farmer, Set<Supervisor> supervisors) {
         
         Field instance = new Field();
         instance.setId(id);
@@ -56,6 +56,7 @@ public class Field extends AuditingPersistenceEntity implements Serializable {
         instance.setLocation(location);
         instance.setCity(city);
         instance.setFarmer(farmer);
+        instance.setSupervisors(supervisors);
         return instance;
     }
 
