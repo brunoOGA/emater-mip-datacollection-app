@@ -16,14 +16,14 @@
 
                         <b:breadcrumbs>
                             <b:navLink icon-awesome="info-circle" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
-                            
+
                             <f:facet name="first">
                                 <b:iconAwesome value="info-circle" />
                                 Gerenciamento de Informações
                             </f:facet> 
-                            
+
                             <b:navLink icon-awesome="globe" value="Gerenciamento de Macrorregião" outcome="/base/macro-region/index.xhtml"/>
-                                                        
+
                             <f:facet name="end">
                                 Criar Nova Macrorregião
                             </f:facet> 
@@ -43,12 +43,17 @@
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
-
-                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="success" value="Criar" action="#{macroRegionController.create()}" ></b:commandButton>
+                                    
+                                    <b:row style="display: flex">
+                                        
+                                        <b:panelGrid columns="2">
+                                            <b:button icon-awesome="ban" value="Cancelar" outcome="index.xhtml" ></b:button>                                        
+                                            <b:commandButton icon-awesome="save" look="success" value="Criar" action="#{macroRegionController.create()}" ></b:commandButton>
+                                        </b:panelGrid>
+                                        
+                                    </b:row>
 
                                 </f:facet>
-
 
                             </b:panel>
                         </b:panel>

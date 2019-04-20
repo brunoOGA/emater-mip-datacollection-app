@@ -24,13 +24,16 @@
                         </f:facet> 
                     </b:breadcrumbs>
 
-                    <b:panel collapsible="false" >
+                    <b:panel collapsible="false">
 
-                        <f:facet name="heading" >
-                            <h2>Gerenciamento de Macrorregião</h2>
-                            <a href="create.xhtml" class="btn btn-success" data-toggle="modal">
-                                <span class="align-middle">Criar Nova Macrorregião</span>
-                            </a>
+                        <f:facet name="heading">
+                            <b:form style="display: flex">
+                                <h2>Gerenciamento de Macrorregião</h2>
+                                
+                                <b:column span="7"></b:column>
+
+                                <b:commandButton icon-awesome="plus" size="lg" look="success" value="Criar Nova Macrorregião" action="create.xhtml"></b:commandButton>
+                            </b:form>
                         </f:facet>
 
                         <ui:include src="list.xhtml"></ui:include>
