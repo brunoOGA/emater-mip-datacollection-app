@@ -2,8 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import java.io.Serializable;
-import java.time.LocalDate;
-import javax.persistence.Basic;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,19 +32,19 @@ public class Harvest extends AuditingPersistenceEntity implements Serializable {
     private String name;
 
     @EqualsAndHashCode.Include
-    @Basic
-    private LocalDate begin;
+    @Temporal (TemporalType.DATE)
+    private Date begin;
 
     @EqualsAndHashCode.Include
-    @Basic
-    private LocalDate end;
+    @Temporal (TemporalType.DATE)
+    private Date end;
 
     public void setName(String name) {
         this.name = WordUtils.capitalize(name.toLowerCase());
     }
     
     @Builder
-    public static Harvest create (Long id, String name, LocalDate begin, LocalDate end) {
+    public static Harvest create (Long id, String name, Date begin, Date end) {
         var instance = new Harvest();
         instance.setId(id);
         instance.setName(name);

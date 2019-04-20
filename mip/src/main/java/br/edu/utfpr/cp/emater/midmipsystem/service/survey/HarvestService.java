@@ -10,6 +10,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,42 +29,47 @@ public class HarvestService implements ICRUDService<Harvest> {
     public List<Harvest> readAll() {
         return List.copyOf(harvestRepository.findAll());
     }
-//
-//    public MacroRegion readById(Long anId) throws EntityNotFoundException {
-//        return macroRegionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//    }
-//
-//    public void create(MacroRegion aMacroRegion) throws EntityAlreadyExistsException, AnyPersistenceException {
-//
-//        if (macroRegionRepository.findAll().stream().anyMatch(currentMR -> currentMR.equals(aMacroRegion))) {
-//            throw new EntityAlreadyExistsException();
-//        }
-//
-//        try {
-//            macroRegionRepository.save(aMacroRegion);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
-//
-//    public void update(MacroRegion aMacroRegion) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-//
-//        MacroRegion existentEntity = macroRegionRepository.findById(aMacroRegion.getId()).orElseThrow(EntityNotFoundException::new);
-//
-//        if (macroRegionRepository.findAll().stream().anyMatch(currentMR -> currentMR.equals(aMacroRegion)))
-//            throw new EntityAlreadyExistsException();
-//                
-//        try {
-//            existentEntity.setName(aMacroRegion.getName());
-//            
-//            macroRegionRepository.saveAndFlush(existentEntity);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
-//
+
+    public Harvest readById(Long anId) throws EntityNotFoundException {
+        return harvestRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public void create(Harvest aHarvest) throws EntityAlreadyExistsException, AnyPersistenceException {
+
+        if (harvestRepository.findAll().stream().anyMatch(currentHarvest -> currentHarvest.equals(aHarvest))) 
+            throw new EntityAlreadyExistsException();
+
+        try {
+            harvestRepository.save(aHarvest);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
+
+    public void update(Harvest aHarvest) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+
+        var existentHarvest = harvestRepository.findById(aHarvest.getId()).orElseThrow(EntityNotFoundException::new);
+        
+        var allHarvests = harvestRepository.findAll();
+        var allHarvestButThis = new ArrayList<Harvest>(allHarvests);
+        allHarvestButThis.remove(existentHarvest);
+
+        if (allHarvestButThis.stream().anyMatch(currentHarvest -> currentHarvest.equals(aHarvest)))
+            throw new EntityAlreadyExistsException();
+                
+        try {
+            existentHarvest.setName(aHarvest.getName());
+            existentHarvest.setBegin(aHarvest.getBegin());
+            existentHarvest.setEnd(aHarvest.getEnd());
+            
+            harvestRepository.saveAndFlush(existentHarvest);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
+
 //    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 //        MacroRegion existentEntity = macroRegionRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 //        
@@ -78,20 +84,6 @@ public class HarvestService implements ICRUDService<Harvest> {
 //        }
 //    }
 
-    @Override
-    public void create(Harvest entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Harvest readById(Long anId) throws EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update(Harvest entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {

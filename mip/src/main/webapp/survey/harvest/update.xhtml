@@ -19,35 +19,48 @@
                             
                             <f:facet name="first">
                                 <b:iconAwesome value="info-circle" />
-                                Gerenciamento de Informações
+                                Configuração da Pesquisa
                             </f:facet> 
                             
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Macrorregião" outcome="/base/macro-region/index.xhtml"/>
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Safra" outcome="/survey/harvest/index.xhtml"/>
                                                         
                             <f:facet name="end">
-                                Alterar Macrorregião
+                                Alterar Safra
                             </f:facet> 
                         </b:breadcrumbs>                        
 
                         <b:panel collapsible="false" >
 
                             <f:facet name="heading" >
-                                <h2>Gerenciamento de Macrorregião</h2>
+                                <h2>Gerenciamento de Safra</h2>
                             </f:facet>
 
-                            <b:panel look="warning" collapsible="false" title="Alterar Macrorregião">
+                            <b:panel look="warning" collapsible="false" title="Alterar Safra">
 
                                 <b:panelGrid id="data-entry" columns="1">
-                                    <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}"></b:inputText>
-                                    <b:message for="name-input" ></b:message>
                                     
-                                    <h:inputHidden value="#{macroRegionController.id}" ></h:inputHidden>
+                                    <b:formGroup>
+                                        <b:inputText label="Nome" value="#{harvestController.name}"></b:inputText>
+                                        <b:message for="@previous" ></b:message>                                        
+                                    </b:formGroup>
+
+                                    <b:formGroup>
+                                        <b:dateTimePicker value="#{harvestController.begin}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de início da safra" label="Data de Início" show-date="true" show-time="false"></b:dateTimePicker>
+                                        <b:message for="@previous" ></b:message>                                        
+                                    </b:formGroup>
+
+                                    <b:formGroup>
+                                        <b:dateTimePicker value="#{harvestController.end}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de término da safra" label="Data de Término" show-date="true" show-time="false"></b:dateTimePicker>
+                                        <b:message for="@previous" ></b:message>                                        
+                                    </b:formGroup>
+                                    
+                                    <h:inputHidden value="#{harvestController.id}" ></h:inputHidden>
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
 
                                     <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="warning" value="Alterar" action="#{macroRegionController.update()}" ></b:commandButton>
+                                    <b:commandButton look="warning" value="Alterar" action="#{harvestController.update()}" ></b:commandButton>
 
                                 </f:facet>
 

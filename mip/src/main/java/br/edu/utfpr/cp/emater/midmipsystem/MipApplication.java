@@ -15,8 +15,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,19 +153,21 @@ class CLR implements CommandLineRunner {
         field5.addSupervisor(s3);
         var persistentField5 = fieldRepository.save(field5);
 
+        
+        
         var harvest1 = harvestRepository.save(
                 Harvest.builder()
                         .name("Safra 2016/2017")
-                        .begin(LocalDate.of(2016, Month.OCTOBER, 1))
-                        .end(LocalDate.of(2017, Month.MARCH, 1))
+                        .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2016"))
+                        .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2017"))
                         .build()
         );        
         
         var harvest2 = harvestRepository.save(
                 Harvest.builder()
                         .name("Safra 2017/2018")
-                        .begin(LocalDate.of(2017, Month.OCTOBER, 1))
-                        .end(LocalDate.of(2018, Month.MARCH, 1))
+                        .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2017"))
+                        .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2018"))
                         .build()
         );
     }
