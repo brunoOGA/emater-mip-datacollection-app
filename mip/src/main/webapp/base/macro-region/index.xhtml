@@ -27,12 +27,20 @@
                     <b:panel collapsible="false">
 
                         <f:facet name="heading">
-                            <b:form style="display: flex">
-                                <h2>Gerenciamento de Macrorregião</h2>
-                                
-                                <b:column span="7"></b:column>
+                            <b:form>
+                                <b:container fluid="true">
+                                    <b:row styleClass="show-grid">
+                                        <b:column span="4">
+                                            <h2>Gerenciamento de Macrorregião</h2>
+                                        </b:column>
+                                        
+                                        <b:column span="4" offset="4">
+                                            <b:commandButton icon-awesome="plus"  look="success" value="Criar Nova Macrorregião" action="create.xhtml"></b:commandButton>
+                                        </b:column>
+                                    </b:row>
 
-                                <b:commandButton icon-awesome="plus" size="lg" look="success" value="Criar Nova Macrorregião" action="create.xhtml"></b:commandButton>
+                                    
+                                </b:container>
                             </b:form>
                         </f:facet>
 
