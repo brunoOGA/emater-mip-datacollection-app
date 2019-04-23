@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+
+    <body>
+        <ui:composition template="./../../main-template.xhtml">
+
+            <ui:define name="content">
+                <b:container fluid="true">
+
+                    <b:breadcrumbs>
+                        <b:navLink icon-awesome="chart-pie" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
+                        <f:facet name="first">
+                            <b:iconAwesome value="cogs" />
+                            Configuração da Pesquisa
+                        </f:facet> 
+                        <f:facet name="end">
+                            <b:iconAwesome value="cogs" />
+                            Gerenciamento de Unidades de Referência
+                        </f:facet> 
+                    </b:breadcrumbs>
+
+                    <b:panel collapsible="false">
+
+                        <f:facet name="heading">
+                            <b:form style="display: flex">
+                                <h2>Gerenciamento de Unidades de Referência</h2>
+                                
+                                <b:column span="7"></b:column>
+
+                                <b:commandButton icon-awesome="plus" size="lg" look="success" value="Adicionar Unidade de Referência à Pesquisa" action="create.xhtml"></b:commandButton>
+                            </b:form>
+                        </f:facet>
+
+                        <ui:include src="list.xhtml"></ui:include>
+
+                    </b:panel>
+                </b:container>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

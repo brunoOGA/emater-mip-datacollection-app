@@ -11,15 +11,13 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +57,7 @@ class CLR implements CommandLineRunner {
     private FieldRepository fieldRepository;
 
     private HarvestRepository harvestRepository;
+    private SurveyRepository surveyRepository;
 
     @Autowired
     CLR(MacroRegionRepository macroRegionRepository,
@@ -67,7 +66,8 @@ class CLR implements CommandLineRunner {
             FarmerRepository aFarmerRepository,
             SupervisorRepository aSupervisorRepository,
             FieldRepository aFieldRepository,
-            HarvestRepository aHarvestRepository) {
+            HarvestRepository aHarvestRepository,
+            SurveyRepository aSurveyRepository) {
 
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
@@ -77,6 +77,7 @@ class CLR implements CommandLineRunner {
         this.fieldRepository = aFieldRepository;
 
         this.harvestRepository = aHarvestRepository;
+        this.surveyRepository = aSurveyRepository;
     }
 
     @Override
@@ -170,6 +171,113 @@ class CLR implements CommandLineRunner {
                         .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2018"))
                         .build()
         );
+        
+        var survey1 = surveyRepository.save(
+            Survey.builder()
+                    .harvest(harvest1)
+                    .field(persistentField3)
+                    .seedName("TMG 7262 RR1")
+                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-1"))
+                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-8"))
+                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-02-26"))
+                    .rustResistant(true)
+                    .bt(false)
+                    .totalArea(4.4)
+                    .totalPlantedArea(10)
+                    .plantPerMeter(9)
+                    .productivityField(161.7)
+                    .productivityFarmer(159.5)
+                    .separatedWeight(true)
+                    .longitude(2.5)
+                    .latitude(3.5)
+                    .build()
+        );
+        
+        var survey2 = surveyRepository.save(
+            Survey.builder()
+                    .harvest(harvest1)
+                    .field(persistentField2)
+                    .seedName("BMX RAIO Ipro")
+                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
+                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-11"))
+                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-12"))
+                    .rustResistant(false)
+                    .bt(true)
+                    .totalArea(18)
+                    .totalPlantedArea(62)
+                    .plantPerMeter(13)
+                    .productivityField(197)
+                    .productivityFarmer(182)
+                    .separatedWeight(true)
+                    .longitude(3.5)
+                    .latitude(4.5)
+                    .build()
+        );
+        
+
+        var survey3 = surveyRepository.save(
+            Survey.builder()
+                    .harvest(harvest1)
+                    .field(persistentField5)
+                    .seedName("TMG 7262 RR")
+                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
+                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-9"))
+                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-20"))
+                    .rustResistant(true)
+                    .bt(false)
+                    .totalArea(5.74)
+                    .totalPlantedArea(35.09)
+                    .plantPerMeter(11)
+                    .productivityField(137.5)
+                    .productivityFarmer(120)
+                    .separatedWeight(true)
+                    .longitude(4.5)
+                    .latitude(5.5)
+                    .build()
+        );
+        
+        var survey4 = surveyRepository.save(
+            Survey.builder()
+                    .harvest(harvest1)
+                    .field(persistentField4)
+                    .seedName("TMG -  7262")
+                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-24"))
+                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-10"))
+                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-18"))
+                    .rustResistant(true)
+                    .bt(false)
+                    .totalArea(3.63)
+                    .totalPlantedArea(3.63)
+                    .plantPerMeter(9)
+                    .productivityField(158.5)
+                    .productivityFarmer(158.5)
+                    .separatedWeight(true)
+                    .longitude(6.5)
+                    .latitude(6.5)
+                    .build()
+        );        
+        
+        var survey5 = surveyRepository.save(
+            Survey.builder()
+                    .harvest(harvest1)
+                    .field(persistentField1)
+                    .seedName("P95R51")
+                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-9-26"))
+                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-10"))
+                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-15"))
+                    .rustResistant(false)
+                    .bt(false)
+                    .totalArea(7.26)
+                    .totalPlantedArea(242)
+                    .plantPerMeter(15)
+                    .productivityField(187)
+                    .productivityFarmer(170)
+                    .separatedWeight(true)
+                    .longitude(7.5)
+                    .latitude(8.5)
+                    .build()
+        ); 
+        
     }
 
 }
