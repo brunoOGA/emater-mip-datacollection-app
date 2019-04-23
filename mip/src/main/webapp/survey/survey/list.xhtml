@@ -10,6 +10,7 @@
         <b:dataTable responsive="true" value="#{surveyController.readAll()}" var="aSurvey" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
             <b:dataTableColumn label="Safra" value="#{aSurvey.harvestName}" />
+            <b:dataTableColumn label="Unidade de Referência" value="#{aSurvey.fieldName}" />
             <b:dataTableColumn label="Cultivar" value="#{aSurvey.seedName}" />
             <b:dataTableColumn label="Resistente à Ferrugem" value="#{aSurvey.rustResistant}" />
             <b:dataTableColumn label="BT" value="#{aSurvey.bt}" />
@@ -25,8 +26,6 @@
             <b:dataTableColumn label="No. Plantas por Metro" value="#{aSurvey.plantPerMeter}" />
             <b:dataTableColumn label="Latitude" value="#{aSurvey.latitude}" />
             <b:dataTableColumn label="Longitude" value="#{aSurvey.longitude}" />
-            <b:dataTableColumn label="Unidade de Referência" value="#{aSurvey.fieldName}" />
-
 
             <b:dataTableColumn label="Ações" class="col-md-1"> 
                 <b:commandLink action="#{surveyController.prepareUpdate(aSurvey.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
