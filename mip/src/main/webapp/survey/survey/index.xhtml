@@ -29,14 +29,17 @@
                         <f:facet name="heading">
                             <b:form style="display: flex">
                                 <h2>Gerenciamento de Unidades de Referência</h2>
-                                
+
                                 <b:column span="7"></b:column>
 
-                                <b:commandButton icon-awesome="plus" size="lg" look="success" value="Adicionar Unidade de Referência à Pesquisa" action="create.xhtml"></b:commandButton>
+                                <!--<b:commandButton icon-awesome="plus" size="lg" look="success" value="Adicionar Unidade de Referência à Pesquisa" action="create.xhtml"></b:commandButton>-->
+                                <!--<b:button value="Adicionar Unidade de Referência à Pesquisa" look="success" b:data-target="#harvest-select-modal" b:data-toggle="modal" size="lg"></b:button>-->
+                                <a id="atrigger" class="btn btn-success btn-lg" href="#harvest-select-modal" data-toggle="modal">Adicionar Unidade de Referência à Pesquisa</a>
                             </b:form>
                         </f:facet>
 
                         <ui:include src="list.xhtml"></ui:include>
+                        <ui:include src="harvest-select-modal.xhtml"></ui:include>
 
                     </b:panel>
                 </b:container>
