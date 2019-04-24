@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
@@ -14,6 +15,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -22,14 +24,22 @@ import org.springframework.stereotype.Component;
 public class SurveyService implements ICRUDService<Survey> {
 
     private final SurveyRepository surveyRepository;
+    private final HarvestService harvestService;
+    private final FieldService fieldService;
 
     @Autowired
-    public SurveyService(SurveyRepository aSurveyRepository) {
+    public SurveyService(SurveyRepository aSurveyRepository, HarvestService aHarvestService, FieldService aFieldService) {
         this.surveyRepository = aSurveyRepository;
+        this.harvestService = aHarvestService;
+        this.fieldService = aFieldService;
     }
 
     public List<Survey> readAll() {
         return List.copyOf(surveyRepository.findAll());
+    }
+    
+    public Harvest readHarvestById(Long id) throws EntityNotFoundException {
+        return harvestService.readById(id);
     }
 
 //    public Harvest readById(Long anId) throws EntityNotFoundException {
@@ -106,5 +116,24 @@ public class SurveyService implements ICRUDService<Survey> {
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Harvest> readAllHarvests() {
+        return harvestService.readAll();
+    }
+
+    public List<Field> readAllFieldsOutOfCurrentHarvest(Long harvestId) {
+        var fieldsInCurrentHarvest = this.surveyRepository.findAll().stream()
+                                    .filter(currentSurvey -> currentSurvey.getHarvestId().equals(harvestId))
+                                    .map(Survey::getField)
+                                    .collect(Collectors.toList());
+        
+        var allFields = this.fieldService.readAll();
+        
+        var allFieldsOutOfCurrentHarvest = new ArrayList<Field>(allFields);
+        
+        allFieldsOutOfCurrentHarvest.removeAll(fieldsInCurrentHarvest);
+        
+        return allFieldsOutOfCurrentHarvest;
     }
 }

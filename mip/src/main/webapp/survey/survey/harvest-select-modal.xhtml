@@ -7,12 +7,22 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">      
 
     <b:modal id="harvest-select-modal" title="Selecionar Safra" styleClass="modalPseudoClass">
+        <b:form>
+            <b:formGroup>
+                <b:selectOneMenu select2="true" required="true" required-message="Uma safra deve ser selecionada!" value="#{surveyController.harvest}" label="Safra">
+                    <f:selectItem itemLabel="(Selecione uma safra)" itemValue="" />
+                    <f:selectItems value="#{surveyController.readAllHarvests()}" var="aHarvest" itemValue="#{aHarvest}" itemLabel="#{aHarvest.name}" />
+                </b:selectOneMenu>
+                <b:message for="@previous" />
+            </b:formGroup>                                    
 
-            <f:facet name="footer">
-                <b:button value="Cancelar" dismiss="modal" />
-                <b:button value="Selecionar" look="success" dismiss="modal" />
-            </f:facet>
-
+            <b:row>
+                <b:column>
+                    <b:button value="Cancelar" dismiss="modal" />
+                    <b:commandButton value="Selecionar" look="success" action="#{surveyController.selectHarvest()}"></b:commandButton>
+                </b:column>
+            </b:row>
+        </b:form>
     </b:modal>
 
 </ui:composition>

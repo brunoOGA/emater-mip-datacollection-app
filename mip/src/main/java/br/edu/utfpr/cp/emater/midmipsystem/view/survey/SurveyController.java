@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.survey;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.view.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
@@ -15,15 +16,21 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
-public class SurveyController extends Harvest implements ICRUDController<Survey> {
+public class SurveyController extends Survey implements ICRUDController<Survey> {
 
     private final SurveyService surveyService;
+    
+    @Getter
+    @Setter
+    private Long selectedHarvestId;
 
     @Autowired
     public SurveyController(SurveyService aSurveyService) {
@@ -33,6 +40,36 @@ public class SurveyController extends Harvest implements ICRUDController<Survey>
     @Override
     public List<Survey> readAll() {
         return surveyService.readAll();
+    }
+
+    public List<Harvest> readAllHarvests() {
+        return surveyService.readAllHarvests();
+    }
+
+    public List<Field> readAllFieldsOutOfCurrentSurvey() {
+        return surveyService.readAllFieldsOutOfCurrentHarvest(this.getHarvestId());
+    }
+
+    public String selectHarvest() {
+
+        try {
+            var selectedHarvest = surveyService.readHarvestById(this.getHarvestId());
+            
+            this.setHarvest(selectedHarvest);
+            this.setSelectedHarvestId(selectedHarvest.getId());
+            
+            return "create.xhtml";
+
+        } catch (EntityNotFoundException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser selecionada porque não foi encontrada na base de dados!"));
+            return "index.xhtml";
+        }
+
+    }
+    
+    public void selectField(Long anId) {
+        System.out.println(anId);
+//        this.setField(aField);
     }
 //
 //    @Override
