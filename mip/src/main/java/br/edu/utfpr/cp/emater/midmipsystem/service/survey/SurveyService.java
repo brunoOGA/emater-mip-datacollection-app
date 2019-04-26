@@ -46,19 +46,25 @@ public class SurveyService implements ICRUDService<Survey> {
 //        return harvestRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 //    }
 //
-//    public void create(Harvest aHarvest) throws EntityAlreadyExistsException, AnyPersistenceException {
-//
-//        if (harvestRepository.findAll().stream().anyMatch(currentHarvest -> currentHarvest.equals(aHarvest))) 
-//            throw new EntityAlreadyExistsException();
-//
-//        try {
-//            harvestRepository.save(aHarvest);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
-//
+    public void create(Survey aSurvey) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+
+        if (surveyRepository.findAll().stream().anyMatch(currentSurvey -> currentSurvey.equals(aSurvey))) 
+            throw new EntityAlreadyExistsException();
+        
+        var theField = fieldService.readById(aSurvey.getFieldId());
+        var theHarvest = harvestService.readById(aSurvey.getHarvestId());
+        
+        aSurvey.setField(theField);
+        aSurvey.setHarvest(theHarvest);
+
+        try {
+            surveyRepository.save(aSurvey);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
+
 //    public void update(Harvest aHarvest) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 //
 //        var existentHarvest = harvestRepository.findById(aHarvest.getId()).orElseThrow(EntityNotFoundException::new);
@@ -98,10 +104,6 @@ public class SurveyService implements ICRUDService<Survey> {
 //    }
 
 
-    @Override
-    public void create(Survey entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public Survey readById(Long anId) throws EntityNotFoundException {

@@ -9,9 +9,9 @@
     <b:modal id="harvest-select-modal" title="Selecionar Safra" styleClass="modalPseudoClass">
         <b:form>
             <b:formGroup>
-                <b:selectOneMenu select2="true" required="true" required-message="Uma safra deve ser selecionada!" value="#{surveyController.harvest}" label="Safra">
+                <b:selectOneMenu select2="true" required="true" required-message="Uma safra deve ser selecionada!" value="#{surveyController.selectedHarvestId}" label="Safra">
                     <f:selectItem itemLabel="(Selecione uma safra)" itemValue="" />
-                    <f:selectItems value="#{surveyController.readAllHarvests()}" var="aHarvest" itemValue="#{aHarvest}" itemLabel="#{aHarvest.name}" />
+                    <f:selectItems value="#{surveyController.readAllHarvests()}" var="aHarvest" itemValue="#{aHarvest.id}" itemLabel="#{aHarvest.name}" />
                 </b:selectOneMenu>
                 <b:message for="@previous" />
             </b:formGroup>                                    
