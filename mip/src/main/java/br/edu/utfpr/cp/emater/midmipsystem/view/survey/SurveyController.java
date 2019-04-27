@@ -35,6 +35,10 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
     @Getter
     @Setter
     private Long selectedHarvestId;
+    
+    @Getter
+    @Setter
+    private Long selectedFieldId;
 
     @Getter
     @Setter
@@ -142,7 +146,7 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
                     .separatedWeight(this.isSeparatedWeight())
                     .sowedDate(this.getSowedDate())
                     .harvestDate(this.getHarvestDate())
-                    .sporeCollectorPresent(isSporeCollectorPresent())
+                    .sporeCollectorPresent(this.isSporeCollectorPresent())
                     .totalArea(this.getTotalArea())
                     .totalPlantedArea(this.totalPlantedArea)
                     .build();
@@ -160,61 +164,97 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Não foi possível adicionar a UR à pesquisa porque a safra ou a UR não foram encontradas na base de dados!"));
             return "index.xhtml";
-            
+
         } catch (AnyPersistenceException | SupervisorNotAllowedInCity ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
             return "index.xhtml";
 
         }
     }
-//
-//    @Override
-//    public String prepareUpdate(Long anId) {
-//
-//        try {
-//            var existentHarvest = harvestService.readById(anId);
-//            this.setId(existentHarvest.getId());
-//            this.setName(existentHarvest.getName());
-//            this.setBegin(existentHarvest.getBegin());
-//            this.setEnd(existentHarvest.getEnd());
-//
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser alterada porque não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
-//    @Override
-//    public String update() {
-//        
-//        var updatedEntity = Harvest.builder()
-//                                    .id(this.getId())
-//                                    .name(this.getName())
-//                                    .begin(this.getBegin())
-//                                    .end(this.getEnd())
-//                                    .build();
-//
-//        try {
-//            harvestService.update(updatedEntity);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Safra alterada!"));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma safra começando e terminando nessas datas! Use um datas diferentes."));
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser alterada porque não foi encontrada na base de dados!"));
-//            return "update.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//
-//    }
+
+    @Override
+    public String prepareUpdate(Long anId) {
+
+        try {
+            var existentSurvey = surveyService.readById(anId);
+
+            this.setId(existentSurvey.getId());
+            this.setSeedName(existentSurvey.getSeedName());
+            this.setSporeCollectorPresent(existentSurvey.isSporeCollectorPresent());
+            
+            this.setField(existentSurvey.getField());
+            this.setSelectedFieldId(existentSurvey.getFieldId());
+            
+            this.setHarvest(existentSurvey.getHarvest());
+            this.setSelectedHarvestId(existentSurvey.getHarvestId());
+
+            this.setBt(existentSurvey.isBt());
+            this.setEmergenceDate(existentSurvey.getEmergenceDate());
+            this.setHarvestDate(existentSurvey.getHarvestDate());
+            this.setLatitude(existentSurvey.getLatitude());
+            this.setLongitude(existentSurvey.getLongitude());
+            this.setPlantPerMeter(existentSurvey.getPlantPerMeter());
+            this.setProductivityFarmer(existentSurvey.getProductivityFarmer());
+            this.setProductivityField(existentSurvey.getProductivityField());
+            this.setRustResistant(existentSurvey.isRustResistant());
+            this.setSeparatedWeight(existentSurvey.isSeparatedWeight());
+            this.setSowedDate(existentSurvey.getSowedDate());
+            this.setTotalArea(existentSurvey.getTotalArea());
+            this.setTotalPlantedArea(existentSurvey.getTotalPlantedArea());
+            
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Dados não puderam ser alterados porque não foram encontrados na base de dados!"));
+            return "index.xhtml";
+        }
+    }
+
+    @Override
+    public String update() {
+
+        try {
+
+            var updatedSurvey = Survey.builder()
+                    .id(this.getId())
+                    .bt(this.isBt())
+                    .emergenceDate(this.getEmergenceDate())
+                    .field(surveyService.readFieldbyId(this.getSelectedFieldId()))
+                    .harvest(surveyService.readHarvestById(this.getSelectedHarvestId()))
+                    .latitude(this.getLatitude())
+                    .longitude(this.getLongitude())
+                    .plantPerMeter(this.getPlantPerMeter())
+                    .productivityFarmer(this.getProductivityFarmer())
+                    .productivityField(this.getProductivityField())
+                    .rustResistant(this.isRustResistant())
+                    .seedName(this.getSeedName())
+                    .separatedWeight(this.isSeparatedWeight())
+                    .sowedDate(this.getSowedDate())
+                    .harvestDate(this.getHarvestDate())
+                    .sporeCollectorPresent(this.isSporeCollectorPresent())
+                    .totalArea(this.getTotalArea())
+                    .totalPlantedArea(this.totalPlantedArea)
+                    .build();
+
+            surveyService.update(updatedSurvey);
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "UR alterada!"));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "A unidade de referência já faz parte dessa pesquisa."));
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",  "Não foi possível adicionar a UR à pesquisa porque a safra ou a UR não foram encontradas na base de dados!"));
+            return "update.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+
+    }
 //
 //    @Override
 //    public String prepareDelete(Long anId) {
@@ -255,15 +295,6 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
 //        }
 //    }
 
-    @Override
-    public String prepareUpdate(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareDelete(Long anId) {

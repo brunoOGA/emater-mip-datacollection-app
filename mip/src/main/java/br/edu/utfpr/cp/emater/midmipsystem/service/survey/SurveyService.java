@@ -37,23 +37,28 @@ public class SurveyService implements ICRUDService<Survey> {
     public List<Survey> readAll() {
         return List.copyOf(surveyRepository.findAll());
     }
-    
+
     public Harvest readHarvestById(Long id) throws EntityNotFoundException {
         return harvestService.readById(id);
     }
 
-//    public Harvest readById(Long anId) throws EntityNotFoundException {
-//        return harvestRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//    }
-//
+    public Survey readById(Long anId) throws EntityNotFoundException {
+        return surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public Field readFieldbyId(Long anId) throws EntityNotFoundException {
+        return fieldService.readById(anId);
+    }
+
     public void create(Survey aSurvey) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
-        if (surveyRepository.findAll().stream().anyMatch(currentSurvey -> currentSurvey.equals(aSurvey))) 
+        if (surveyRepository.findAll().stream().anyMatch(currentSurvey -> currentSurvey.equals(aSurvey))) {
             throw new EntityAlreadyExistsException();
-        
+        }
+
         var theField = fieldService.readById(aSurvey.getFieldId());
         var theHarvest = harvestService.readById(aSurvey.getHarvestId());
-        
+
         aSurvey.setField(theField);
         aSurvey.setHarvest(theHarvest);
 
@@ -65,28 +70,38 @@ public class SurveyService implements ICRUDService<Survey> {
         }
     }
 
-//    public void update(Harvest aHarvest) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-//
-//        var existentHarvest = harvestRepository.findById(aHarvest.getId()).orElseThrow(EntityNotFoundException::new);
-//        
-//        var allHarvests = harvestRepository.findAll();
-//        var allHarvestButThis = new ArrayList<Harvest>(allHarvests);
-//        allHarvestButThis.remove(existentHarvest);
-//
-//        if (allHarvestButThis.stream().anyMatch(currentHarvest -> currentHarvest.equals(aHarvest)))
-//            throw new EntityAlreadyExistsException();
-//                
-//        try {
-//            existentHarvest.setName(aHarvest.getName());
-//            existentHarvest.setBegin(aHarvest.getBegin());
-//            existentHarvest.setEnd(aHarvest.getEnd());
-//            
-//            harvestRepository.saveAndFlush(existentHarvest);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
+    public void update(Survey aSurvey) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+
+        var existentSurvey = surveyRepository.findById(aSurvey.getId()).orElseThrow(EntityNotFoundException::new);
+
+        try {
+            existentSurvey.getQuestionData().setBt(aSurvey.isBt());
+            existentSurvey.getQuestionData().setRustResistant(aSurvey.isRustResistant());
+            
+            existentSurvey.getDateData().setEmergenceDate(aSurvey.getEmergenceDate());
+            existentSurvey.getDateData().setHarvestDate(aSurvey.getHarvestDate());
+            existentSurvey.getDateData().setSowedDate(aSurvey.getSowedDate());
+            
+            existentSurvey.getSizeData().setPlantPerMeter(aSurvey.getPlantPerMeter());
+            existentSurvey.getSizeData().setTotalArea(aSurvey.getTotalArea());
+            existentSurvey.getSizeData().setTotalPlantedArea(aSurvey.getTotalPlantedArea());
+            
+            existentSurvey.getLocationData().setLatitude(aSurvey.getLatitude());
+            existentSurvey.getLocationData().setLongitude(aSurvey.getLongitude());
+            
+            existentSurvey.getProductivityData().setProductivityFarmer(aSurvey.getProductivityFarmer());
+            existentSurvey.getProductivityData().setProductivityField(aSurvey.getProductivityField());
+            existentSurvey.getProductivityData().setSeparatedWeight(aSurvey.isSeparatedWeight());
+            
+            existentSurvey.setSeedName(aSurvey.getSeedName());
+            existentSurvey.setSporeCollectorPresent(aSurvey.isSporeCollectorPresent());
+            
+            surveyRepository.saveAndFlush(existentSurvey);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
 //
 //    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 //        
@@ -103,18 +118,6 @@ public class SurveyService implements ICRUDService<Survey> {
 //        }
 //    }
 
-
-
-    @Override
-    public Survey readById(Long anId) throws EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update(Survey entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -126,16 +129,16 @@ public class SurveyService implements ICRUDService<Survey> {
 
     public List<Field> readAllFieldsOutOfCurrentHarvest(Long harvestId) {
         var fieldsInCurrentHarvest = this.surveyRepository.findAll().stream()
-                                    .filter(currentSurvey -> currentSurvey.getHarvestId().equals(harvestId))
-                                    .map(Survey::getField)
-                                    .collect(Collectors.toList());
-        
+                .filter(currentSurvey -> currentSurvey.getHarvestId().equals(harvestId))
+                .map(Survey::getField)
+                .collect(Collectors.toList());
+
         var allFields = this.fieldService.readAll();
-        
+
         var allFieldsOutOfCurrentHarvest = new ArrayList<Field>(allFields);
-        
+
         allFieldsOutOfCurrentHarvest.removeAll(fieldsInCurrentHarvest);
-        
+
         return allFieldsOutOfCurrentHarvest;
     }
 }
