@@ -102,25 +102,20 @@ public class SurveyService implements ICRUDService<Survey> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-//        
-//        var existentHarvest = harvestRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//        
-//        try {
-//            harvestRepository.delete(existentHarvest);
-//            
-//        } catch (DataIntegrityViolationException cve) {
-//            throw new EntityInUseException();
-//            
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
 
-    @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        var existentHarvest = surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        
+        try {
+            surveyRepository.delete(existentHarvest);
+            
+        } catch (DataIntegrityViolationException cve) {
+            throw new EntityInUseException();
+            
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
     }
 
     public List<Harvest> readAllHarvests() {
