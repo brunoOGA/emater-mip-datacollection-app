@@ -30,12 +30,11 @@ public class PestDiseaseService implements ICRUDService<PestDisease> {
         return List.copyOf(pestDiseaseRepository.findAll());
     }
 
+    @Override
+    public PestDisease readById(Long anId) throws EntityNotFoundException {
+        return pestDiseaseRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+    }
 
-//    @Override
-//    public Pest readById(Long anId) throws EntityNotFoundException {
-//        return pestRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//    }
-//
     public void create(PestDisease aPestDisease) throws EntityAlreadyExistsException, AnyPersistenceException {
 
         if (pestDiseaseRepository.findAll().stream().anyMatch(currentPestDisease -> currentPestDisease.equals(aPestDisease))) {
@@ -49,29 +48,27 @@ public class PestDiseaseService implements ICRUDService<PestDisease> {
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void update(Pest aPest) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
-//        
-//        var existentPest = pestRepository.findById(aPest.getId()).orElseThrow(EntityNotFoundException::new);
-//        
-//        var allPestsWithoutExistentPest = new ArrayList<Pest>(pestRepository.findAll());
-//        allPestsWithoutExistentPest.remove(existentPest);
-//
-//        if (allPestsWithoutExistentPest.stream().anyMatch(currentPest -> currentPest.equals(aPest)))
-//            throw new EntityAlreadyExistsException();
-//                
-//        try {
-//            existentPest.setUsualName(aPest.getUsualName());
-//            existentPest.setScientificName(aPest.getScientificName());
-//            existentPest.setPestSize(aPest.getPestSize());
-//                        
-//            pestRepository.saveAndFlush(existentPest);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
-//
+
+    public void update(PestDisease aPestDisease) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
+        
+        var existentPestDisease = pestDiseaseRepository.findById(aPestDisease.getId()).orElseThrow(EntityNotFoundException::new);
+        
+        var allPestDiseasesWithoutExistentPest = new ArrayList<PestDisease>(pestDiseaseRepository.findAll());
+        allPestDiseasesWithoutExistentPest.remove(existentPestDisease);
+
+        if (allPestDiseasesWithoutExistentPest.stream().anyMatch(currentPestDisease -> currentPestDisease.equals(aPestDisease)))
+            throw new EntityAlreadyExistsException();
+                
+        try {
+            existentPestDisease.setUsualName(aPestDisease.getUsualName());
+                        
+            pestDiseaseRepository.saveAndFlush(existentPestDisease);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
+
 //    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 //        
 //        var existentPest = pestRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
@@ -86,16 +83,6 @@ public class PestDiseaseService implements ICRUDService<PestDisease> {
 //            throw new AnyPersistenceException();
 //        }
 //    }
-
-    @Override
-    public PestDisease readById(Long anId) throws EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update(PestDisease entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
