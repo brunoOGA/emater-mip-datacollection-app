@@ -69,25 +69,19 @@ public class PestNaturalPredatorService implements ICRUDService<PestNaturalPreda
             throw new AnyPersistenceException();
         }
     }
-//
-//    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-//        
-//        var existentPestDisease = pestDiseaseRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//        
-//        try {
-//            pestDiseaseRepository.delete(existentPestDisease);
-//            
-//        } catch (DataIntegrityViolationException cve) {
-//            throw new EntityInUseException();
-//            
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
 
-
-    @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        var existentPestNaturalPredator = pestNaturalPredatorRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        
+        try {
+            pestNaturalPredatorRepository.delete(existentPestNaturalPredator);
+            
+        } catch (DataIntegrityViolationException cve) {
+            throw new EntityInUseException();
+            
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
     }
 }

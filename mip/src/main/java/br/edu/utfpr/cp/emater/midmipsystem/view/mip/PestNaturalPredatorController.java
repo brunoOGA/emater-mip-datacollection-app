@@ -91,52 +91,42 @@ public class PestNaturalPredatorController extends PestNaturalPredator implement
 
     }
 
-//    @Override
-//    public String prepareDelete(Long anId) {
-//
-//        try {
-//            var existentPestDisease = pestDiseaseService.readById(anId);
-//            
-//            this.setId(existentPestDisease.getId());
-//            this.setUsualName(existentPestDisease.getUsualName());
-//
-//            return "delete.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Doença da praga não pode ser excluída porque não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
-//    @Override
-//    public String delete() {
-//        
-//        try {
-//            pestDiseaseService.delete(this.getId());
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Doença da praga excluída!"));
-//            return "index.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Doença da praga não pode ser excluída porque não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//            
-//        } catch (EntityInUseException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Doença da praga não pode ser excluída porque está sendo usada em uma amostra!"));
-//            return "index.xhtml";
-//            
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-
     @Override
     public String prepareDelete(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        try {
+            var existentPestNaturalPredator = pestNaturalPredatorService.readById(anId);
+            
+            this.setId(existentPestNaturalPredator.getId());
+            this.setUsualName(existentPestNaturalPredator.getUsualName());
+
+            return "delete.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inimigo natural da praga não pode ser excluído porque não foi encontrado na base de dados!"));
+            return "index.xhtml";
+        }
     }
 
     @Override
     public String delete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        try {
+            pestNaturalPredatorService.delete(this.getId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Inimigo natural da praga excluído!"));
+            return "index.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inimigo natural da praga não pode ser excluído porque não foi encontrado na base de dados!"));
+            return "index.xhtml";
+            
+        } catch (EntityInUseException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inimigo natural da praga não pode ser excluído porque está sendo usado em uma amostra!"));
+            return "index.xhtml";
+            
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
     }
 }
