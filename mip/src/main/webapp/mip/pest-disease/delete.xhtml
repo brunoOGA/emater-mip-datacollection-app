@@ -22,32 +22,32 @@
                                 Manejo Integrado de Pragas
                             </f:facet> 
 
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Insetos Pragas" outcome="/mip/pest/index.xhtml"/>
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Doenças das Pragas" outcome="/mip/pest-disease/index.xhtml"/>
 
                             <f:facet name="end">
-                                Excluir Inseto Praga
+                                Excluir Doença da Praga
                             </f:facet> 
                         </b:breadcrumbs>                            
 
                         <b:panel collapsible="false" >
 
                             <f:facet name="heading" >
-                                <h2>Gerenciamento de Insetos Pragas</h2>
+                                <h2>Gerenciamento de Doenças das Pragas</h2>
                             </f:facet>
 
-                            <b:panel look="danger" collapsible="false" title="Excluir Inseto Praga">
+                            <b:panel look="danger" collapsible="false" title="Excluir Doença da Praga">
 
                                 <b:panelGrid id="data-entry" columns="1">
-                                    <h3>Tem certeza que deseja excluir o inseto praga [#{pestController.usualName}, #{pestController.pestSizeName}]</h3>
+                                    <h3>Tem certeza que deseja excluir a doença da praga [#{pestDiseaseController.usualName}]</h3>
 
                                     <b:alert severity="danger">Essa ação <strong>NÃO</strong> pode ser desfeita.</b:alert>
                                     
-                                    <h:inputHidden value="#{pestController.id}" ></h:inputHidden>
+                                    <h:inputHidden value="#{pestDiseaseController.id}" ></h:inputHidden>
                                 </b:panelGrid>
 
                                 <f:facet name="footer">
                                     <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="danger" value="Excluir" action="#{pestController.delete()}" ></b:commandButton>
+                                    <b:commandButton look="danger" value="Excluir" action="#{pestDiseaseController.delete()}" ></b:commandButton>
                                 </f:facet>
 
                             </b:panel>
