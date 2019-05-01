@@ -93,4 +93,8 @@ public class MIPSample {
     public String getSupervisorNames() {
         return this.getSurvey().getField().getSupervisorNames().toString();
     }
+    
+    public String getSeedName() {
+        return this.getSurvey().getSeedName();
+    }
 }

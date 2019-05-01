@@ -206,4 +206,8 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         return this.getHarvest().getEnd();
     }
     
+    public String getFieldSupervisorNames() {
+        return this.getField().getSupervisorNames().toString();
+    }
+    
 }

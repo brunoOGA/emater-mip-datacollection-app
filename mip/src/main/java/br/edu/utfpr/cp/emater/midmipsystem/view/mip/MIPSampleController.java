@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -10,6 +11,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.Arrays;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -32,6 +34,10 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Override
     public List<MIPSample> readAll() {
         return mipSampleService.readAll();
+    }
+    
+    public List<Survey> readAllSurveysThatHasSample() {
+        return mipSampleService.readAllSurveysThatHasSample();
     }
     
 //    public List<PestSize> readAllPestSizes() {

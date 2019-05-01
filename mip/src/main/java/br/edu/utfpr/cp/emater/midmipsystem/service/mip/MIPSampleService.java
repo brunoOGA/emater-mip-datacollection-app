@@ -2,6 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.mip;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
+import java.util.stream.Collectors;
 
 @Component
 public class MIPSampleService implements ICRUDService<MIPSample> {
@@ -106,6 +109,10 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Survey> readAllSurveysThatHasSample() {
+        return mipSampleRepository.findAll().stream().map(MIPSample::getSurvey).distinct().collect(Collectors.toList());
     }
 
 }
