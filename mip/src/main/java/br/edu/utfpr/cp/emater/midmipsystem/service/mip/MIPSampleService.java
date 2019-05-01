@@ -27,12 +27,18 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
     private final MIPSampleRepository mipSampleRepository;
     private final HarvestService harvestService;
     private final SurveyService surveyService;
+    private final PestService pestService;
 
     @Autowired
-    public MIPSampleService(MIPSampleRepository aMipSampleRepository, HarvestService aHarvestService, SurveyService aSurveyService) {
+    public MIPSampleService(MIPSampleRepository aMipSampleRepository, 
+                            HarvestService aHarvestService, 
+                            SurveyService aSurveyService,
+                            PestService aPestService) {
+        
         this.mipSampleRepository = aMipSampleRepository;
         this.harvestService = aHarvestService;
         this.surveyService = aSurveyService;
+        this.pestService = aPestService;
     }
 
     @Override
@@ -129,6 +135,10 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 
     public List<Survey> readAllSurveysInSelectedHarvest(Long selectedHarvestId) {
         return surveyService.readAll().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(selectedHarvestId)).collect(Collectors.toList());
+    }
+
+    public List<Pest> readAllPests() {
+        return pestService.readAll();
     }
 
 }

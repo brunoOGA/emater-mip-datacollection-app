@@ -74,13 +74,22 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     public List<GrowthPhase> readAllGrowthPhases() {
         return Arrays.asList(GrowthPhase.values());
     }
+    
+    public List<Pest> readAllPests() {
+        return mipSampleService.readAllPests();
+    }
 
 //    public List<PestSize> readAllPestSizes() {
 //        return Arrays.asList(PestSize.values());
 //    }    
 //
-//    @Override
-//    public String create() {
+    @Override
+    public String create() {
+        
+        System.out.println(this.getSurvey().getFieldName());
+        
+        return "index.xhtml";
+        
 //        var newPest = Pest.builder().usualName(this.getUsualName()).scientificName(this.getScientificName()).pestSize(this.getPestSize()).build();
 //
 //        try {
@@ -96,7 +105,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
 //            return "index.xhtml";
 //        }
-//    }
+    }
 //
 //    @Override
 //    public String prepareUpdate(Long anId) {
@@ -179,10 +188,6 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 //            return "index.xhtml";
 //        }
 //    }
-    @Override
-    public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareUpdate(Long anId) {
