@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
@@ -50,7 +51,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     public List<Harvest> readAllHarvests() {
         return mipSampleService.readAllHarvests();
     }
-    
+
     public List<Survey> readAllSurveysInSelectedHarvest() {
         return mipSampleService.readAllSurveysInSelectedHarvest(this.getSelectedHarvestId());
     }
@@ -59,7 +60,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 
         try {
             var selectedHarvest = mipSampleService.readHarvestById(this.getSelectedHarvestId());
-            
+
             this.setSelectedHarvestId(selectedHarvest.getId());
 
             return "create.xhtml";
@@ -68,7 +69,10 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser selecionada porque não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
+    }
 
+    public List<GrowthPhase> readAllGrowthPhases() {
+        return Arrays.asList(GrowthPhase.values());
     }
 
 //    public List<PestSize> readAllPestSizes() {
