@@ -73,4 +73,24 @@ public class MIPSample {
         
         return this.getMipSampleOccurrences().add(MIPSampleOccurrence.builder().mipEntity(entity).value(value).build());
     }
+    
+    public String getHarvestName() {
+        return this.getSurvey().getHarvestName();
+    }
+    
+    public String getFarmerName() {
+        return this.getSurvey().getFarmerString();
+    }
+    
+    public String getFieldName() {
+        return this.getSurvey().getFieldName();
+    }
+    
+    public String getCityName() {
+        return this.getSurvey().getFieldCityName();
+    }
+    
+    public String getSupervisorNames() {
+        return this.getSurvey().getField().getSupervisorNames().toString();
+    }
 }

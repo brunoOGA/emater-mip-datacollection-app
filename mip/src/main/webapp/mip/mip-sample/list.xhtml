@@ -7,13 +7,18 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">      
 
     <h:form>
-        <b:dataTable responsive="true" value="#{pestNaturalPredatorController.readAll()}" var="aPestNaturalPredator" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+        <b:dataTable searching="true" multi-column-search="true" multi-column-search-position="top" responsive="true" value="#{mipSampleController.readAll()}" var="aMIPSample" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
-            <b:dataTableColumn label="Nome" value="#{aPestNaturalPredator.usualName}" />
+            <b:dataTableColumn label="Safra" value="#{aMIPSample.harvestName}" />
+            <b:dataTableColumn label="Produtor" value="#{aMIPSample.farmerName}" />
+            <b:dataTableColumn label="Identificação" value="#{aMIPSample.fieldName}" />
+            <b:dataTableColumn label="Município" value="#{aMIPSample.cityName}" />
+            <b:dataTableColumn label="Responsável Técnico" value="#{aMIPSample.supervisorNames}" />
+            <b:dataTableColumn label="Data da Amostra" value="#{aMIPSample.sampleDate}" />
 
-            <b:dataTableColumn label="Ações" class="col-md-1"> 
-                <b:commandLink action="#{pestNaturalPredatorController.prepareUpdate(aPestNaturalPredator.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                <b:commandLink action="#{pestNaturalPredatorController.prepareDelete(aPestNaturalPredator.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
+            <b:dataTableColumn searchable="false" label="Ações" class="col-md-1"> 
+                <b:commandLink action="#{mipSampleController.prepareUpdate(aMIPSample.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                <b:commandLink action="#{mipSampleController.prepareDelete(aMIPSample.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
             </b:dataTableColumn>  
 
         </b:dataTable>          

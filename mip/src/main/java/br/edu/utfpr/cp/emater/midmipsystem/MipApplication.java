@@ -21,6 +21,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestDiseaseRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestNaturalPredatorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestRepository;
@@ -71,6 +72,8 @@ class CLR implements CommandLineRunner {
     private PestRepository pestRepository;
     private PestDiseaseRepository pestDiseaseRepository;
     private PestNaturalPredatorRepository pestNaturalPredatorRepository;
+    
+    private MIPSampleRepository mipSampleRepository;
 
     @Autowired
     CLR(MacroRegionRepository macroRegionRepository,
@@ -83,7 +86,8 @@ class CLR implements CommandLineRunner {
             SurveyRepository aSurveyRepository,
             PestRepository aPestRepository,
             PestDiseaseRepository aPestDiseaseRepository,
-            PestNaturalPredatorRepository aPestNaturalPredatorRepository) {
+            PestNaturalPredatorRepository aPestNaturalPredatorRepository,
+            MIPSampleRepository aMIPSampleRepository) {
 
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
@@ -98,6 +102,8 @@ class CLR implements CommandLineRunner {
         this.pestRepository = aPestRepository;
         this.pestDiseaseRepository = aPestDiseaseRepository;
         this.pestNaturalPredatorRepository = aPestNaturalPredatorRepository;
+        
+        this.mipSampleRepository = aMIPSampleRepository;
     }
 
     @Override
@@ -347,6 +353,8 @@ class CLR implements CommandLineRunner {
         mipSurvey3Sample1.addSampleOccurrence(pestNaturalPredator5, 1.0);
         mipSurvey3Sample1.addSampleOccurrence(pestNaturalPredator11, 1.0);
         
+        mipSampleRepository.save(mipSurvey3Sample1);
+        
         var mipSurvey3Sample2 = MIPSample.builder()
                                     .daysAfterEmergence(51)
                                     .defoliation(3)
@@ -359,6 +367,7 @@ class CLR implements CommandLineRunner {
         mipSurvey3Sample2.addSampleOccurrence(pestDisease1, 0.9);
         mipSurvey3Sample2.addSampleOccurrence(pestNaturalPredator12, 4.0);
         
+        mipSampleRepository.save(mipSurvey3Sample2);
         
         var mipSurvey4Sample1 = MIPSample.builder()
                                     .daysAfterEmergence(18)
@@ -367,6 +376,8 @@ class CLR implements CommandLineRunner {
                                     .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-16"))
                                     .survey(survey4)
                                 .build();
+        
+        mipSampleRepository.save(mipSurvey4Sample1);
         
         var mipSurvey4Sample2 = MIPSample.builder()
                                     .daysAfterEmergence(81)
@@ -387,6 +398,8 @@ class CLR implements CommandLineRunner {
         mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator8, 0.4);
         mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator11, 1.6);
         mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator13, 1.6);
+        
+        mipSampleRepository.save(mipSurvey4Sample2);
         
     }
 
