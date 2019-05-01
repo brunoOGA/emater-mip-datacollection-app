@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -16,16 +17,22 @@ import java.util.Arrays;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
-@Component (value = "mipSampleController")
+@Component(value = "mipSampleController")
 @RequestScope
 public class MIPSampleController extends MIPSample implements ICRUDController<MIPSample> {
 
     private final MIPSampleService mipSampleService;
-    
+
+    @Getter
+    @Setter
+    private Long selectedHarvestId;
+
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
         this.mipSampleService = aMipSampleService;
@@ -35,11 +42,35 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     public List<MIPSample> readAll() {
         return mipSampleService.readAll();
     }
-    
+
     public List<Survey> readAllSurveysThatHasSample() {
         return mipSampleService.readAllSurveysThatHasSample();
     }
+
+    public List<Harvest> readAllHarvests() {
+        return mipSampleService.readAllHarvests();
+    }
     
+    public List<Survey> readAllSurveysInSelectedHarvest() {
+        return mipSampleService.readAllSurveysInSelectedHarvest(this.getSelectedHarvestId());
+    }
+
+    public String selectHarvest() {
+
+        try {
+            var selectedHarvest = mipSampleService.readHarvestById(this.getSelectedHarvestId());
+            
+            this.setSelectedHarvestId(selectedHarvest.getId());
+
+            return "create.xhtml";
+
+        } catch (EntityNotFoundException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser selecionada porque não foi encontrada na base de dados!"));
+            return "index.xhtml";
+        }
+
+    }
+
 //    public List<PestSize> readAllPestSizes() {
 //        return Arrays.asList(PestSize.values());
 //    }    
@@ -144,7 +175,6 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 //            return "index.xhtml";
 //        }
 //    }
-
     @Override
     public String create() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

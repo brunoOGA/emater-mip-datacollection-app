@@ -44,12 +44,12 @@
 
                                     <b:carouselItem>
 
-                                        <b:panel title="Passo 1/5: Selecionar Unidade de Referência" look="primary" collapsible="false">
+                                        <b:panel title="Passo 1/5: Selecionar Unidade de Referência Já Adicionada à Pesquisa" look="primary" collapsible="false">
 
                                             <b:formGroup>
-                                                <b:selectOneMenu select2="true" required="true" required-message="Uma UR deve ser selecionada" value="#{surveyController.field}" label="Unidade de Referência">
+                                                <b:selectOneMenu select2="true" required="true" required-message="Uma UR deve ser selecionada" value="#{mipSampleController.survey}" label="Unidade de Referência">
                                                     <f:selectItem itemLabel="(Identificação UR, Município, Produtor, Responsável Técnico)" itemValue="" />
-                                                    <f:selectItems value="#{surveyController.readAllFieldsOutOfCurrentSurvey()}" var="aField" itemValue="#{aField}" itemLabel="#{aField.name}, #{aField.cityName}, #{aField.farmerName}, #{aField.supervisorNames}" />
+                                                    <f:selectItems value="#{mipSampleController.readAllSurveysInSelectedHarvest()}" var="aSurvey" itemValue="#{aSurvey}" itemLabel="#{aSurvey.fieldName}, #{aSurvey.fieldCityName}, #{aSurvey.farmerString}, #{aSurvey.fieldSupervisorNames}" />
                                                 </b:selectOneMenu>
                                                 <b:message for="@previous" />
                                             </b:formGroup>                                    
@@ -58,125 +58,6 @@
 
                                     </b:carouselItem>
 
-                                    <b:carouselItem>
-
-                                        <b:panel title="Passo 2/5: Dados da Cultivar" look="primary" collapsible="false">
-                                            <b:formGroup>
-                                                <b:inputText label="Nome" value="#{surveyController.seedName}"></b:inputText>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:switch value="#{surveyController.sporeCollectorPresent}" 
-                                                          label="Tem coletor de esporos instalado?"
-                                                          offText="Não"
-                                                          onText="Sim"
-                                                          offColor="danger"
-                                                          onColor="success"/>
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:switch value="#{surveyController.rustResistant}" 
-                                                          label="É BT?"
-                                                          offText="Não"
-                                                          onText="Sim"
-                                                          offColor="danger"
-                                                          onColor="success"/>
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:switch value="#{surveyController.bt}" 
-                                                          label="Resitente à Ferrugem?"
-                                                          offText="Não"
-                                                          onText="Sim"
-                                                          offColor="danger"
-                                                          onColor="success"/>
-                                            </b:formGroup>                                            
-
-                                        </b:panel>
-
-                                    </b:carouselItem>
-
-                                    <b:carouselItem>
-
-                                        <b:panel title="Passo 3/5: Dados da Área" look="primary" collapsible="false">
-                                            <b:formGroup>
-                                                <b:inputText label="Área da Unidade (UO/UR)" value="#{surveyController.totalArea}"></b:inputText>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:inputText label="Área Total Cultivada" value="#{surveyController.totalPlantedArea}"></b:inputText>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:inputText label="No. Plantas/Metro" value="#{surveyController.plantPerMeter}"></b:inputText>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:inputText label="Latitude" value="#{surveyController.latitude}"></b:inputText>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:inputText label="Longitude" value="#{surveyController.longitude}"></b:inputText>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-                                        </b:panel>
-
-                                    </b:carouselItem>
-
-                                    <b:carouselItem>
-
-                                        <b:panel title="Passo 4/5: Dados da Produtividade" look="primary" collapsible="false">
-                                            <b:formGroup>
-                                                <b:inputText label="Produtividade da Unidade (UO/UR)" value="#{surveyController.productivityField}"></b:inputText>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:inputText label="Produtividade da Área total do Produtor" value="#{surveyController.productivityFarmer}"></b:inputText>
-                                                <b:message for="@previous" ></b:message>                                         
-                                            </b:formGroup>    
-
-                                            <b:formGroup>
-                                                <b:switch value="#{surveyController.separatedWeight}" 
-                                                          label="Pesou em Separado?"
-                                                          offText="Não"
-                                                          onText="Sim"
-                                                          offColor="danger"
-                                                          onColor="success"/>
-                                            </b:formGroup>                                            
-
-                                        </b:panel>
-
-                                    </b:carouselItem>
-
-                                    <b:carouselItem>
-
-                                        <b:panel title="Passo 5/5: Datas" look="primary" collapsible="false">
-                                            <b:formGroup>
-                                                <b:dateTimePicker value="#{surveyController.sowedDate}" icon-position="left" format="DD/MM/YYYY" label="Data da Semeadura" show-date="true" show-time="false"></b:dateTimePicker>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:dateTimePicker value="#{surveyController.emergenceDate}" icon-position="left" format="DD/MM/YYYY" label="Data da Emergência" show-date="true" show-time="false"></b:dateTimePicker>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:formGroup>
-                                                <b:dateTimePicker value="#{surveyController.harvestDate}" icon-position="left" format="DD/MM/YYYY" label="Data da Colheita" show-date="true" show-time="false"></b:dateTimePicker>
-                                                <b:message for="@previous" ></b:message>                                        
-                                            </b:formGroup>
-
-                                            <b:commandButton look="success" value="Adicionar UR à Pesquisa" action="#{surveyController.create()}"></b:commandButton>
-
-                                        </b:panel>
-
-                                    </b:carouselItem>
 
                                     <b:carouselControl direction="right" >
                                         <b:button value="Passo anterior"
@@ -191,6 +72,8 @@
                                     </b:carouselControl>
 
                                 </b:carousel>
+
+                                <h:inputHidden value="#{mipSampleController.selectedHarvestId}" ></h:inputHidden>
 
                             </b:panel>
                         </b:panel>

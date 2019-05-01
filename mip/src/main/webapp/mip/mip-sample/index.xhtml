@@ -28,12 +28,11 @@
 
                         <f:facet name="heading" >
                             <h2>Gerenciamento de Anotação de Campo</h2>
-                            <a href="create.xhtml" class="btn btn-success">
-                                <span class="align-middle">Criar Nova Amostra</span>
-                            </a>
+                            <a id="atrigger" class="btn btn-success btn-lg" href="#harvest-select-modal" data-toggle="modal">Criar Nova Amostra</a>
                         </f:facet>
 
                         <ui:include src="list.xhtml"></ui:include>
+                        <ui:include src="harvest-select-modal.xhtml"></ui:include>
                         <!--<ui:include src="view-sample-modal.xhtml"></ui:include>-->
 
                     </b:panel>

@@ -2,6 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.mip;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.service.survey.HarvestService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.stream.Collectors;
 
@@ -23,15 +25,23 @@ import java.util.stream.Collectors;
 public class MIPSampleService implements ICRUDService<MIPSample> {
 
     private final MIPSampleRepository mipSampleRepository;
+    private final HarvestService harvestService;
+    private final SurveyService surveyService;
 
     @Autowired
-    public MIPSampleService(MIPSampleRepository aMipSampleRepository) {
+    public MIPSampleService(MIPSampleRepository aMipSampleRepository, HarvestService aHarvestService, SurveyService aSurveyService) {
         this.mipSampleRepository = aMipSampleRepository;
+        this.harvestService = aHarvestService;
+        this.surveyService = aSurveyService;
     }
 
     @Override
     public List<MIPSample> readAll() {
         return List.copyOf(mipSampleRepository.findAll());
+    }
+
+    public Harvest readHarvestById(Long id) throws EntityNotFoundException {
+        return harvestService.readById(id);
     }
 
 //    @Override
@@ -89,8 +99,6 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 //            throw new AnyPersistenceException();
 //        }
 //    }
-
-
     @Override
     public void create(MIPSample entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -113,6 +121,14 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 
     public List<Survey> readAllSurveysThatHasSample() {
         return mipSampleRepository.findAll().stream().map(MIPSample::getSurvey).distinct().collect(Collectors.toList());
+    }
+
+    public List<Harvest> readAllHarvests() {
+        return harvestService.readAll();
+    }
+
+    public List<Survey> readAllSurveysInSelectedHarvest(Long selectedHarvestId) {
+        return surveyService.readAll().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(selectedHarvestId)).collect(Collectors.toList());
     }
 
 }
