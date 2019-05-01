@@ -45,20 +45,20 @@ public class PestService implements ICRUDService<Pest> {
 //        return supervisorRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 //    }
 //
-//    public void create(Supervisor aSupervisor) throws EntityAlreadyExistsException, AnyPersistenceException {
-//
-//        if (supervisorRepository.findAll().stream().anyMatch(currentSupervisor -> currentSupervisor.equals(aSupervisor))) {
-//            throw new EntityAlreadyExistsException();
-//        }
-//
-//        try {
-//            supervisorRepository.save(aSupervisor);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
-//
+    public void create(Pest aPest) throws EntityAlreadyExistsException, AnyPersistenceException {
+
+        if (pestRepository.findAll().stream().anyMatch(currentPest -> currentPest.equals(aPest))) {
+            throw new EntityAlreadyExistsException();
+        }
+
+        try {
+            pestRepository.save(aPest);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
+
 //    public void update(Supervisor aSupervisor) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
 //        
 //        var existentSupervisor = supervisorRepository.findById(aSupervisor.getId()).orElseThrow(EntityNotFoundException::new);
@@ -98,10 +98,6 @@ public class PestService implements ICRUDService<Pest> {
 //        }
 //    }
 
-    @Override
-    public void create(Pest entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public Pest readById(Long anId) throws EntityNotFoundException {

@@ -1,12 +1,16 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -30,29 +34,29 @@ public class PestController extends Pest implements ICRUDController<Pest> {
         return pestService.readAll();
     }
     
-//    public List<Region> readAllRegions() {
-//        return supervisorService.readAllRegions();
-//    }    
-//
-//    @Override
-//    public String create() {
-//        var newSupervisor = Supervisor.builder().name(this.getName()).email(this.getEmail()).region(this.getRegion()).build();
-//
-//        try {
-//            supervisorService.create(newSupervisor);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Responsável Técnico [%s] criado com sucesso!", this.getName())));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um responsável técnico com esse nome! Use um nome diferente."));
-//            return "create.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
+    public List<PestSize> readAllPestSizes() {
+        return Arrays.asList(PestSize.values());
+    }    
+
+    @Override
+    public String create() {
+        var newPest = Pest.builder().usualName(this.getUsualName()).scientificName(this.getScientificName()).pestSize(this.getPestSize()).build();
+
+        try {
+            pestService.create(newPest);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Inseto Praga [%s] criado com sucesso!", this.getUsualName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um inseto praga com esse nome e tamanho! Use um nome/tamanho diferente."));
+            return "create.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+    }
+
 //    @Override
 //    public String prepareUpdate(Long anId) {
 //
@@ -133,11 +137,6 @@ public class PestController extends Pest implements ICRUDController<Pest> {
 //        }
 //    }
 
-
-    @Override
-    public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareUpdate(Long anId) {
