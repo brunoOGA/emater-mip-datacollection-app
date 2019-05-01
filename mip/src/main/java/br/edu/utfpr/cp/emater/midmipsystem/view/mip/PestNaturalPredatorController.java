@@ -51,46 +51,46 @@ public class PestNaturalPredatorController extends PestNaturalPredator implement
         }
     }
 
-//    @Override
-//    public String prepareUpdate(Long anId) {
-//
-//        try {
-//            var existentPestDisease = pestDiseaseService.readById(anId);
-//            this.setId(existentPestDisease.getId());
-//            this.setUsualName(existentPestDisease.getUsualName());
-//            
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Doença da praga não pode ser alterado porque não foi encontrado na base de dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
-//    @Override
-//    public String update() {
-//        var updatedPestDisease = PestDisease.builder().id(this.getId()).usualName(this.getUsualName()).build();
-//
-//        try {
-//            pestDiseaseService.update(updatedPestDisease);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Doença da praga alterada"));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma doença da praga com esse nome! Use um nome diferente."));
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Doença da praga não pode ser alterada porque não foi encontrada na base de dados!"));
-//            return "update.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//
-//    }
-//
+    @Override
+    public String prepareUpdate(Long anId) {
+
+        try {
+            var existentPestNaturalPredator = pestNaturalPredatorService.readById(anId);
+            this.setId(existentPestNaturalPredator.getId());
+            this.setUsualName(existentPestNaturalPredator.getUsualName());
+            
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inimigo natural da praga não pode ser alterado porque não foi encontrado na base de dados!"));
+            return "index.xhtml";
+        }
+    }
+
+    @Override
+    public String update() {
+        var updatedPestNaturalPredator = PestNaturalPredator.builder().id(this.getId()).usualName(this.getUsualName()).build();
+
+        try {
+            pestNaturalPredatorService.update(updatedPestNaturalPredator);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Inimigo natural da praga alterado"));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um inimigo natural da praga com esse nome! Use um nome diferente."));
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inimigo natural da praga não pode ser alterado porque não foi encontrado na base de dados!"));
+            return "update.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+
+    }
+
 //    @Override
 //    public String prepareDelete(Long anId) {
 //
@@ -129,17 +129,6 @@ public class PestNaturalPredatorController extends PestNaturalPredator implement
 //            return "index.xhtml";
 //        }
 //    }
-
-
-    @Override
-    public String prepareUpdate(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareDelete(Long anId) {

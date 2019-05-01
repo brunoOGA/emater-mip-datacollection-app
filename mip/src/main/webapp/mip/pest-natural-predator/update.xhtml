@@ -22,34 +22,34 @@
                                 Manejo Integrado de Pragas
                             </f:facet> 
 
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Doenças das Pragas" outcome="/mip/pest-disease/index.xhtml"/>
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Inimigos Naturais das Pragas" outcome="/mip/pest-natural-predator/index.xhtml"/>
 
                             <f:facet name="end">
-                                Alterar Doença da Praga
+                                Alterar Inimigo Natural da Praga
                             </f:facet> 
-                        </b:breadcrumbs>                                       
+                        </b:breadcrumbs>                                             
 
                         <b:panel collapsible="false" >
 
                             <f:facet name="heading" >
-                                <h2>Gerenciamento de Doenças das Pragas</h2>
+                                <h2>Gerenciamento de Inimigos Naturais das Pragas</h2>
                             </f:facet>
 
-                            <b:panel look="warning" collapsible="false" title="Alterar Doença da Praga">
+                            <b:panel look="warning" collapsible="false" title="AlAlterar Inimigo Natural da Praga">
 
                                 <b:panelGrid id="data-entry" columns="1">
                                     <b:formGroup>
-                                        <b:inputText label="Nome" value="#{pestDiseaseController.usualName}"></b:inputText>
+                                        <b:inputText label="Nome" value="#{pestNaturalPredatorController.usualName}"></b:inputText>
                                         <b:message for="@previous" ></b:message>                                        
                                     </b:formGroup>                                 
 
-                                    <h:inputHidden value="#{pestDiseaseController.id}" ></h:inputHidden>
+                                    <h:inputHidden value="#{pestNaturalPredatorController.id}" ></h:inputHidden>
                                 </b:panelGrid>             
 
                                 <f:facet name="footer">
 
                                     <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="warning" value="Alterar" action="#{pestDiseaseController.update()}" ></b:commandButton>
+                                    <b:commandButton look="warning" value="Alterar" action="#{pestNaturalPredatorController.update()}" ></b:commandButton>
 
                                 </f:facet>
 
