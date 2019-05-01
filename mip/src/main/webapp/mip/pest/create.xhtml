@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+
+    <body>
+        <ui:composition template="./../../main-template.xhtml">
+
+            <ui:define name="content">                
+
+                <b:form>
+                    <b:container fluid="true">
+
+                        <b:breadcrumbs>
+                            <b:navLink icon-awesome="info-circle" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
+
+                            <f:facet name="first">
+                                <b:iconAwesome value="info-circle" />
+                                Gerenciamento de Informações
+                            </f:facet> 
+
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Responsável Técnico" outcome="/base/supervisor/index.xhtml"/>
+
+                            <f:facet name="end">
+                                Criar Novo Responsável Técnico
+                            </f:facet> 
+                        </b:breadcrumbs>                        
+
+                        <b:panel collapsible="false" >
+
+                            <f:facet name="heading" >
+                                <h2>Gerenciamento de Responsável Técnico</h2>
+                            </f:facet>
+
+                            <b:panel look="success" collapsible="false" title="Criar Novo Responsável Técnico">
+
+                                <b:panelGrid id="data-entry" columns="1">
+                                    <b:formGroup>
+                                        <b:inputText label="Nome" value="#{supervisorController.name}"></b:inputText>
+                                        <b:message for="@previous" ></b:message>                                        
+                                    </b:formGroup>
+
+                                    <b:formGroup>
+                                        <b:inputText label="e-mail" value="#{supervisorController.email}"></b:inputText>
+                                        <b:message for="@previous" ></b:message>                                        
+                                    </b:formGroup>
+                                    
+                                    <b:formGroup>
+                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionada uma região" value="#{supervisorController.region}" label="Região">
+                                            <f:selectItem itemLabel="(Selecione uma região)" itemValue="" />
+                                            <f:selectItems value="#{supervisorController.readAllRegions()}" var="aRegion" itemValue="#{aRegion}" itemLabel="#{aRegion.name}" />
+                                        </b:selectOneMenu>
+                                        <b:message for="@previous" />
+                                    </b:formGroup>                                    
+
+                                </b:panelGrid>
+
+                                <f:facet name="footer">
+                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                                    <b:commandButton look="success" value="Criar" action="#{supervisorController.create()}" ></b:commandButton>
+                                </f:facet>
+
+                            </b:panel>
+                        </b:panel>
+                    </b:container>
+                </b:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
+
