@@ -32,25 +32,25 @@ public class PestNaturalPredatorController extends PestNaturalPredator implement
         return pestNaturalPredatorService.readAll();
     }
     
-//    @Override
-//    public String create() {
-//        var newPestDisease = PestDisease.builder().usualName(this.getUsualName()).build();
-//
-//        try {
-//            pestDiseaseService.create(newPestDisease);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Doença da praga [%s] criada com sucesso!", this.getUsualName())));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma doença da praga com esse nome! Use um nome diferente."));
-//            return "create.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
+    @Override
+    public String create() {
+        var newPestNaturalPredator = PestNaturalPredator.builder().usualName(this.getUsualName()).build();
+
+        try {
+            pestNaturalPredatorService.create(newPestNaturalPredator);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Inimigo natural da praga [%s] criado com sucesso!", this.getUsualName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um inimigo natural da praga com esse nome! Use um nome diferente."));
+            return "create.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+    }
+
 //    @Override
 //    public String prepareUpdate(Long anId) {
 //
@@ -130,11 +130,6 @@ public class PestNaturalPredatorController extends PestNaturalPredator implement
 //        }
 //    }
 
-
-    @Override
-    public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareUpdate(Long anId) {

@@ -36,20 +36,20 @@ public class PestNaturalPredatorService implements ICRUDService<PestNaturalPreda
 //        return pestDiseaseRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 //    }
 //
-//    public void create(PestDisease aPestDisease) throws EntityAlreadyExistsException, AnyPersistenceException {
-//
-//        if (pestDiseaseRepository.findAll().stream().anyMatch(currentPestDisease -> currentPestDisease.equals(aPestDisease))) {
-//            throw new EntityAlreadyExistsException();
-//        }
-//
-//        try {
-//            pestDiseaseRepository.save(aPestDisease);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
-//
+    public void create(PestNaturalPredator aPestNaturalPredator) throws EntityAlreadyExistsException, AnyPersistenceException {
+
+        if (pestNaturalPredatorRepository.findAll().stream().anyMatch(currentPestNaturalPredator -> currentPestNaturalPredator.equals(aPestNaturalPredator))) {
+            throw new EntityAlreadyExistsException();
+        }
+
+        try {
+            pestNaturalPredatorRepository.save(aPestNaturalPredator);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
+
 //    public void update(PestDisease aPestDisease) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
 //        
 //        var existentPestDisease = pestDiseaseRepository.findById(aPestDisease.getId()).orElseThrow(EntityNotFoundException::new);
@@ -85,10 +85,6 @@ public class PestNaturalPredatorService implements ICRUDService<PestNaturalPreda
 //        }
 //    }
 
-    @Override
-    public void create(PestNaturalPredator entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public PestNaturalPredator readById(Long anId) throws EntityNotFoundException {

@@ -22,24 +22,24 @@
                                 Manejo Integrado de Pragas
                             </f:facet> 
 
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Doenças das Pragas" outcome="/mip/pest-disease/index.xhtml"/>
+                            <b:navLink icon-awesome="globe" value="Gerenciamento de Inimigos Naturais das Pragas" outcome="/mip/pest-natural-predator/index.xhtml"/>
 
                             <f:facet name="end">
-                                Criar Nova Doença da Praga
+                                Criar Novo Inimigo Natural da Praga
                             </f:facet> 
                         </b:breadcrumbs>                        
 
                         <b:panel collapsible="false" >
 
                             <f:facet name="heading" >
-                                <h2>Gerenciamento de Doenças das Pragas</h2>
+                                <h2>Gerenciamento de Inimigos Naturais das Pragas</h2>
                             </f:facet>
 
-                            <b:panel look="success" collapsible="false" title="Criar Nova Doença da Praga">
+                            <b:panel look="success" collapsible="false" title="Criar Novo Inimigo Natural da Praga">
 
                                 <b:panelGrid id="data-entry" columns="1">
                                     <b:formGroup>
-                                        <b:inputText label="Nome" value="#{pestDiseaseController.usualName}"></b:inputText>
+                                        <b:inputText label="Nome" value="#{pestNaturalPredatorController.usualName}"></b:inputText>
                                         <b:message for="@previous" ></b:message>                                        
                                     </b:formGroup>
 
@@ -47,7 +47,7 @@
 
                                 <f:facet name="footer">
                                     <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="success" value="Criar" action="#{pestDiseaseController.create()}" ></b:commandButton>
+                                    <b:commandButton look="success" value="Criar" action="#{pestNaturalPredatorController.create()}" ></b:commandButton>
                                 </f:facet>
 
                             </b:panel>
