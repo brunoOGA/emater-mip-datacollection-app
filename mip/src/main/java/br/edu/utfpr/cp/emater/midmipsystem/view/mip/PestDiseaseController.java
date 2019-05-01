@@ -34,28 +34,24 @@ public class PestDiseaseController extends PestDisease implements ICRUDControlle
         return pestDiseaseService.readAll();
     }
     
-//    public List<PestSize> readAllPestSizes() {
-//        return Arrays.asList(PestSize.values());
-//    }    
-//
-//    @Override
-//    public String create() {
-//        var newPest = Pest.builder().usualName(this.getUsualName()).scientificName(this.getScientificName()).pestSize(this.getPestSize()).build();
-//
-//        try {
-//            pestService.create(newPest);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Inseto Praga [%s] criado com sucesso!", this.getUsualName())));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um inseto praga com esse nome e tamanho! Use um nome/tamanho diferente."));
-//            return "create.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
+    @Override
+    public String create() {
+        var newPestDisease = PestDisease.builder().usualName(this.getUsualName()).build();
+
+        try {
+            pestDiseaseService.create(newPestDisease);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Doença da praga [%s] criada com sucesso!", this.getUsualName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma doença da praga com esse nome! Use um nome diferente."));
+            return "create.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+    }
 //
 //    @Override
 //    public String prepareUpdate(Long anId) {
@@ -138,11 +134,6 @@ public class PestDiseaseController extends PestDisease implements ICRUDControlle
 //            return "index.xhtml";
 //        }
 //    }
-
-    @Override
-    public String create() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String prepareUpdate(Long anId) {
