@@ -10,6 +10,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
@@ -331,6 +333,61 @@ class CLR implements CommandLineRunner {
         var pestNaturalPredator11 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Aranhas").build());
         var pestNaturalPredator12 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Formigas").build());
         var pestNaturalPredator13 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Outros").build());
+        
+        
+        var mipSurvey3Sample1 = MIPSample.builder()
+                                    .daysAfterEmergence(22)
+                                    .defoliation(0)
+                                    .growthPhase(GrowthPhase.V3)
+                                    .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-31"))
+                                    .survey(survey3)
+                                .build();
+        
+        mipSurvey3Sample1.addSampleOccurrence(p6, 1.0);
+        mipSurvey3Sample1.addSampleOccurrence(pestNaturalPredator5, 1.0);
+        mipSurvey3Sample1.addSampleOccurrence(pestNaturalPredator11, 1.0);
+        
+        var mipSurvey3Sample2 = MIPSample.builder()
+                                    .daysAfterEmergence(51)
+                                    .defoliation(3)
+                                    .growthPhase(GrowthPhase.R1)
+                                    .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-29"))
+                                    .survey(survey3)
+                                .build();
+        
+        mipSurvey3Sample2.addSampleOccurrence(p1, 3.0);
+        mipSurvey3Sample2.addSampleOccurrence(pestDisease1, 0.9);
+        mipSurvey3Sample2.addSampleOccurrence(pestNaturalPredator12, 4.0);
+        
+        
+        var mipSurvey4Sample1 = MIPSample.builder()
+                                    .daysAfterEmergence(18)
+                                    .defoliation(0)
+                                    .growthPhase(GrowthPhase.V2)
+                                    .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-16"))
+                                    .survey(survey4)
+                                .build();
+        
+        var mipSurvey4Sample2 = MIPSample.builder()
+                                    .daysAfterEmergence(81)
+                                    .defoliation(3)
+                                    .growthPhase(GrowthPhase.R3)
+                                    .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-18"))
+                                    .survey(survey4)
+                                .build();
+        
+        mipSurvey4Sample2.addSampleOccurrence(p2, 0.2);
+        mipSurvey4Sample2.addSampleOccurrence(p3, 1.3);
+        mipSurvey4Sample2.addSampleOccurrence(p4, 0.6);
+        mipSurvey4Sample2.addSampleOccurrence(p6, 0.1);
+        mipSurvey4Sample2.addSampleOccurrence(p13, 0.7);
+        mipSurvey4Sample2.addSampleOccurrence(p14, 0.1);
+        mipSurvey4Sample2.addSampleOccurrence(p15, 0.2);
+        mipSurvey4Sample2.addSampleOccurrence(pestDisease1, 1.5);
+        mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator8, 0.4);
+        mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator11, 1.6);
+        mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator13, 1.6);
+        
     }
 
 }
