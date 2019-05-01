@@ -12,6 +12,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -19,6 +20,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestDiseaseRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestNaturalPredatorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
@@ -66,6 +68,7 @@ class CLR implements CommandLineRunner {
     
     private PestRepository pestRepository;
     private PestDiseaseRepository pestDiseaseRepository;
+    private PestNaturalPredatorRepository pestNaturalPredatorRepository;
 
     @Autowired
     CLR(MacroRegionRepository macroRegionRepository,
@@ -77,7 +80,8 @@ class CLR implements CommandLineRunner {
             HarvestRepository aHarvestRepository,
             SurveyRepository aSurveyRepository,
             PestRepository aPestRepository,
-            PestDiseaseRepository aPestDiseaseRepository) {
+            PestDiseaseRepository aPestDiseaseRepository,
+            PestNaturalPredatorRepository aPestNaturalPredatorRepository) {
 
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
@@ -91,6 +95,7 @@ class CLR implements CommandLineRunner {
         
         this.pestRepository = aPestRepository;
         this.pestDiseaseRepository = aPestDiseaseRepository;
+        this.pestNaturalPredatorRepository = aPestNaturalPredatorRepository;
     }
 
     @Override
@@ -312,6 +317,20 @@ class CLR implements CommandLineRunner {
         
         var pestDisease1 = pestDiseaseRepository.save(PestDisease.builder().usualName("Lagarta com Nomuraea rileyi (Doença Branca)").build());
         var pestDisease2 = pestDiseaseRepository.save(PestDisease.builder().usualName("Lagarta com Baculovírus (Doença Preta)").build());
+        
+        var pestNaturalPredator1 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Calosoma granulatum").build());
+        var pestNaturalPredator2 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Callida sp.").build());
+        var pestNaturalPredator3 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Callida scutellaris").build());
+        var pestNaturalPredator4 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Lebia concinna").build());
+        var pestNaturalPredator5 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Eriopsis connexa").build());
+        var pestNaturalPredator6 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Cycloneda sanguinea").build());
+        var pestNaturalPredator7 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Podisus sp.").build());
+        var pestNaturalPredator8 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Tropiconabis sp.").build());
+        var pestNaturalPredator9 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Geocoris sp.").build());
+        var pestNaturalPredator10 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Doru sp. (Tesourinha)").build());
+        var pestNaturalPredator11 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Aranhas").build());
+        var pestNaturalPredator12 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Formigas").build());
+        var pestNaturalPredator13 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Outros").build());
     }
 
 }
