@@ -39,12 +39,12 @@ public class PestService implements ICRUDService<Pest> {
 //    public List<Region> readAllRegions() {
 //        return this.regionService.readAll();
 //    }
-//
-//    @Override
-//    public Supervisor readById(Long anId) throws EntityNotFoundException {
-//        return supervisorRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-//    }
-//
+
+    @Override
+    public Pest readById(Long anId) throws EntityNotFoundException {
+        return pestRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+    }
+
     public void create(Pest aPest) throws EntityAlreadyExistsException, AnyPersistenceException {
 
         if (pestRepository.findAll().stream().anyMatch(currentPest -> currentPest.equals(aPest))) {
@@ -59,30 +59,28 @@ public class PestService implements ICRUDService<Pest> {
         }
     }
 
-//    public void update(Supervisor aSupervisor) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
-//        
-//        var existentSupervisor = supervisorRepository.findById(aSupervisor.getId()).orElseThrow(EntityNotFoundException::new);
-//        
-//        var allSupervisorsWithoutExistentSupervisor = new ArrayList<Supervisor>(supervisorRepository.findAll());
-//        allSupervisorsWithoutExistentSupervisor.remove(existentSupervisor);
-//
-//        if (allSupervisorsWithoutExistentSupervisor.stream().anyMatch(currentSupervisor -> currentSupervisor.equals(aSupervisor)))
-//            throw new EntityAlreadyExistsException();
-//                
-//        try {
-//            existentSupervisor.setName(aSupervisor.getName());
-//            existentSupervisor.setEmail(aSupervisor.getEmail());
-//            
-//            var theRegion = regionService.readById(aSupervisor.getRegionId());
-//            existentSupervisor.setRegion(theRegion);
-//            
-//            supervisorRepository.saveAndFlush(existentSupervisor);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
-//    }
-//
+    public void update(Pest aPest) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException { 
+        
+        var existentPest = pestRepository.findById(aPest.getId()).orElseThrow(EntityNotFoundException::new);
+        
+        var allPestsWithoutExistentPest = new ArrayList<Pest>(pestRepository.findAll());
+        allPestsWithoutExistentPest.remove(existentPest);
+
+        if (allPestsWithoutExistentPest.stream().anyMatch(currentPest -> currentPest.equals(aPest)))
+            throw new EntityAlreadyExistsException();
+                
+        try {
+            existentPest.setUsualName(aPest.getUsualName());
+            existentPest.setScientificName(aPest.getScientificName());
+            existentPest.setPestSize(aPest.getPestSize());
+                        
+            pestRepository.saveAndFlush(existentPest);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
+
 //    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 //        
 //        var existentSupervisor = supervisorRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
@@ -99,16 +97,7 @@ public class PestService implements ICRUDService<Pest> {
 //    }
 
 
-    @Override
-    public Pest readById(Long anId) throws EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update(Pest entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
