@@ -2,6 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
@@ -14,8 +15,10 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
@@ -33,10 +36,19 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Getter
     @Setter
     private Long selectedHarvestId;
-
+    
+    @Getter
+    @Setter
+    private List<MIPSampleOccurrence> occurrences;
+    
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
         this.mipSampleService = aMipSampleService;
+        
+        occurrences = new ArrayList<>();
+        
+        for (Pest currentPest: mipSampleService.readAllPests())
+            occurrences.add(MIPSampleOccurrence.builder().mipEntity(currentPest).value(0.0).build());
     }
 
     @Override
@@ -78,7 +90,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     public List<Pest> readAllPests() {
         return mipSampleService.readAllPests();
     }
-
+    
 //    public List<PestSize> readAllPestSizes() {
 //        return Arrays.asList(PestSize.values());
 //    }    
@@ -86,7 +98,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Override
     public String create() {
         
-        System.out.println(this.getSurvey().getFieldName());
+        this.getOccurrences().forEach(entry -> System.out.println (entry.getMipEntity().getId() + ": " + entry.getValue()));
         
         return "index.xhtml";
         
