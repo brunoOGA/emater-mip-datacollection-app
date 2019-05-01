@@ -10,11 +10,14 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.text.SimpleDateFormat;
@@ -58,6 +61,8 @@ class CLR implements CommandLineRunner {
 
     private HarvestRepository harvestRepository;
     private SurveyRepository surveyRepository;
+    
+    private PestRepository pestRepository;
 
     @Autowired
     CLR(MacroRegionRepository macroRegionRepository,
@@ -67,7 +72,8 @@ class CLR implements CommandLineRunner {
             SupervisorRepository aSupervisorRepository,
             FieldRepository aFieldRepository,
             HarvestRepository aHarvestRepository,
-            SurveyRepository aSurveyRepository) {
+            SurveyRepository aSurveyRepository,
+            PestRepository aPestRepository) {
 
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
@@ -78,6 +84,8 @@ class CLR implements CommandLineRunner {
 
         this.harvestRepository = aHarvestRepository;
         this.surveyRepository = aSurveyRepository;
+        
+        this.pestRepository = aPestRepository;
     }
 
     @Override
@@ -278,6 +286,24 @@ class CLR implements CommandLineRunner {
                     .build()
         ); 
         
+        Pest p1 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.GREATER_15CM).build());
+        Pest p2 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.SMALLER_15CM).build());
+        Pest p3 = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(PestSize.GREATER_15CM).build());
+        Pest p4 = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(PestSize.SMALLER_15CM).build());
+        Pest p5 = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(PestSize.GREATER_15CM).build());
+        Pest p6 = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(PestSize.SMALLER_15CM).build());
+        Pest p7 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("").pestSize(PestSize.GREATER_15CM).build());
+        Pest p8 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("Chrysodeixis spp.").pestSize(PestSize.SMALLER_15CM).build());
+        Pest p9 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p10 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(PestSize.ADULT).build());
+        Pest p11 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p12 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(PestSize.ADULT).build());
+        Pest p13 = pestRepository.save(Pest.builder().usualName("Percevejo Marrom").scientificName("Eushistus sp.").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p14 = pestRepository.save(Pest.builder().usualName("Percevejo Marrom").scientificName("Eushistus sp.").pestSize(PestSize.ADULT).build());
+        Pest p15 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p16 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(PestSize.ADULT).build());
+        Pest p17 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p18 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(PestSize.ADULT).build());
     }
 
 }
