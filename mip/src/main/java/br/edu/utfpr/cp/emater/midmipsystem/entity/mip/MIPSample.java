@@ -1,6 +1,8 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode (onlyExplicitlyIncluded = true)
-public class MIPSample {
+public class MIPSample extends AuditingPersistenceEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,12 +69,12 @@ public class MIPSample {
         return instance;
     }
     
-    public boolean addSampleOccurrence (MIPEntity entity, double value) {
-        if (this.getMipSampleOccurrences() == null)
-            this.setMipSampleOccurrences(new HashSet<MIPSampleOccurrence>());
-        
-        return this.getMipSampleOccurrences().add(MIPSampleOccurrence.builder().mipEntity(entity).value(value).build());
-    }
+//    public boolean addSampleOccurrence (MIPEntity entity, double value) {
+//        if (this.getMipSampleOccurrences() == null)
+//            this.setMipSampleOccurrences(new HashSet<MIPSampleOccurrence>());
+//        
+//        return this.getMipSampleOccurrences().add(MIPSampleOccurrence.builder().mipEntity(entity).value(value).build());
+//    }
     
     public String getHarvestName() {
         return this.getSurvey().getHarvestName();

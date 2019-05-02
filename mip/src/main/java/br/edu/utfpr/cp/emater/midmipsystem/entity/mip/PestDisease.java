@@ -1,7 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.text.WordUtils;
@@ -15,7 +19,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class PestDisease extends Auditing implements Serializable {
+public class PestDisease extends AuditingPersistenceEntity implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;    
     
     @EqualsAndHashCode.Include
     @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")

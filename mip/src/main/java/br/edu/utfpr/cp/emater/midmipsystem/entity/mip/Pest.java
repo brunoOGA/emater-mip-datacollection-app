@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,40 +21,41 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Pest implements Serializable {
-    
-    @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
+public class Pest extends AuditingPersistenceEntity implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @EqualsAndHashCode.Include
     @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")
     private String usualName;
-    
+
     private String scientificName;
-    
+
     @EqualsAndHashCode.Include
-    @Enumerated (EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private PestSize pestSize;
 
-    public void setUsualName (String usualName) {
+    public void setUsualName(String usualName) {
         this.usualName = WordUtils.capitalize(usualName.toLowerCase());
     }
 
-    public void setScientificName (String scientificName) {
+    public void setScientificName(String scientificName) {
         this.scientificName = WordUtils.capitalize(scientificName.toLowerCase());
     }
-    
+
     @Builder
-    public static Pest create (Long id, String usualName, String scientificName, PestSize pestSize) {
+    public static Pest create(Long id, String usualName, String scientificName, PestSize pestSize) {
         Pest instance = new Pest();
         instance.setId(id);
         instance.setUsualName(usualName);
         instance.setScientificName(scientificName);
         instance.setPestSize(pestSize);
-        
+
         return instance;
     }
-    
+
     public String getPestSizeName() {
         return this.getPestSize().getName();
     }
