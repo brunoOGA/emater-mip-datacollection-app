@@ -39,16 +39,22 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     
     @Getter
     @Setter
-    private List<MIPSampleOccurrence> occurrences;
+    private List<MIPSampleOccurrence> pestOccurrences;
     
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
         this.mipSampleService = aMipSampleService;
         
-        occurrences = new ArrayList<>();
+        this.initPestOccurrences();
+        
+    }
+    
+    private void initPestOccurrences() {
+        this.pestOccurrences = new ArrayList<>();
         
         for (Pest currentPest: mipSampleService.readAllPests())
-            occurrences.add(MIPSampleOccurrence.builder().mipEntity(currentPest).value(0.0).build());
+            pestOccurrences.add(MIPSampleOccurrence.builder().mipEntity(currentPest).value(0.0).build());
+        
     }
 
     @Override
@@ -98,7 +104,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Override
     public String create() {
         
-        this.getOccurrences().forEach(entry -> System.out.println (entry.getMipEntity().getId() + ": " + entry.getValue()));
+        this.getOccurrences().forEach(entry -> System.out.println (((Pest)entry.getMipEntity()).getUsualName() + ": " + entry.getValue()));
         
         return "index.xhtml";
         

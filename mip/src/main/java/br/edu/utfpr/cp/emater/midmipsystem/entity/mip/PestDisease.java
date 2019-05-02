@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class PestDisease extends MIPEntity implements Serializable {
+public class PestDisease extends Auditing implements Serializable {
     
     @EqualsAndHashCode.Include
     @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")

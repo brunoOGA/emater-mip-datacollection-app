@@ -4,6 +4,9 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.text.WordUtils;
@@ -17,7 +20,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Pest extends MIPEntity implements Serializable {
+public class Pest implements Serializable {
+    
+    @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
     
     @EqualsAndHashCode.Include
     @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")
