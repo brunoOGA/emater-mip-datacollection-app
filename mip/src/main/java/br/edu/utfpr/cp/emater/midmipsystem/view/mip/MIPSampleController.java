@@ -99,14 +99,11 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
         return mipSampleService.readAllPests();
     }
 
-//    public List<PestSize> readAllPestSizes() {
-//        return Arrays.asList(PestSize.values());
-//    }    
-//
     @Override
     public String create() {
         
-        this.getMipSamplePestOccurrence().forEach(current -> System.out.println (current.getPestUsualName() + ": " + current.getValue()));
+//        this.getPestOccurrences().forEach(current -> System.out.println (current.getPestUsualName() + ": " + current.getValue()));
+           System.out.println(this.getPestOccurrences().size());
 
         return "index.xhtml";
 
