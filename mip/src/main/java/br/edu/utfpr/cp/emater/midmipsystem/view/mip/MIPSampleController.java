@@ -17,6 +17,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
@@ -40,25 +41,11 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Getter
     @Setter
     private List<MIPSamplePestOccurrence> pestOccurrences;
-    
+
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
         this.mipSampleService = aMipSampleService;
-        
-        this.initPestOccurrences();
-        
-    }
-    
-    private void initPestOccurrences() {
-        this.pestOccurrences = new ArrayList<>();
-        
-        MIPSamplePestOccurrence instance = null;
-        
-//        for (Pest currentPest: mipSampleService.readAllPests()) {
-//             instance = new MIPSamplePestOccurrence();
-//             instance.setMipEntity(currentPest);
-//             instance.setValue(0.0);
-//        }
+
     }
 
     @Override
@@ -84,6 +71,8 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
             var selectedHarvest = mipSampleService.readHarvestById(this.getSelectedHarvestId());
 
             this.setSelectedHarvestId(selectedHarvest.getId());
+            
+            this.prepareMIPSamplePestOccurrences();
 
             return "create.xhtml";
 
@@ -93,14 +82,23 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
         }
     }
 
+    private void prepareMIPSamplePestOccurrences() {
+        var pestOccurrences = new ArrayList<MIPSamplePestOccurrence>();
+        
+        for (Pest currentPest: mipSampleService.readAllPests())
+            pestOccurrences.add(MIPSamplePestOccurrence.builder().pest(currentPest).value(0.0).build());
+        
+        this.setPestOccurrences(pestOccurrences);
+    }
+
     public List<GrowthPhase> readAllGrowthPhases() {
         return Arrays.asList(GrowthPhase.values());
     }
-    
+
     public List<Pest> readAllPests() {
         return mipSampleService.readAllPests();
     }
-    
+
 //    public List<PestSize> readAllPestSizes() {
 //        return Arrays.asList(PestSize.values());
 //    }    
@@ -108,10 +106,10 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Override
     public String create() {
         
-//        this.getPestOccurrences().forEach(currentPest -> System.out.println (currentPest.));
-        
+        this.getMipSamplePestOccurrence().forEach(current -> System.out.println (current.getPestUsualName() + ": " + current.getValue()));
+
         return "index.xhtml";
-        
+
 //        var newPest = Pest.builder().usualName(this.getUsualName()).scientificName(this.getScientificName()).pestSize(this.getPestSize()).build();
 //
 //        try {
