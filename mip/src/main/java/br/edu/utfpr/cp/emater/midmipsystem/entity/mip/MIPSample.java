@@ -24,7 +24,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode (onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class MIPSample extends AuditingPersistenceEntity implements Serializable {
 
     @Id
@@ -42,60 +42,84 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
     private GrowthPhase growthPhase;
 
     @ElementCollection
-    private Set<MIPSampleOccurrence> mipSampleOccurrences;
+    private Set<MIPSamplePestOccurrence> mipSamplePestOccurrence;
+
+    @ElementCollection
+    private Set<MIPSamplePestDiseaseOccurrence> mipSamplePestDiseaseOccurrence;
+
+    @ElementCollection
+    private Set<MIPSampleNaturalPredatorOccurrence> mipSampleNaturalPredatorOccurrence;
 
     @EqualsAndHashCode.Include
     @ManyToOne
     private Survey survey;
-    
+
     @Builder
-    public static MIPSample create (Long id,
-                                    Date sampleDate,
-                                    int daysAfterEmergence,
-                                    int defoliation,
-                                    GrowthPhase growthPhase,
-                                    Set<MIPSampleOccurrence> mipSampleOccurrences,
-                                    Survey survey) {
-        
+    public static MIPSample create(Long id,
+            Date sampleDate,
+            int daysAfterEmergence,
+            int defoliation,
+            GrowthPhase growthPhase,
+            Survey survey) {
+
         var instance = new MIPSample();
         instance.setId(id);
         instance.setSampleDate(sampleDate);
         instance.setDaysAfterEmergence(daysAfterEmergence);
         instance.setDefoliation(defoliation);
         instance.setGrowthPhase(growthPhase);
-        instance.setMipSampleOccurrences(mipSampleOccurrences);
         instance.setSurvey(survey);
-        
+
         return instance;
     }
+
+    public boolean addPestOccurrence(Pest pest, double value) {
+
+        if (this.getMipSamplePestOccurrence() == null) {
+            this.setMipSamplePestOccurrence(new HashSet<>());
+        }
+
+        return this.getMipSamplePestOccurrence().add(MIPSamplePestOccurrence.builder().pest(pest).value(value).build());
+    }
+
+    public boolean addPestDiseaseOccurrence(PestDisease pestDisease, double value) {
+
+        if (this.getMipSamplePestDiseaseOccurrence() == null) {
+            this.setMipSamplePestDiseaseOccurrence(new HashSet<>());
+        }
+
+        return this.getMipSamplePestDiseaseOccurrence().add(MIPSamplePestDiseaseOccurrence.builder().pestDisease(pestDisease).value(value).build());
+    }
     
-//    public boolean addSampleOccurrence (MIPEntity entity, double value) {
-//        if (this.getMipSampleOccurrences() == null)
-//            this.setMipSampleOccurrences(new HashSet<MIPSampleOccurrence>());
-//        
-//        return this.getMipSampleOccurrences().add(MIPSampleOccurrence.builder().mipEntity(entity).value(value).build());
-//    }
-    
+    public boolean addPestNaturalPredatorOccurrence(PestNaturalPredator pestNaturalPredator, double value) {
+
+        if (this.getMipSampleNaturalPredatorOccurrence() == null) {
+            this.setMipSampleNaturalPredatorOccurrence(new HashSet<>());
+        }
+
+        return this.getMipSampleNaturalPredatorOccurrence().add(MIPSampleNaturalPredatorOccurrence.builder().pestNaturalPredator(pestNaturalPredator).value(value).build());
+    }    
+
     public String getHarvestName() {
         return this.getSurvey().getHarvestName();
     }
-    
+
     public String getFarmerName() {
         return this.getSurvey().getFarmerString();
     }
-    
+
     public String getFieldName() {
         return this.getSurvey().getFieldName();
     }
-    
+
     public String getCityName() {
         return this.getSurvey().getFieldCityName();
     }
-    
+
     public String getSupervisorNames() {
         return this.getSurvey().getField().getSupervisorNames().toString();
     }
-    
+
     public String getSeedName() {
         return this.getSurvey().getSeedName();
     }

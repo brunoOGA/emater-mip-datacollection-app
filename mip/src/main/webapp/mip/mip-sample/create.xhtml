@@ -94,7 +94,9 @@
                                         <b:panel title="Passo 3/5: Flutuação das Pragas" look="primary" collapsible="false">
 
                                             <b:dataTable value="#{mipSampleController.occurrences}" var="anOccurrence">
-                                                <b:dataTableColumn value="#{anOccurrence.mipEntity.id}" label="Nome" />
+                                                <b:dataTableColumn value="#{anOccurrence.mipEntity.usualName}" label="Nome" />
+                                                <b:dataTableColumn value="#{anOccurrence.mipEntity.scientificName}" label="Nome Científico" />
+                                                <b:dataTableColumn value="#{anOccurrence.mipEntity.pestSize}" label="Tamanho" />
                                                 <b:dataTableColumn label="Média Encontrada" >
                                                     <b:inputText placeholder="0,0" value="#{anOccurrence.value}"></b:inputText>
                                                 </b:dataTableColumn>

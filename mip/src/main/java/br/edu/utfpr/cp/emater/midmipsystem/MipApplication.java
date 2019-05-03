@@ -12,6 +12,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
@@ -29,6 +32,10 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.eclipse.jdt.core.compiler.CharOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -68,11 +75,11 @@ class CLR implements CommandLineRunner {
 
     private HarvestRepository harvestRepository;
     private SurveyRepository surveyRepository;
-    
+
     private PestRepository pestRepository;
     private PestDiseaseRepository pestDiseaseRepository;
     private PestNaturalPredatorRepository pestNaturalPredatorRepository;
-    
+
     private MIPSampleRepository mipSampleRepository;
 
     @Autowired
@@ -98,11 +105,11 @@ class CLR implements CommandLineRunner {
 
         this.harvestRepository = aHarvestRepository;
         this.surveyRepository = aSurveyRepository;
-        
+
         this.pestRepository = aPestRepository;
         this.pestDiseaseRepository = aPestDiseaseRepository;
         this.pestNaturalPredatorRepository = aPestNaturalPredatorRepository;
-        
+
         this.mipSampleRepository = aMIPSampleRepository;
     }
 
@@ -180,16 +187,14 @@ class CLR implements CommandLineRunner {
         field5.addSupervisor(s3);
         var persistentField5 = fieldRepository.save(field5);
 
-        
-        
         var harvest1 = harvestRepository.save(
                 Harvest.builder()
                         .name("Safra 2016/2017")
                         .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2016"))
                         .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2017"))
                         .build()
-        );        
-        
+        );
+
         var harvest2 = harvestRepository.save(
                 Harvest.builder()
                         .name("Safra 2017/2018")
@@ -197,113 +202,112 @@ class CLR implements CommandLineRunner {
                         .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2018"))
                         .build()
         );
-        
+
         var survey1 = surveyRepository.save(
-            Survey.builder()
-                    .harvest(harvest1)
-                    .field(persistentField3)
-                    .seedName("TMG 7262 RR1")
-                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-1"))
-                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-8"))
-                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-02-26"))
-                    .rustResistant(true)
-                    .bt(false)
-                    .totalArea(4.4)
-                    .totalPlantedArea(10)
-                    .plantPerMeter(9)
-                    .productivityField(161.7)
-                    .productivityFarmer(159.5)
-                    .separatedWeight(true)
-                    .longitude(2.5)
-                    .latitude(3.5)
-                    .build()
+                Survey.builder()
+                        .harvest(harvest1)
+                        .field(persistentField3)
+                        .seedName("TMG 7262 RR1")
+                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-1"))
+                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-8"))
+                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-02-26"))
+                        .rustResistant(true)
+                        .bt(false)
+                        .totalArea(4.4)
+                        .totalPlantedArea(10)
+                        .plantPerMeter(9)
+                        .productivityField(161.7)
+                        .productivityFarmer(159.5)
+                        .separatedWeight(true)
+                        .longitude(2.5)
+                        .latitude(3.5)
+                        .build()
         );
-        
+
         var survey2 = surveyRepository.save(
-            Survey.builder()
-                    .harvest(harvest1)
-                    .field(persistentField2)
-                    .seedName("BMX RAIO Ipro")
-                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
-                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-11"))
-                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-12"))
-                    .rustResistant(false)
-                    .bt(true)
-                    .totalArea(18)
-                    .totalPlantedArea(62)
-                    .plantPerMeter(13)
-                    .productivityField(197)
-                    .productivityFarmer(182)
-                    .separatedWeight(true)
-                    .longitude(3.5)
-                    .latitude(4.5)
-                    .build()
+                Survey.builder()
+                        .harvest(harvest1)
+                        .field(persistentField2)
+                        .seedName("BMX RAIO Ipro")
+                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
+                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-11"))
+                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-12"))
+                        .rustResistant(false)
+                        .bt(true)
+                        .totalArea(18)
+                        .totalPlantedArea(62)
+                        .plantPerMeter(13)
+                        .productivityField(197)
+                        .productivityFarmer(182)
+                        .separatedWeight(true)
+                        .longitude(3.5)
+                        .latitude(4.5)
+                        .build()
         );
-        
 
         var survey3 = surveyRepository.save(
-            Survey.builder()
-                    .harvest(harvest1)
-                    .field(persistentField5)
-                    .seedName("TMG 7262 RR")
-                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
-                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-9"))
-                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-20"))
-                    .rustResistant(true)
-                    .bt(false)
-                    .totalArea(5.74)
-                    .totalPlantedArea(35.09)
-                    .plantPerMeter(11)
-                    .productivityField(137.5)
-                    .productivityFarmer(120)
-                    .separatedWeight(true)
-                    .longitude(4.5)
-                    .latitude(5.5)
-                    .build()
+                Survey.builder()
+                        .harvest(harvest1)
+                        .field(persistentField5)
+                        .seedName("TMG 7262 RR")
+                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
+                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-9"))
+                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-20"))
+                        .rustResistant(true)
+                        .bt(false)
+                        .totalArea(5.74)
+                        .totalPlantedArea(35.09)
+                        .plantPerMeter(11)
+                        .productivityField(137.5)
+                        .productivityFarmer(120)
+                        .separatedWeight(true)
+                        .longitude(4.5)
+                        .latitude(5.5)
+                        .build()
         );
-        
+
         var survey4 = surveyRepository.save(
-            Survey.builder()
-                    .harvest(harvest1)
-                    .field(persistentField4)
-                    .seedName("TMG -  7262")
-                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-24"))
-                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-10"))
-                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-18"))
-                    .rustResistant(true)
-                    .bt(false)
-                    .totalArea(3.63)
-                    .totalPlantedArea(3.63)
-                    .plantPerMeter(9)
-                    .productivityField(158.5)
-                    .productivityFarmer(158.5)
-                    .separatedWeight(true)
-                    .longitude(6.5)
-                    .latitude(6.5)
-                    .build()
-        );        
-        
+                Survey.builder()
+                        .harvest(harvest1)
+                        .field(persistentField4)
+                        .seedName("TMG -  7262")
+                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-24"))
+                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-10"))
+                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-18"))
+                        .rustResistant(true)
+                        .bt(false)
+                        .totalArea(3.63)
+                        .totalPlantedArea(3.63)
+                        .plantPerMeter(9)
+                        .productivityField(158.5)
+                        .productivityFarmer(158.5)
+                        .separatedWeight(true)
+                        .longitude(6.5)
+                        .latitude(6.5)
+                        .build()
+        );
+
         var survey5 = surveyRepository.save(
-            Survey.builder()
-                    .harvest(harvest1)
-                    .field(persistentField1)
-                    .seedName("P95R51")
-                    .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-9-26"))
-                    .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-10"))
-                    .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-15"))
-                    .rustResistant(false)
-                    .bt(false)
-                    .totalArea(7.26)
-                    .totalPlantedArea(242)
-                    .plantPerMeter(15)
-                    .productivityField(187)
-                    .productivityFarmer(170)
-                    .separatedWeight(true)
-                    .longitude(7.5)
-                    .latitude(8.5)
-                    .build()
-        ); 
-        
+                Survey.builder()
+                        .harvest(harvest1)
+                        .field(persistentField1)
+                        .seedName("P95R51")
+                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-9-26"))
+                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-10"))
+                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-15"))
+                        .rustResistant(false)
+                        .bt(false)
+                        .totalArea(7.26)
+                        .totalPlantedArea(242)
+                        .plantPerMeter(15)
+                        .productivityField(187)
+                        .productivityFarmer(170)
+                        .separatedWeight(true)
+                        .longitude(7.5)
+                        .latitude(8.5)
+                        .build()
+        );
+
         var p1 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.GREATER_15CM).build());
         var p2 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.SMALLER_15CM).build());
         var p3 = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(PestSize.GREATER_15CM).build());
@@ -322,10 +326,10 @@ class CLR implements CommandLineRunner {
         var p16 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(PestSize.ADULT).build());
         var p17 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
         var p18 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(PestSize.ADULT).build());
-        
+
         var pestDisease1 = pestDiseaseRepository.save(PestDisease.builder().usualName("Lagarta com Nomuraea rileyi (Doença Branca)").build());
         var pestDisease2 = pestDiseaseRepository.save(PestDisease.builder().usualName("Lagarta com Baculovírus (Doença Preta)").build());
-        
+
         var pestNaturalPredator1 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Calosoma granulatum").build());
         var pestNaturalPredator2 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Callida sp.").build());
         var pestNaturalPredator3 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Callida scutellaris").build());
@@ -339,68 +343,68 @@ class CLR implements CommandLineRunner {
         var pestNaturalPredator11 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Aranhas").build());
         var pestNaturalPredator12 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Formigas").build());
         var pestNaturalPredator13 = pestNaturalPredatorRepository.save(PestNaturalPredator.builder().usualName("Outros").build());
-        
-        
+
         var mipSurvey3Sample1 = MIPSample.builder()
-                                    .daysAfterEmergence(22)
-                                    .defoliation(0)
-                                    .growthPhase(GrowthPhase.V3)
-                                    .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-31"))
-                                    .survey(survey3)
-                                .build();
-        
-        mipSurvey3Sample1.addSampleOccurrence(p6, 1.0);
-        mipSurvey3Sample1.addSampleOccurrence(pestNaturalPredator5, 1.0);
-        mipSurvey3Sample1.addSampleOccurrence(pestNaturalPredator11, 1.0);
-        
+                .daysAfterEmergence(22)
+                .defoliation(0)
+                .growthPhase(GrowthPhase.V3)
+                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-31"))
+                .survey(survey3)
+                .build();
+
+        mipSurvey3Sample1.addPestOccurrence(p6, 1.0);
+        mipSurvey3Sample1.addPestNaturalPredatorOccurrence(pestNaturalPredator5, 1.0);
+        mipSurvey3Sample1.addPestNaturalPredatorOccurrence(pestNaturalPredator11, 1.0);
+
         mipSampleRepository.save(mipSurvey3Sample1);
-        
+
         var mipSurvey3Sample2 = MIPSample.builder()
-                                    .daysAfterEmergence(51)
-                                    .defoliation(3)
-                                    .growthPhase(GrowthPhase.R1)
-                                    .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-29"))
-                                    .survey(survey3)
-                                .build();
+                .daysAfterEmergence(51)
+                .defoliation(3)
+                .growthPhase(GrowthPhase.R1)
+                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-29"))
+                .survey(survey3)
+                .build();
         
-        mipSurvey3Sample2.addSampleOccurrence(p1, 3.0);
-        mipSurvey3Sample2.addSampleOccurrence(pestDisease1, 0.9);
-        mipSurvey3Sample2.addSampleOccurrence(pestNaturalPredator12, 4.0);
-        
+        mipSurvey3Sample2.addPestOccurrence(p1, 3.0);
+        mipSurvey3Sample2.addPestDiseaseOccurrence(pestDisease1, 0.9);
+        mipSurvey3Sample2.addPestNaturalPredatorOccurrence(pestNaturalPredator12, 4.0);
+
         mipSampleRepository.save(mipSurvey3Sample2);
-        
+
         var mipSurvey4Sample1 = MIPSample.builder()
-                                    .daysAfterEmergence(18)
-                                    .defoliation(0)
-                                    .growthPhase(GrowthPhase.V2)
-                                    .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-16"))
-                                    .survey(survey4)
-                                .build();
-        
+                .daysAfterEmergence(18)
+                .defoliation(0)
+                .growthPhase(GrowthPhase.V2)
+                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-16"))
+                .survey(survey4)
+                .build();
+
         mipSampleRepository.save(mipSurvey4Sample1);
-        
+
         var mipSurvey4Sample2 = MIPSample.builder()
-                                    .daysAfterEmergence(81)
-                                    .defoliation(3)
-                                    .growthPhase(GrowthPhase.R3)
-                                    .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-18"))
-                                    .survey(survey4)
-                                .build();
+                .daysAfterEmergence(81)
+                .defoliation(3)
+                .growthPhase(GrowthPhase.R3)
+                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-18"))
+                .survey(survey4)
+                .build();
         
-        mipSurvey4Sample2.addSampleOccurrence(p2, 0.2);
-        mipSurvey4Sample2.addSampleOccurrence(p3, 1.3);
-        mipSurvey4Sample2.addSampleOccurrence(p4, 0.6);
-        mipSurvey4Sample2.addSampleOccurrence(p6, 0.1);
-        mipSurvey4Sample2.addSampleOccurrence(p13, 0.7);
-        mipSurvey4Sample2.addSampleOccurrence(p14, 0.1);
-        mipSurvey4Sample2.addSampleOccurrence(p15, 0.2);
-        mipSurvey4Sample2.addSampleOccurrence(pestDisease1, 1.5);
-        mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator8, 0.4);
-        mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator11, 1.6);
-        mipSurvey4Sample2.addSampleOccurrence(pestNaturalPredator13, 1.6);
+        mipSurvey4Sample2.addPestOccurrence(p2, 0.2);
+        mipSurvey4Sample2.addPestOccurrence(p3, 1.3);
+        mipSurvey4Sample2.addPestOccurrence(p4, 0.6);
+        mipSurvey4Sample2.addPestOccurrence(p6, 0.1);
+        mipSurvey4Sample2.addPestOccurrence(p13, 0.7);
+        mipSurvey4Sample2.addPestOccurrence(p14, 0.1);
+        mipSurvey4Sample2.addPestOccurrence(p15, 0.2);
         
+        mipSurvey4Sample2.addPestDiseaseOccurrence(pestDisease1, 1.5);
+        
+        mipSurvey4Sample2.addPestNaturalPredatorOccurrence(pestNaturalPredator8, 0.4);
+        mipSurvey4Sample2.addPestNaturalPredatorOccurrence(pestNaturalPredator11, 1.6);
+        mipSurvey4Sample2.addPestNaturalPredatorOccurrence(pestNaturalPredator13, 1.6);
+
         mipSampleRepository.save(mipSurvey4Sample2);
-        
     }
 
 }

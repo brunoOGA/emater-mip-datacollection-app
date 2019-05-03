@@ -2,7 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
@@ -39,7 +39,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     
     @Getter
     @Setter
-    private List<MIPSampleOccurrence> pestOccurrences;
+    private List<MIPSamplePestOccurrence> pestOccurrences;
     
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
@@ -52,9 +52,13 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     private void initPestOccurrences() {
         this.pestOccurrences = new ArrayList<>();
         
-        for (Pest currentPest: mipSampleService.readAllPests())
-            pestOccurrences.add(MIPSampleOccurrence.builder().mipEntity(currentPest).value(0.0).build());
+        MIPSamplePestOccurrence instance = null;
         
+//        for (Pest currentPest: mipSampleService.readAllPests()) {
+//             instance = new MIPSamplePestOccurrence();
+//             instance.setMipEntity(currentPest);
+//             instance.setValue(0.0);
+//        }
     }
 
     @Override
@@ -104,7 +108,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Override
     public String create() {
         
-        this.getOccurrences().forEach(entry -> System.out.println (((Pest)entry.getMipEntity()).getUsualName() + ": " + entry.getValue()));
+//        this.getPestOccurrences().forEach(currentPest -> System.out.println (currentPest.));
         
         return "index.xhtml";
         

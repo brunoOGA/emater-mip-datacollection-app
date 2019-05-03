@@ -20,16 +20,16 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode (onlyExplicitlyIncluded = true)
 public class Pest extends AuditingPersistenceEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @EqualsAndHashCode.Include
     @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")
-    private String usualName;
+    protected String usualName;
 
     private String scientificName;
 
