@@ -12,19 +12,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Embeddable
-@EqualsAndHashCode (onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 @Setter
 public class MIPSamplePestDiseaseOccurrence implements Serializable {
-    
+
     @EqualsAndHashCode.Include
     protected double value;
-    
+
     @EqualsAndHashCode.Include
-    @ManyToOne (fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     protected PestDisease pestDisease;
- 
+
+    public String getPestDiseaseUsualName() {
+        return this.getPestDisease().getUsualName();
+    }
 }

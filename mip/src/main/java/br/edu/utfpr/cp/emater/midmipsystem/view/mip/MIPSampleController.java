@@ -2,8 +2,12 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -42,10 +46,21 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Setter
     private List<MIPSamplePestOccurrence> pestOccurrences;
 
+    @Getter
+    @Setter
+    private List<MIPSamplePestDiseaseOccurrence> pestDiseaseOccurrences;
+    
+    @Getter
+    @Setter
+    private List<MIPSampleNaturalPredatorOccurrence> pestNaturalPredatorOccurrences;
+
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
         this.mipSampleService = aMipSampleService;
+        
         this.prepareMIPSamplePestOccurrences();
+        this.prepareMIPSamplePestDiseaseOccurrences();
+        this.prepareMIPSampleNaturalPredatorOccurrences();
 
     }
 
@@ -91,6 +106,26 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
         this.setPestOccurrences(pestOccurrences);
     }
 
+    private void prepareMIPSamplePestDiseaseOccurrences() {
+        var pestDiseaseOccurrences = new ArrayList<MIPSamplePestDiseaseOccurrence>();
+
+        for (PestDisease currentPestDisease : mipSampleService.readAllPestDiseases()) {
+            pestDiseaseOccurrences.add(MIPSamplePestDiseaseOccurrence.builder().pestDisease(currentPestDisease).value(0.0).build());
+        }
+
+        this.setPestDiseaseOccurrences(pestDiseaseOccurrences);
+    }
+    
+    private void prepareMIPSampleNaturalPredatorOccurrences() {
+        var pestNaturalPredatorOccurrences = new ArrayList<MIPSampleNaturalPredatorOccurrence>();
+        
+        for (PestNaturalPredator currentNaturalPredator: mipSampleService.readAllPestNaturalPredators()) {
+            pestNaturalPredatorOccurrences.add(MIPSampleNaturalPredatorOccurrence.builder().pestNaturalPredator(currentNaturalPredator).value(0.0).build());
+        }
+        
+        this.setPestNaturalPredatorOccurrences (pestNaturalPredatorOccurrences);
+    }
+
     public List<GrowthPhase> readAllGrowthPhases() {
         return Arrays.asList(GrowthPhase.values());
     }
@@ -102,7 +137,9 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Override
     public String create() {
 
-        this.getPestOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println (current.getPestUsualName() + ": " + current.getValue()));
+        this.getPestOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestUsualName() + ": " + current.getValue()));
+        this.getPestDiseaseOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestDiseaseUsualName() + ": " + current.getValue()));
+        this.getPestNaturalPredatorOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestNaturalPredatorUsualName() + ": " + current.getValue()));
 //        System.out.println(this.getPestOccurrences().size());
 
         return "index.xhtml";

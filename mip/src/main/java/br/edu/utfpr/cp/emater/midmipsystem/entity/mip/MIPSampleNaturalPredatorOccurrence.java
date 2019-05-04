@@ -26,4 +26,8 @@ public class MIPSampleNaturalPredatorOccurrence implements Serializable {
     @EqualsAndHashCode.Include
     @ManyToOne (fetch = FetchType.EAGER)
     protected PestNaturalPredator pestNaturalPredator;
+    
+    public String getPestNaturalPredatorUsualName() {
+        return this.getPestNaturalPredator().getUsualName();
+    } 
 }

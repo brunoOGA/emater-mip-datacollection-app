@@ -101,9 +101,6 @@
                                                     <b:inputText placeholder="0,0" value="#{aPestOccurrence.value}"></b:inputText>
                                                 </b:dataTableColumn>
                                             </b:dataTable>
-
-                                            <b:commandButton look="success" value="Salvar Amostra" action="#{mipSampleController.create()}"></b:commandButton>
-
                                         </b:panel>
 
                                     </b:carouselItem>
@@ -112,16 +109,12 @@
 
                                         <b:panel title="Passo 4/5: Doenças das Pragas" look="primary" collapsible="false">
 
-<!--                                            <b:dataTable value="#{mipSampleController.pestOccurrences}" var="aPestOccurrence">
-                                                <b:dataTableColumn value="#{aPestOccurrence.pestUsualName}" label="Nome" />
-                                                <b:dataTableColumn value="#{aPestOccurrence.pestScientificName}" label="Nome Científico" />
-                                                <b:dataTableColumn value="#{aPestOccurrence.pestSizeName}" label="Tamanho" />
+                                            <b:dataTable value="#{mipSampleController.pestDiseaseOccurrences}" var="aPestDiseaseOccurrence">
+                                                <b:dataTableColumn value="#{aPestDiseaseOccurrence.pestDiseaseUsualName}" label="Nome" />
                                                 <b:dataTableColumn label="Média Encontrada" >
-                                                    <b:inputText placeholder="0,0" value="#{aPestOccurrence.value}"></b:inputText>
+                                                    <b:inputText placeholder="0,0" value="#{aPestDiseaseOccurrence.value}"></b:inputText>
                                                 </b:dataTableColumn>
                                             </b:dataTable>
-
-                                            <b:commandButton look="success" value="Salvar Amostra" action="#{mipSampleController.create()}"></b:commandButton>-->
 
                                         </b:panel>
 
@@ -130,6 +123,14 @@
                                     <b:carouselItem>
 
                                         <b:panel title="Passo 5/5: Inimigos Naturais das Pragas" look="primary" collapsible="false">
+                                            <b:dataTable value="#{mipSampleController.pestNaturalPredatorOccurrences}" var="aPestNaturalPredatorOccurrence">
+                                                <b:dataTableColumn value="#{aPestNaturalPredatorOccurrence.pestNaturalPredatorUsualName}" label="Nome" />
+                                                <b:dataTableColumn label="Média Encontrada" >
+                                                    <b:inputText placeholder="0,0" value="#{aPestNaturalPredatorOccurrence.value}"></b:inputText>
+                                                </b:dataTableColumn>
+                                            </b:dataTable>
+
+                                            <b:commandButton look="success" value="Salvar Amostra" action="#{mipSampleController.create()}"></b:commandButton>
 
                                         </b:panel>
 

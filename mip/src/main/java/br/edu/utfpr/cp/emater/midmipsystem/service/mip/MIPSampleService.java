@@ -2,6 +2,8 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.mip;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -28,17 +30,23 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
     private final HarvestService harvestService;
     private final SurveyService surveyService;
     private final PestService pestService;
+    private final PestDiseaseService pestDiseaseService;
+    private final PestNaturalPredatorService pestNaturalPredatorService;
 
     @Autowired
     public MIPSampleService(MIPSampleRepository aMipSampleRepository, 
                             HarvestService aHarvestService, 
                             SurveyService aSurveyService,
-                            PestService aPestService) {
+                            PestService aPestService,
+                            PestDiseaseService aPestDiseaseService,
+                            PestNaturalPredatorService aPestNaturalPredatorService) {
         
         this.mipSampleRepository = aMipSampleRepository;
         this.harvestService = aHarvestService;
         this.surveyService = aSurveyService;
         this.pestService = aPestService;
+        this.pestDiseaseService = aPestDiseaseService;
+        this.pestNaturalPredatorService = aPestNaturalPredatorService;
     }
 
     @Override
@@ -139,6 +147,14 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 
     public List<Pest> readAllPests() {
         return pestService.readAll();
+    }
+
+    public List<PestDisease> readAllPestDiseases() {
+        return pestDiseaseService.readAll();
+    }
+
+    public List<PestNaturalPredator> readAllPestNaturalPredators() {
+        return pestNaturalPredatorService.readAll();
     }
 
 }
