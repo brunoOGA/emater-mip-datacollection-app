@@ -37,7 +37,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Getter
     @Setter
     private Long selectedHarvestId;
-    
+
     @Getter
     @Setter
     private List<MIPSamplePestOccurrence> pestOccurrences;
@@ -45,6 +45,7 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
         this.mipSampleService = aMipSampleService;
+        this.prepareMIPSamplePestOccurrences();
 
     }
 
@@ -71,8 +72,6 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
             var selectedHarvest = mipSampleService.readHarvestById(this.getSelectedHarvestId());
 
             this.setSelectedHarvestId(selectedHarvest.getId());
-            
-            this.prepareMIPSamplePestOccurrences();
 
             return "create.xhtml";
 
@@ -84,10 +83,11 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 
     private void prepareMIPSamplePestOccurrences() {
         var pestOccurrences = new ArrayList<MIPSamplePestOccurrence>();
-        
-        for (Pest currentPest: mipSampleService.readAllPests())
+
+        for (Pest currentPest : mipSampleService.readAllPests()) {
             pestOccurrences.add(MIPSamplePestOccurrence.builder().pest(currentPest).value(0.0).build());
-        
+        }
+
         this.setPestOccurrences(pestOccurrences);
     }
 
@@ -101,9 +101,9 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 
     @Override
     public String create() {
-        
-//        this.getPestOccurrences().forEach(current -> System.out.println (current.getPestUsualName() + ": " + current.getValue()));
-           System.out.println(this.getPestOccurrences().size());
+
+        this.getPestOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println (current.getPestUsualName() + ": " + current.getValue()));
+//        System.out.println(this.getPestOccurrences().size());
 
         return "index.xhtml";
 
