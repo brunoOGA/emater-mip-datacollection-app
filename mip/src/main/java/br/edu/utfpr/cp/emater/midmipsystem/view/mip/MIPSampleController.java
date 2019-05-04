@@ -49,15 +49,19 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Getter
     @Setter
     private List<MIPSamplePestDiseaseOccurrence> pestDiseaseOccurrences;
-    
+
     @Getter
     @Setter
     private List<MIPSampleNaturalPredatorOccurrence> pestNaturalPredatorOccurrences;
+    
+    @Getter
+    @Setter
+    private Long selectedSurveyID;
 
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
         this.mipSampleService = aMipSampleService;
-        
+
         this.prepareMIPSamplePestOccurrences();
         this.prepareMIPSamplePestDiseaseOccurrences();
         this.prepareMIPSampleNaturalPredatorOccurrences();
@@ -115,15 +119,15 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 
         this.setPestDiseaseOccurrences(pestDiseaseOccurrences);
     }
-    
+
     private void prepareMIPSampleNaturalPredatorOccurrences() {
         var pestNaturalPredatorOccurrences = new ArrayList<MIPSampleNaturalPredatorOccurrence>();
-        
-        for (PestNaturalPredator currentNaturalPredator: mipSampleService.readAllPestNaturalPredators()) {
+
+        for (PestNaturalPredator currentNaturalPredator : mipSampleService.readAllPestNaturalPredators()) {
             pestNaturalPredatorOccurrences.add(MIPSampleNaturalPredatorOccurrence.builder().pestNaturalPredator(currentNaturalPredator).value(0.0).build());
         }
-        
-        this.setPestNaturalPredatorOccurrences (pestNaturalPredatorOccurrences);
+
+        this.setPestNaturalPredatorOccurrences(pestNaturalPredatorOccurrences);
     }
 
     public List<GrowthPhase> readAllGrowthPhases() {

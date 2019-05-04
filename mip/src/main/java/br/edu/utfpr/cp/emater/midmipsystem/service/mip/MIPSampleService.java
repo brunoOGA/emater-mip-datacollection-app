@@ -34,13 +34,13 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
     private final PestNaturalPredatorService pestNaturalPredatorService;
 
     @Autowired
-    public MIPSampleService(MIPSampleRepository aMipSampleRepository, 
-                            HarvestService aHarvestService, 
-                            SurveyService aSurveyService,
-                            PestService aPestService,
-                            PestDiseaseService aPestDiseaseService,
-                            PestNaturalPredatorService aPestNaturalPredatorService) {
-        
+    public MIPSampleService(MIPSampleRepository aMipSampleRepository,
+            HarvestService aHarvestService,
+            SurveyService aSurveyService,
+            PestService aPestService,
+            PestDiseaseService aPestDiseaseService,
+            PestNaturalPredatorService aPestNaturalPredatorService) {
+
         this.mipSampleRepository = aMipSampleRepository;
         this.harvestService = aHarvestService;
         this.surveyService = aSurveyService;
@@ -142,7 +142,20 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
     }
 
     public List<Survey> readAllSurveysInSelectedHarvest(Long selectedHarvestId) {
-        return surveyService.readAll().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(selectedHarvestId)).collect(Collectors.toList());
+
+        var copyOfSurveysInSelectedHarvest = surveyService.readAll().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(selectedHarvestId)).collect(Collectors.toList());
+
+        List<Survey> result = new ArrayList<>();
+
+        try {
+            for (Survey currentSurvey : copyOfSurveysInSelectedHarvest) {
+                result.add(surveyService.readById(currentSurvey.getId()));
+            }
+        } catch (Exception e) {
+            result = new ArrayList<>();
+        }
+
+        return result;
     }
 
     public List<Pest> readAllPests() {

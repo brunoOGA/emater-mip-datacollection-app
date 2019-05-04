@@ -42,52 +42,54 @@
                                             showIndicators="true"
                                             wrap="false">
 
-                                    <!--                                    <b:carouselItem>
-                                    
-                                                                            <b:panel title="Passo 1/5: Selecionar Unidade de Referência Já Adicionada à Pesquisa" look="primary" collapsible="false">
-                                    
-                                                                                <b:formGroup>
-                                                                                    <b:selectOneMenu select2="true" required="true" required-message="Uma UR deve ser selecionada" value="#{mipSampleController.survey}" label="Unidade de Referência">
-                                                                                        <f:selectItem itemLabel="(Identificação UR, Município, Produtor, Responsável Técnico)" itemValue="" />
-                                                                                        <f:selectItems value="#{mipSampleController.readAllSurveysInSelectedHarvest()}" var="aSurvey" itemValue="#{aSurvey}" itemLabel="#{aSurvey.fieldName}, #{aSurvey.fieldCityName}, #{aSurvey.farmerString}, #{aSurvey.fieldSupervisorNames}" />
-                                                                                    </b:selectOneMenu>
-                                                                                    <b:message for="@previous" />
-                                                                                </b:formGroup>              
-                                    
-                                    
-                                                                            </b:panel>
-                                    
-                                                                        </b:carouselItem>-->
+                                    <b:carouselItem>
 
-                                    <!--                                    <b:carouselItem>
-                                    
-                                                                            <b:panel title="Passo 2/5: Informar Dados da Amostragem" look="primary" collapsible="false">
-                                    
-                                                                                <b:formGroup>
-                                                                                    <b:dateTimePicker value="#{mipSampleController.sampleDate}" icon-position="left" format="DD/MM/YYYY" label="Data da Coleta" show-date="true" show-time="false"></b:dateTimePicker>
-                                                                                    <b:message for="@previous" ></b:message>                                        
-                                                                                </b:formGroup>
-                                    
-                                                                                <b:formGroup>
-                                                                                    <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um estádio" value="#{mipSampleController.growthPhase}" label="Estádio da Cultura">
-                                                                                        <f:selectItem itemLabel="(Selecione um estádio)" itemValue="" />
-                                                                                        <f:selectItems value="#{mipSampleController.readAllGrowthPhases()}" var="aGrowthPhase" itemValue="#{aGrowthPhase}" itemLabel="#{aGrowthPhase}" />
-                                                                                    </b:selectOneMenu>
-                                                                                    <b:message for="@previous" />
-                                                                                </b:formGroup>  
-                                    
-                                                                                <b:formGroup>
-                                                                                    <b:inputText label="% de Desfolha (em números inteiros)" value="#{mipSampleController.defoliation}">
-                                                                                        <f:facet name="append">
-                                                                                            <h:outputText value="%" />
-                                                                                        </f:facet>
-                                                                                    </b:inputText>
-                                                                                    <b:message for="@previous" ></b:message>                                        
-                                                                                </b:formGroup>
-                                                                                
-                                                                            </b:panel>
-                                    
-                                                                        </b:carouselItem>                                    -->
+                                        <b:panel title="Passo 1/5: Selecionar Unidade de Referência Já Adicionada à Pesquisa" look="primary" collapsible="false">
+
+                                            <b:formGroup>
+                                                <b:selectOneMenu select2="true" required="true" required-message="Uma UR deve ser selecionada" value="#{mipSampleController.selectedSurveyID}" label="Unidade de Referência">
+                                                    <f:selectItem itemLabel="(Identificação UR, Município, Produtor, Responsável Técnico)" itemValue="" />
+                                                    <f:selectItems value="#{mipSampleController.readAllSurveysInSelectedHarvest()}" var="aSurvey" itemValue="#{aSurvey.id}" itemLabel="#{aSurvey.fieldName}, #{aSurvey.fieldCityName}, #{aSurvey.farmerString}, #{aSurvey.fieldSupervisorNames}" />
+                                                </b:selectOneMenu>
+                                                <b:message for="@previous" />
+
+                                            </b:formGroup>              
+
+                                            <h:inputHidden value="#{mipSampleController.selectedHarvestId}" ></h:inputHidden>
+                                            
+                                        </b:panel>
+
+                                    </b:carouselItem>
+
+                                    <b:carouselItem>
+
+                                        <b:panel title="Passo 2/5: Informar Dados da Amostragem" look="primary" collapsible="false">
+
+                                            <b:formGroup>
+                                                <b:dateTimePicker value="#{mipSampleController.sampleDate}" icon-position="left" format="DD/MM/YYYY" label="Data da Coleta" show-date="true" show-time="false"></b:dateTimePicker>
+                                                <b:message for="@previous" ></b:message>                                        
+                                            </b:formGroup>
+
+                                            <b:formGroup>
+                                                <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um estádio" value="#{mipSampleController.growthPhase}" label="Estádio da Cultura">
+                                                    <f:selectItem itemLabel="(Selecione um estádio)" itemValue="" />
+                                                    <f:selectItems value="#{mipSampleController.readAllGrowthPhases()}" var="aGrowthPhase" itemValue="#{aGrowthPhase}" itemLabel="#{aGrowthPhase}" />
+                                                </b:selectOneMenu>
+                                                <b:message for="@previous" />
+                                            </b:formGroup>  
+
+                                            <b:formGroup>
+                                                <b:inputText label="% de Desfolha (em números inteiros)" value="#{mipSampleController.defoliation}">
+                                                    <f:facet name="append">
+                                                        <h:outputText value="%" />
+                                                    </f:facet>
+                                                </b:inputText>
+                                                <b:message for="@previous" ></b:message>                                        
+                                            </b:formGroup>
+
+                                        </b:panel>
+
+                                    </b:carouselItem>                                    
 
                                     <b:carouselItem>
 
@@ -150,8 +152,6 @@
                                     </b:carouselControl>
 
                                 </b:carousel>
-
-                                <h:inputHidden value="#{mipSampleController.selectedHarvestId}" ></h:inputHidden>
 
                             </b:panel>
                         </b:panel>
