@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">      
+
+    <h:form>
+        <b:dataTable responsive="true" value="#{surveyController.readAll()}" var="aSurvey" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+
+            <b:dataTableColumn label="Safra" value="#{aSurvey.harvestName}" />
+            <b:dataTableColumn label="Unidade de Referência" value="#{aSurvey.fieldName}" />
+            <b:dataTableColumn label="Cultivar" value="#{aSurvey.seedName}" />
+            <b:dataTableColumn label="Resistente à Ferrugem" value="#{aSurvey.rustResistant}" />
+            <b:dataTableColumn label="BT" value="#{aSurvey.bt}" />
+            <b:dataTableColumn label="Coletor de Esporos Instalado" value="#{aSurvey.sporeCollectorPresent}" />
+            <b:dataTableColumn label="Data da Semeadura" value="#{aSurvey.sowedDate}" />
+            <b:dataTableColumn label="Data da Emergência" value="#{aSurvey.emergenceDate}" />
+            <b:dataTableColumn label="Data da Colheita" value="#{aSurvey.harvestDate}" />
+            <b:dataTableColumn label="Produtividade da Unidade" value="#{aSurvey.productivityField}" />
+            <b:dataTableColumn label="Produtividade da Área Total do Produtor" value="#{aSurvey.productivityFarmer}" />
+            <b:dataTableColumn label="Pesou em Separado" value="#{aSurvey.separatedWeight}" />
+            <b:dataTableColumn label="Área da Unidade" value="#{aSurvey.totalArea}" />
+            <b:dataTableColumn label="Área Total Cultivada" value="#{aSurvey.totalPlantedArea}" />
+            <b:dataTableColumn label="No. Plantas por Metro" value="#{aSurvey.plantPerMeter}" />
+            <b:dataTableColumn label="Latitude" value="#{aSurvey.latitude}" />
+            <b:dataTableColumn label="Longitude" value="#{aSurvey.longitude}" />
+
+            <b:dataTableColumn label="Ações" class="col-md-1"> 
+                <b:commandLink action="#{surveyController.prepareUpdate(aSurvey.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                <b:commandLink action="#{surveyController.prepareDelete(aSurvey.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
+            </b:dataTableColumn>  
+
+        </b:dataTable>          
+    </h:form>     
+</ui:composition>

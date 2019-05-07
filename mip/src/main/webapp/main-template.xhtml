@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Sistema de Coleta e Análise MID/MIP</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </h:head>
+
+    <h:body>
+
+        <div id="top" class="top">
+            <ui:insert name="top">
+                <b:navBar brand="Sistema de Coleta e Análise MID/MIP" brandHref="#" fluid="true" inverse="true">
+                      <b:navbarLinks pull="right">
+                            <b:dropMenu style="font-size: 1.15em" value="Gerenciamento de Informações" iconAwesome="info-circle" icon-size="lg">
+                                  <b:navLink style="font-size: 1.15em" value="Macrorregião" href="/base/macro-region/index.xhtml"></b:navLink>
+                                  <b:navLink style="font-size: 1.15em" value="Região" href="/base/region/index.xhtml"></b:navLink>
+                                  <b:navLink style="font-size: 1.15em" value="Produtor" href="/base/farmer/index.xhtml"></b:navLink>
+                                  <b:navLink style="font-size: 1.15em" value="Responsável Técnico" href="/base/supervisor/index.xhtml"></b:navLink>
+                                  <b:navLink style="font-size: 1.15em" value="Unidade de Referência" href="/base/field/index.xhtml"></b:navLink>
+                                </b:dropMenu>
+
+                        <b:dropMenu style="font-size: 1.15em" value="Configuração da Pesquisa" iconAwesome="cogs" icon-size="lg">
+                                  <b:navLink style="font-size: 1.15em" value="Safra" href="/survey/harvest/index.xhtml"></b:navLink>
+                                  <b:navLink style="font-size: 1.15em" value="UR's Participantes da Pesquisa" href="/survey/survey/index.xhtml"></b:navLink>
+                                </b:dropMenu>
+
+                        <b:dropMenu style="font-size: 1.15em" value="Manejo Integrado de Pragas" iconAwesome="cogs" icon-size="lg">
+                                  <b:navLink style="font-size: 1.15em" value="Insetos Pragas" href="/mip/pest/index.xhtml"></b:navLink>
+                                  <b:navLink style="font-size: 1.15em" value="Doenças das Pragas" href="/mip/pest-disease/index.xhtml"></b:navLink>
+                                  <b:navLink style="font-size: 1.15em" value="Inimigos Naturais das Pragas" href="/mip/pest-natural-predator/index.xhtml"></b:navLink>
+                                  <b:navLink style="font-size: 1.15em" value="Anotação de Campo" href="/mip/mip-sample/index.xhtml"></b:navLink>
+                                </b:dropMenu>
+
+                    </b:navbarLinks>
+                </b:navBar>
+
+                <b:growl id="growlMsg" globalOnly="true" placementFrom="top"
+                         show-detail="true" show-summary="false" allowDismiss="true"
+                         delay="10000" escape="true" />
+
+            </ui:insert>
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

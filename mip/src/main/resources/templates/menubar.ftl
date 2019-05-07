@@ -15,15 +15,15 @@
                 <span class="align-middle">Gerenciamento de Informações</span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/macroregion">Macrorregião</a>
-                <a class="dropdown-item" href="/region">Região</a>
+                <a class="dropdown-item" href="/base/macro-region/readAll">Macrorregião</a>
+                <#--  <a class="dropdown-item" href="/region">Região</a>
                 <a class="dropdown-item" href="/farmer">Produtor</a>
                 <a class="dropdown-item" href="/supervisor">Responsável Técnico</a>
-                <a class="dropdown-item" href="/field">Unidade de Referência</a>
+                <a class="dropdown-item" href="/field">Unidade de Referência</a>  -->
             </div>
         </li>
 
-        <li class="nav-item dropdown">
+        <#--  <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                 <i class="material-icons align-middle">assignment</i>
                 <span class="align-middle">Configuração da Pesquisa</span>
@@ -53,7 +53,7 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="/mid/rust-monitoring/list">Monitoramento da Ferrugem</a>
             </div>
-        </li>
+        </li>  -->
 
     </ul>
 </nav>
