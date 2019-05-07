@@ -57,6 +57,10 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
     public Harvest readHarvestById(Long id) throws EntityNotFoundException {
         return harvestService.readById(id);
     }
+    
+    public List<Survey> readAllSurveys() {
+        return surveyService.readAll();
+    }
 
 //    @Override
 //    public Pest readById(Long anId) throws EntityNotFoundException {
@@ -139,23 +143,6 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 
     public List<Harvest> readAllHarvests() {
         return harvestService.readAll();
-    }
-
-    public List<Survey> readAllSurveysInSelectedHarvest(Long selectedHarvestId) {
-
-        var copyOfSurveysInSelectedHarvest = surveyService.readAll().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(selectedHarvestId)).collect(Collectors.toList());
-
-        List<Survey> result = new ArrayList<>();
-
-        try {
-            for (Survey currentSurvey : copyOfSurveysInSelectedHarvest) {
-                result.add(surveyService.readById(currentSurvey.getId()));
-            }
-        } catch (Exception e) {
-            result = new ArrayList<>();
-        }
-
-        return result;
     }
 
     public List<Pest> readAllPests() {

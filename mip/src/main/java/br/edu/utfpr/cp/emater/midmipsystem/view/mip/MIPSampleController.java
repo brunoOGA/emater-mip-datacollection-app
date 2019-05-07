@@ -24,16 +24,21 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component(value = "mipSampleController")
 @RequestScope
+@Log
 public class MIPSampleController extends MIPSample implements ICRUDController<MIPSample> {
 
     private final MIPSampleService mipSampleService;
@@ -53,10 +58,6 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     @Getter
     @Setter
     private List<MIPSampleNaturalPredatorOccurrence> pestNaturalPredatorOccurrences;
-    
-    @Getter
-    @Setter
-    private Long selectedSurveyID;
 
     @Autowired
     public MIPSampleController(MIPSampleService aMipSampleService) {
@@ -82,25 +83,26 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     }
 
     public List<Survey> readAllSurveysInSelectedHarvest() {
-        return mipSampleService.readAllSurveysInSelectedHarvest(this.getSelectedHarvestId());
+        return List.copyOf(mipSampleService.readAllSurveys().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(this.getSelectedHarvestId())).collect(Collectors.toList()));
     }
 
-    public String selectHarvest() {
+    public void selectHarvest() {
 
         try {
             var selectedHarvest = mipSampleService.readHarvestById(this.getSelectedHarvestId());
 
             this.setSelectedHarvestId(selectedHarvest.getId());
+            log.info(String.format("selectHarvestId: %d", this.selectedHarvestId));
 
-            return "create.xhtml";
+//            return "create.xhtml";
 
         } catch (EntityNotFoundException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser selecionada porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
+//            return "index.xhtml";
         }
-    }
+}
 
-    private void prepareMIPSamplePestOccurrences() {
+private void prepareMIPSamplePestOccurrences() {
         var pestOccurrences = new ArrayList<MIPSamplePestOccurrence>();
 
         for (Pest currentPest : mipSampleService.readAllPests()) {
@@ -139,13 +141,15 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     }
 
     @Override
-    public String create() {
+        public String create() {
 
-        this.getPestOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestUsualName() + ": " + current.getValue()));
-        this.getPestDiseaseOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestDiseaseUsualName() + ": " + current.getValue()));
-        this.getPestNaturalPredatorOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestNaturalPredatorUsualName() + ": " + current.getValue()));
-//        System.out.println(this.getPestOccurrences().size());
+//        this.getPestOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestUsualName() + ": " + current.getValue()));
+//        this.getPestDiseaseOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestDiseaseUsualName() + ": " + current.getValue()));
+//        this.getPestNaturalPredatorOccurrences().stream().filter(current -> current.getValue() != 0).forEach(current -> System.out.println(current.getPestNaturalPredatorUsualName() + ": " + current.getValue()));
 
+        log.info(String.format("Survey id: %d, Survey obj: %s", this.getSurvey().getId(), this.getSurvey().toString()));
+        log.info(String.format("Harvest ID: %d", this.getSelectedHarvestId()));
+        
         return "index.xhtml";
 
 //        var newPest = Pest.builder().usualName(this.getUsualName()).scientificName(this.getScientificName()).pestSize(this.getPestSize()).build();
@@ -248,22 +252,22 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 //    }
 
     @Override
-    public String prepareUpdate(Long anId) {
+        public String prepareUpdate(Long anId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String update() {
+        public String update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String prepareDelete(Long anId) {
+        public String prepareDelete(Long anId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String delete() {
+        public String delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
