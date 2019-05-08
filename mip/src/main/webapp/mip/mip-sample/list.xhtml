@@ -7,17 +7,17 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">      
 
     <h:form>
-        <b:dataTable responsive="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aMIPSample"  customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+        <b:dataTable responsive="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aSurvey"  customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
-            <b:dataTableColumn label="Safra" value="#{aMIPSample.harvestName}" />
-            <b:dataTableColumn label="Produtor" value="#{aMIPSample.farmerString}" />
-            <b:dataTableColumn label="Identificação" value="#{aMIPSample.fieldName}" />
-            <b:dataTableColumn label="Cultivar" value="#{aMIPSample.seedName}" />
-            <b:dataTableColumn label="Responsável Técnico" value="#{aMIPSample.fieldSupervisorNames}" />
-            <b:dataTableColumn label="Município" value="#{aMIPSample.fieldCityName}" />
+            <b:dataTableColumn label="Safra" value="#{aSurvey.harvestName}" />
+            <b:dataTableColumn label="Produtor" value="#{aSurvey.farmerString}" />
+            <b:dataTableColumn label="Identificação" value="#{aSurvey.fieldName}" />
+            <b:dataTableColumn label="Cultivar" value="#{aSurvey.seedName}" />
+            <b:dataTableColumn label="Responsável Técnico" value="#{aSurvey.fieldSupervisorNames}" />
+            <b:dataTableColumn label="Município" value="#{aSurvey.fieldCityName}" />
 
             <b:dataTableColumn label="Ações" class="col-md-1"> 
-                <b:commandLink tooltip="Visualizar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                <b:commandLink action="#{mipSampleDetailController.showDetail(aSurvey.id)}" tooltip="Visualizar" class="text-warning" icon-awesome="fa-2x fa-eye"></b:commandLink>
             </b:dataTableColumn>  
 
         </b:dataTable>          

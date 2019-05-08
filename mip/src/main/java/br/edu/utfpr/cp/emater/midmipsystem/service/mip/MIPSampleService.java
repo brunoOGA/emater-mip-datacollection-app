@@ -49,7 +49,7 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 
     @Override
     public MIPSample readById(Long anId) throws EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return mipSampleRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
