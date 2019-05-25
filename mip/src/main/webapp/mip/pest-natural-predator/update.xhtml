@@ -11,32 +11,30 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">            
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                        <b:panel look="warning" collapsible="false" title="Alterar Inimigo Natural da Praga">
+                    <b:panel look="warning" collapsible="false" title="Alterar Inimigo Natural da Praga">
 
-                            <b:panelGrid id="data-entry" columns="1">
-                                <b:formGroup>
-                                    <b:inputText label="Nome" value="#{pestNaturalPredatorController.usualName}"></b:inputText>
-                                    <b:message for="@previous" ></b:message>                                        
-                                </b:formGroup>                                 
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:formGroup>
+                                <b:inputText label="Nome" value="#{pestNaturalPredatorController.usualName}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>                                 
 
-                                <h:inputHidden value="#{pestNaturalPredatorController.id}" ></h:inputHidden>
-                            </b:panelGrid>             
+                            <h:inputHidden value="#{pestNaturalPredatorController.id}" ></h:inputHidden>
+                        </b:panelGrid>             
 
-                            <f:facet name="footer">
+                        <f:facet name="footer">
 
-                                <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                <b:commandButton look="warning" value="Alterar" action="#{pestNaturalPredatorController.update()}" ></b:commandButton>
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="warning" value="Alterar" action="#{pestNaturalPredatorController.update()}" ></b:commandButton>
 
-                            </f:facet>
+                        </f:facet>
 
+                    </b:panel>
 
-                        </b:panel>
+                </b:container>
 
-                    </b:container>
-                </b:form>
             </ui:define>
         </ui:composition>
 

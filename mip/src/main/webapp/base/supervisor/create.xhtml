@@ -11,41 +11,40 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">             
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                            <b:panel look="success" collapsible="false" title="Criar Novo Responsável Técnico">
+                    <b:panel look="success" collapsible="false" title="Criar Novo Responsável Técnico">
 
-                                <b:panelGrid id="data-entry" columns="1">
-                                    <b:formGroup>
-                                        <b:inputText label="Nome" value="#{supervisorController.name}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:formGroup>
+                                <b:inputText label="Nome" value="#{supervisorController.name}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                    <b:formGroup>
-                                        <b:inputText label="e-mail" value="#{supervisorController.email}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
-                                    
-                                    <b:formGroup>
-                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionada uma região" value="#{supervisorController.region}" label="Região">
-                                            <f:selectItem itemLabel="(Selecione uma região)" itemValue="" />
-                                            <f:selectItems value="#{supervisorController.readAllRegions()}" var="aRegion" itemValue="#{aRegion}" itemLabel="#{aRegion.name}" />
-                                        </b:selectOneMenu>
-                                        <b:message for="@previous" />
-                                    </b:formGroup>                                    
+                            <b:formGroup>
+                                <b:inputText label="e-mail" value="#{supervisorController.email}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                </b:panelGrid>
+                            <b:formGroup>
+                                <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionada uma região" value="#{supervisorController.region}" label="Região">
+                                    <f:selectItem itemLabel="(Selecione uma região)" itemValue="" />
+                                    <f:selectItems value="#{supervisorController.readAllRegions()}" var="aRegion" itemValue="#{aRegion}" itemLabel="#{aRegion.name}" />
+                                </b:selectOneMenu>
+                                <b:message for="@previous" />
+                            </b:formGroup>                                    
 
-                                <f:facet name="footer">
-                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="success" value="Criar" action="#{supervisorController.create()}" ></b:commandButton>
-                                </f:facet>
+                        </b:panelGrid>
 
-                            </b:panel>
+                        <f:facet name="footer">
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="success" value="Criar" action="#{supervisorController.create()}" ></b:commandButton>
+                        </f:facet>
 
-                    </b:container>
-                </b:form>
+                    </b:panel>
+
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

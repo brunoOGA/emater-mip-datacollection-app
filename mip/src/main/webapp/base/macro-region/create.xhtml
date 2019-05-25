@@ -11,35 +11,34 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">              
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                            <b:panel look="success" collapsible="false" title="Criar Nova Macrorregião">
+                    <b:panel look="success" collapsible="false" title="Criar Nova Macrorregião">
 
-                                <b:panelGrid id="data-entry" columns="1">
-                                    <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}"></b:inputText>
-                                    <b:message for="name-input" ></b:message>
-                                </b:panelGrid>
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}"></b:inputText>
+                            <b:message for="name-input" ></b:message>
+                        </b:panelGrid>
 
-                                <f:facet name="footer">
+                        <f:facet name="footer">
 
-                                    <b:container fluid="true">
-                                        <b:row>
-                                            <b:column span="8"></b:column>
+                            <b:container fluid="true">
+                                <b:row>
+                                    <b:column span="8"></b:column>
 
-                                            <b:button span="2" icon-awesome="ban" value="Cancelar" outcome="index.xhtml" ></b:button>
+                                    <b:button span="2" icon-awesome="ban" value="Cancelar" outcome="index.xhtml" ></b:button>
 
-                                            <b:commandButton span="2" icon-awesome="save" look="success" value="Criar" action="#{macroRegionController.create()}" ></b:commandButton>                                                    
+                                    <b:commandButton span="2" icon-awesome="save" look="success" value="Criar" action="#{macroRegionController.create()}" ></b:commandButton>                                                    
 
-                                        </b:row>
-                                    </b:container>
+                                </b:row>
+                            </b:container>
 
-                                </f:facet>
+                        </f:facet>
 
-                            </b:panel>
+                    </b:panel>
 
-                    </b:container>
-                </b:form>
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

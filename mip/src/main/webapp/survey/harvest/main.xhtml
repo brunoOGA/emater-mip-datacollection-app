@@ -19,18 +19,18 @@
                             <p:menuitem value="Configuração da Pesquisa" />
                             <p:menuitem value="Gerenciamento de Safra" url="/survey/harvest/index.xhtml" />
                         </p:breadCrumb>
+
+
+                        <p:panel style="margin-top: 15px">
+                            <f:facet name="header">
+                                <h2 style="display: inline">Gerenciamento de Safra</h2>
+                                <p:commandButton action="create.xhtml" value="Criar Nova Safra" style="float: right"></p:commandButton>
+                            </f:facet>
+
+                            <ui:insert name="main-component">Component</ui:insert>
+
+                        </p:panel>
                     </h:form>
-
-                    <p:panel style="margin-top: 15px">
-                        <f:facet name="header">
-                            <h2 style="display: inline">Gerenciamento de Safra</h2>
-                            <p:commandButton action="create.xhtml" value="Criar Nova Safra" style="float: right"></p:commandButton>
-                        </f:facet>
-
-                        <ui:insert name="main-component">Component</ui:insert>
-
-                    </p:panel>
-
                 </b:container>
             </ui:define>
         </ui:composition>

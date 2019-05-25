@@ -11,43 +11,41 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">            
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                            <b:panel look="warning" collapsible="false" title="Alterar Safra">
+                    <b:panel look="warning" collapsible="false" title="Alterar Safra">
 
-                                <b:panelGrid id="data-entry" columns="1">
+                        <b:panelGrid id="data-entry" columns="1">
 
-                                    <b:formGroup>
-                                        <b:inputText label="Nome" value="#{harvestController.name}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                            <b:formGroup>
+                                <b:inputText label="Nome" value="#{harvestController.name}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                    <b:formGroup>
-                                        <b:dateTimePicker value="#{harvestController.begin}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de início da safra" label="Data de Início" show-date="true" show-time="false"></b:dateTimePicker>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                            <b:formGroup>
+                                <b:dateTimePicker value="#{harvestController.begin}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de início da safra" label="Data de Início" show-date="true" show-time="false"></b:dateTimePicker>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                    <b:formGroup>
-                                        <b:dateTimePicker value="#{harvestController.end}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de término da safra" label="Data de Término" show-date="true" show-time="false"></b:dateTimePicker>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                            <b:formGroup>
+                                <b:dateTimePicker value="#{harvestController.end}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de término da safra" label="Data de Término" show-date="true" show-time="false"></b:dateTimePicker>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                    <h:inputHidden value="#{harvestController.id}" ></h:inputHidden>
-                                </b:panelGrid>
+                            <h:inputHidden value="#{harvestController.id}" ></h:inputHidden>
+                        </b:panelGrid>
 
-                                <f:facet name="footer">
+                        <f:facet name="footer">
 
-                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="warning" value="Alterar" action="#{harvestController.update()}" ></b:commandButton>
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="warning" value="Alterar" action="#{harvestController.update()}" ></b:commandButton>
 
-                                </f:facet>
+                        </f:facet>
 
+                    </b:panel>
 
-                            </b:panel>
+                </b:container>
 
-                    </b:container>
-                </b:form>
             </ui:define>
         </ui:composition>
 

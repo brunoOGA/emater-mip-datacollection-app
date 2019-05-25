@@ -11,45 +11,44 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">                     
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                            <b:panel look="warning" collapsible="false" title="Alterar Responsável Técnico">
+                    <b:panel look="warning" collapsible="false" title="Alterar Responsável Técnico">
 
-                                <b:panelGrid id="data-entry" columns="1">
-                                    <b:formGroup>
-                                        <b:inputText label="Nome" value="#{supervisorController.name}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:formGroup>
+                                <b:inputText label="Nome" value="#{supervisorController.name}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                    <b:formGroup>
-                                        <b:inputText label="e-mail" value="#{supervisorController.email}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                            <b:formGroup>
+                                <b:inputText label="e-mail" value="#{supervisorController.email}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                    <b:formGroup>
-                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionada uma região" value="#{supervisorController.region}" label="Região">
-                                            <f:selectItem itemLabel="(Selecione uma região)" itemValue="" />
-                                            <f:selectItems value="#{supervisorController.readAllRegions()}" var="aRegion" itemValue="#{aRegion}" itemLabel="#{aRegion.name}" />
-                                        </b:selectOneMenu>
-                                        <b:message for="@previous" />
-                                    </b:formGroup>                
+                            <b:formGroup>
+                                <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionada uma região" value="#{supervisorController.region}" label="Região">
+                                    <f:selectItem itemLabel="(Selecione uma região)" itemValue="" />
+                                    <f:selectItems value="#{supervisorController.readAllRegions()}" var="aRegion" itemValue="#{aRegion}" itemLabel="#{aRegion.name}" />
+                                </b:selectOneMenu>
+                                <b:message for="@previous" />
+                            </b:formGroup>                
 
-                                    <h:inputHidden value="#{supervisorController.id}" ></h:inputHidden>
-                                </b:panelGrid>
+                            <h:inputHidden value="#{supervisorController.id}" ></h:inputHidden>
+                        </b:panelGrid>
 
-                                <f:facet name="footer">
+                        <f:facet name="footer">
 
-                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="warning" value="Alterar" action="#{supervisorController.update()}" ></b:commandButton>
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="warning" value="Alterar" action="#{supervisorController.update()}" ></b:commandButton>
 
-                                </f:facet>
+                        </f:facet>
 
 
-                            </b:panel>
+                    </b:panel>
 
-                    </b:container>
-                </b:form>
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

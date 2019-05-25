@@ -11,28 +11,27 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">                
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                        <b:panel look="warning" collapsible="false" title="Alterar Macrorregião">
+                    <b:panel look="warning" collapsible="false" title="Alterar Macrorregião">
 
-                            <b:panelGrid id="data-entry" columns="1">
-                                <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}"></b:inputText>
-                                <b:message for="name-input" ></b:message>
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}"></b:inputText>
+                            <b:message for="name-input" ></b:message>
 
-                                <h:inputHidden value="#{macroRegionController.id}" ></h:inputHidden>
-                            </b:panelGrid>
+                            <h:inputHidden value="#{macroRegionController.id}" ></h:inputHidden>
+                        </b:panelGrid>
 
-                            <f:facet name="footer">
+                        <f:facet name="footer">
 
-                                <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                <b:commandButton look="warning" value="Alterar" action="#{macroRegionController.update()}" ></b:commandButton>
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="warning" value="Alterar" action="#{macroRegionController.update()}" ></b:commandButton>
 
-                            </f:facet>
+                        </f:facet>
 
-                        </b:panel>
-                    </b:container>
-                </b:form>
+                    </b:panel>
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

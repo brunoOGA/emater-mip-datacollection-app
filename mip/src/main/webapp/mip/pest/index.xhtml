@@ -11,20 +11,19 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
 
-                <h:form>
-                    <b:dataTable responsive="true" value="#{pestController.readAll()}" var="aPest" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                <b:dataTable responsive="true" value="#{pestController.readAll()}" var="aPest" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
-                        <b:dataTableColumn label="Nome" value="#{aPest.usualName}" />
-                        <b:dataTableColumn label="Nome Científico" value="#{aPest.scientificName}" />
-                        <b:dataTableColumn label="Tamanho" value="#{aPest.pestSizeName}" />
+                    <b:dataTableColumn label="Nome" value="#{aPest.usualName}" />
+                    <b:dataTableColumn label="Nome Científico" value="#{aPest.scientificName}" />
+                    <b:dataTableColumn label="Tamanho" value="#{aPest.pestSizeName}" />
 
-                        <b:dataTableColumn label="Ações" class="col-md-1"> 
-                            <b:commandLink action="#{pestController.prepareUpdate(aPest.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                            <b:commandLink action="#{pestController.prepareDelete(aPest.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
-                        </b:dataTableColumn>  
+                    <b:dataTableColumn label="Ações" class="col-md-1"> 
+                        <b:commandLink action="#{pestController.prepareUpdate(aPest.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                        <b:commandLink action="#{pestController.prepareDelete(aPest.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
+                    </b:dataTableColumn>  
 
-                    </b:dataTable>          
-                </h:form>     
+                </b:dataTable>          
+
             </ui:define>
         </ui:composition>
     </h:body>

@@ -11,24 +11,23 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">              
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                        <b:panel look="success" collapsible="false" title="Criar Novo Produtor">
+                    <b:panel look="success" collapsible="false" title="Criar Novo Produtor">
 
-                            <b:panelGrid id="data-entry" columns="1">
-                                <b:inputText id="name-input" label="Nome" value="#{farmerController.name}"></b:inputText>
-                                <b:message for="@previous" ></b:message>
-                            </b:panelGrid>
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:inputText id="name-input" label="Nome" value="#{farmerController.name}"></b:inputText>
+                            <b:message for="@previous" ></b:message>
+                        </b:panelGrid>
 
-                            <f:facet name="footer">
-                                <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                <b:commandButton look="success" value="Criar" action="#{farmerController.create()}" ></b:commandButton>
-                            </f:facet>
+                        <f:facet name="footer">
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="success" value="Criar" action="#{farmerController.create()}" ></b:commandButton>
+                        </f:facet>
 
-                        </b:panel>
-                    </b:container>
-                </b:form>
+                    </b:panel>
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

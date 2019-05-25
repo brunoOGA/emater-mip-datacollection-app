@@ -11,18 +11,16 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
 
-                <h:form>
-                    <b:dataTable responsive="true" value="#{pestDiseaseController.readAll()}" var="aPestDisease" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                <b:dataTable responsive="true" value="#{pestDiseaseController.readAll()}" var="aPestDisease" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
-                        <b:dataTableColumn label="Nome" value="#{aPestDisease.usualName}" />
+                    <b:dataTableColumn label="Nome" value="#{aPestDisease.usualName}" />
 
-                        <b:dataTableColumn label="Ações" class="col-md-1"> 
-                            <b:commandLink action="#{pestDiseaseController.prepareUpdate(aPestDisease.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                            <b:commandLink action="#{pestDiseaseController.prepareDelete(aPestDisease.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
-                        </b:dataTableColumn>  
+                    <b:dataTableColumn label="Ações" class="col-md-1"> 
+                        <b:commandLink action="#{pestDiseaseController.prepareUpdate(aPestDisease.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                        <b:commandLink action="#{pestDiseaseController.prepareDelete(aPestDisease.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
+                    </b:dataTableColumn>  
 
-                    </b:dataTable>          
-                </h:form>     
+                </b:dataTable>          
             </ui:define>
         </ui:composition>
     </h:body>

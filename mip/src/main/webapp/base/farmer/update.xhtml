@@ -11,30 +11,28 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">             
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                            <b:panel look="warning" collapsible="false" title="Alterar Produtor">
+                    <b:panel look="warning" collapsible="false" title="Alterar Produtor">
 
-                                <b:panelGrid id="data-entry" columns="1">
-                                    <b:inputText id="name-input" label="Nome" value="#{farmerController.name}"></b:inputText>
-                                    <b:message for="@previous" ></b:message>
-                                    
-                                    <h:inputHidden value="#{farmerController.id}" ></h:inputHidden>
-                                </b:panelGrid>
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:inputText id="name-input" label="Nome" value="#{farmerController.name}"></b:inputText>
+                            <b:message for="@previous" ></b:message>
 
-                                <f:facet name="footer">
+                            <h:inputHidden value="#{farmerController.id}" ></h:inputHidden>
+                        </b:panelGrid>
 
-                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="warning" value="Alterar" action="#{farmerController.update()}" ></b:commandButton>
+                        <f:facet name="footer">
 
-                                </f:facet>
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="warning" value="Alterar" action="#{farmerController.update()}" ></b:commandButton>
 
+                        </f:facet>
 
-                            </b:panel>
+                    </b:panel>
 
-                    </b:container>
-                </b:form>
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

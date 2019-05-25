@@ -11,28 +11,27 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">             
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                        <b:panel look="success" collapsible="false" title="Criar Nova Doença da Praga">
+                    <b:panel look="success" collapsible="false" title="Criar Nova Doença da Praga">
 
-                            <b:panelGrid id="data-entry" columns="1">
-                                <b:formGroup>
-                                    <b:inputText label="Nome" value="#{pestDiseaseController.usualName}"></b:inputText>
-                                    <b:message for="@previous" ></b:message>                                        
-                                </b:formGroup>
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:formGroup>
+                                <b:inputText label="Nome" value="#{pestDiseaseController.usualName}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                            </b:panelGrid>
+                        </b:panelGrid>
 
-                            <f:facet name="footer">
-                                <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                <b:commandButton look="success" value="Criar" action="#{pestDiseaseController.create()}" ></b:commandButton>
-                            </f:facet>
+                        <f:facet name="footer">
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="success" value="Criar" action="#{pestDiseaseController.create()}" ></b:commandButton>
+                        </f:facet>
 
-                        </b:panel>
+                    </b:panel>
 
-                    </b:container>
-                </b:form>
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

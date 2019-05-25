@@ -11,56 +11,55 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">      
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                            <b:panel look="success" collapsible="false" title="Criar Nova Unidade de Referência">
+                    <b:panel look="success" collapsible="false" title="Criar Nova Unidade de Referência">
 
-                                <b:panelGrid id="data-entry" columns="1">
-                                    <b:formGroup>
-                                        <b:inputText label="Identificação" value="#{fieldController.name}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                        <b:panelGrid id="data-entry" columns="1">
+                            <b:formGroup>
+                                <b:inputText label="Identificação" value="#{fieldController.name}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                    <b:formGroup>
-                                        <b:inputText label="Localização" value="#{fieldController.location}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                            <b:formGroup>
+                                <b:inputText label="Localização" value="#{fieldController.location}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                    <b:formGroup>
-                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um município" value="#{fieldController.city}" label="Município">
-                                            <f:selectItem itemLabel="(Selecione um município)" itemValue="" />
-                                            <f:selectItems value="#{fieldController.readAllCities()}" var="aCity" itemValue="#{aCity}" itemLabel="#{aCity.name}" />
-                                        </b:selectOneMenu>
-                                        <b:message for="@previous" />
-                                    </b:formGroup>                                    
+                            <b:formGroup>
+                                <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um município" value="#{fieldController.city}" label="Município">
+                                    <f:selectItem itemLabel="(Selecione um município)" itemValue="" />
+                                    <f:selectItems value="#{fieldController.readAllCities()}" var="aCity" itemValue="#{aCity}" itemLabel="#{aCity.name}" />
+                                </b:selectOneMenu>
+                                <b:message for="@previous" />
+                            </b:formGroup>                                    
 
-                                    <b:formGroup>
-                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um produtor" value="#{fieldController.farmer}" label="Produtor">
-                                            <f:selectItem itemLabel="(Selecione um produtor)" itemValue="" />
-                                            <f:selectItems value="#{fieldController.readAllFarmers()}" var="aFarmer" itemValue="#{aFarmer}" itemLabel="#{aFarmer.name}" />
-                                        </b:selectOneMenu>
-                                        <b:message for="@previous" />
-                                    </b:formGroup>                                    
+                            <b:formGroup>
+                                <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um produtor" value="#{fieldController.farmer}" label="Produtor">
+                                    <f:selectItem itemLabel="(Selecione um produtor)" itemValue="" />
+                                    <f:selectItems value="#{fieldController.readAllFarmers()}" var="aFarmer" itemValue="#{aFarmer}" itemLabel="#{aFarmer.name}" />
+                                </b:selectOneMenu>
+                                <b:message for="@previous" />
+                            </b:formGroup>                                    
 
-                                    <b:formGroup>
-                                        <b:selectMultiMenu enableFiltering="true" required="true" required-message="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}" label="Responsável Técnico">
-                                            <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor.getIdAsString()}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
-                                        </b:selectMultiMenu>
-                                        <b:message for="@previous" />
-                                    </b:formGroup>
+                            <b:formGroup>
+                                <b:selectMultiMenu enableFiltering="true" required="true" required-message="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}" label="Responsável Técnico">
+                                    <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor.getIdAsString()}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
+                                </b:selectMultiMenu>
+                                <b:message for="@previous" />
+                            </b:formGroup>
 
-                                </b:panelGrid>
+                        </b:panelGrid>
 
-                                <f:facet name="footer">
-                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="success" value="Criar" action="#{fieldController.create()}" ></b:commandButton>
-                                </f:facet>
+                        <f:facet name="footer">
+                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
+                            <b:commandButton look="success" value="Criar" action="#{fieldController.create()}" ></b:commandButton>
+                        </f:facet>
 
-                            </b:panel>
+                    </b:panel>
 
-                    </b:container>
-                </b:form>
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

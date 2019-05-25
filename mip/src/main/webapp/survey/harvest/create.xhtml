@@ -11,46 +11,45 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">             
 
-                <b:form>
-                    <b:container fluid="true">
+                <b:container fluid="true">
 
-                        <b:panel look="success" collapsible="false" title="Criar Nova Safra">
+                    <b:panel look="success" collapsible="false" title="Criar Nova Safra">
 
-                            <b:panelGrid id="data-entry" columns="1">
+                        <b:panelGrid id="data-entry" columns="1">
 
-                                <b:formGroup>
-                                    <b:inputText label="Nome" value="#{harvestController.name}"></b:inputText>
-                                    <b:message for="@previous" ></b:message>                                        
-                                </b:formGroup>
+                            <b:formGroup>
+                                <b:inputText label="Nome" value="#{harvestController.name}"></b:inputText>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                <b:formGroup>
-                                    <b:dateTimePicker value="#{harvestController.begin}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de início da safra" label="Data de Início" show-date="true" show-time="false"></b:dateTimePicker>
-                                    <b:message for="@previous" ></b:message>                                        
-                                </b:formGroup>
+                            <b:formGroup>
+                                <b:dateTimePicker value="#{harvestController.begin}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de início da safra" label="Data de Início" show-date="true" show-time="false"></b:dateTimePicker>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                                <b:formGroup>
-                                    <b:dateTimePicker value="#{harvestController.end}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de término da safra" label="Data de Término" show-date="true" show-time="false"></b:dateTimePicker>
-                                    <b:message for="@previous" ></b:message>                                        
-                                </b:formGroup>
+                            <b:formGroup>
+                                <b:dateTimePicker value="#{harvestController.end}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de término da safra" label="Data de Término" show-date="true" show-time="false"></b:dateTimePicker>
+                                <b:message for="@previous" ></b:message>                                        
+                            </b:formGroup>
 
-                            </b:panelGrid>
+                        </b:panelGrid>
 
-                            <f:facet name="footer">
+                        <f:facet name="footer">
 
-                                <b:row style="display: flex">
+                            <b:row style="display: flex">
 
-                                    <b:panelGrid columns="2">
-                                        <b:button icon-awesome="ban" value="Cancelar" outcome="index.xhtml" ></b:button>                                        
-                                        <b:commandButton icon-awesome="save" look="success" value="Criar" action="#{harvestController.create()}" ></b:commandButton>
-                                    </b:panelGrid>
+                                <b:panelGrid columns="2">
+                                    <b:button icon-awesome="ban" value="Cancelar" outcome="index.xhtml" ></b:button>                                        
+                                    <b:commandButton icon-awesome="save" look="success" value="Criar" action="#{harvestController.create()}" ></b:commandButton>
+                                </b:panelGrid>
 
-                                </b:row>
+                            </b:row>
 
-                            </f:facet>
+                        </f:facet>
 
-                        </b:panel>
-                    </b:container>
-                </b:form>
+                    </b:panel>
+                </b:container>
+
             </ui:define>
         </ui:composition>
 

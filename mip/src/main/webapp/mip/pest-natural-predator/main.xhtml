@@ -19,18 +19,17 @@
                             <p:menuitem value="Manejo Integrado de Pragas" />
                             <p:menuitem value="Gerenciamento de Inimigos Naturais das Pragas" url="/mip/pest-natural-predator/index.xhtml" />
                         </p:breadCrumb>
-                    </h:form>
-                    
-                    <p:panel style="margin-top: 15px">
-                        <f:facet name="header">
-                            <h2 style="display: inline">Gerenciamento de Inimigos Naturais das Pragas</h2>
-                            <p:commandButton action="create.xhtml" value="Criar Novo Inimigo Natural da Praga" style="float: right"></p:commandButton>
-                        </f:facet>
 
-                        <ui:insert name="main-component">Component</ui:insert>
+                        <p:panel style="margin-top: 15px">
+                            <f:facet name="header">
+                                <h2 style="display: inline">Gerenciamento de Inimigos Naturais das Pragas</h2>
+                                <p:commandButton action="create.xhtml" value="Criar Novo Inimigo Natural da Praga" style="float: right"></p:commandButton>
+                            </f:facet>
 
-                    </p:panel>
-                    
+                            <ui:insert name="main-component">Component</ui:insert>
+
+                        </p:panel>
+                    </h:form>                    
                 </b:container>
             </ui:define>
         </ui:composition>
