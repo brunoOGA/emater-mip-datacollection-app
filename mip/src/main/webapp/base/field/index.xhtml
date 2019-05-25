@@ -21,18 +21,16 @@
                         </p:breadCrumb>
                     </h:form>
 
-                    <b:panel collapsible="false" >
-
-                        <f:facet name="heading" >
-                            <h2>Gerenciamento de Unidade de Referência</h2>
-                            <a href="create.xhtml" class="btn btn-success">
-                                <span class="align-middle">Criar Nova Unidade de Referência</span>
-                            </a>
+                    <p:panel style="margin-top: 15px">
+                        <f:facet name="header">
+                            <h2 style="display: inline">Gerenciamento de Unidade de Referência</h2>
+                            <p:commandButton action="create.xhtml" value="Criar Nova Unidade de Referência" style="float: right"></p:commandButton>
                         </f:facet>
 
                         <ui:include src="list.xhtml"></ui:include>
 
-                    </b:panel>
+                    </p:panel>
+
                 </b:container>
             </ui:define>
         </ui:composition>

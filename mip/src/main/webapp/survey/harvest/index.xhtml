@@ -21,21 +21,16 @@
                         </p:breadCrumb>
                     </h:form>
 
-                    <b:panel collapsible="false">
-
-                        <f:facet name="heading">
-                            <b:form style="display: flex">
-                                <h2>Gerenciamento de Safra</h2>
-
-                                <b:column span="7"></b:column>
-
-                                <b:commandButton icon-awesome="plus" size="lg" look="success" value="Criar Nova Safra" action="create.xhtml"></b:commandButton>
-                            </b:form>
+                    <p:panel style="margin-top: 15px">
+                        <f:facet name="header">
+                            <h2 style="display: inline">Gerenciamento de Safra</h2>
+                            <p:commandButton action="create.xhtml" value="Criar Nova Safra" style="float: right"></p:commandButton>
                         </f:facet>
 
                         <ui:include src="list.xhtml"></ui:include>
 
-                    </b:panel>
+                    </p:panel>
+
                 </b:container>
             </ui:define>
         </ui:composition>

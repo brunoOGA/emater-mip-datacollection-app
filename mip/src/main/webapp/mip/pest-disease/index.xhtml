@@ -20,20 +20,17 @@
                             <p:menuitem value="Gerenciamento de Doenças das Pragas" url="/mip/pest-disease/index.xhtml" />
                         </p:breadCrumb>
                     </h:form>
-
-
-                    <b:panel collapsible="false" >
-
-                        <f:facet name="heading" >
-                            <h2>Gerenciamento de Doenças das Pragas</h2>
-                            <a href="create.xhtml" class="btn btn-success">
-                                <span class="align-middle">Criar Nova Doença da Praga</span>
-                            </a>
+                    
+                    <p:panel style="margin-top: 15px">
+                        <f:facet name="header">
+                            <h2 style="display: inline">Gerenciamento de Doenças das Pragas</h2>
+                            <p:commandButton action="create.xhtml" value="Criar Nova Doença da Praga" style="float: right"></p:commandButton>
                         </f:facet>
 
                         <ui:include src="list.xhtml"></ui:include>
 
-                    </b:panel>
+                    </p:panel>
+
                 </b:container>
             </ui:define>
         </ui:composition>
