@@ -3,72 +3,57 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">      
 
-    <body>
-        <ui:composition template="./../../main-template.xhtml">
-
-            <ui:define name="content">                
+    <h:body>
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">             
 
                 <b:form>
                     <b:container fluid="true">
 
-                        <p:breadCrumb>
-                            <p:menuitem value="Home" url="/index.xhtml" />
-                            <p:menuitem value="Configuração da Pesquisa" />
-                            <p:menuitem value="Gerenciamento de Safra" url="/survey/harvest/index.xhtml" />
-                            <p:menuitem value="Criar Nova Safra" />
-                        </p:breadCrumb>                    
+                        <b:panel look="success" collapsible="false" title="Criar Nova Safra">
 
-                        <b:panel collapsible="false" >
+                            <b:panelGrid id="data-entry" columns="1">
 
-                            <f:facet name="heading" >
-                                <h2>Gerenciamento de Safra</h2>
+                                <b:formGroup>
+                                    <b:inputText label="Nome" value="#{harvestController.name}"></b:inputText>
+                                    <b:message for="@previous" ></b:message>                                        
+                                </b:formGroup>
+
+                                <b:formGroup>
+                                    <b:dateTimePicker value="#{harvestController.begin}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de início da safra" label="Data de Início" show-date="true" show-time="false"></b:dateTimePicker>
+                                    <b:message for="@previous" ></b:message>                                        
+                                </b:formGroup>
+
+                                <b:formGroup>
+                                    <b:dateTimePicker value="#{harvestController.end}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de término da safra" label="Data de Término" show-date="true" show-time="false"></b:dateTimePicker>
+                                    <b:message for="@previous" ></b:message>                                        
+                                </b:formGroup>
+
+                            </b:panelGrid>
+
+                            <f:facet name="footer">
+
+                                <b:row style="display: flex">
+
+                                    <b:panelGrid columns="2">
+                                        <b:button icon-awesome="ban" value="Cancelar" outcome="index.xhtml" ></b:button>                                        
+                                        <b:commandButton icon-awesome="save" look="success" value="Criar" action="#{harvestController.create()}" ></b:commandButton>
+                                    </b:panelGrid>
+
+                                </b:row>
+
                             </f:facet>
 
-                            <b:panel look="success" collapsible="false" title="Criar Nova Safra">
-
-                                <b:panelGrid id="data-entry" columns="1">
-
-                                    <b:formGroup>
-                                        <b:inputText label="Nome" value="#{harvestController.name}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
-
-                                    <b:formGroup>
-                                        <b:dateTimePicker value="#{harvestController.begin}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de início da safra" label="Data de Início" show-date="true" show-time="false"></b:dateTimePicker>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
-
-                                    <b:formGroup>
-                                        <b:dateTimePicker value="#{harvestController.end}" icon-position="left" format="DD/MM/YYYY" required="true" required-message="Deve ser informada a data de término da safra" label="Data de Término" show-date="true" show-time="false"></b:dateTimePicker>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
-
-                                </b:panelGrid>
-
-                                <f:facet name="footer">
-
-                                    <b:row style="display: flex">
-
-                                        <b:panelGrid columns="2">
-                                            <b:button icon-awesome="ban" value="Cancelar" outcome="index.xhtml" ></b:button>                                        
-                                            <b:commandButton icon-awesome="save" look="success" value="Criar" action="#{harvestController.create()}" ></b:commandButton>
-                                        </b:panelGrid>
-
-                                    </b:row>
-
-                                </f:facet>
-
-                            </b:panel>
                         </b:panel>
                     </b:container>
                 </b:form>
             </ui:define>
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>
 

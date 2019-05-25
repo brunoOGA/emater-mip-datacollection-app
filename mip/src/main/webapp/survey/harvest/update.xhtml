@@ -3,30 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">      
 
-    <body>
-        <ui:composition template="./../../main-template.xhtml">
-
-            <ui:define name="content">                
+    <h:body>
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">            
 
                 <b:form>
                     <b:container fluid="true">
-
-                        <p:breadCrumb>
-                            <p:menuitem value="Home" url="/index.xhtml" />
-                            <p:menuitem value="Configuração da Pesquisa" />
-                            <p:menuitem value="Gerenciamento de Safra" url="/survey/harvest/index.xhtml" />
-                            <p:menuitem value="Alterar Safra" />
-                        </p:breadCrumb>                         
-
-                        <b:panel collapsible="false" >
-
-                            <f:facet name="heading" >
-                                <h2>Gerenciamento de Safra</h2>
-                            </f:facet>
 
                             <b:panel look="warning" collapsible="false" title="Alterar Safra">
 
@@ -59,12 +45,12 @@
 
 
                             </b:panel>
-                        </b:panel>
+
                     </b:container>
                 </b:form>
             </ui:define>
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>
 

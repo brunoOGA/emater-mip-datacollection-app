@@ -3,37 +3,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">      
 
-    <body>
-        <ui:composition template="./../../main-template.xhtml">
+    <h:body>
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">
 
-            <ui:define name="content">
-                <b:container fluid="true">
+                <h:form>
+                    <b:dataTable responsive="true" value="#{harvestController.readAll()}" var="aHarvest" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
-                    <h:form>
-                        <p:breadCrumb>
-                            <p:menuitem value="Home" url="/index.xhtml" />
-                            <p:menuitem value="Configuração da Pesquisa" />
-                            <p:menuitem value="Gerenciamento de Safra" url="/survey/harvest/index.xhtml" />
-                        </p:breadCrumb>
-                    </h:form>
+                        <b:dataTableColumn label="Identificação" value="#{aHarvest.name}" />
+                        <b:dataTableColumn label="Data de Início" value="#{aHarvest.begin}" />
+                        <b:dataTableColumn label="Data de Término" value="#{aHarvest.end}" />
 
-                    <p:panel style="margin-top: 15px">
-                        <f:facet name="header">
-                            <h2 style="display: inline">Gerenciamento de Safra</h2>
-                            <p:commandButton action="create.xhtml" value="Criar Nova Safra" style="float: right"></p:commandButton>
-                        </f:facet>
+                        <b:dataTableColumn label="Ações" class="col-md-1"> 
+                            <b:commandLink action="#{harvestController.prepareUpdate(aHarvest.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                            <b:commandLink action="#{harvestController.prepareDelete(aHarvest.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
+                        </b:dataTableColumn>  
 
-                        <ui:include src="list.xhtml"></ui:include>
-
-                    </p:panel>
-
-                </b:container>
-            </ui:define>
+                    </b:dataTable>          
+                </h:form>     
+            </ui:define>  
         </ui:composition>
-
-    </body>
+    </h:body>
 </html>
