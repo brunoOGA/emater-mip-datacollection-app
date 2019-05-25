@@ -8,35 +8,23 @@
       xmlns:b="http://bootsfaces.net/ui">      
 
     <h:body>
-        <ui:composition template="./../../main-template.xhtml">
-            <ui:define name="content">
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">
 
-                <b:container fluid="true">
+                <h:form>
+                    <b:dataTable responsive="true" value="#{macroRegionController.readAll()}" var="aMacroRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
 
-                    <h:form>
+                        <b:dataTableColumn label="Nome" value="#{aMacroRegion.name}" />
 
-                        <p:breadCrumb>
-                            <p:menuitem value="Home" url="/index.xhtml" />
-                            <p:menuitem value="Gerenciamento de Informações" />
-                            <p:menuitem value="Gerenciamento de Macrorregião" url="/base/macro-region/index.xhtml" />
-                        </p:breadCrumb>
+                        <b:dataTableColumn label="Ações" class="col-md-1"> 
+                            <b:commandLink action="#{macroRegionController.prepareUpdate(aMacroRegion.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
+                            <b:commandLink action="#{macroRegionController.prepareDelete(aMacroRegion.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
+                        </b:dataTableColumn>  
 
-                    </h:form>
-
-                    <p:panel style="margin-top: 15px">
-                        <f:facet name="header">
-                            <h2 style="display: inline">Gerenciamento de Macrorregião</h2>
-                            <p:commandButton action="create.xhtml" value="Criar Nova Macrorregião" style="float: right"></p:commandButton>
-                        </f:facet>
-
-                        <ui:include src="list.xhtml"></ui:include>
-
-                    </p:panel>
-
-                </b:container>
-
+                    </b:dataTable>    
+                    
+                </h:form>     
             </ui:define>
         </ui:composition>
-
     </h:body>
 </html>

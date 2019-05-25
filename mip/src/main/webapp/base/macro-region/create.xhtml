@@ -7,26 +7,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">      
 
-    <body>
-        <ui:composition template="./../../main-template.xhtml">
-
-            <ui:define name="content">                
+    <h:body>
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">              
 
                 <b:form>
                     <b:container fluid="true">
-
-                        <p:breadCrumb>
-                            <p:menuitem value="Home" url="/index.xhtml" />
-                            <p:menuitem value="Gerenciamento de Informações" />
-                            <p:menuitem value="Gerenciamento de Macrorregião" url="/base/macro-region/index.xhtml" />
-                            <p:menuitem value="Criar Nova Macrorregião" />
-                        </p:breadCrumb>                                         
-
-                        <b:panel collapsible="false" >
-
-                            <f:facet name="heading" >
-                                <h2>Gerenciamento de Macrorregião</h2>
-                            </f:facet>
 
                             <b:panel look="success" collapsible="false" title="Criar Nova Macrorregião">
 
@@ -51,12 +37,12 @@
                                 </f:facet>
 
                             </b:panel>
-                        </b:panel>
+
                     </b:container>
                 </b:form>
             </ui:define>
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>
 
