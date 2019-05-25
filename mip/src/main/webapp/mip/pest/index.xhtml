@@ -11,18 +11,22 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
 
-                <b:dataTable responsive="true" value="#{pestController.readAll()}" var="aPest" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                <p:dataTable rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" var="aPest" value="#{pestController.readAll()}">
+                    <p:column headerText="Nome" >
+                        <h:outputText value="#{aPest.usualName}" />
+                    </p:column>
+                    <p:column headerText="Nome Científico" >
+                        <h:outputText value="#{aPest.scientificName}" />
+                    </p:column>
+                    <p:column headerText="Tamanho" >
+                        <h:outputText value="#{aPest.pestSizeName}" />
+                    </p:column>                    
+                    <p:column headerText="Ações" >
+                        <p:commandLink value="Alterar" action="#{pestController.prepareUpdate(aPest.id)}" ></p:commandLink>
+                        <p:commandLink value="Excluir" action="#{pestController.prepareDelete(aPest.id)}" ></p:commandLink>
 
-                    <b:dataTableColumn label="Nome" value="#{aPest.usualName}" />
-                    <b:dataTableColumn label="Nome Científico" value="#{aPest.scientificName}" />
-                    <b:dataTableColumn label="Tamanho" value="#{aPest.pestSizeName}" />
-
-                    <b:dataTableColumn label="Ações" class="col-md-1"> 
-                        <b:commandLink action="#{pestController.prepareUpdate(aPest.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                        <b:commandLink action="#{pestController.prepareDelete(aPest.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
-                    </b:dataTableColumn>  
-
-                </b:dataTable>          
+                    </p:column>                    
+                </p:dataTable>
 
             </ui:define>
         </ui:composition>

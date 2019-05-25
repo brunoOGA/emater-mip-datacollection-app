@@ -9,18 +9,14 @@
 
     <h:body>
         <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">
+            <ui:define name="main-component"> 
 
-                <b:dataTable responsive="true" value="#{macroRegionController.readAll()}" var="aMacroRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                <p:dataTable reflow="true" rows="5" paginator="true" var="aMacroRegion" value="#{macroRegionController.readAll()}">
+                    <p:column headerText="Nome" filterBy="#{aMacroRegion.name}">
+                        <h:outputText value="#{aMacroRegion.name}" />
+                    </p:column>
 
-                    <b:dataTableColumn label="Nome" value="#{aMacroRegion.name}" />
-
-                    <b:dataTableColumn label="Ações" class="col-md-1"> 
-                        <b:commandLink action="#{macroRegionController.prepareUpdate(aMacroRegion.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                        <b:commandLink action="#{macroRegionController.prepareDelete(aMacroRegion.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
-                    </b:dataTableColumn>  
-
-                </b:dataTable>    
+                </p:dataTable>
 
             </ui:define>
         </ui:composition>
