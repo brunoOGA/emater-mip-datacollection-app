@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">      
 
     <body>
         <ui:composition template="./../../main-template.xhtml">
@@ -12,24 +13,20 @@
             <ui:define name="content">
                 <b:container fluid="true">
 
-                    <b:breadcrumbs>
-                        <b:navLink icon-awesome="chart-pie" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
-                        <f:facet name="first">
-                            <b:iconAwesome value="cogs" />
-                            Configuração da Pesquisa
-                        </f:facet> 
-                        <f:facet name="end">
-                            <b:iconAwesome value="cogs" />
-                            Gerenciamento de Safra
-                        </f:facet> 
-                    </b:breadcrumbs>
+                    <h:form>
+                        <p:breadCrumb>
+                            <p:menuitem value="Home" url="/index.xhtml" />
+                            <p:menuitem value="Configuração da Pesquisa" />
+                            <p:menuitem value="Gerenciamento de Safra" url="/survey/harvest/index.xhtml" />
+                        </p:breadCrumb>
+                    </h:form>
 
                     <b:panel collapsible="false">
 
                         <f:facet name="heading">
                             <b:form style="display: flex">
                                 <h2>Gerenciamento de Safra</h2>
-                                
+
                                 <b:column span="7"></b:column>
 
                                 <b:commandButton icon-awesome="plus" size="lg" look="success" value="Criar Nova Safra" action="create.xhtml"></b:commandButton>
