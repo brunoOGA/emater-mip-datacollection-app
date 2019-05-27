@@ -11,7 +11,7 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
 
-                <p:dataTable rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" var="aPest" value="#{pestController.readAll()}">
+                <p:dataTable rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" var="aPest" value="#{pestController.readAll()}">
                     <p:column headerText="Nome" >
                         <h:outputText value="#{aPest.usualName}" />
                     </p:column>
