@@ -4,25 +4,35 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:b="http://bootsfaces.net/ui">      
+      xmlns:p="http://primefaces.org/ui">      
 
     <h:body>
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
 
-                <b:dataTable responsive="true" value="#{harvestController.readAll()}" var="aHarvest" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                <p:dataTable rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{harvestController.readAll()}" var="aHarvest" >
 
-                    <b:dataTableColumn label="Identificação" value="#{aHarvest.name}" />
-                    <b:dataTableColumn label="Data de Início" value="#{aHarvest.begin}" />
-                    <b:dataTableColumn label="Data de Término" value="#{aHarvest.end}" />
+                    <p:column headerText="Nome" >
+                        <h:outputText value="#{aHarvest.name}" />
+                    </p:column>
+                    
+                    <p:column headerText="Data de Início" >
+                        <h:outputText value="#{aHarvest.begin}" />
+                    </p:column>
+                    
+                    <p:column headerText="Data de Término" >
+                        <h:outputText value="#{aHarvest.end}" />
+                    </p:column>
 
-                    <b:dataTableColumn label="Ações" class="col-md-1"> 
-                        <b:commandLink action="#{harvestController.prepareUpdate(aHarvest.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                        <b:commandLink action="#{harvestController.prepareDelete(aHarvest.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
-                    </b:dataTableColumn>  
+                    <p:column headerText="Ações" width="100">
+                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{harvestController.prepareUpdate(aHarvest.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                </b:dataTable>          
+                        <p:commandButton style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{harvestController.prepareDelete(aHarvest.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                    </p:column>                    
+                </p:dataTable>  
 
             </ui:define>  
         </ui:composition>

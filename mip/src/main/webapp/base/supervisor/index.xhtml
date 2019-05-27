@@ -4,25 +4,35 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:b="http://bootsfaces.net/ui">      
+      xmlns:p="http://primefaces.org/ui">      
 
     <h:body>
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
+                
+                <p:dataTable rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{supervisorController.readAll()}" var="aSupervisor" >
 
-                <b:dataTable responsive="true" value="#{supervisorController.readAll()}" var="aSupervisor" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                    <p:column headerText="Nome" >
+                        <h:outputText value="#{aSupervisor.name}" />
+                    </p:column>
+                    
+                    <p:column headerText="e-mail" >
+                        <h:outputText value="#{aSupervisor.email}" />
+                    </p:column>
+                    
+                    <p:column headerText="Região" >
+                        <h:outputText value="#{aSupervisor.regionName}" />
+                    </p:column>
 
-                    <b:dataTableColumn label="Nome" value="#{aSupervisor.name}" />
-                    <b:dataTableColumn label="e-mail" value="#{aSupervisor.email}" />
-                    <b:dataTableColumn label="Região" value="#{aSupervisor.regionName}" />
+                    <p:column headerText="Ações" width="100">
+                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{supervisorController.prepareUpdate(aSupervisor.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                    <b:dataTableColumn label="Ações" class="col-md-1"> 
-                        <b:commandLink action="#{supervisorController.prepareUpdate(aSupervisor.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                        <b:commandLink action="#{supervisorController.prepareDelete(aSupervisor.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
-                    </b:dataTableColumn>  
+                        <p:commandButton style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{supervisorController.prepareDelete(aSupervisor.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Excluir" position="top" />
 
-                </b:dataTable>          
+                    </p:column>                    
+                </p:dataTable>                       
 
             </ui:define>    
         </ui:composition>

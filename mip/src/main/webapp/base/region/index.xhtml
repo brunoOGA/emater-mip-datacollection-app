@@ -4,26 +4,36 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:b="http://bootsfaces.net/ui">      
+      xmlns:p="http://primefaces.org/ui">      
 
     <h:body>
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
+                
+                <p:dataTable rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{regionController.readAll()}" var="aRegion" >
 
-                <b:dataTable responsive="true" value="#{regionController.readAll()}" var="aRegion" customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json">
+                    <p:column headerText="Nome" >
+                        <h:outputText value="#{aRegion.name}" />
+                    </p:column>
+                    
+                    <p:column headerText="Macrorregião" >
+                        <h:outputText value="#{aRegion.macroRegionName}" />
+                    </p:column>
+                    
+                    <p:column headerText="Municípios" >
+                        <h:outputText value="#{aRegion.cityNames}" />
+                    </p:column>
 
-                    <b:dataTableColumn label="Nome" value="#{aRegion.name}" />
-                    <b:dataTableColumn label="Macrorregião" value="#{aRegion.macroRegionName}" />
-                    <b:dataTableColumn label="Municípios" value="#{aRegion.cityNames}" />
+                    <p:column headerText="Ações" width="100">
+                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{regionController.prepareUpdate(aRegion.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Alterar" position="top" />
 
+                        <p:commandButton style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{regionController.prepareDelete(aRegion.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Excluir" position="top" />
 
-                    <b:dataTableColumn label="Ações" class="col-md-1"> 
-                        <b:commandLink action="#{regionController.prepareUpdate(aRegion.id)}" tooltip="Alterar" class="text-warning" icon-awesome="fa-2x fa-edit"></b:commandLink>
-                        <b:commandLink action="#{regionController.prepareDelete(aRegion.id)}" tooltip="Excluir" class="text-danger" icon-awesome="fa-2x fa-trash"></b:commandLink>
-                    </b:dataTableColumn>  
-
-                </b:dataTable>          
+                    </p:column>                    
+                </p:dataTable>                  
+       
             </ui:define> 
         </ui:composition>
     </h:body>
