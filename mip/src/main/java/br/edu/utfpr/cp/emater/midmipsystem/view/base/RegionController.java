@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 // Note that there are issues to resolve when updating a Region
-
 @Component
 @RequestScope
 public class RegionController extends Region implements ICRUDController<Region> {
@@ -32,11 +31,17 @@ public class RegionController extends Region implements ICRUDController<Region> 
 
     @Getter
     @Setter
-    private String selectedCities;
+    private List<City> selectedCities;
+//    private String selectedCities[];
+
+    @Getter
+    @Setter
+    private Long selectedMacroRegion;
 
     @Autowired
     public RegionController(RegionService aRegionService) {
         this.regionService = aRegionService;
+        this.selectedCities = new ArrayList<>();
     }
 
     @Override
@@ -53,63 +58,64 @@ public class RegionController extends Region implements ICRUDController<Region> 
     }
 
     public List<City> readAllCitiesForUpdate() {
-        
+
         var allCitiesWithoutRegion = this.readAllCitiesWithoutRegion();
 
         if (this.getCities() != null) {
-            
+
             var citiesInThisRegion = this.getCities();
             var allCities = new ArrayList<City>(allCitiesWithoutRegion);
             allCities.addAll(citiesInThisRegion);
 
             return allCities;
-            
-        } else 
+
+        } else {
             return allCitiesWithoutRegion;
-
-    }
-
-    private Set<Long> convertStringCitiesIdToSetId() {
-
-        String stringIDs[] = this.getSelectedCities().split(",");
-
-        var result = new HashSet<Long>();
-
-        for (String currentStringID : stringIDs) {
-            result.add(new Long(currentStringID));
         }
 
-        return result;
     }
 
-    private Set<City> retrieveCities(Set<Long> ids) throws EntityNotFoundException {
-
-        var result = new HashSet<City>();
-
-        var allCityEntities = regionService.readAllCities();
-
-        for (Long currentId : ids) {
-            result.add(
-                    allCityEntities
-                            .stream()
-                            .filter(
-                                    currentCity -> currentCity
-                                            .getId().equals(currentId))
-                            .findAny()
-                            .orElseThrow(EntityNotFoundException::new));
-        }
-
-        return result;
-    }
-
+//    private Set<Long> convertStringCitiesIdToSetId() {
+//
+//        String stringIDs[] = this.getSelectedCities().split(",");
+//
+//        var result = new HashSet<Long>();
+//
+//        for (String currentStringID : stringIDs) {
+//            result.add(new Long(currentStringID));
+//        }
+//
+//        return result;
+//    }
+//    private Set<City> retrieveCities(Set<Long> ids) throws EntityNotFoundException {
+//
+//        var result = new HashSet<City>();
+//
+//        var allCityEntities = regionService.readAllCities();
+//
+//        for (Long currentId : ids) {
+//            result.add(
+//                    allCityEntities
+//                            .stream()
+//                            .filter(
+//                                    currentCity -> currentCity
+//                                            .getId().equals(currentId))
+//                            .findAny()
+//                            .orElseThrow(EntityNotFoundException::new));
+//        }
+//
+//        return result;
+//    }
     @Override
     public String create() {
 
         try {
             var newRegion = Region.builder()
                     .name(this.getName())
-                    .macroRegion(this.getMacroRegion())
-                    .cities(retrieveCities(this.convertStringCitiesIdToSetId()))
+                    //                    .macroRegion(this.getMacroRegion())
+                    .macroRegion(this.regionService.readMacroRegionById(this.getSelectedMacroRegion()))
+                    //                    .cities(retrieveCities(this.convertStringCitiesIdToSetId()))
+                    .cities(new HashSet<City>(this.getSelectedCities()))
                     .build();
 
             regionService.create(newRegion);
@@ -131,25 +137,24 @@ public class RegionController extends Region implements ICRUDController<Region> 
         }
     }
 
-    private String convertEntityCitiesToStringId(Set<City> cities) {
-
-        var idList = cities.stream().map(City::getId).collect(Collectors.toList());
-        var count = idList.size() - 1;
-
-        var idListStringBuilder = new StringBuilder();
-
-        for (Long currentId : idList) {
-            idListStringBuilder.append(String.valueOf(currentId));
-
-            if (count > 0) {
-                idListStringBuilder.append(",");
-                count--;
-            }
-        }
-
-        return idListStringBuilder.toString();
-    }
-
+//    private String convertEntityCitiesToStringId(Set<City> cities) {
+//
+//        var idList = cities.stream().map(City::getId).collect(Collectors.toList());
+//        var count = idList.size() - 1;
+//
+//        var idListStringBuilder = new StringBuilder();
+//
+//        for (Long currentId : idList) {
+//            idListStringBuilder.append(String.valueOf(currentId));
+//
+//            if (count > 0) {
+//                idListStringBuilder.append(",");
+//                count--;
+//            }
+//        }
+//
+//        return idListStringBuilder.toString();
+//    }
     @Override
     public String prepareUpdate(Long anId) {
 
@@ -157,10 +162,12 @@ public class RegionController extends Region implements ICRUDController<Region> 
             Region existentRegion = regionService.readById(anId);
             this.setId(existentRegion.getId());
             this.setName(existentRegion.getName());
-            this.setMacroRegion(existentRegion.getMacroRegion());
+//            this.setMacroRegion(existentRegion.getMacroRegion());
+            this.setSelectedMacroRegion(existentRegion.getMacroRegion().getId());
             this.setCities(existentRegion.getCities());
 
-            this.setSelectedCities(convertEntityCitiesToStringId(existentRegion.getCities()));
+//            this.setSelectedCities(convertEntityCitiesToStringId(existentRegion.getCities()));
+            this.setSelectedCities(new ArrayList<City>(existentRegion.getCities()));
 
             return "update.xhtml";
 
@@ -177,8 +184,10 @@ public class RegionController extends Region implements ICRUDController<Region> 
             var updatedRegion = Region.builder()
                     .id(this.getId())
                     .name(this.getName())
-                    .macroRegion(this.getMacroRegion())
-                    .cities(retrieveCities(this.convertStringCitiesIdToSetId()))
+                    //                    .macroRegion(this.getMacroRegion())
+                    .macroRegion(this.regionService.readMacroRegionById(this.getSelectedMacroRegion()))
+                    //                    .cities(retrieveCities(this.convertStringCitiesIdToSetId()))
+                    .cities(new HashSet<City>(this.getSelectedCities()))
                     .build();
 
             regionService.update(updatedRegion);

@@ -44,6 +44,15 @@ public class RegionService implements ICRUDService<Region> {
     public List<City> readAllCities() {
         return cityService.readAll();
     }
+    
+    public MacroRegion readMacroRegionById(Long id) {
+        try {
+            return this.macroRegionService.readById(id);
+            
+        } catch (EntityNotFoundException e) {
+            return MacroRegion.builder().build();
+        }
+    }
 
     public List<City> readAllCitiesWithoutRegion() {
         var allCities = this.cityService.readAll();
