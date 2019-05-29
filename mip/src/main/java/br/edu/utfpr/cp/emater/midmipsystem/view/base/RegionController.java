@@ -12,8 +12,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
@@ -32,7 +30,6 @@ public class RegionController extends Region implements ICRUDController<Region> 
     @Getter
     @Setter
     private List<City> selectedCities;
-//    private String selectedCities[];
 
     @Getter
     @Setter
@@ -75,37 +72,6 @@ public class RegionController extends Region implements ICRUDController<Region> 
 
     }
 
-//    private Set<Long> convertStringCitiesIdToSetId() {
-//
-//        String stringIDs[] = this.getSelectedCities().split(",");
-//
-//        var result = new HashSet<Long>();
-//
-//        for (String currentStringID : stringIDs) {
-//            result.add(new Long(currentStringID));
-//        }
-//
-//        return result;
-//    }
-//    private Set<City> retrieveCities(Set<Long> ids) throws EntityNotFoundException {
-//
-//        var result = new HashSet<City>();
-//
-//        var allCityEntities = regionService.readAllCities();
-//
-//        for (Long currentId : ids) {
-//            result.add(
-//                    allCityEntities
-//                            .stream()
-//                            .filter(
-//                                    currentCity -> currentCity
-//                                            .getId().equals(currentId))
-//                            .findAny()
-//                            .orElseThrow(EntityNotFoundException::new));
-//        }
-//
-//        return result;
-//    }
     @Override
     public String create() {
 
@@ -137,24 +103,6 @@ public class RegionController extends Region implements ICRUDController<Region> 
         }
     }
 
-//    private String convertEntityCitiesToStringId(Set<City> cities) {
-//
-//        var idList = cities.stream().map(City::getId).collect(Collectors.toList());
-//        var count = idList.size() - 1;
-//
-//        var idListStringBuilder = new StringBuilder();
-//
-//        for (Long currentId : idList) {
-//            idListStringBuilder.append(String.valueOf(currentId));
-//
-//            if (count > 0) {
-//                idListStringBuilder.append(",");
-//                count--;
-//            }
-//        }
-//
-//        return idListStringBuilder.toString();
-//    }
     @Override
     public String prepareUpdate(Long anId) {
 

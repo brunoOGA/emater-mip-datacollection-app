@@ -3,34 +3,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">      
 
     <h:body>
         <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">                
+            <ui:define name="main-component">       
 
-                <b:container fluid="true">
+                <p:panel style="margin-top: 15px">
 
-                    <b:panel look="warning" collapsible="false" title="Alterar Macrorregião">
+                    <f:facet name="header">
+                        <h4>Alterar Macrorregião</h4>
+                    </f:facet>     
 
-                        <b:panelGrid id="data-entry" columns="1">
-                            <b:inputText id="name-input" label="Nome" value="#{macroRegionController.name}"></b:inputText>
-                            <b:message for="name-input" ></b:message>
+                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:outputLabel for="@next" value="Nome"></p:outputLabel>
+                        <p:inputText value="#{macroRegionController.name}" ></p:inputText>
+                        <p:message for="@previous" ></p:message>
+                    </p:panelGrid>
 
-                            <h:inputHidden value="#{macroRegionController.id}" ></h:inputHidden>
-                        </b:panelGrid>
+                    <h:inputHidden value="#{macroRegionController.id}" ></h:inputHidden>
 
-                        <f:facet name="footer">
+                    <f:facet name="footer">
+                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
+                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
 
-                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                            <b:commandButton look="warning" value="Alterar" action="#{macroRegionController.update()}" ></b:commandButton>
+                                <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>                                           
+                                <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" ajax="false" value="Alterar" action="#{macroRegionController.update()}" ></p:commandButton>                                                    
 
-                        </f:facet>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </f:facet>
 
-                    </b:panel>
-                </b:container>
+                </p:panel>
 
             </ui:define>
         </ui:composition>
