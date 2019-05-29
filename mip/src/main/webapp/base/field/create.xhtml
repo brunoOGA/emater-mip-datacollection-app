@@ -4,61 +4,61 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:b="http://bootsfaces.net/ui">      
+      xmlns:p="http://primefaces.org/ui">      
 
     <h:body>
         <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">      
+            <ui:define name="main-component">   
 
-                <b:container fluid="true">
+                <p:panel style="margin-top: 15px">
 
-                    <b:panel look="success" collapsible="false" title="Criar Nova Unidade de Referência">
+                    <f:facet name="header">
+                        <h4>Criar Nova Unidade de Referência</h4>
+                    </f:facet>     
 
-                        <b:panelGrid id="data-entry" columns="1">
-                            <b:formGroup>
-                                <b:inputText label="Identificação" value="#{fieldController.name}"></b:inputText>
-                                <b:message for="@previous" ></b:message>                                        
-                            </b:formGroup>
+                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:outputLabel for="@next" value="Identificação"></p:outputLabel>
+                        <p:inputText value="#{fieldController.name}" ></p:inputText>
+                        <p:message for="@previous" ></p:message>
 
-                            <b:formGroup>
-                                <b:inputText label="Localização" value="#{fieldController.location}"></b:inputText>
-                                <b:message for="@previous" ></b:message>                                        
-                            </b:formGroup>
+                        <p:outputLabel for="@next" value="Localização"></p:outputLabel>
+                        <p:inputText value="#{fieldController.location}" ></p:inputText>
+                        <p:message for="@previous" ></p:message>                        
 
-                            <b:formGroup>
-                                <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um município" value="#{fieldController.city}" label="Município">
-                                    <f:selectItem itemLabel="(Selecione um município)" itemValue="" />
-                                    <f:selectItems value="#{fieldController.readAllCities()}" var="aCity" itemValue="#{aCity}" itemLabel="#{aCity.name}" />
-                                </b:selectOneMenu>
-                                <b:message for="@previous" />
-                            </b:formGroup>                                    
+                        <p:outputLabel for="@next" value="Município" />
+                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um município" value="#{fieldController.selectedCityId}" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{fieldController.readAllCities()}" var="aCity" itemLabel="#{aCity.name}" itemValue="#{aCity.id}"/>
+                        </p:selectOneListbox>
+                        <p:message for="@previous" ></p:message>
 
-                            <b:formGroup>
-                                <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um produtor" value="#{fieldController.farmer}" label="Produtor">
-                                    <f:selectItem itemLabel="(Selecione um produtor)" itemValue="" />
-                                    <f:selectItems value="#{fieldController.readAllFarmers()}" var="aFarmer" itemValue="#{aFarmer}" itemLabel="#{aFarmer.name}" />
-                                </b:selectOneMenu>
-                                <b:message for="@previous" />
-                            </b:formGroup>                                    
+                        <p:outputLabel for="@next" value="Produtor" />
+                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um produtor" value="#{fieldController.selectedFarmerId}" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{fieldController.readAllFarmers()}" var="aFarmer" itemLabel="#{aFarmer.name}" itemValue="#{aFarmer.id}"/>
+                        </p:selectOneListbox>
+                        <p:message for="@previous" ></p:message>
 
-                            <b:formGroup>
-                                <b:selectMultiMenu enableFiltering="true" required="true" required-message="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}" label="Responsável Técnico">
-                                    <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor.getIdAsString()}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
-                                </b:selectMultiMenu>
-                                <b:message for="@previous" />
-                            </b:formGroup>
+                        <p:outputLabel for="@next" value="Responsável Técnico" />
+                        <p:selectManyMenu showCheckbox="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}">
+                            <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
+                        </p:selectManyMenu>
+                        <p:message for="@previous" ></p:message>
 
-                        </b:panelGrid>
 
-                        <f:facet name="footer">
-                            <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                            <b:commandButton look="success" value="Criar" action="#{fieldController.create()}" ></b:commandButton>
-                        </f:facet>
+                    </p:panelGrid>
 
-                    </b:panel>
+                    <f:facet name="footer">
+                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
+                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
 
-                </b:container>
+                                <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
+                                <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{fieldController.create()}" ></p:commandButton>                                                    
+
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </f:facet>
+
+                </p:panel>                                   
 
             </ui:define>
         </ui:composition>

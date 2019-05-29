@@ -156,4 +156,22 @@ public class FieldService implements ICRUDService<Field> {
         }
     }
 
+    public City readCityById(Long selectedCityId) {
+        try {
+            return this.cityService.readById(selectedCityId);
+            
+        } catch (EntityNotFoundException ex) {
+            return this.cityService.readAll().get(0);
+        }
+    }
+
+    public Farmer readFarmerById(Long selectedFarmerId) {
+        try {
+            return this.farmerService.readById(selectedFarmerId);
+            
+        } catch (EntityNotFoundException ex) {
+            return this.farmerService.readAll().get(0);
+        }
+    }
+
 }

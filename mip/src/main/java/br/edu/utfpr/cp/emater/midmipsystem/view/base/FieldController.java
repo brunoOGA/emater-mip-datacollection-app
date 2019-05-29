@@ -11,6 +11,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 // Note that there are issues to resolve regarding the match of supervisors and cities
-
 @Component
 @RequestScope
 public class FieldController extends Field implements ICRUDController<Field> {
@@ -33,7 +33,15 @@ public class FieldController extends Field implements ICRUDController<Field> {
 
     @Getter
     @Setter
-    private String selectedSupervisors;
+    private List<Supervisor> selectedSupervisors;
+
+    @Getter
+    @Setter
+    private Long selectedCityId;
+
+    @Getter
+    @Setter
+    private Long selectedFarmerId;
 
     @Autowired
     public FieldController(FieldService aFieldService) {
@@ -57,39 +65,6 @@ public class FieldController extends Field implements ICRUDController<Field> {
         return fieldService.readAllSupervisors();
     }
 
-    private Set<Long> convertStringSupervisorsIdToSetId() {
-
-        String stringIDs[] = this.getSelectedSupervisors().split(",");
-
-        var result = new HashSet<Long>();
-
-        for (String currentStringID : stringIDs) {
-            result.add(new Long(currentStringID));
-        }
-
-        return result;
-    }
-
-    private Set<Supervisor> retrieveSupervisors(Set<Long> ids) throws EntityNotFoundException {
-
-        var result = new HashSet<Supervisor>();
-
-        var allSupervisorEntities = fieldService.readAllSupervisors();
-
-        for (Long currentId : ids) {
-            result.add(
-                    allSupervisorEntities
-                            .stream()
-                            .filter(
-                                    currentSupervisor -> currentSupervisor
-                                            .getId().equals(currentId))
-                            .findAny()
-                            .orElseThrow(EntityNotFoundException::new));
-        }
-
-        return result;
-    }
-
     @Override
     public String create() {
 
@@ -97,9 +72,9 @@ public class FieldController extends Field implements ICRUDController<Field> {
             var newField = Field.builder()
                     .name(this.getName())
                     .location(this.getLocation())
-                    .city(this.getCity())
-                    .farmer(this.getFarmer())
-                    .supervisors(retrieveSupervisors(this.convertStringSupervisorsIdToSetId()))
+                    .city(this.fieldService.readCityById(this.getSelectedCityId()))
+                    .farmer(this.fieldService.readFarmerById(this.getSelectedFarmerId()))
+                    .supervisors(new HashSet<Supervisor>(this.getSelectedSupervisors()))
                     .build();
 
             fieldService.create(newField);
@@ -125,25 +100,6 @@ public class FieldController extends Field implements ICRUDController<Field> {
         }
     }
 
-    private String convertEntitySupervisorsToStringId(Set<Supervisor> supervisors) {
-
-        var idList = supervisors.stream().map(Supervisor::getId).collect(Collectors.toList());
-        var count = idList.size() - 1;
-
-        var idListStringBuilder = new StringBuilder();
-
-        for (Long currentId : idList) {
-            idListStringBuilder.append(String.valueOf(currentId));
-
-            if (count > 0) {
-                idListStringBuilder.append(",");
-                count--;
-            }
-        }
-
-        return idListStringBuilder.toString();
-    }
-
     @Override
     public String prepareUpdate(Long anId) {
 
@@ -152,9 +108,9 @@ public class FieldController extends Field implements ICRUDController<Field> {
             this.setId(existentField.getId());
             this.setName(existentField.getName());
             this.setLocation(existentField.getLocation());
-            this.setCity(existentField.getCity());
-            this.setFarmer(existentField.getFarmer());
-            this.setSelectedSupervisors(convertEntitySupervisorsToStringId(existentField.getSupervisors()));
+            this.setSelectedCityId(existentField.getCityId());
+            this.setSelectedFarmerId(existentField.getFarmerId());
+            this.setSelectedSupervisors(new ArrayList<>(existentField.getSupervisors()));
 
             return "update.xhtml";
 
@@ -172,13 +128,13 @@ public class FieldController extends Field implements ICRUDController<Field> {
                     .id(this.getId())
                     .name(this.getName())
                     .location(this.getLocation())
-                    .city(this.getCity())
-                    .farmer(this.getFarmer())
-                    .supervisors(retrieveSupervisors(this.convertStringSupervisorsIdToSetId()))
+                    .city(this.fieldService.readCityById(this.getSelectedCityId()))
+                    .farmer(this.fieldService.readFarmerById(this.getSelectedFarmerId()))
+                    .supervisors(new HashSet<Supervisor>(this.getSelectedSupervisors()))
                     .build();
 
             fieldService.update(updatedField);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência alterada"));
             return "index.xhtml";
 
