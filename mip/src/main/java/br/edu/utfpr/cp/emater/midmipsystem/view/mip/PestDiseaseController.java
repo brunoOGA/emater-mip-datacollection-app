@@ -89,7 +89,6 @@ public class PestDiseaseController extends PestDisease implements ICRUDControlle
 
     }
 
-    @Override
     public String prepareDelete(Long anId) {
 
         try {
@@ -106,7 +105,6 @@ public class PestDiseaseController extends PestDisease implements ICRUDControlle
         }
     }
 
-    @Override
     public String delete() {
         
         try {

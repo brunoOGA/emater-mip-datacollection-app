@@ -91,7 +91,6 @@ public class PestNaturalPredatorController extends PestNaturalPredator implement
 
     }
 
-    @Override
     public String prepareDelete(Long anId) {
 
         try {
@@ -108,7 +107,6 @@ public class PestNaturalPredatorController extends PestNaturalPredator implement
         }
     }
 
-    @Override
     public String delete() {
         
         try {

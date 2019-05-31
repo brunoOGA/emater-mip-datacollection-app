@@ -91,7 +91,6 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
 
     }
 
-    @Override
     public String prepareDelete(Long anId) {
 
         try {
@@ -107,7 +106,6 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
         }
     }
 
-    @Override
     public String delete() {
         
         try {

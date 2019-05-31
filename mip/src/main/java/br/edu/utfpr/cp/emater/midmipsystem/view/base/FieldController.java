@@ -157,7 +157,6 @@ public class FieldController extends Field implements ICRUDController<Field> {
 
     }
 
-    @Override
     public String prepareDelete(Long anId) {
 
         try {
@@ -173,7 +172,6 @@ public class FieldController extends Field implements ICRUDController<Field> {
         }
     }
 
-    @Override
     public String delete() {
 
         try {

@@ -76,7 +76,6 @@ public class MIPSampleDetailController extends MIPSample implements ICRUDControl
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public String prepareDelete(Long anId) {
         
         try {
@@ -94,7 +93,6 @@ public class MIPSampleDetailController extends MIPSample implements ICRUDControl
         }
     }
 
-    @Override
     public String delete() {
         try {
             mipSampleService.delete(this.getId());

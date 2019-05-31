@@ -102,7 +102,6 @@ public class HarvestController extends Harvest implements ICRUDController<Harves
 
     }
 
-    @Override
     public String prepareDelete(Long anId) {
 
         try {
@@ -119,7 +118,6 @@ public class HarvestController extends Harvest implements ICRUDController<Harves
         }
     }
 
-    @Override
     public String delete() {
         
         try {

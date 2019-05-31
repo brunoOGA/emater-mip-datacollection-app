@@ -107,7 +107,6 @@ public class SupervisorController extends Supervisor implements ICRUDController<
 
     }
 
-    @Override
     public String prepareDelete(Long anId) {
 
         try {
@@ -123,7 +122,6 @@ public class SupervisorController extends Supervisor implements ICRUDController<
         }
     }
 
-    @Override
     public String delete() {
         
         try {

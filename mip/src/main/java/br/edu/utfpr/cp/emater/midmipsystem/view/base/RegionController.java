@@ -159,7 +159,6 @@ public class RegionController extends Region implements ICRUDController<Region> 
 
     }
 
-    @Override
     public String prepareDelete(Long anId) {
 
         try {
@@ -175,7 +174,6 @@ public class RegionController extends Region implements ICRUDController<Region> 
         }
     }
 
-    @Override
     public String delete() {
 
         try {

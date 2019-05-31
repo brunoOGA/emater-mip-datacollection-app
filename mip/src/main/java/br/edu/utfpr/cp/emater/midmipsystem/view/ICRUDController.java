@@ -8,7 +8,5 @@ public interface ICRUDController<T> {
     public String create();
     public String prepareUpdate (Long anId);
     public String update();
-    public String prepareDelete (Long anId);
-    public String delete();
-    
+    // public String delete(Long anId) {
 }

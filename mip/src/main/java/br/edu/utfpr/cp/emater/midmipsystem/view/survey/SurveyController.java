@@ -256,7 +256,6 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
 
     }
 
-    @Override
     public String prepareDelete(Long anId) {
 
         try {
@@ -274,7 +273,6 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
         }
     }
 
-    @Override
     public String delete() {
         
         try {
