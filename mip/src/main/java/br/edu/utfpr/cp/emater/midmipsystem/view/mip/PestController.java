@@ -97,27 +97,10 @@ public class PestController extends Pest implements ICRUDController<Pest> {
 
     }
 
-    public String prepareDelete(Long anId) {
-
-        try {
-            var existentPest = pestService.readById(anId);
-            
-            this.setId(existentPest.getId());
-            this.setUsualName(existentPest.getUsualName());
-            this.setPestSize(existentPest.getPestSize());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inseto praga não pode ser excluído porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    public String delete() {
+    public String delete(Long anId) {
         
         try {
-            pestService.delete(this.getId());
+            pestService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Inseto praga excluído!"));
             return "index.xhtml";
 

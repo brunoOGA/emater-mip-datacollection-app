@@ -10,7 +10,7 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
 
-                <p:dataTable rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{pestDiseaseController.readAll()}" var="aPestDisease" >
+                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{pestDiseaseController.readAll()}" var="aPestDisease" >
 
                     <p:column headerText="Nome" >
                         <h:outputText value="#{aPestDisease.usualName}" />
@@ -20,9 +20,15 @@
                         <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{pestDiseaseController.prepareUpdate(aPestDisease.id)}" ></p:commandButton>
                         <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                        <p:commandButton style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{pestDiseaseController.prepareDelete(aPestDisease.id)}" ></p:commandButton>
+                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{pestDiseaseController.delete(aPestDisease.id)}" >
+                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a doença da praga '#{aPestDisease.usualName}'? Essa ação NÃO pode ser desfeita." />
+                        </p:commandButton>
                         <p:tooltip for="@previous" value="Excluir" position="top" />
 
+                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
+                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
+                        </p:confirmDialog>                             
                     </p:column>                    
                 </p:dataTable>
        

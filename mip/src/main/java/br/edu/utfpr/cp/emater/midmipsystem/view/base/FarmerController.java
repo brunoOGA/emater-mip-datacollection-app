@@ -91,25 +91,10 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
 
     }
 
-    public String prepareDelete(Long anId) {
-
-        try {
-            var exixtentFarmer = farmerService.readById(anId);
-            this.setId(exixtentFarmer.getId());
-            this.setName(exixtentFarmer.getName());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    public String delete() {
+    public String delete(Long anId) {
         
         try {
-            farmerService.delete(this.getId());
+            farmerService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Produtor excluído!"));
             return "index.xhtml";
 

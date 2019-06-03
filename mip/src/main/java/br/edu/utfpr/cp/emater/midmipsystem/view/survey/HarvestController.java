@@ -1,9 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.survey;
 
-import br.edu.utfpr.cp.emater.midmipsystem.view.base.*;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -102,26 +99,10 @@ public class HarvestController extends Harvest implements ICRUDController<Harves
 
     }
 
-    public String prepareDelete(Long anId) {
-
-        try {
-            var existentHarvest = harvestService.readById(anId);
-            
-            this.setId(existentHarvest.getId());
-            this.setName(existentHarvest.getName());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    public String delete() {
+    public String delete(Long anId) {
         
         try {
-            harvestService.delete(this.getId());
+            harvestService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Safra excluída!"));
             return "index.xhtml";
 

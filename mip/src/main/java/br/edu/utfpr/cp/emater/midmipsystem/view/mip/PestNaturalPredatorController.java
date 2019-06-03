@@ -1,13 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestDiseaseService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestNaturalPredatorService;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -91,26 +89,10 @@ public class PestNaturalPredatorController extends PestNaturalPredator implement
 
     }
 
-    public String prepareDelete(Long anId) {
-
-        try {
-            var existentPestNaturalPredator = pestNaturalPredatorService.readById(anId);
-            
-            this.setId(existentPestNaturalPredator.getId());
-            this.setUsualName(existentPestNaturalPredator.getUsualName());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inimigo natural da praga não pode ser excluído porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    public String delete() {
+    public String delete(Long anId) {
         
         try {
-            pestNaturalPredatorService.delete(this.getId());
+            pestNaturalPredatorService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Inimigo natural da praga excluído!"));
             return "index.xhtml";
 

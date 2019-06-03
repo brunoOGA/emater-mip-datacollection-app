@@ -10,7 +10,7 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
                 
-                <p:dataTable rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{regionController.readAll()}" var="aRegion" >
+                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{regionController.readAll()}" var="aRegion" >
 
                     <p:column headerText="Nome" >
                         <h:outputText value="#{aRegion.name}" />
@@ -28,9 +28,15 @@
                         <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{regionController.prepareUpdate(aRegion.id)}" ></p:commandButton>
                         <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                        <p:commandButton style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{regionController.prepareDelete(aRegion.id)}" ></p:commandButton>
+                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{regionController.delete(aRegion.id)}" >
+                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a região '#{aRegion.name}'? Essa ação NÃO pode ser desfeita." />
+                        </p:commandButton>
                         <p:tooltip for="@previous" value="Excluir" position="top" />
 
+                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
+                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
+                        </p:confirmDialog>                         
                     </p:column>                    
                 </p:dataTable>                  
        

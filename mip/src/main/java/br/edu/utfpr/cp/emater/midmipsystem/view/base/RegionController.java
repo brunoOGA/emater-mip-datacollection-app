@@ -159,26 +159,11 @@ public class RegionController extends Region implements ICRUDController<Region> 
 
     }
 
-    public String prepareDelete(Long anId) {
+    public String delete(Long anId) {
 
         try {
-            Region existentRegion = regionService.readById(anId);
-            this.setId(existentRegion.getId());
-            this.setName(existentRegion.getName());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    public String delete() {
-
-        try {
-            regionService.delete(this.getId());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Região [%s] excluída!", this.getName())));
+            regionService.delete(anId);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Região excluída!"));
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser excluída porque não foi encontrada na base de dados!"));

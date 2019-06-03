@@ -14,8 +14,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
@@ -157,25 +155,10 @@ public class FieldController extends Field implements ICRUDController<Field> {
 
     }
 
-    public String prepareDelete(Long anId) {
+    public String delete(Long anId) {
 
         try {
-            var existentField = fieldService.readById(anId);
-            this.setId(existentField.getId());
-            this.setName(existentField.getName());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    public String delete() {
-
-        try {
-            fieldService.delete(this.getId());
+            fieldService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência excluída!"));
             return "index.xhtml";
 
