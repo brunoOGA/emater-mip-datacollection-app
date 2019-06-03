@@ -256,27 +256,10 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
 
     }
 
-    public String prepareDelete(Long anId) {
-
-        try {
-            var existentSurvey = surveyService.readById(anId);
-            
-            this.setId(existentSurvey.getId());
-            this.setField(existentSurvey.getField());
-            this.setHarvest(existentSurvey.getHarvest());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser removida da pesquisa porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    public String delete() {
+    public String delete(Long anId) {
         
         try {
-            surveyService.delete(this.getId());
+            surveyService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "UR removida da pesquisa!"));
             return "index.xhtml";
 
