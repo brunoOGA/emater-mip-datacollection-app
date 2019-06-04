@@ -53,6 +53,10 @@ public class SurveyService implements ICRUDService<Survey> {
     public List<Survey> readByHarvestId(Long harvestId) throws EntityNotFoundException {
         return List.copyOf(surveyRepository.findAll().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(harvestId)).collect(Collectors.toList()));
     }
+    
+    public List<Field> readAllFields() {
+        return fieldService.readAll();
+    }
 
     public void create(Survey aSurvey) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
