@@ -17,15 +17,17 @@
                         <p:menuitem value="Gerenciamento de URs Participantes da Pesquisa" url="/survey/survey/index.xhtml" />
                     </p:breadCrumb>
 
-                    <p:panel style="margin: 15px" header="Gerenciamento de Macroregião">
+                    <p:panel style="margin: 15px">
                         <f:facet name="header" >
                             <h2 style="display: inline">Gerenciamento de URs Participantes da Pesquisa</h2>
-                            <p:commandButton  icon="fa fa-fw fa-plus-circle" action="create.xhtml" value="Adicionar Unidade de Referência à Pesquisa" style="float: right"></p:commandButton>
+                            <p:commandButton action="create.xhtml" icon="fa fa-fw fa-plus-circle" value="Adicionar Unidade de Referência à Pesquisa" style="float: right"></p:commandButton>
                         </f:facet>
 
                         <ui:insert name="main-component">Component</ui:insert>
 
                     </p:panel>
+                    
+                    <!--<ui:include src="select-harvest-modal.xhtml"></ui:include>-->
 
                 </h:form>
 

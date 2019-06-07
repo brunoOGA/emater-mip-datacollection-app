@@ -20,7 +20,6 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @ViewScoped
 public class SurveyController extends Survey implements ICRUDController<Survey> {
@@ -30,7 +29,7 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
     @Getter
     @Setter
     private Long selectedHarvestId;
-    
+
     @Getter
     @Setter
     private boolean rustResistant;
@@ -82,7 +81,7 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
     @Getter
     @Setter
     private Date harvestDate;
-    
+
     @Autowired
     public SurveyController(SurveyService aSurveyService) {
         this.surveyService = aSurveyService;
@@ -102,23 +101,22 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
         return surveyService.readAllFields();
     }
 
-    public String selectHarvest() {
-
-        try {
-            var selectedHarvest = surveyService.readHarvestById(this.getSelectedHarvestId());
-
-            this.setHarvest(selectedHarvest);
-            this.setSelectedHarvestId(selectedHarvest.getId());
-
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser selecionada porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
-
-    }
-
+//    public String selectHarvest() {
+//        
+//        try {
+//            var selectedHarvest = surveyService.readHarvestById(this.getSelectedHarvestId());
+//
+//            this.setHarvest(selectedHarvest);
+//            this.setSelectedHarvestId(selectedHarvest.getId());
+//            
+//            return "create.xhtml";
+//
+//        } catch (EntityNotFoundException e) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser selecionada porque não foi encontrada na base de dados!"));
+//            return "index.xhtml";
+//        }
+//
+//    }
     @Override
     public String create() {
 
@@ -127,8 +125,8 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
                     .bt(this.isBt())
                     .emergenceDate(this.getEmergenceDate())
                     .field(this.getField())
-//                    .harvest(surveyService.readHarvestById(this.getSelectedHarvestId()))
-                    .harvest(surveyService.readAllHarvests().get(0))
+                    .harvest(surveyService.readHarvestById(this.getSelectedHarvestId()))
+                    //                    .harvest(surveyService.readAllHarvests().get(0))
                     .latitude(this.getLatitude())
                     .longitude(this.getLongitude())
                     .plantPerMeter(this.getPlantPerMeter())
