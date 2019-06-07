@@ -126,7 +126,6 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
                     .emergenceDate(this.getEmergenceDate())
                     .field(this.getField())
                     .harvest(surveyService.readHarvestById(this.getSelectedHarvestId()))
-                    //                    .harvest(surveyService.readAllHarvests().get(0))
                     .latitude(this.getLatitude())
                     .longitude(this.getLongitude())
                     .plantPerMeter(this.getPlantPerMeter())
@@ -174,7 +173,6 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
             this.setSporeCollectorPresent(existentSurvey.isSporeCollectorPresent());
 
             this.setField(existentSurvey.getField());
-//            this.setSelectedFieldId(existentSurvey.getFieldId());
 
             this.setHarvest(existentSurvey.getHarvest());
             this.setSelectedHarvestId(existentSurvey.getHarvestId());
@@ -210,7 +208,7 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
                     .id(this.getId())
                     .bt(this.isBt())
                     .emergenceDate(this.getEmergenceDate())
-                    //                    .field(surveyService.readFieldbyId(this.getSelectedFieldId()))
+                    .field(this.getField())
                     .harvest(surveyService.readHarvestById(this.getSelectedHarvestId()))
                     .latitude(this.getLatitude())
                     .longitude(this.getLongitude())
