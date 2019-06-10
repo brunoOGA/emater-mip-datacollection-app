@@ -3,46 +3,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">      
 
-    <body>
-        <ui:composition template="./../../main-template.xhtml">
+    <h:body>
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">
 
-            <ui:define name="content">
-                <b:container fluid="true">
+                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+                    
+                    <p:column headerText="Safra" >
+                        <h:outputText value="#{aSurvey.harvestName}" />
+                    </p:column>
 
-                    <b:breadcrumbs>
-                        <b:navLink icon-awesome="chart-pie" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
-                        <f:facet name="first">
-                            <b:iconAwesome value="cogs" />
-                            Manejo Integrado de Pragas
-                        </f:facet> 
-                        <f:facet name="end">
-                            <b:iconAwesome value="cogs" />
-                            Anotação de Campo
-                        </f:facet> 
-                    </b:breadcrumbs>
+                    <p:column headerText="Produtor" >
+                        <h:outputText value="#{aSurvey.farmerString}" />
+                    </p:column>
 
-                    <b:panel collapsible="false">
+                    <p:column headerText="Identificação" >
+                        <h:outputText value="#{aSurvey.fieldName}" />
+                    </p:column>
 
-                        <f:facet name="heading">
-                            <b:form style="display: flex">
-                                <h2>Gerenciamento de Anotação de Campo</h2>
+                    <p:column headerText="Cultivar" >
+                        <h:outputText value="#{aSurvey.seedName}" />
+                    </p:column>
 
-                                <b:column span="7"></b:column>
+                    <p:column headerText="Responsável Técnico" >
+                        <h:outputText value="#{aSurvey.fieldSupervisorNames}" />
+                    </p:column>
 
-                                <a id="atrigger" class="btn btn-success btn-lg" href="#harvest-select-modal" data-toggle="modal">Adicionar Amostra</a>
-                            </b:form>
-                        </f:facet>
+                    <p:column headerText="Município" >
+                        <h:outputText value="#{aSurvey.fieldCityName}" />
+                    </p:column>
 
-                        <ui:include src="list.xhtml"></ui:include>
-                        <ui:include src="harvest-select-modal.xhtml"></ui:include>
 
-                    </b:panel>
-                </b:container>
-            </ui:define>
+                    <p:column headerText="Ações" width="300">
+                        <p:commandButton action="/mip/mip-sample-detail/view-mip-sample-details.xhtml" value="Visualizar" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
+                        
+                        <p:commandButton value="Adicionar" icon="fa fa-fw fa-plus-circle" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Adicionar amostra para esta UR" position="top" />
+                        
+                    </p:column>   
+                </p:dataTable>  
+
+            </ui:define>  
         </ui:composition>
-
-    </body>
+    </h:body>
 </html>

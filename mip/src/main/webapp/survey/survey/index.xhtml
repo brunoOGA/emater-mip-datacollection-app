@@ -82,8 +82,8 @@
 
 
                     <p:column headerText="Ações" width="100">
-                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{surveyController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
-                        <p:tooltip for="@previous" value="Alterar" position="top" />
+<!--                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{surveyController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Alterar" position="top" />-->
 
                         <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
                             <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja remover a UR '#{aSurvey.fieldName}' da pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." />

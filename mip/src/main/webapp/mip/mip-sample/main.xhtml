@@ -13,21 +13,18 @@
                 <h:form>
                     <p:breadCrumb>
                         <p:menuitem value="Home" url="/index.xhtml" />
-                        <p:menuitem value="Configuração da Pesquisa" />
-                        <p:menuitem value="Gerenciamento de URs Participantes da Pesquisa" url="/survey/survey/index.xhtml" />
+                        <p:menuitem value="Manejo Integrado de Pragas" />
+                        <p:menuitem value="Anotação de Campo" url="/mip/mip-sample/index.xhtml" />
                     </p:breadCrumb>
 
                     <p:panel style="margin: 15px">
                         <f:facet name="header" >
-                            <h2 style="display: inline">Gerenciamento de URs Participantes da Pesquisa</h2>
-                            <p:commandButton action="create.xhtml" icon="fa fa-fw fa-plus-circle" value="Adicionar Unidade de Referência à Pesquisa" style="float: right"></p:commandButton>
+                            <h2 style="display: inline">Gerenciamento de Anotações de Campo</h2>
                         </f:facet>
 
                         <ui:insert name="main-component">Component</ui:insert>
 
                     </p:panel>
-                    
-                    <!--<ui:include src="select-harvest-modal.xhtml"></ui:include>-->
 
                 </h:form>
 
