@@ -27,10 +27,12 @@ import org.springframework.stereotype.Component;
 public class MIPSampleService implements ICRUDService<MIPSample> {
     
     private final MIPSampleRepository mipSampleRepository;
+    private final SurveyService surveyService;
         
     @Autowired
     public MIPSampleService(MIPSampleRepository aMIPSampleRepository, SurveyService aSurveyService) {
         this.mipSampleRepository = aMIPSampleRepository;
+        this.surveyService = aSurveyService;
     }
 
     @Override
@@ -179,4 +181,8 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 //
 //        return allFieldsOutOfCurrentHarvest;
 //    }
+
+    public Survey readSurveyById(Long id) throws EntityNotFoundException {
+        return surveyService.readById(id);
+    }
 }
