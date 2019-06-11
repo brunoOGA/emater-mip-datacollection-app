@@ -4,6 +4,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.view.survey.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.view.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -23,29 +24,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
-@Component (value = "mipSampleController")
+@Component(value = "mipSampleController")
 @RequestScope
 public class MIPSampleController extends MIPSample implements ICRUDController<MIPSample> {
-    
+
     private final MIPSampleService mipSampleService;
-    
+
+    @Setter
+    @Getter
+    private Long currentSurveyId;
+
     @Autowired
     public MIPSampleController(MIPSampleService aMIPSampleService) {
         this.mipSampleService = aMIPSampleService;
-        
+
     }
 
     @Override
     public List<MIPSample> readAll() {
         return mipSampleService.readAll();
     }
-    
+
     public List<Survey> readAllSurveysUniqueEntries() {
         return mipSampleService.readAllSurveysUniqueEntries();
     }
@@ -65,14 +71,27 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public String prepareDelete(Long anId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public String delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String selectTargetSurvey(Long id) {
+        
+        this.setCurrentSurveyId(id);
+        return "/mip/mip-sample/create-with-survey.xhtml";
+    }
+    
+    public GrowthPhase[] readAllGrowthPhases() {
+        return GrowthPhase.values();
+    }
+
+    public String doIt() {
+        System.out.println(this.getCurrentSurveyId());
+        return "index.xhtml";
     }
 
 //    private final SurveyService surveyService;
@@ -340,5 +359,4 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
 //            return "index.xhtml";
 //        }
 //    }
-
 }

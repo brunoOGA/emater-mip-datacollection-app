@@ -1,20 +1,18 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -24,6 +22,10 @@ import org.springframework.web.context.annotation.RequestScope;
 public class SupervisorController extends Supervisor implements ICRUDController<Supervisor> {
 
     private SupervisorService supervisorService;
+    
+    @Getter
+    @Setter
+    private Long selectedRegionId;
     
     @Autowired
     public SupervisorController(SupervisorService aSupervisorService) {
@@ -41,7 +43,7 @@ public class SupervisorController extends Supervisor implements ICRUDController<
 
     @Override
     public String create() {
-        var newSupervisor = Supervisor.builder().name(this.getName()).email(this.getEmail()).region(this.getRegion()).build();
+        var newSupervisor = Supervisor.builder().name(this.getName()).email(this.getEmail()).region(this.supervisorService.readRegionById(this.getSelectedRegionId())).build();
 
         try {
             supervisorService.create(newSupervisor);
@@ -66,7 +68,8 @@ public class SupervisorController extends Supervisor implements ICRUDController<
             this.setId(existentSupervisor.getId());
             this.setName(existentSupervisor.getName());
             this.setEmail(existentSupervisor.getEmail());
-            this.setRegion(existentSupervisor.getRegion());
+            this.setSelectedRegionId(existentSupervisor.getRegionId());
+//            this.setRegion(existentSupervisor.getRegion());
 
             return "update.xhtml";
 
@@ -78,7 +81,7 @@ public class SupervisorController extends Supervisor implements ICRUDController<
 
     @Override
     public String update() {
-        var updatedSupervisor = Supervisor.builder().id(this.getId()).name(this.getName()).email(this.getEmail()).region(this.getRegion()).build();
+        var updatedSupervisor = Supervisor.builder().id(this.getId()).name(this.getName()).email(this.getEmail()).region(this.supervisorService.readRegionById(this.getSelectedRegionId())).build();
 
         try {
             supervisorService.update(updatedSupervisor);
@@ -100,27 +103,10 @@ public class SupervisorController extends Supervisor implements ICRUDController<
 
     }
 
-    @Override
-    public String prepareDelete(Long anId) {
-
-        try {
-            var existentSupervisor = supervisorService.readById(anId);
-            this.setId(existentSupervisor.getId());
-            this.setName(existentSupervisor.getName());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Responsável técnico não pode ser excluído porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    @Override
-    public String delete() {
+    public String delete(Long anId) {
         
         try {
-            supervisorService.delete(this.getId());
+            supervisorService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Responsável técnico excluído!"));
             return "index.xhtml";
 

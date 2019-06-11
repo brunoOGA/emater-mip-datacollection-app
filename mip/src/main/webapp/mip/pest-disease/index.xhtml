@@ -3,42 +3,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">      
 
-    <body>
-        <ui:composition template="./../../main-template.xhtml">
+    <h:body>
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">
 
-            <ui:define name="content">
-                <b:container fluid="true">
+                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{pestDiseaseController.readAll()}" var="aPestDisease" >
 
-                    <b:breadcrumbs>
-                        <b:navLink icon-awesome="info-circle" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
-                        <f:facet name="first">
-                            <b:iconAwesome value="info-circle" />
-                            Manejo Integrado de Pragas
-                        </f:facet> 
-                        <f:facet name="end">
-                            <b:iconAwesome value="globe" />
-                            Gerenciamento de Doenças das Pragas
-                        </f:facet> 
-                    </b:breadcrumbs>
+                    <p:column headerText="Nome" >
+                        <h:outputText value="#{aPestDisease.usualName}" />
+                    </p:column>
 
-                    <b:panel collapsible="false" >
+                    <p:column headerText="Ações" width="100">
+                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{pestDiseaseController.prepareUpdate(aPestDisease.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                        <f:facet name="heading" >
-                            <h2>Gerenciamento de Doenças das Pragas</h2>
-                            <a href="create.xhtml" class="btn btn-success">
-                                <span class="align-middle">Criar Nova Doença da Praga</span>
-                            </a>
-                        </f:facet>
+                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{pestDiseaseController.delete(aPestDisease.id)}" >
+                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a doença da praga '#{aPestDisease.usualName}'? Essa ação NÃO pode ser desfeita." />
+                        </p:commandButton>
+                        <p:tooltip for="@previous" value="Excluir" position="top" />
 
-                        <ui:include src="list.xhtml"></ui:include>
-
-                    </b:panel>
-                </b:container>
+                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
+                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
+                        </p:confirmDialog>                             
+                    </p:column>                    
+                </p:dataTable>
+       
             </ui:define>
         </ui:composition>
-
-    </body>
+    </h:body>
 </html>

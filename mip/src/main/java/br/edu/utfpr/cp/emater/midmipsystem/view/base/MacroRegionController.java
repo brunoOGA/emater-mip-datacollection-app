@@ -88,28 +88,11 @@ public class MacroRegionController extends MacroRegion implements ICRUDControlle
         }
 
     }
-
-    @Override
-    public String prepareDelete(Long anId) {
-
-        try {
-            MacroRegion exixtentMacroRegion = macroRegionService.readById(anId);
-            this.setId(exixtentMacroRegion.getId());
-            this.setName(exixtentMacroRegion.getName());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    @Override
-    public String delete() {
+    
+        public String delete(Long anId) {
         
         try {
-            macroRegionService.delete(this.getId());
+            macroRegionService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Macrorregião excluída!"));
             return "index.xhtml";
 

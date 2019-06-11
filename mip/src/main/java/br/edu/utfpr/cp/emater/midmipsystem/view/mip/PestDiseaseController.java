@@ -89,28 +89,10 @@ public class PestDiseaseController extends PestDisease implements ICRUDControlle
 
     }
 
-    @Override
-    public String prepareDelete(Long anId) {
-
-        try {
-            var existentPestDisease = pestDiseaseService.readById(anId);
-            
-            this.setId(existentPestDisease.getId());
-            this.setUsualName(existentPestDisease.getUsualName());
-
-            return "delete.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Doença da praga não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    @Override
-    public String delete() {
+    public String delete(Long anId) {
         
         try {
-            pestDiseaseService.delete(this.getId());
+            pestDiseaseService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Doença da praga excluída!"));
             return "index.xhtml";
 

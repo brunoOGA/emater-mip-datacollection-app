@@ -3,94 +3,67 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">      
 
-    <body>
-        <ui:composition template="./../../main-template.xhtml">
+    <h:body>
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">     
 
-            <ui:define name="content">                
+                <p:panel style="margin-top: 15px">
 
-                <b:form>
-                    <b:container fluid="true">
+                    <f:facet name="header">
+                        <h4>Alterar Unidade de Referência</h4>
+                    </f:facet>     
 
-                        <b:breadcrumbs>
-                            <b:navLink icon-awesome="info-circle" value="Painel de Acompanhamento" outcome="/index.xhtml"/>
+                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:outputLabel for="@next" value="Identificação"></p:outputLabel>
+                        <p:inputText value="#{fieldController.name}" ></p:inputText>
+                        <p:message for="@previous" ></p:message>
 
-                            <f:facet name="first">
-                                <b:iconAwesome value="info-circle" />
-                                Gerenciamento de Informações
-                            </f:facet> 
+                        <p:outputLabel for="@next" value="Localização"></p:outputLabel>
+                        <p:inputText value="#{fieldController.location}" ></p:inputText>
+                        <p:message for="@previous" ></p:message>                        
 
-                            <b:navLink icon-awesome="globe" value="Gerenciamento de Unidade de Referência" outcome="/base/field/index.xhtml"/>
+                        <p:outputLabel for="@next" value="Município" />
+                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um município" value="#{fieldController.selectedCityId}" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{fieldController.readAllCities()}" var="aCity" itemLabel="#{aCity.name}" itemValue="#{aCity.id}"/>
+                        </p:selectOneListbox>
+                        <p:message for="@previous" ></p:message>
 
-                            <f:facet name="end">
-                                Alterar Unidade de Referência
-                            </f:facet> 
-                        </b:breadcrumbs>                        
+                        <p:outputLabel for="@next" value="Produtor" />
+                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um produtor" value="#{fieldController.selectedFarmerId}" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{fieldController.readAllFarmers()}" var="aFarmer" itemLabel="#{aFarmer.name}" itemValue="#{aFarmer.id}"/>
+                        </p:selectOneListbox>
+                        <p:message for="@previous" ></p:message>
 
-                        <b:panel collapsible="false" >
+                        <p:outputLabel for="@next" value="Responsável Técnico" />
+                        <p:selectManyMenu showCheckbox="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}">
+                            <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
+                        </p:selectManyMenu>
+                        <p:message for="@previous" ></p:message>
 
-                            <f:facet name="heading" >
-                                <h2>Gerenciamento de Unidade de Referência</h2>
-                            </f:facet>
+                    </p:panelGrid>
 
-                            <b:panel look="warning" collapsible="false" title="Alterar Unidade de Referência">
+                    <h:inputHidden value="#{fieldController.id}" ></h:inputHidden>
 
-                                <b:panelGrid id="data-entry" columns="1">
-                                    <b:formGroup>
-                                        <b:inputText label="Identificação" value="#{fieldController.name}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                    <f:facet name="footer">
+                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
+                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                    <b:formGroup>
-                                        <b:inputText label="Localização" value="#{fieldController.location}"></b:inputText>
-                                        <b:message for="@previous" ></b:message>                                        
-                                    </b:formGroup>
+                                <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>                                      
+                                <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" ajax="false" value="Alterar" action="#{fieldController.update()}" ></p:commandButton>                                                    
 
-                                    <b:formGroup>
-                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um município" value="#{fieldController.city}" label="Município">
-                                            <f:selectItem itemLabel="(Selecione um município)" itemValue="" />
-                                            <f:selectItems value="#{fieldController.readAllCities()}" var="aCity" itemValue="#{aCity}" itemLabel="#{aCity.name}" />
-                                        </b:selectOneMenu>
-                                        <b:message for="@previous" />
-                                    </b:formGroup>                                    
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </f:facet>
 
-                                    <b:formGroup>
-                                        <b:selectOneMenu select2="true" required="true" required-message="Deve ser selecionado um produtor" value="#{fieldController.farmer}" label="Produtor">
-                                            <f:selectItem itemLabel="(Selecione um produtor)" itemValue="" />
-                                            <f:selectItems value="#{fieldController.readAllFarmers()}" var="aFarmer" itemValue="#{aFarmer}" itemLabel="#{aFarmer.name}" />
-                                        </b:selectOneMenu>
-                                        <b:message for="@previous" />
-                                    </b:formGroup>                                    
+                </p:panel>
 
-                                    <b:formGroup>
-                                        <b:selectMultiMenu enableFiltering="true" required="true" required-message="Deve ser selecionado pelo menos um responsável técnico" value="#{fieldController.selectedSupervisors}" label="Responsável Técnico">
-                                            <f:selectItems value="#{fieldController.readAllSupervisors()}" var="aSupervisor" itemValue="#{aSupervisor.getIdAsString()}" itemLabel="#{aSupervisor.name} (#{aSupervisor.citiesInRegionNames})" />
-                                        </b:selectMultiMenu>
-                                        <b:message for="@previous" />
-                                    </b:formGroup>
-
-                                    <h:inputHidden value="#{fieldController.id}" ></h:inputHidden>
-
-
-                                </b:panelGrid>
-
-                                <f:facet name="footer">
-
-                                    <b:button value="Cancelar" outcome="index.xhtml" ></b:button>
-                                    <b:commandButton look="warning" value="Alterar" action="#{fieldController.update()}" ></b:commandButton>
-
-                                </f:facet>
-
-
-                            </b:panel>
-                        </b:panel>
-                    </b:container>
-                </b:form>
             </ui:define>
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>
 
