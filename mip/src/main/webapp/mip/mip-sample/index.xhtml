@@ -11,7 +11,7 @@
             <ui:define name="main-component">
 
                 <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
-                    
+
                     <p:column headerText="Safra" >
                         <h:outputText value="#{aSurvey.harvestName}" />
                     </p:column>
@@ -37,14 +37,14 @@
                     </p:column>
 
 
-                    <p:column headerText="Ações" width="300">
-                        <p:commandButton action="/mip/mip-sample-detail/view-mip-sample-details.xhtml" value="Visualizar" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
-                        <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
-                        
-                        <p:commandButton value="Adicionar" icon="fa fa-fw fa-plus-circle" ></p:commandButton>
+<!--                    <p:column headerText="Ações" width="100">
+                                                <p:commandButton action="/mip/mip-sample-detail/view-mip-sample-details.xhtml" value="Visualizar" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
+                                                <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
+
+                        <p:commandButton icon="fa fa-fw fa-plus-circle" action="/mip/mip-sample/create.xhtml" ></p:commandButton>
                         <p:tooltip for="@previous" value="Adicionar amostra para esta UR" position="top" />
-                        
-                    </p:column>   
+
+                    </p:column>   -->
                 </p:dataTable>  
 
             </ui:define>  

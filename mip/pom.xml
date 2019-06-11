@@ -48,10 +48,10 @@
     <dependencies>
             
         <!--JSF dependencies-->        
-        <dependency> 
+<!--        <dependency> 
             <groupId>org.joinfaces</groupId>
             <artifactId>bootsfaces-spring-boot-starter</artifactId>
-        </dependency>
+        </dependency>-->
         
         <dependency> 
             <groupId>org.joinfaces</groupId>
