@@ -5,6 +5,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -25,28 +28,55 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MIPSampleService implements ICRUDService<MIPSample> {
-    
+
     private final MIPSampleRepository mipSampleRepository;
     private final SurveyService surveyService;
-        
+    private final PestService pestService;
+    private final PestDiseaseService pestDiseaseService;
+    private final PestNaturalPredatorService pestNaturalPredatorService;
+
     @Autowired
-    public MIPSampleService(MIPSampleRepository aMIPSampleRepository, SurveyService aSurveyService) {
+    public MIPSampleService(MIPSampleRepository aMIPSampleRepository,
+            SurveyService aSurveyService,
+            PestService aPestService,
+            PestDiseaseService aPestDiseaseService,
+            PestNaturalPredatorService aPestNaturalPredatorService) {
+
         this.mipSampleRepository = aMIPSampleRepository;
         this.surveyService = aSurveyService;
+        this.pestService = aPestService;
+        this.pestDiseaseService = aPestDiseaseService;
+        this.pestNaturalPredatorService = aPestNaturalPredatorService;
     }
 
     @Override
     public List<MIPSample> readAll() {
         return List.copyOf(mipSampleRepository.findAll());
     }
-    
+
     public List<Survey> readAllSurveysUniqueEntries() {
         return List.copyOf(mipSampleRepository.findAll().stream().map(MIPSample::getSurvey).distinct().collect(Collectors.toList()));
     }
 
     @Override
-    public void create(MIPSample entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void create(MIPSample aSample) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+
+        if (mipSampleRepository.findAll().stream().anyMatch(currentSample -> currentSample.equals(aSample)))
+            throw new EntityAlreadyExistsException();
+
+        var theSurvey = surveyService.readById(aSample.getSurvey().getId());
+        
+        aSample.setSurvey(theSurvey);
+        
+
+        try {
+            mipSampleRepository.save(aSample);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+            
+        }
+
     }
 
     @Override
@@ -55,7 +85,7 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
     }
 
     @Override
-    public void update(MIPSample entity) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+    public void update(MIPSample aSample) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -93,26 +123,6 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 //    
 //    public List<Survey> readByHarvestId(Long harvestId) throws EntityNotFoundException {
 //        return List.copyOf(surveyRepository.findAll().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(harvestId)).collect(Collectors.toList()));
-//    }
-//
-//    public void create(Survey aSurvey) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-//
-//        if (surveyRepository.findAll().stream().anyMatch(currentSurvey -> currentSurvey.equals(aSurvey))) {
-//            throw new EntityAlreadyExistsException();
-//        }
-//
-//        var theField = fieldService.readById(aSurvey.getFieldId());
-//        var theHarvest = harvestService.readById(aSurvey.getHarvestId());
-//
-//        aSurvey.setField(theField);
-//        aSurvey.setHarvest(theHarvest);
-//
-//        try {
-//            surveyRepository.save(aSurvey);
-//
-//        } catch (Exception e) {
-//            throw new AnyPersistenceException();
-//        }
 //    }
 //
 //    public void update(Survey aSurvey) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
@@ -181,8 +191,19 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 //
 //        return allFieldsOutOfCurrentHarvest;
 //    }
-
     public Survey readSurveyById(Long id) throws EntityNotFoundException {
         return surveyService.readById(id);
+    }
+
+    public List<Pest> readAllPests() {
+        return pestService.readAll();
+    }
+
+    public List<PestDisease> readAllPestDiseases() {
+        return pestDiseaseService.readAll();
+    }
+
+    public List<PestNaturalPredator> readAllPestNaturalPredators() {
+        return pestNaturalPredatorService.readAll();
     }
 }

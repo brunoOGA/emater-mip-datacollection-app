@@ -13,12 +13,10 @@
                 <p:panel style="margin-top: 15px">
 
                     <f:facet name="header">
-                        <h1>Nova Anotação de Campo</h1>
+                        <h1>Nova Anotação de Campo para a UR '#{mipSampleController.currentSurveyFieldName}' na Safra '#{mipSampleController.currentSurveyHarvestName}'</h1>
                     </f:facet> 
 
                     <p:tabView>
-                        
-                        <h:inputHidden value="#{mipSampleController.currentSurveyId}"></h:inputHidden>
 
                         <p:tab title="Dados da Amostragem ">
                             <p:panel header="Passo 1/4: Dados da Amostragem">
@@ -52,11 +50,18 @@
 
                         <p:tab title="Flutuação das Pragas">
                             <p:panel header="Passo 2/4: Informar Dados de Flutuação das Pragas">
-                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-8 ui-g-8 ui-md-8 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                    <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
-                                    <p:inputText value="#{mipSampleController.currentSurveyId}" ></p:inputText>
-                                    <p:message for="@previous" ></p:message>
+                                    <p:dataTable id="pestTable" reflow="true" paginator="false" value="#{mipSampleController.pestOccurrences}" var="aPestOccurrence" >
+
+                                        <p:column headerText="Insetos Praga" >
+                                            <h:outputText value="#{aPestOccurrence.pest.usualName} (#{aPestOccurrence.pest.scientificName})" />
+                                        </p:column>
+                                        <p:column headerText="Média Encontrada" >
+                                            <p:inputText value="#{aPestOccurrence.value}" ></p:inputText>
+                                        </p:column>
+
+                                    </p:dataTable>                   
 
                                 </p:panelGrid>     
                             </p:panel>
@@ -65,26 +70,45 @@
                         <p:tab title="Doenças">
                             <p:panel header="Passo 3/4: Informar Dados de Doenças das Pragas">
 
-                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-8 ui-g-8 ui-md-8 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                    <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
-                                    <p:inputText value="#{mipSampleController.currentSurveyId}" ></p:inputText>
-                                    <p:message for="@previous" ></p:message>
+                                    <p:dataTable id="pestDiseaseTable" reflow="true" paginator="false" value="#{mipSampleController.pestDiseaseOccurrences}" var="aPestDiseaseOccurrence" >
 
-                                </p:panelGrid>                             
+                                        <p:column headerText="Insetos Praga" >
+                                            <h:outputText value="#{aPestDiseaseOccurrence.pestDisease.usualName}" />
+                                        </p:column>
+
+                                        <p:column headerText="Média Encontrada" >
+                                            <p:inputText value="#{aPestDiseaseOccurrence.value}" ></p:inputText>
+                                        </p:column>
+
+                                    </p:dataTable>                   
+
+                                </p:panelGrid>     
 
                             </p:panel>
                         </p:tab>
 
                         <p:tab id="area" title="Inimigos Naturais"> 
                             <p:panel header="Passo 4/4: Informar Dados de Inimigos Naturais">
-                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                    <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
-                                    <p:inputText value="#{mipSampleController.currentSurveyId}" ></p:inputText>
-                                    <p:message for="@previous" ></p:message>
+                                <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-8 ui-g-8 ui-md-8 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                </p:panelGrid>                                                                                
+                                    <p:dataTable id="pestNaturalPredatorTable" reflow="true" paginator="false" value="#{mipSampleController.naturalPredatorOccurrences}" var="aPestNaturalPredatorOccurrences" >
+
+                                        <p:column headerText="Insetos Praga" >
+                                            <h:outputText value="#{aPestNaturalPredatorOccurrences.pestNaturalPredator.usualName}" />
+                                        </p:column>
+
+                                        <p:column headerText="Média Encontrada" >
+                                            <p:inputText value="#{aPestNaturalPredatorOccurrences.value}" ></p:inputText>
+                                        </p:column>
+
+                                    </p:dataTable>     
+                                    
+                                    <h:inputHidden value="#{mipSampleController.currentSurveyId}"></h:inputHidden>
+
+                                </p:panelGrid>
 
                                 <f:facet name="footer">
                                     <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
@@ -92,7 +116,7 @@
                                         <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
 
                                             <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
-                                            <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{mipSampleController.doIt()}" ></p:commandButton>                                                    
+                                            <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{mipSampleController.create()}" ></p:commandButton>                                                    
 
                                         </p:panelGrid>
                                     </p:panelGrid>
