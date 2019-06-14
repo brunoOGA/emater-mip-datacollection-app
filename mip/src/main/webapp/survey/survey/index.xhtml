@@ -10,8 +10,20 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
 
-                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{surveyController.readAll()}" var="aSurvey" >
-                    
+                <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{surveyController.readAll()}" var="aSurvey" >
+
+                    <f:facet name="header">
+                        <p:panelGrid columns="6" layout="grid" columnClasses="ui-lg-2 ui-g-2 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+                            <h:inputHidden></h:inputHidden>
+                            <h:inputHidden></h:inputHidden>
+                            <h:inputHidden></h:inputHidden>
+                            <h:inputHidden></h:inputHidden>
+                            <p:columnToggler datasource="mainTable" trigger="toggler"></p:columnToggler>
+                            <p:commandButton id="toggler" type="button" value="Dados Visíveis" icon="fa fw fa-align-justify" ></p:commandButton>
+
+                        </p:panelGrid>
+                    </f:facet>
+
                     <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
                         <h:outputText value="#{aSurvey.harvestName}" />
                     </p:column>

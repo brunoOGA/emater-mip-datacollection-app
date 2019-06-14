@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <ui:composition template="/mip/mip-sample/main.xhtml">
+
+            <ui:define name="main-component">
+                <p:panel style="margin-top: 15px">
+
+                    <f:facet name="header">
+                        <h4>Anotação de Campo da UR XYZ para a Safra XYZ</h4>
+                    </f:facet>     
+
+                                    
+
+                    <f:facet name="footer">
+                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
+                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+                                <h:inputHidden ></h:inputHidden>
+                                <p:button icon="fa fa-fw fa-ban" value="Voltar" outcome="/mip/mip-sample/index.xhtml" ></p:button>
+
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </f:facet>
+
+                </p:panel>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
