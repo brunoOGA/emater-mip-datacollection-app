@@ -38,7 +38,7 @@
 
 
                     <p:column headerText="Ações" width="100">
-                        <p:commandButton action="/mip/mip-sample/sample-detail/view-sample-details.xhtml" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
+                        <p:commandButton action="#{mipSampleDetailController.selectTargetSurvey(aSurvey.id)}" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
                         <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
 
                         <p:commandButton icon="fa fa-fw fa-plus-circle" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>

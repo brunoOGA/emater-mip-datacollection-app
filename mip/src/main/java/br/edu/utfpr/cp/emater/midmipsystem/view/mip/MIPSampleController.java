@@ -9,6 +9,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
@@ -169,8 +170,26 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public String delete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    public String delete(Long aSampleId) {
+
+        try {
+            mipSampleService.delete(aSampleId);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Amostra excluída!"));
+            return "index.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque não foi encontrada na base de dados!"));
+            return "index.xhtml";
+
+        } catch (EntityInUseException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque está sendo usada no sistema!"));
+            return "index.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
     }
 
     public String selectTargetSurvey(Long id) {
@@ -195,15 +214,4 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
     public GrowthPhase[] readAllGrowthPhases() {
         return GrowthPhase.values();
     }
-
-    public String doIt() {
-        var sample = MIPSample.builder().build();
-
-        this.trimOccurrencesForSample(sample);
-
-        System.out.println(sample.getMipSampleNaturalPredatorOccurrence().size());
-
-        return "index.xhtml";
-    }
-
 }

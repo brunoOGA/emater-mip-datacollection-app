@@ -13,10 +13,94 @@
                 <p:panel style="margin-top: 15px">
 
                     <f:facet name="header">
-                        <h4>Anotação de Campo da UR XYZ para a Safra XYZ</h4>
+                        <h4>Anotações de Campo da UR '#{mipSampleDetailController.currentSurvey.fieldName}' para '#{mipSampleDetailController.currentSurvey.harvestName}'</h4>
                     </f:facet>     
 
-                                    
+                    <h:inputHidden value="#{mipSampleDetailController.currentSurvey}"></h:inputHidden>
+
+                    <p:dataTable id="sampleTable" var="aSample" value="#{mipSampleDetailController.readAllMIPSampleBySurvey()}">
+                        <f:facet name="header">
+                            Amostras Coletadas
+                        </f:facet>
+                        <p:column style="width:16px">
+                            <p:rowToggler />
+                        </p:column>
+                        <p:column headerText="Data da Amostra">
+                            <h:outputText value="#{aSample.sampleDate}" />
+                        </p:column>
+
+                        <p:column headerText="Dias Após Emergência">
+                            <h:outputText value="#{aSample.daysAfterEmergence}" />
+                        </p:column>
+
+                        <p:column headerText="(%) de Desfolha">
+                            <h:outputText value="#{aSample.defoliation}" />
+                        </p:column>
+
+                        <p:column headerText="Estádio da Cultura">
+                            <h:outputText value="#{aSample.growthPhase}" />
+                        </p:column>
+
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton update="sampleTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
+                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
+                            </p:commandButton>
+                            <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
+                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
+                            </p:confirmDialog>                          
+                        </p:column>  
+
+                        <p:rowExpansion>
+                            <p:dataTable var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
+
+                                <f:facet name="header">
+                                    Flutuação das Pragas
+                                </f:facet>
+
+                                <p:column headerText="Inseto Praga">
+                                    <h:outputText value="#{aPestSample.pestUsualName}" />
+                                </p:column>
+
+                                <p:column headerText="Média Encontrada">
+                                    <h:outputText value="#{aPestSample.value}" />
+                                </p:column>
+
+                            </p:dataTable>  
+
+                            <p:dataTable var="aPestDiseaseSample" value="#{aSample.mipSamplePestDiseaseOccurrence}">
+
+                                <f:facet name="header">
+                                    Doenças das Pragas
+                                </f:facet>
+
+                                <p:column headerText="Inseto Praga">
+                                    <h:outputText value="#{aPestDiseaseSample.pestDiseaseUsualName}" />
+                                </p:column>
+
+                                <p:column headerText="Média Encontrada">
+                                    <h:outputText value="#{aPestDiseaseSample.value}" />
+                                </p:column>
+                            </p:dataTable>  
+                            
+                            <p:dataTable var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
+
+                                <f:facet name="header">
+                                    Inimigos Naturais
+                                </f:facet>
+
+                                <p:column headerText="Inimigo Natural">
+                                    <h:outputText value="#{aNaturalPredatorSample.pestNaturalPredatorUsualName}" />
+                                </p:column>
+
+                                <p:column headerText="Média Encontrada">
+                                    <h:outputText value="#{aNaturalPredatorSample.value}" />
+                                </p:column>
+                            </p:dataTable> 
+                        </p:rowExpansion>
+                    </p:dataTable>  
 
                     <f:facet name="footer">
                         <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">

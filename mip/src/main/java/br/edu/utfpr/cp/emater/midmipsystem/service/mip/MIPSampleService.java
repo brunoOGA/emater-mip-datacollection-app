@@ -5,6 +5,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
@@ -61,20 +62,20 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
     @Override
     public void create(MIPSample aSample) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
-        if (mipSampleRepository.findAll().stream().anyMatch(currentSample -> currentSample.equals(aSample)))
+        if (mipSampleRepository.findAll().stream().anyMatch(currentSample -> currentSample.equals(aSample))) {
             throw new EntityAlreadyExistsException();
+        }
 
         var theSurvey = surveyService.readById(aSample.getSurvey().getId());
-        
+
         aSample.setSurvey(theSurvey);
-        
 
         try {
             mipSampleRepository.save(aSample);
 
         } catch (Exception e) {
             throw new AnyPersistenceException();
-            
+
         }
 
     }
@@ -91,7 +92,19 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 
     @Override
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        var existentSample = mipSampleRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+
+        try {
+            mipSampleRepository.delete(existentSample);
+
+        } catch (DataIntegrityViolationException cve) {
+            throw new EntityInUseException();
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+
     }
 
 //    private final SurveyRepository surveyRepository;
@@ -205,5 +218,9 @@ public class MIPSampleService implements ICRUDService<MIPSample> {
 
     public List<PestNaturalPredator> readAllPestNaturalPredators() {
         return pestNaturalPredatorService.readAll();
+    }
+
+    public List<MIPSample> readAllMIPSampleBySurveyId(Long aSurveyId) {
+        return List.copyOf(mipSampleRepository.findAll().stream().filter(sample -> sample.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
     }
 }
