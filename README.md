@@ -12,10 +12,10 @@ Contudo, a coleta e análise dos dados são realizadas de forma pouco eficiente.
 O objetivo geral deste projeto é aumentar a eficiência no processo de coleta e análise de dados da tecnologia de MIP por meio do desenvolvimento de aplicativos integrados em nuvem. 
 
 ## Tecnologias
-Atualmente, as seguintes tecnologias são usadas:
+Atualmente, as principais tecnologias usadas são:
 - Spring boot;
-- Freemarker;
-- HTML + Bootstrap;
+- JPA;
+- JSF + Primefaces;
 
 ## Responsáveis pelo projeto na UTFPR
 - Dr. Gabriel Costa Silva (Cornélio Procópio)
@@ -23,7 +23,8 @@ Atualmente, as seguintes tecnologias são usadas:
 - Dr. Alfredo de Gouvea (Dois Vizinhos)
 
 ## Responsáveis pelo projeto na EMATER
-- Dr. Nelson Harger (Coordenador Estadual do Projeto Grãos)
+- Edivan José Possamai (Coordenador Estadual do Projeto Grãos)
+- Dr. Nelson Harger 
 
 ## Alunos participantes do projeto
 - Lucas Barbosa da Costa (Engenharia de Computação (Concluído 2018/2), UTFPR - CP)
