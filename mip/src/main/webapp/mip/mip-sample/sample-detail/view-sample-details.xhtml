@@ -42,7 +42,7 @@
                         </p:column>
 
                         <p:column headerText="Ações" width="100">
-                            <p:commandButton update="sampleTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
+                            <p:commandButton immediate="true" update="sampleTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
                             </p:commandButton>
                             <p:tooltip for="@previous" value="Excluir" position="top" />

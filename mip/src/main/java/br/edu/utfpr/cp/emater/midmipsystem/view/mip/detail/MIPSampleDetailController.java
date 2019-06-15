@@ -2,8 +2,6 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mip.detail;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.List;
