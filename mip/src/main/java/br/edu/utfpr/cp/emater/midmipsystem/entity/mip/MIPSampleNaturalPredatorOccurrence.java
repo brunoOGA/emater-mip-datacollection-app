@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Embeddable
-@EqualsAndHashCode (onlyExplicitlyIncluded = true)
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -20,10 +20,8 @@ import lombok.Setter;
 @Setter
 public class MIPSampleNaturalPredatorOccurrence implements Serializable {
     
-    @EqualsAndHashCode.Include
     protected double value;
     
-    @EqualsAndHashCode.Include
     @ManyToOne (fetch = FetchType.EAGER)
     protected PestNaturalPredator pestNaturalPredator;
     
