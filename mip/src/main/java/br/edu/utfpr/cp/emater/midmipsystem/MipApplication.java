@@ -12,7 +12,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesLeafInspection;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesSporeCollector;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustMonitoringSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
@@ -27,7 +27,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustMonitoringSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestDiseaseRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestNaturalPredatorRepository;
@@ -50,6 +49,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepository;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -86,7 +86,7 @@ class CLR implements CommandLineRunner {
 
     private MIPSampleRepository mipSampleRepository;
     
-    private MIDRustMonitoringSampleRepository midRustRepository;
+    private MIDRustSampleRepository midRustRepository;
 
     @Autowired
     CLR(MacroRegionRepository macroRegionRepository,
@@ -101,7 +101,7 @@ class CLR implements CommandLineRunner {
             PestDiseaseRepository aPestDiseaseRepository,
             PestNaturalPredatorRepository aPestNaturalPredatorRepository,
             MIPSampleRepository aMIPSampleRepository,
-            MIDRustMonitoringSampleRepository aMIDRustRepository) {
+            MIDRustSampleRepository aMIDRustRepository) {
 
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
@@ -415,21 +415,21 @@ class CLR implements CommandLineRunner {
 
         mipSampleRepository.save(mipSurvey4Sample2);
         
-        var rustSurvey3Sample1 = MIDRustMonitoringSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
+        var rustSurvey3Sample1 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
         rustSurvey3Sample1.addSporeCollectorOccurrence(true, "Gustavo M. de Oliveira", "Emater-PB", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-10"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
         rustSurvey3Sample1.addLeafInspectionOccurrence(GrowthPhase.V3, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
         rustSurvey3Sample1.addFungicideOccurrence(false, false, null, null);
         
         midRustRepository.save(rustSurvey3Sample1);
         
-        var rustSurvey3Sample2 = MIDRustMonitoringSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-08")).build();
+        var rustSurvey3Sample2 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-08")).build();
         rustSurvey3Sample2.addSporeCollectorOccurrence(true, "Gustavo M. de Oliveira", "Emater-PB", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-14"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
         rustSurvey3Sample2.addLeafInspectionOccurrence(GrowthPhase.R1, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
         rustSurvey3Sample2.addFungicideOccurrence(false, false, null, null);
         
         midRustRepository.save(rustSurvey3Sample2);
         
-        var rustSurvey3Sample3 = MIDRustMonitoringSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-14")).build();
+        var rustSurvey3Sample3 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-14")).build();
         rustSurvey3Sample3.addSporeCollectorOccurrence(true, "Gustavo M. de Oliveira", "Emater-PB", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-23"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
         rustSurvey3Sample3.addLeafInspectionOccurrence(GrowthPhase.R2, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
         rustSurvey3Sample3.addFungicideOccurrence(false, false, null, null);
@@ -437,14 +437,14 @@ class CLR implements CommandLineRunner {
         midRustRepository.save(rustSurvey3Sample3);
         
         
-        var rustSurvey2Sample1 = MIDRustMonitoringSample.builder().survey(survey2).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
+        var rustSurvey2Sample1 = MIDRustSample.builder().survey(survey2).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
         rustSurvey2Sample1.addSporeCollectorOccurrence(false, "Gustavo Oliveira", "Emater", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-19"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
         rustSurvey2Sample1.addLeafInspectionOccurrence(GrowthPhase.R3, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
         rustSurvey2Sample1.addFungicideOccurrence(false, true, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-14"), "OIDIO");
         
         midRustRepository.save(rustSurvey2Sample1);
         
-        var rustSurvey2Sample2 = MIDRustMonitoringSample.builder().survey(survey2).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-02")).build();
+        var rustSurvey2Sample2 = MIDRustSample.builder().survey(survey2).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-02")).build();
         rustSurvey2Sample2.addSporeCollectorOccurrence(false, "Gustavo Oliveira", "Emater", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-05"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
         rustSurvey2Sample2.addLeafInspectionOccurrence(GrowthPhase.R4, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
         rustSurvey2Sample2.addFungicideOccurrence(true, true, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-31"), "FERRUGEM,OIDIO");

@@ -26,7 +26,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class MIDRustMonitoringSample extends AuditingPersistenceEntity implements Serializable {
+public class MIDRustSample extends AuditingPersistenceEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,10 +50,10 @@ public class MIDRustMonitoringSample extends AuditingPersistenceEntity implement
     private Set<MIDSampleFungicideApplicationOccurrence> fungicideOccurrence;
 
     @Builder
-    public static MIDRustMonitoringSample create (Long id,
+    public static MIDRustSample create (Long id,
                                                   Survey  survey,
                                                   Date sampleDate) {
-        var instance = new MIDRustMonitoringSample();
+        var instance = new MIDRustSample();
         instance.setId(id);
         instance.setSurvey(survey);
         instance.setSampleDate(sampleDate);
