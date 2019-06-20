@@ -12,6 +12,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesLeafInspection;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesSporeCollector;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsibleEntity;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsiblePerson;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleFungicideApplicationOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleLeafInspectionOccurrence;
@@ -30,6 +32,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.BladeReadingResponsibleEntityRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.BladeReadingResponsiblePersonRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestDiseaseRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestNaturalPredatorRepository;
@@ -90,6 +94,8 @@ class CLR implements CommandLineRunner {
     private MIPSampleRepository mipSampleRepository;
     
     private MIDRustSampleRepository midRustRepository;
+    private BladeReadingResponsibleEntityRepository bladeEntityRepository;
+    private BladeReadingResponsiblePersonRepository bladePersonRepository;
 
     @Autowired
     CLR(MacroRegionRepository macroRegionRepository,
@@ -104,7 +110,9 @@ class CLR implements CommandLineRunner {
             PestDiseaseRepository aPestDiseaseRepository,
             PestNaturalPredatorRepository aPestNaturalPredatorRepository,
             MIPSampleRepository aMIPSampleRepository,
-            MIDRustSampleRepository aMIDRustRepository) {
+            MIDRustSampleRepository aMIDRustRepository,
+            BladeReadingResponsibleEntityRepository aBladeEntityRepository,
+            BladeReadingResponsiblePersonRepository aBladePersonRepository) {
 
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
@@ -123,6 +131,8 @@ class CLR implements CommandLineRunner {
         this.mipSampleRepository = aMIPSampleRepository;
         
         this.midRustRepository = aMIDRustRepository;
+        this.bladeEntityRepository = aBladeEntityRepository;
+        this.bladePersonRepository = aBladePersonRepository;
     }
 
     @Override
@@ -556,6 +566,10 @@ class CLR implements CommandLineRunner {
         rustSurvey2Sample2.setFungicideOccurrence(fungicideOccurrenceRustSurvey2Sample2);  
         
         midRustRepository.save(rustSurvey2Sample2);
+        
+        var bladeEntity1 = bladeEntityRepository.save(BladeReadingResponsibleEntity.builder().name("EMATER - PB").city(c3).build());
+        
+        var bladePerson1 = bladePersonRepository.save(BladeReadingResponsiblePerson.builder().name("Gustavo M. de Oliveira").entity(bladeEntity1).build());
     }
 
 }
