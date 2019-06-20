@@ -1,22 +1,19 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mid;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,16 +35,17 @@ public class MIDRustSample extends AuditingPersistenceEntity implements Serializ
 
     @EqualsAndHashCode.Include
     @Temporal(TemporalType.DATE)
+    @NotNull (message = "A data da coleta precisa ser informada!")
     private Date sampleDate;
     
-    @ElementCollection
-    private Set<MIDSampleSporeCollectorOccurrence> sporeCollectorOccurrence;
+    @Embedded
+    private MIDSampleSporeCollectorOccurrence sporeCollectorOccurrence;
     
-    @ElementCollection
-    private Set<MIDSampleLeafInspectionOccurrence> leafInspectionOccurrence;
+    @Embedded
+    private MIDSampleLeafInspectionOccurrence leafInspectionOccurrence;
     
-    @ElementCollection
-    private Set<MIDSampleFungicideApplicationOccurrence> fungicideOccurrence;
+    @Embedded
+    private MIDSampleFungicideApplicationOccurrence fungicideOccurrence;
 
     @Builder
     public static MIDRustSample create (Long id,
@@ -59,58 +57,5 @@ public class MIDRustSample extends AuditingPersistenceEntity implements Serializ
         instance.setSampleDate(sampleDate);
         
         return instance;
-    }
-    
-    public boolean addSporeCollectorOccurrence(boolean bladeInstalledPreCold, 
-                                               String bladeReadingResponsibleName, 
-                                               String bladeReadingResponsibleEntityName, 
-                                               Date bladeReadingDate, 
-                                               AsiaticRustTypesSporeCollector bladeReadingRustResultCollector) {
-        
-
-        if (this.getSporeCollectorOccurrence() == null) {
-            this.setSporeCollectorOccurrence(new HashSet<>());
-        }
-
-        return this.getSporeCollectorOccurrence().add(MIDSampleSporeCollectorOccurrence.builder()
-                                                            .bladeInstalledPreCold(bladeInstalledPreCold)
-                                                            .bladeReadingDate(bladeReadingDate)
-                                                            .bladeReadingResponsibleName(bladeReadingResponsibleName)
-                                                            .bladeReadingResponsibleEntityName(bladeReadingResponsibleEntityName)
-                                                            .bladeReadingRustResultCollector(bladeReadingRustResultCollector)
-                                                            .build()
-                                                     );
-    }
-    
-    public boolean addLeafInspectionOccurrence(GrowthPhase growthPhase,
-                                               AsiaticRustTypesLeafInspection bladeReadingRustResultLeafInspection) {
-        
-        if (this.getLeafInspectionOccurrence() == null) {
-            this.setLeafInspectionOccurrence(new HashSet<>());
-        }
-
-        return this.getLeafInspectionOccurrence().add(MIDSampleLeafInspectionOccurrence.builder()
-                                                            .bladeReadingRustResultLeafInspection(bladeReadingRustResultLeafInspection)
-                                                            .growthPhase(growthPhase)
-                                                            .build()
-                                                     );
-    }
-    
-    public boolean addFungicideOccurrence(boolean asiaticRustApplication,
-                                          boolean otherDiseasesApplication,
-                                          Date fungicideApplicationDate,
-                                          String notes) {
-        
-        if (this.getFungicideOccurrence() == null) {
-            this.setFungicideOccurrence(new HashSet<>());
-        }
-
-        return this.getFungicideOccurrence().add(MIDSampleFungicideApplicationOccurrence.builder()
-                                                    .asiaticRustApplication(asiaticRustApplication)
-                                                    .fungicideApplicationDate(fungicideApplicationDate)
-                                                    .notes(notes)
-                                                    .otherDiseasesApplication(otherDiseasesApplication)
-                                                    .build()
-                                                 );
     }
 }

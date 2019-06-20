@@ -1,6 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesLeafInspection;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesSporeCollector;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleFungicideApplicationOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleLeafInspectionOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleSporeCollectorOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.view.mip.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
@@ -18,6 +23,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,103 +54,121 @@ public class MIDRustSampleController extends MIDRustSample {
     @Getter
     private String currentSurveyHarvestName;
 
+    @Setter
+    @Getter
+    private boolean bladeInstalledPreCold;
+
+    @Setter
+    @Getter
+    private String bladeReadingResponsibleName;
+
+    @Setter
+    @Getter
+    private String bladeReadingResponsibleEntityName;
+
+    @Setter
+    @Getter
+    private Date bladeReadingDate;
+
+    @Setter
+    @Getter
+    private AsiaticRustTypesSporeCollector bladeReadingRustResultCollector;
+
+    @Setter
+    @Getter
+    private GrowthPhase growthPhase;
+
+    @Setter
+    @Getter
+    private AsiaticRustTypesLeafInspection bladeReadingRustResultLeafInspection;
+
+    @Setter
+    @Getter
+    private boolean asiaticRustApplication;
+    
+    @Setter
+    @Getter
+    private boolean otherDiseasesApplication;
+
+    @Setter
+    @Getter
+    private Date fungicideApplicationDate;
+    
+    @Setter
+    @Getter
+    private String notes;
 
     @Autowired
     public MIDRustSampleController(MIDRustSampleService aMIDRustSampleService) {
         this.midRustSampleService = aMIDRustSampleService;
 
-//        this.populatePestOccurrences();
-//        this.populatePestDiseaseOccurrences();
-//        this.populateNaturalPredatorOccurrences();
     }
-
-//    private void populatePestOccurrences() {
-//        pestOccurrences = new ArrayList<>();
-//
-//        mipSampleService.readAllPests().forEach(currentPest
-//                -> pestOccurrences.add(MIPSamplePestOccurrence.builder().pest(currentPest).value(0.0).build())
-//        );
-//    }
-//
-//    private void populatePestDiseaseOccurrences() {
-//        pestDiseaseOccurrences = new ArrayList<>();
-//
-//        mipSampleService.readAllPestDiseases().forEach(currentPestDisease
-//                -> pestDiseaseOccurrences.add(MIPSamplePestDiseaseOccurrence.builder().pestDisease(currentPestDisease).value(0.0).build())
-//        );
-//    }
-//
-//    private void populateNaturalPredatorOccurrences() {
-//        naturalPredatorOccurrences = new ArrayList<>();
-//
-//        mipSampleService.readAllPestNaturalPredators().forEach(currentNaturalPredator
-//                -> naturalPredatorOccurrences.add(MIPSampleNaturalPredatorOccurrence.builder().pestNaturalPredator(currentNaturalPredator).value(0.0).build())
-//        );
-//    }
-
-//    private void trimOccurrencesForSample(MIPSample aSample) {
-//
-//        aSample.setMipSamplePestOccurrence(
-//                pestOccurrences.stream().filter(currentPest -> currentPest.getValue() != 0).collect(Collectors.toSet())
-//        );
-//
-//        aSample.setMipSamplePestDiseaseOccurrence(
-//                pestDiseaseOccurrences.stream().filter(currentPestDisease -> currentPestDisease.getValue() != 0).collect(Collectors.toSet())
-//        );
-//
-//        aSample.setMipSampleNaturalPredatorOccurrence(
-//                naturalPredatorOccurrences.stream().filter(currentNaturalPredator -> currentNaturalPredator.getValue() != 0).collect(Collectors.toSet())
-//        );
-//    }
-
 
     public List<Survey> readAllSurveysUniqueEntries() {
         return midRustSampleService.readAllSurveysUniqueEntries();
     }
 
+    public String create() {
+        
+        Survey currentSurvey = null;
+
+        try {
+            currentSurvey = midRustSampleService.readSurveyById(this.getCurrentSurveyId());
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Monitoramento da ferrugem não pode ser feito porque a UR não foi encontrada na base de dados!"));
+            return "index.xhtml";
+        }
+        
+        var newSample = MIDRustSample.builder()
+                                    .sampleDate(this.getSampleDate())
+                                    .survey(currentSurvey)
+                                    .build();
+        
+        var sporeCollectorOccurrence = MIDSampleSporeCollectorOccurrence.builder()
+                          .bladeInstalledPreCold(this.isBladeInstalledPreCold())
+                          .bladeReadingDate(this.getBladeReadingDate())
+                          .bladeReadingResponsibleEntityName(this.getBladeReadingResponsibleName())
+                          .bladeReadingResponsibleName(this.getBladeReadingResponsibleEntityName())
+                          .bladeReadingRustResultCollector(this.getBladeReadingRustResultCollector())
+                          .build();
+        
+        var leafInspectionOccurrence = MIDSampleLeafInspectionOccurrence.builder()
+                        .bladeReadingRustResultLeafInspection(this.getBladeReadingRustResultLeafInspection())
+                        .growthPhase(this.getGrowthPhase())
+                        .build();
+        
+        var fungicideOccurrence = MIDSampleFungicideApplicationOccurrence.builder()
+                        .asiaticRustApplication(this.isAsiaticRustApplication())
+                        .otherDiseasesApplication(this.isOtherDiseasesApplication())
+                        .fungicideApplicationDate(this.getFungicideApplicationDate())
+                        .notes(this.getNotes())
+                        .build();
+        
+        newSample.setSporeCollectorOccurrence(sporeCollectorOccurrence);
+        newSample.setLeafInspectionOccurrence(leafInspectionOccurrence);
+        newSample.setFungicideOccurrence(fungicideOccurrence);
+        
+        try {
+            midRustSampleService.create(newSample);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Amostra para monitoramento da ferrugem criada com sucesso!"));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma amostra com essa data para essa UR! Use datas diferentes."));
+            return "create.xhtml";
+
+        } catch (EntityNotFoundException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser feita porque a UR não foi encontrada na base de dados!"));
+            return "index.xhtml";
+            
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+    }
     
-//    public String create() {
-//        
-//        Survey currentSurvey = null;
-//
-//        try {
-//            currentSurvey = mipSampleService.readSurveyById(this.getCurrentSurveyId());
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//        }
-//        
-//        var newSample = MIPSample.builder()
-//                                    .defoliation(this.getDefoliation())
-//                                    .growthPhase(this.getGrowthPhase())
-//                                    .sampleDate(this.getSampleDate())
-//                                    .survey(currentSurvey)
-//                                    .build();
-//        
-//        this.trimOccurrencesForSample(newSample);
-//
-//        try {
-//            mipSampleService.create(newSample);
-//
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Anotação de campo criada com sucesso!"));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma anotação de campo com essa data para essa UR! Use datas diferentes."));
-//            return "create.xhtml";
-//
-//        } catch (EntityNotFoundException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//            
-//        } catch (AnyPersistenceException | SupervisorNotAllowedInCity e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-
-
 //    public String delete(Long aSampleId) {
 //
 //        try {
@@ -165,7 +189,7 @@ public class MIDRustSampleController extends MIDRustSample {
 //            return "index.xhtml";
 //        }
 //    }
-
+    
     public String selectTargetSurvey(Long id) {
 
         Survey currentSurvey = null;
@@ -184,8 +208,17 @@ public class MIDRustSampleController extends MIDRustSample {
         }
 
     }
-//
-//    public GrowthPhase[] readAllGrowthPhases() {
-//        return GrowthPhase.values();
-//    }
+
+    public AsiaticRustTypesSporeCollector[] readAllAsiaticRustTypesSporeCollector() {
+        return AsiaticRustTypesSporeCollector.values();
+    }
+
+    public GrowthPhase[] readAllGrowthPhases() {
+        return GrowthPhase.values();
+    }
+
+    public AsiaticRustTypesLeafInspection[] readAllAsiaticRustTypesLeafInspection() {
+        return AsiaticRustTypesLeafInspection.values();
+    }
+
 }

@@ -1,11 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mid;
 
 public enum AsiaticRustTypesSporeCollector {
-    NO_RUST_SPORES("1 - Sem Esporos de Ferrugem"),
-    NO_RUST_SPORES_NO_FEASIBILITY_TEST("2 - Com Esporos - Mas, sem testar viabilidade"),
-    UNFEASIBLE_SPORES_AFTER_TEST("3 - Com Esporos - Mas, inviáveis após teste"),
-    FEASIBLE_SPORES_ISOLATED("4 - Com Esporos Viáveis - Isolados"),
-    FEASIBLE_SPORES_GROUPED("5 - Com Esporos Viáveis - Aglomerados");
+    NO_RUST_SPORES("Sem Esporos de Ferrugem"),
+    NO_RUST_SPORES_NO_FEASIBILITY_TEST("Com Esporos - Mas, sem testar viabilidade"),
+    UNFEASIBLE_SPORES_AFTER_TEST("Com Esporos - Mas, inviáveis após teste"),
+    FEASIBLE_SPORES_ISOLATED("Com Esporos Viáveis - Isolados"),
+    FEASIBLE_SPORES_GROUPED("Com Esporos Viáveis - Aglomerados");
 
     private String description;
 

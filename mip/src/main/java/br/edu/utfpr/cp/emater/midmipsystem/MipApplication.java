@@ -13,6 +13,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesLeafInspection;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesSporeCollector;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleFungicideApplicationOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleLeafInspectionOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleSporeCollectorOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
@@ -416,38 +419,141 @@ class CLR implements CommandLineRunner {
         mipSampleRepository.save(mipSurvey4Sample2);
         
         var rustSurvey3Sample1 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
-        rustSurvey3Sample1.addSporeCollectorOccurrence(true, "Gustavo M. de Oliveira", "Emater-PB", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-10"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
-        rustSurvey3Sample1.addLeafInspectionOccurrence(GrowthPhase.V3, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
-        rustSurvey3Sample1.addFungicideOccurrence(false, false, null, null);
+        var sporeCollectorOccurrenceRustSurvey3Sample1 = MIDSampleSporeCollectorOccurrence.builder()
+                          .bladeInstalledPreCold(true)
+                          .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-10"))
+                          .bladeReadingResponsibleEntityName("Emater-PB")
+                          .bladeReadingResponsibleName("Gustavo M. de Oliveira")
+                          .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                          .build();
+        
+        var leafInspectionOccurrenceRustSurvey3Sample1 = MIDSampleLeafInspectionOccurrence.builder()
+                        .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                        .growthPhase(GrowthPhase.V3)
+                        .build();
+        
+        var fungicideOccurrenceRustSurvey3Sample1 = MIDSampleFungicideApplicationOccurrence.builder()
+                        .asiaticRustApplication(false)
+                        .otherDiseasesApplication(false)
+                        .fungicideApplicationDate(null)
+                        .notes(null)
+                        .build();
+        
+        rustSurvey3Sample1.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey3Sample1);
+        rustSurvey3Sample1.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey3Sample1);
+        rustSurvey3Sample1.setFungicideOccurrence(fungicideOccurrenceRustSurvey3Sample1);
         
         midRustRepository.save(rustSurvey3Sample1);
         
         var rustSurvey3Sample2 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-08")).build();
-        rustSurvey3Sample2.addSporeCollectorOccurrence(true, "Gustavo M. de Oliveira", "Emater-PB", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-14"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
-        rustSurvey3Sample2.addLeafInspectionOccurrence(GrowthPhase.R1, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
-        rustSurvey3Sample2.addFungicideOccurrence(false, false, null, null);
+        var sporeCollectorOccurrenceRustSurvey3Sample2 = MIDSampleSporeCollectorOccurrence.builder()
+                          .bladeInstalledPreCold(true)
+                          .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-14"))
+                          .bladeReadingResponsibleEntityName("Emater-PB")
+                          .bladeReadingResponsibleName("Gustavo M. de Oliveira")
+                          .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                          .build();
+        
+        var leafInspectionOccurrenceRustSurvey3Sample2 = MIDSampleLeafInspectionOccurrence.builder()
+                        .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                        .growthPhase(GrowthPhase.R1)
+                        .build();
+        
+        var fungicideOccurrenceRustSurvey3Sample2 = MIDSampleFungicideApplicationOccurrence.builder()
+                        .asiaticRustApplication(false)
+                        .otherDiseasesApplication(false)
+                        .fungicideApplicationDate(null)
+                        .notes(null)
+                        .build();        
+
+        rustSurvey3Sample2.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey3Sample2);
+        rustSurvey3Sample2.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey3Sample2);
+        rustSurvey3Sample2.setFungicideOccurrence(fungicideOccurrenceRustSurvey3Sample2);        
         
         midRustRepository.save(rustSurvey3Sample2);
         
         var rustSurvey3Sample3 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-14")).build();
-        rustSurvey3Sample3.addSporeCollectorOccurrence(true, "Gustavo M. de Oliveira", "Emater-PB", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-23"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
-        rustSurvey3Sample3.addLeafInspectionOccurrence(GrowthPhase.R2, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
-        rustSurvey3Sample3.addFungicideOccurrence(false, false, null, null);
+        
+        var sporeCollectorOccurrenceRustSurvey3Sample3 = MIDSampleSporeCollectorOccurrence.builder()
+                          .bladeInstalledPreCold(true)
+                          .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-23"))
+                          .bladeReadingResponsibleEntityName("Emater-PB")
+                          .bladeReadingResponsibleName("Gustavo M. de Oliveira")
+                          .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                          .build();
+        
+        var leafInspectionOccurrenceRustSurvey3Sample3 = MIDSampleLeafInspectionOccurrence.builder()
+                        .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                        .growthPhase(GrowthPhase.R2)
+                        .build();
+        
+        var fungicideOccurrenceRustSurvey3Sample3 = MIDSampleFungicideApplicationOccurrence.builder()
+                        .asiaticRustApplication(false)
+                        .otherDiseasesApplication(false)
+                        .fungicideApplicationDate(null)
+                        .notes(null)
+                        .build();
+        
+        rustSurvey3Sample3.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey3Sample3);
+        rustSurvey3Sample3.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey3Sample3);
+        rustSurvey3Sample3.setFungicideOccurrence(fungicideOccurrenceRustSurvey3Sample3);        
         
         midRustRepository.save(rustSurvey3Sample3);
         
         
         var rustSurvey2Sample1 = MIDRustSample.builder().survey(survey2).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
-        rustSurvey2Sample1.addSporeCollectorOccurrence(false, "Gustavo Oliveira", "Emater", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-19"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
-        rustSurvey2Sample1.addLeafInspectionOccurrence(GrowthPhase.R3, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
-        rustSurvey2Sample1.addFungicideOccurrence(false, true, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-14"), "OIDIO");
+        
+        var sporeCollectorOccurrenceRustSurvey2Sample1 = MIDSampleSporeCollectorOccurrence.builder()
+                          .bladeInstalledPreCold(false)
+                          .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-19"))
+                          .bladeReadingResponsibleEntityName("Emater")
+                          .bladeReadingResponsibleName("Gustavo Oliveira")
+                          .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                          .build();
+        
+        var leafInspectionOccurrenceRustSurvey2Sample1 = MIDSampleLeafInspectionOccurrence.builder()
+                        .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                        .growthPhase(GrowthPhase.R3)
+                        .build();
+        
+        var fungicideOccurrenceRustSurvey2Sample1 = MIDSampleFungicideApplicationOccurrence.builder()
+                        .asiaticRustApplication(false)
+                        .otherDiseasesApplication(true)
+                        .fungicideApplicationDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-14"))
+                        .notes("OIDIO")
+                        .build();
+        
+        rustSurvey2Sample1.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey2Sample1);
+        rustSurvey2Sample1.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey2Sample1);
+        rustSurvey2Sample1.setFungicideOccurrence(fungicideOccurrenceRustSurvey2Sample1);        
         
         midRustRepository.save(rustSurvey2Sample1);
         
         var rustSurvey2Sample2 = MIDRustSample.builder().survey(survey2).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-02")).build();
-        rustSurvey2Sample2.addSporeCollectorOccurrence(false, "Gustavo Oliveira", "Emater", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-05"), AsiaticRustTypesSporeCollector.NO_RUST_SPORES);
-        rustSurvey2Sample2.addLeafInspectionOccurrence(GrowthPhase.R4, AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE);
-        rustSurvey2Sample2.addFungicideOccurrence(true, true, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-31"), "FERRUGEM,OIDIO");
+
+        var sporeCollectorOccurrenceRustSurvey2Sample2 = MIDSampleSporeCollectorOccurrence.builder()
+                          .bladeInstalledPreCold(false)
+                          .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-05"))
+                          .bladeReadingResponsibleEntityName("Emater")
+                          .bladeReadingResponsibleName("Gustavo Oliveira")
+                          .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                          .build();
+        
+        var leafInspectionOccurrenceRustSurvey2Sample2 = MIDSampleLeafInspectionOccurrence.builder()
+                        .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                        .growthPhase(GrowthPhase.R4)
+                        .build();
+        
+        var fungicideOccurrenceRustSurvey2Sample2 = MIDSampleFungicideApplicationOccurrence.builder()
+                        .asiaticRustApplication(true)
+                        .otherDiseasesApplication(true)
+                        .fungicideApplicationDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-31"))
+                        .notes("FERRUGEM,OIDIO")
+                        .build();        
+
+        rustSurvey2Sample2.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey2Sample2);
+        rustSurvey2Sample2.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey2Sample2);
+        rustSurvey2Sample2.setFungicideOccurrence(fungicideOccurrenceRustSurvey2Sample2);  
         
         midRustRepository.save(rustSurvey2Sample2);
     }
