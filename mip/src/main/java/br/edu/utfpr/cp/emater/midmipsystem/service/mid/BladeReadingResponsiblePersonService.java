@@ -97,4 +97,12 @@ public class BladeReadingResponsiblePersonService implements ICRUDService<BladeR
         }
     }
 
+    public List<BladeReadingResponsibleEntity> readAllEntities() {
+        return bladeEntityService.readAll();
+    }
+
+    public BladeReadingResponsibleEntity readEntityById(Long selectedEntityId) throws EntityNotFoundException {
+        return bladeEntityService.readById(selectedEntityId);
+    }
+
 }

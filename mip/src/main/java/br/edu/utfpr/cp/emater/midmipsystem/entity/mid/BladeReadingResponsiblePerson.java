@@ -18,7 +18,7 @@ public class BladeReadingResponsiblePerson extends Person implements Serializabl
 
     @ManyToOne
     private BladeReadingResponsibleEntity entity;
-
+    
     @Builder
     private static BladeReadingResponsiblePerson create (Long id, String name, BladeReadingResponsibleEntity entity) {
         BladeReadingResponsiblePerson instance = new BladeReadingResponsiblePerson();

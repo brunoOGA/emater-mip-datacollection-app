@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">      
+
+    <h:body>
+        <ui:composition template="main.xhtml">     
+            <ui:define name="main-component">
+                
+                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{bladeReadingResponsiblePersonController.readAll()}" var="aPerson" >
+
+                    <p:column headerText="Nome" >
+                        <h:outputText value="#{aPerson.name}" />
+                    </p:column>
+                                        
+                    <p:column headerText="Entidade" >
+                        <h:outputText value="#{aPerson.entityName}" />
+                    </p:column>
+                    
+                    <p:column headerText="Município" >
+                        <h:outputText value="#{aPerson.entityCityName}" />
+                    </p:column>
+
+                    <p:column headerText="Ações" width="100">
+                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{bladeReadingResponsiblePersonController.prepareUpdate(aPerson.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Alterar" position="top" />
+
+                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{bladeReadingResponsiblePersonController.delete(aPerson.id)}" >
+                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir o profissional '#{aPerson.name}'? Essa ação NÃO pode ser desfeita." />
+                        </p:commandButton>
+                        <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
+                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
+                        </p:confirmDialog>                         
+                    </p:column>                    
+                </p:dataTable>                  
+       
+            </ui:define> 
+        </ui:composition>
+    </h:body>
+</html>
