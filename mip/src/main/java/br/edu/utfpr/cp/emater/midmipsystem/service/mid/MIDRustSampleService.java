@@ -53,4 +53,8 @@ public class MIDRustSampleService {
 
         }
     }
+
+    public List<MIDRustSample> readAllMIPSampleBySurveyId(Long id) {
+        return List.copyOf(this.midRustSampleRepository.findAll().stream().filter(current -> current.getSurvey().getId().equals(id)).collect(Collectors.toList()));
+    }
 }

@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <ui:composition template="/mid/rust-sample/main.xhtml">
+
+            <ui:define name="main-component">
+                <p:panel style="margin-top: 15px">
+
+                    <f:facet name="header">
+                        <h4>Amostra de Monitoramento da Ferrugem para a UR '#{midRustSampleDetailController.currentSurvey.fieldName}' na Safra '#{midRustSampleDetailController.currentSurvey.harvestName}'</h4>
+                    </f:facet>     
+
+                    <h:inputHidden value="#{midRustSampleDetailController.currentSurvey}"></h:inputHidden>
+
+                    <p:dataTable paginatorPosition="bottom" id="sampleTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{midRustSampleDetailController.readAllMIDRustSampleByCurrentSurvey()}" var="aSample" >
+
+                        <f:facet name="header">
+                            <p:panelGrid columns="6" layout="grid" columnClasses="ui-lg-2 ui-g-2 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                <h:inputHidden></h:inputHidden>
+                                <h:inputHidden></h:inputHidden>
+                                <h:inputHidden></h:inputHidden>
+                                <h:inputHidden></h:inputHidden>
+                                <p:columnToggler datasource="sampleTable" trigger="toggler"></p:columnToggler>
+                                <p:commandButton id="toggler" type="button" value="Escolher Dados Visíveis" icon="fa fw fa-align-justify" ></p:commandButton>
+
+                            </p:panelGrid>
+                        </f:facet>
+
+                        <p:column headerText="Data da Amostra" >
+                            <h:outputText value="#{aSample.sampleDate}" />
+                        </p:column>
+
+                        <p:column headerText="Lâmina Colocada na Véspera da Frente Fria" >
+                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeInstalledPreCold}" />
+                        </p:column>
+
+                        <p:column headerText="Profissional Responsável pela Leitura da Lâmina" >
+                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsibleName}" />
+                        </p:column>
+
+                        <p:column headerText="Entidade do Responsável pela Leitura e Local" >
+                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsibleEntityName}" />
+                        </p:column>
+
+                        <p:column headerText="Data de Leitura da Lâmina" >
+                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingDate}" />
+                        </p:column>
+
+                        <p:column headerText="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" >
+                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingRustResultCollector.description}" />
+                        </p:column>
+
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton immediate="true" update="sampleTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
+                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
+                            </p:commandButton>
+                            <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
+                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
+                            </p:confirmDialog>                          
+                        </p:column>
+                    </p:dataTable>  
+
+                    <f:facet name="footer">
+                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
+                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+                                <h:inputHidden ></h:inputHidden>
+                                <p:button icon="fa fa-fw fa-ban" value="Voltar" outcome="/mid/rust-sample/index.xhtml" ></p:button>
+
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </f:facet>
+
+                </p:panel>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
