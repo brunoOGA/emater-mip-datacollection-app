@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -25,8 +26,9 @@ import lombok.Setter;
 public class MIDSampleSporeCollectorOccurrence implements Serializable {
         
     private boolean bladeInstalledPreCold;
-    private String bladeReadingResponsibleName;
-    private String bladeReadingResponsibleEntityName;
+    
+    @ManyToOne
+    private BladeReadingResponsiblePerson bladeReadingResponsiblePerson;
     
     @Temporal(TemporalType.DATE)
     private Date bladeReadingDate;

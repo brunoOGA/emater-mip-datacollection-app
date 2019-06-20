@@ -5,19 +5,15 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -29,7 +25,7 @@ import org.springframework.web.context.annotation.RequestScope;
 
 @Component(value = "mipSampleController")
 @RequestScope
-public class MIPSampleController extends MIPSample implements ICRUDController<MIPSample> {
+public class MIPSampleController extends MIPSample {
 
     private final MIPSampleService mipSampleService;
 
@@ -105,7 +101,6 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
         );
     }
 
-    @Override
     public List<MIPSample> readAll() {
         return mipSampleService.readAll();
     }
@@ -114,7 +109,6 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
         return mipSampleService.readAllSurveysUniqueEntries();
     }
 
-    @Override
     public String create() {
         
         Survey currentSurvey = null;
@@ -155,21 +149,6 @@ public class MIPSampleController extends MIPSample implements ICRUDController<MI
             return "index.xhtml";
         }
     }
-
-    @Override
-    public String prepareUpdate(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String prepareDelete(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 
     public String delete(Long aSampleId) {
 

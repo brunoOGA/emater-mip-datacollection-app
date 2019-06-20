@@ -36,15 +36,27 @@
 
                         <p:tab title="Coletor de Esporos">
                             <p:panel header="Passo 2/4: Dados no Coletor de Esporos">
-
                                 <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                    <p:outputLabel for="@next" value="Profissional Responsável pela Leitura da Lâmina"></p:outputLabel>
-                                    <p:inputText value="#{midRustSampleController.bladeReadingResponsibleName}" ></p:inputText>
-                                    <p:message for="@previous" ></p:message>
 
-                                    <p:outputLabel for="@next" value="Entidade do Responsável pela Leitura e Local"></p:outputLabel>
-                                    <p:inputText value="#{midRustSampleController.bladeReadingResponsibleEntityName}" ></p:inputText>
-                                    <p:message for="@previous" ></p:message>
+                                    <p:dataTable paginatorPosition="bottom" value="#{midRustSampleController.readAllBladeResponsiblePersons()}" var="aPerson" selection="#{midRustSampleController.bladeResponsiblePerson}" rowKey="#{aPerson.id}" id="personTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true"  >
+                                        <f:facet name="header">
+                                            Selecione Responsável pela Leitura da Lâmina
+                                        </f:facet>
+                                        <p:column selectionMode="single" style="width:16px;text-align:center" />
+
+                                        <p:column headerText="Nome" filterBy="#{aPerson.name}" filterMatchMode="contains">
+                                            <h:outputText value="#{aPerson.name}" />
+                                        </p:column>
+
+                                        <p:column headerText="Entidade" filterBy="#{aPerson.entityName}" filterMatchMode="contains">
+                                            <h:outputText value="#{aPerson.entityName}" />
+                                        </p:column>
+
+                                        <p:column headerText="Município" filterBy="#{aPerson.entityCityName}" filterMatchMode="contains">
+                                            <h:outputText value="#{aPerson.entityCityName}" />
+                                        </p:column>
+
+                                    </p:dataTable>  
 
                                     <p:panelGrid columns="1" >
                                         <p:outputLabel for="@next" value="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
@@ -99,7 +111,7 @@
                                     <p:calendar mode="inline" value="#{midRustSampleController.fungicideApplicationDate}" ></p:calendar>
                                     <p:message for="@previous" ></p:message>
 
-                                    
+
                                     <p:outputLabel for="@next" value="Observações"></p:outputLabel>
                                     <p:inputText value="#{midRustSampleController.notes}" ></p:inputText>
                                     <p:message for="@previous" ></p:message>

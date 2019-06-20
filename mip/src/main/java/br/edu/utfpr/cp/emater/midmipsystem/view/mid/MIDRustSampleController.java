@@ -2,6 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesLeafInspection;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesSporeCollector;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsiblePerson;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleFungicideApplicationOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleLeafInspectionOccurrence;
@@ -60,11 +61,7 @@ public class MIDRustSampleController extends MIDRustSample {
 
     @Setter
     @Getter
-    private String bladeReadingResponsibleName;
-
-    @Setter
-    @Getter
-    private String bladeReadingResponsibleEntityName;
+    private BladeReadingResponsiblePerson bladeResponsiblePerson;
 
     @Setter
     @Getter
@@ -107,6 +104,10 @@ public class MIDRustSampleController extends MIDRustSample {
     public List<Survey> readAllSurveysUniqueEntries() {
         return midRustSampleService.readAllSurveysUniqueEntries();
     }
+    
+    public List<BladeReadingResponsiblePerson> readAllBladeResponsiblePersons() {
+        return midRustSampleService.readAllBladeResponsiblePersons();
+    }
 
     public String create() {
         
@@ -128,8 +129,7 @@ public class MIDRustSampleController extends MIDRustSample {
         var sporeCollectorOccurrence = MIDSampleSporeCollectorOccurrence.builder()
                           .bladeInstalledPreCold(this.isBladeInstalledPreCold())
                           .bladeReadingDate(this.getBladeReadingDate())
-                          .bladeReadingResponsibleEntityName(this.getBladeReadingResponsibleName())
-                          .bladeReadingResponsibleName(this.getBladeReadingResponsibleEntityName())
+                          .bladeReadingResponsiblePerson(bladeResponsiblePerson)
                           .bladeReadingRustResultCollector(this.getBladeReadingRustResultCollector())
                           .build();
         

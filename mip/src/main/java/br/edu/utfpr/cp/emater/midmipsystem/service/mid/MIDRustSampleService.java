@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.mid;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsiblePerson;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -20,13 +21,17 @@ public class MIDRustSampleService {
     private final MIDRustSampleRepository midRustSampleRepository;
 
     private final SurveyService surveyService;
+    
+    private final BladeReadingResponsiblePersonService bladeResponsiblePersonService;
 
     @Autowired
     public MIDRustSampleService(MIDRustSampleRepository midRustSampleRepository,
-            SurveyService aSurveyService) {
+            SurveyService aSurveyService,
+            BladeReadingResponsiblePersonService aBladeResponsiblePersonService) {
 
         this.midRustSampleRepository = midRustSampleRepository;
         this.surveyService = aSurveyService;
+        this.bladeResponsiblePersonService = aBladeResponsiblePersonService;
     }
 
     public Survey readSurveyById(Long id) throws EntityNotFoundException {
@@ -73,5 +78,9 @@ public class MIDRustSampleService {
         } catch (Exception e) {
             throw new AnyPersistenceException();
         }
+    }
+
+    public List<BladeReadingResponsiblePerson> readAllBladeResponsiblePersons() {
+        return bladeResponsiblePersonService.readAll();
     }
 }
