@@ -22,42 +22,32 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode (onlyExplicitlyIncluded = true)
-public class PulverisationProduct extends AuditingPersistenceEntity implements Serializable {
+public class Target extends AuditingPersistenceEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     @EqualsAndHashCode.Include
-    @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")
-    protected String usualName;
-
-    private String scientificName;
+    @Size(min = 3, max = 50, message = "A descrição deve ter entre 3 e 50 caracteres")
+    protected String description;
 
     @EqualsAndHashCode.Include
     @Enumerated(EnumType.STRING)
-    private PestSize pestSize;
+    private TargetCategory category;
 
-    public void setUsualName(String usualName) {
-        this.usualName = WordUtils.capitalize(usualName.toLowerCase());
-    }
-
-    public void setScientificName(String scientificName) {
-        this.scientificName = WordUtils.capitalize(scientificName.toLowerCase());
+    public void description(String usualName) {
+        this.description = WordUtils.capitalize(usualName.toLowerCase());
     }
 
     @Builder
-    public static PulverisationProduct create(Long id, String usualName, String scientificName, PestSize pestSize) {
-        PulverisationProduct instance = new PulverisationProduct();
+    public static Target create(Long id, String description, TargetCategory category) {
+        Target instance = new Target();
         instance.setId(id);
-        instance.setUsualName(usualName);
-        instance.setScientificName(scientificName);
-        instance.setPestSize(pestSize);
+        instance.setDescription(description);
+        instance.setCategory(category);
 
         return instance;
     }
 
-    public String getPestSizeName() {
-        return this.getPestSize().getName();
-    }
 }

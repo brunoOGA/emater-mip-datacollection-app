@@ -1,16 +1,16 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 
-public enum PulverisationProductUnit {
+public enum ProductUnit {
 
     
     L("L"),
-    ML("ml"),
-    KG("kg"),
-    g("g");
+    ML("ML"),
+    KG("KG"),
+    G("G");
 
     private String description;
 
-    PulverisationProductUnit(String description) {
+    ProductUnit(String description) {
         this.description = description;
     }
 
