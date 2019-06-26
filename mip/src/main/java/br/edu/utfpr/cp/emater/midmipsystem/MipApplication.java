@@ -20,13 +20,13 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleLeafInspectionOcc
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleSporeCollectorOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrence;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
@@ -57,6 +57,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetRepository;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -96,6 +97,8 @@ class CLR implements CommandLineRunner {
     private MIDRustSampleRepository midRustRepository;
     private BladeReadingResponsibleEntityRepository bladeEntityRepository;
     private BladeReadingResponsiblePersonRepository bladePersonRepository;
+    
+    private TargetRepository targetRepository;
 
     @Autowired
     CLR(MacroRegionRepository macroRegionRepository,
@@ -112,7 +115,8 @@ class CLR implements CommandLineRunner {
             MIPSampleRepository aMIPSampleRepository,
             MIDRustSampleRepository aMIDRustRepository,
             BladeReadingResponsibleEntityRepository aBladeEntityRepository,
-            BladeReadingResponsiblePersonRepository aBladePersonRepository) {
+            BladeReadingResponsiblePersonRepository aBladePersonRepository,
+            TargetRepository aTargetRepository) {
 
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
@@ -133,6 +137,8 @@ class CLR implements CommandLineRunner {
         this.midRustRepository = aMIDRustRepository;
         this.bladeEntityRepository = aBladeEntityRepository;
         this.bladePersonRepository = aBladePersonRepository;
+        
+        this.targetRepository = aTargetRepository;
     }
 
     @Override
@@ -564,6 +570,30 @@ class CLR implements CommandLineRunner {
         rustSurvey2Sample2.setFungicideOccurrence(fungicideOccurrenceRustSurvey2Sample2);
 
         midRustRepository.save(rustSurvey2Sample2);
+        
+        // Pulverisation
+        var target1 = targetRepository.save(Target.builder().description("Folha Larga (Pós-emergência)").category(TargetCategory.HERBICIDA).build());
+        var target2 = targetRepository.save(Target.builder().description("Dessecação").category(TargetCategory.OUTROS).build());
+        var target3 = targetRepository.save(Target.builder().description("Folha Larga (Pré-emergência)").category(TargetCategory.HERBICIDA).build());
+        var target4 = targetRepository.save(Target.builder().description("Acqua Max").category(TargetCategory.ADJUVANTE).build());
+                
+//                1 - Folhas Estreitas (Pré-emergência)
+//                2 - Flohas Largas (Pré-emergência)
+//                3 - Folhas Estreitas (Pós-emergência)
+//                4 - Folhas Larga (Pós-emergência)
+        
+        var pulverisationOp1Survey3 = PulverisationOperation.builder()
+                                .survey(survey3)
+                                .soyaPrice(70.0)
+                                .operationCostCurrency(30.0)
+                                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01"))
+                                .growthPhase(GrowthPhase.R4)
+                                .caldaVolume(150.0)
+                                .build();
+        
+        
+        
+        
 
     }
 
