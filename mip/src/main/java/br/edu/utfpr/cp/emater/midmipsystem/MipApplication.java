@@ -24,6 +24,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.ProductUnit;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
@@ -57,6 +59,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetRepository;
 
 @SpringBootApplication
@@ -97,8 +101,10 @@ class CLR implements CommandLineRunner {
     private MIDRustSampleRepository midRustRepository;
     private BladeReadingResponsibleEntityRepository bladeEntityRepository;
     private BladeReadingResponsiblePersonRepository bladePersonRepository;
-    
+
     private TargetRepository targetRepository;
+    private ProductRepository productRepository;
+    private PulverisationOperationRepository pulverisationRepository;
 
     @Autowired
     CLR(MacroRegionRepository macroRegionRepository,
@@ -116,7 +122,9 @@ class CLR implements CommandLineRunner {
             MIDRustSampleRepository aMIDRustRepository,
             BladeReadingResponsibleEntityRepository aBladeEntityRepository,
             BladeReadingResponsiblePersonRepository aBladePersonRepository,
-            TargetRepository aTargetRepository) {
+            TargetRepository aTargetRepository,
+            ProductRepository aProductRepository,
+            PulverisationOperationRepository aPulverisationRepository) {
 
         this.macroRegionRepository = macroRegionRepository;
         this.regionRepository = aRegionRepository;
@@ -137,8 +145,10 @@ class CLR implements CommandLineRunner {
         this.midRustRepository = aMIDRustRepository;
         this.bladeEntityRepository = aBladeEntityRepository;
         this.bladePersonRepository = aBladePersonRepository;
-        
+
         this.targetRepository = aTargetRepository;
+        this.productRepository = aProductRepository;
+        this.pulverisationRepository = aPulverisationRepository;
     }
 
     @Override
@@ -336,6 +346,7 @@ class CLR implements CommandLineRunner {
                         .build()
         );
 
+//        **** MIP ****
         var p1 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.GREATER_15CM).build());
         var p2 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.SMALLER_15CM).build());
         var p3 = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(PestSize.GREATER_15CM).build());
@@ -570,31 +581,58 @@ class CLR implements CommandLineRunner {
         rustSurvey2Sample2.setFungicideOccurrence(fungicideOccurrenceRustSurvey2Sample2);
 
         midRustRepository.save(rustSurvey2Sample2);
-        
-        // Pulverisation
+
+        // ****** Pulverisation ******
         var target1 = targetRepository.save(Target.builder().description("Folha Larga (Pós-emergência)").category(TargetCategory.HERBICIDA).build());
         var target2 = targetRepository.save(Target.builder().description("Dessecação").category(TargetCategory.OUTROS).build());
-        var target3 = targetRepository.save(Target.builder().description("Folha Larga (Pré-emergência)").category(TargetCategory.HERBICIDA).build());
-        var target4 = targetRepository.save(Target.builder().description("Acqua Max").category(TargetCategory.ADJUVANTE).build());
-                
-//                1 - Folhas Estreitas (Pré-emergência)
-//                2 - Flohas Largas (Pré-emergência)
-//                3 - Folhas Estreitas (Pós-emergência)
-//                4 - Folhas Larga (Pós-emergência)
-        
-        var pulverisationOp1Survey3 = PulverisationOperation.builder()
-                                .survey(survey3)
-                                .soyaPrice(70.0)
-                                .operationCostCurrency(30.0)
-                                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01"))
-                                .growthPhase(GrowthPhase.R4)
-                                .caldaVolume(150.0)
-                                .build();
-        
-        
-        
-        
 
+        var target3 = targetRepository.save(Target.builder().description("Folha Estreita (Pré-emergência)").category(TargetCategory.HERBICIDA).build());
+        var target4 = targetRepository.save(Target.builder().description("Lagartas Grupo Heliotinae").category(TargetCategory.INSETICIDA).build());
+        var target5 = targetRepository.save(Target.builder().description("Folha Larga (Pré-emergência)").category(TargetCategory.HERBICIDA).build());
+
+        var product1 = productRepository.save(Product.builder().name("ROUND UP TRANSORB").dose(2.0).unit(ProductUnit.L).build());
+        var product2 = productRepository.save(Product.builder().name("TRIFLUBENZURON").dose(0.13).unit(ProductUnit.L).build());
+        var product3 = productRepository.save(Product.builder().name("ZAPP QI").dose(1.2).unit(ProductUnit.L).build());
+
+        var pulverisationOp1Survey3 = PulverisationOperation.builder()
+                .survey(survey3)
+                .soyaPrice(70.0)
+                .operationCostCurrency(30.0)
+                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01"))
+                .growthPhase(GrowthPhase.R4)
+                .caldaVolume(150.0)
+                .build();
+
+        pulverisationOp1Survey3.addOperationOccurrence(product3, 15.0, target1);
+
+        pulverisationRepository.save(pulverisationOp1Survey3);
+
+        var pulverisationOp1Survey2 = PulverisationOperation.builder()
+                .survey(survey2)
+                .soyaPrice(70.0)
+                .operationCostCurrency(49.0)
+                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-08-28"))
+                .growthPhase(GrowthPhase.V6)
+                .caldaVolume(100.0)
+                .build();
+
+        pulverisationOp1Survey2.addOperationOccurrence(product1, 13.0, target3);
+        pulverisationOp1Survey2.addOperationOccurrence(product2, 35.0, target4);
+
+        pulverisationRepository.save(pulverisationOp1Survey2);
+
+        var pulverisationOp2Survey2 = PulverisationOperation.builder()
+                .survey(survey2)
+                .soyaPrice(70.0)
+                .operationCostCurrency(49.0)
+                .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-16"))
+                .growthPhase(GrowthPhase.V6)
+                .caldaVolume(100.0)
+                .build();
+        
+        pulverisationOp2Survey2.addOperationOccurrence(product1, 13.0, target5);
+        
+        pulverisationRepository.save(pulverisationOp2Survey2);
     }
 
 }

@@ -40,16 +40,17 @@ public class PulverisationOperationOccurrence implements Serializable {
         if (this.product == null)
             throw new RuntimeException("Um produto deve ser informado");
         
-        this.productCostCurrency = this.calculateProductCost();
+        this.setProductCostCurrency(this.calculateProductCost());
     }
     
     private double calculateProductCost() {
-        return this.productPrice * this.product.getDose();
+        return this.getProductPrice() * this.getProduct().getDose();
     }
         
     @Builder
     private static PulverisationOperationOccurrence create(Product product, double productPrice, Target target){
-        PulverisationOperationOccurrence instance = new PulverisationOperationOccurrence();
+        var instance = new PulverisationOperationOccurrence();
+        
         instance.setProduct(product);
         instance.setProductPrice(productPrice);
         instance.setTarget(target);

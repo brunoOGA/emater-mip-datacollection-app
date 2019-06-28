@@ -7,6 +7,7 @@ public enum GrowthPhase {
     V2("V2"),
     V3("V3"),
     V5("V5"),
+    V6("V6"),
     R1("R1"),
     R2("R2"),
     R3("R3"),

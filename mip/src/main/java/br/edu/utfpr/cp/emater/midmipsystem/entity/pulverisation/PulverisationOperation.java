@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -59,7 +61,7 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
     
     private double totalOperationCostQty;
 
-    @Embedded
+    @ElementCollection
     private Set<PulverisationOperationOccurrence> operationOccurrences;
 
     @Builder
@@ -82,13 +84,19 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
         
         return instance;
     }
+
+    public PulverisationOperation() {
+        super();
+        
+        this.setOperationOccurrences(new HashSet<>());
+    }
     
     public boolean addOperationOccurrence (Product product, double productPrice, Target target) {
-        if (this.getOperationOccurrences() == null)
-            this.setOperationOccurrences(new HashSet<>());
         
         var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).target(target).build();
         occurrence.setProductCostQty(occurrence.getProductCostCurrency()/this.getSoyaPrice());
+        
+        var result = this.getOperationOccurrences().add(occurrence);
         
         this.setTotalOperationCostCurrency(updateTotalOperationCostCurrency());
         
@@ -96,13 +104,13 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
         
         this.setTotalOperationCostQty(this.updateTotalOperationCostQty());
         
-        return this.getOperationOccurrences().add(occurrence);
+        return result;
     }
     
-    private double updateTotalOperationCostCurrency() {
+    private double updateTotalOperationCostCurrency() {        
         return 
-                this.getOperationOccurrences().stream().mapToDouble(current -> current.getProductCostCurrency()).sum() 
-                + this.getOperationCostCurrency();
+                (this.getOperationOccurrences().stream().mapToDouble(PulverisationOperationOccurrence::getProductCostCurrency).sum() 
+                + this.getOperationCostCurrency());
     }
     
     private void updateOperationCostQty() {
@@ -111,8 +119,8 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
     private double updateTotalOperationCostQty() {
         return 
-                this.getOperationOccurrences().stream().mapToDouble(current -> current.getProductCostQty()).sum() 
-                + this.getOperationCostQty();
+                (this.getOperationOccurrences().stream().mapToDouble(PulverisationOperationOccurrence::getProductCostQty).sum() 
+                + this.getOperationCostQty());
     }
     
 }
