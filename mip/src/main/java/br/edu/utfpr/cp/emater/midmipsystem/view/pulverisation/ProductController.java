@@ -5,6 +5,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.ProductUnit;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -32,45 +33,37 @@ public class ProductController extends Product implements ICRUDController<Produc
 
     private final ProductService productService;
 
-    @Getter
-    @Setter
-    private List<City> selectedCities;
-
-    @Getter
-    @Setter
-    private Long selectedMacroRegion;
-
     @Autowired
-    public ProductController(TargetService aTargetService) {
-        this.productService = aTargetService;
+    public ProductController(ProductService aProductService) {
+        this.productService = aProductService;
     }
 
     @Override
-    public List<Target> readAll() {
+    public List<Product> readAll() {
         return productService.readAll();
     }
     
-    public TargetCategory[] readAllTargetCategories() {
-        return TargetCategory.values();
+    public ProductUnit[] readAllUnits() {
+        return ProductUnit.values();
     }
 
     @Override
     public String create() {
 
         try {
-            var newTarget = Target.builder().description(this.getDescription()).category(this.getCategory()).build();
+            var newProduct = Product.builder().name(this.getName()).dose(this.getDose()).unit(this.getUnit()).build();
             
-            productService.create(newTarget);
+            productService.create(newProduct);
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Alvo/Função [%s] criado com sucesso!", newTarget.getDescription())));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Produto [%s] criado com sucesso!", newProduct.getName())));
             return "index.xhtml";
 
         } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um alvo/função com esse nome para essa categoria! Use um nome diferente."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um produto com esse nome! Use um nome diferente."));
             return "create.xhtml";
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alvo/Função não pode ser criado porque a categoria não foi encontrada na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não pode ser criado porque a unidade de medida não foi encontrada na base de dados!"));
             return "create.xhtml";
 
         } catch (AnyPersistenceException e) {
@@ -83,16 +76,17 @@ public class ProductController extends Product implements ICRUDController<Produc
     public String prepareUpdate(Long anId) {
 
         try {
-            var existentTarget = productService.readById(anId);
+            var existentProduct = productService.readById(anId);
             
-            this.setId(existentTarget.getId());
-            this.setDescription(existentTarget.getDescription());
-            this.setCategory(existentTarget.getCategory());
+            this.setId(existentProduct.getId());
+            this.setName(existentProduct.getName());
+            this.setDose(existentProduct.getDose());
+            this.setUnit(existentProduct.getUnit());
 
             return "update.xhtml";
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alvo/Função não pode ser alterado porque não foi encontrado na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não pode ser alterado porque não foi encontrado na base de dados!"));
             return "index.xhtml";
         }
     }
@@ -101,20 +95,20 @@ public class ProductController extends Product implements ICRUDController<Produc
     public String update() {
 
         try {
-            var updatedTarget = Target.builder().id(this.getId()).description(this.getDescription()).category(this.getCategory()).build();
+            var updatedProduct = Product.builder().id(this.getId()).name(this.getName()).dose(this.getDose()).unit(this.getUnit()).build();
 
-            productService.update(updatedTarget);
+            productService.update(updatedProduct);
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Alvo/Função alterada!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Produto alterado!"));
 
             return "index.xhtml";
 
         } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um alvo/função com esse nome! Use um nome diferente."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um produto com esse nome! Use um nome diferente."));
             return "update.xhtml";
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alvo/Função não pode ser alterada porque não foi encontrada na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não pode ser alterado porque não foi encontrada na base de dados!"));
             return "update.xhtml";
 
         } catch (AnyPersistenceException e) {
@@ -128,13 +122,13 @@ public class ProductController extends Product implements ICRUDController<Produc
 
         try {
             productService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Alvo/Função excluído!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Produto excluído!"));
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alvo/Função não pode ser excluído porque não foi encontrado na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não pode ser excluído porque não foi encontrado na base de dados!"));
 
         } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alvo/Função não pode ser excluído porque está sendo usado no sistema!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não pode ser excluído porque está sendo usado no sistema!"));
 
         } catch (AnyPersistenceException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));

@@ -40,16 +40,16 @@ public class Product extends AuditingPersistenceEntity implements Serializable {
 
     public void setName(String usualName) {
         this.name = WordUtils.capitalize(usualName.toLowerCase());
-//        this.name = String.format("%s - %d (%s)", this.name, this.getDose(), this.getUnit().getDescription());
+//        this.name = String.format("%s - %.2f (%s)", this.name, this.getDose(), this.getUnit().getDescription());
     }
 
     @Builder
     public static Product create(Long id, String name, double dose, ProductUnit unit) {
         Product instance = new Product();
         instance.setId(id);
-        instance.setName(name);
         instance.setDose(dose);
         instance.setUnit(unit);
+        instance.setName(name);
 
         return instance;
     }

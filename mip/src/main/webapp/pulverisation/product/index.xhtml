@@ -10,22 +10,26 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
                 
-                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{targetController.readAll()}" var="aTarget" >
+                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{productController.readAll()}" var="aProduct" >
 
-                    <p:column headerText="Descrição" >
-                        <h:outputText value="#{aTarget.description}" />
+                    <p:column headerText="Nome" >
+                        <h:outputText value="#{aProduct.name}" />
                     </p:column>
                     
-                    <p:column headerText="Categoria" >
-                        <h:outputText value="#{aTarget.category.description}" />
+                    <p:column headerText="Dose" >
+                        <h:outputText value="#{aProduct.dose}" />
+                    </p:column>
+
+                    <p:column headerText="Unidade de Medida" >
+                        <h:outputText value="#{aProduct.unit.description}" />
                     </p:column>
                     
                     <p:column headerText="Ações" width="100">
-                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{targetController.prepareUpdate(aTarget.id)}" ></p:commandButton>
+                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{productController.prepareUpdate(aProduct.id)}" ></p:commandButton>
                         <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{targetController.delete(aTarget.id)}" >
-                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir o alvo '#{aTarget.description}'? Essa ação NÃO pode ser desfeita." />
+                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{productController.delete(aProduct.id)}" >
+                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir o produto '#{aProduct.name}'? Essa ação NÃO pode ser desfeita." />
                         </p:commandButton>
                         <p:tooltip for="@previous" value="Excluir" position="top" />
 

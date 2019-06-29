@@ -12,24 +12,29 @@
                 <p:panel style="margin-top: 15px">
 
                     <f:facet name="header">
-                        <h4>Alterar Alvo Principal/Função</h4>
+                        <h4>Alterar Produto</h4>
                     </f:facet>     
 
                     <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                        <p:outputLabel for="@next" value="Descrição"></p:outputLabel>
-                        <p:inputText value="#{targetController.description}" ></p:inputText>
+                        <p:outputLabel for="@next" value="Nome"></p:outputLabel>
+                        <p:inputText value="#{productController.name}" ></p:inputText>
                         <p:message for="@previous" ></p:message>
 
-                        <p:outputLabel for="@next" value="Categoria" />
-                        <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma cateogoria" value="#{targetController.category}" filter="true" filterMatchMode="contains">
-                            <f:selectItem itemLabel="Escolha uma Categoria" itemValue="" />
-                            <f:selectItems value="#{targetController.readAllTargetCategories()}" var="aCategory" itemLabel="#{aCategory.description}" itemValue="#{aCategory}"/>
+                        <p:outputLabel for="@next" value="Dose"></p:outputLabel>
+                        <p:inputText value="#{productController.dose}" ></p:inputText>
+                        <p:message for="@previous" ></p:message>
+                        
+                        
+                        <p:outputLabel for="@next" value="Unidade de Medida" />
+                        <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma unidade de medida" value="#{productController.unit}" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="Escolha uma Unidade de Medida" itemValue="" />
+                            <f:selectItems value="#{productController.readAllUnits()}" var="aUnit" itemLabel="#{aUnit.description}" itemValue="#{aUnit}"/>
                         </p:selectOneMenu>
                         <p:message for="@previous" ></p:message>
 
                     </p:panelGrid>
 
-                    <h:inputHidden value="#{targetController.id}" ></h:inputHidden>
+                    <h:inputHidden value="#{productController.id}" ></h:inputHidden>
 
                     <f:facet name="footer">
                         <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
@@ -37,7 +42,7 @@
                             <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
 
                                 <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
-                                <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" ajax="false" value="Alterar" action="#{targetController.update()}" ></p:commandButton>                                                    
+                                <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" ajax="false" value="Alterar" action="#{productController.update()}" ></p:commandButton>                                                    
 
                             </p:panelGrid>
                         </p:panelGrid>
