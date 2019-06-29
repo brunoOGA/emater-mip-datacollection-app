@@ -1,10 +1,5 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation;
 
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -13,10 +8,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;

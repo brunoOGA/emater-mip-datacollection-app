@@ -1,34 +1,53 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.pulverisation;
 
+import br.edu.utfpr.cp.emater.midmipsystem.view.base.*;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.ProductService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.TargetService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
-public class TargetController extends Target implements ICRUDController<Target> {
+public class ProductController extends Product implements ICRUDController<Product> {
 
-    private final TargetService targetService;
+    private final ProductService productService;
+
+    @Getter
+    @Setter
+    private List<City> selectedCities;
+
+    @Getter
+    @Setter
+    private Long selectedMacroRegion;
 
     @Autowired
-    public TargetController(TargetService aTargetService) {
-        this.targetService = aTargetService;
+    public ProductController(TargetService aTargetService) {
+        this.productService = aTargetService;
     }
 
     @Override
     public List<Target> readAll() {
-        return targetService.readAll();
+        return productService.readAll();
     }
     
     public TargetCategory[] readAllTargetCategories() {
@@ -41,7 +60,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
         try {
             var newTarget = Target.builder().description(this.getDescription()).category(this.getCategory()).build();
             
-            targetService.create(newTarget);
+            productService.create(newTarget);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Alvo/Função [%s] criado com sucesso!", newTarget.getDescription())));
             return "index.xhtml";
@@ -64,7 +83,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
     public String prepareUpdate(Long anId) {
 
         try {
-            var existentTarget = targetService.readById(anId);
+            var existentTarget = productService.readById(anId);
             
             this.setId(existentTarget.getId());
             this.setDescription(existentTarget.getDescription());
@@ -84,7 +103,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
         try {
             var updatedTarget = Target.builder().id(this.getId()).description(this.getDescription()).category(this.getCategory()).build();
 
-            targetService.update(updatedTarget);
+            productService.update(updatedTarget);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Alvo/Função alterada!"));
 
@@ -108,7 +127,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
     public String delete(Long anId) {
 
         try {
-            targetService.delete(anId);
+            productService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Alvo/Função excluído!"));
 
         } catch (EntityNotFoundException ex) {
