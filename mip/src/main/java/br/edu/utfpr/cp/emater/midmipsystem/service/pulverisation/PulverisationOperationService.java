@@ -83,10 +83,10 @@ public class PulverisationOperationService {
 
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
         
-        var existentSample = mipSampleRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        var existentOperation = pulverisationOperationRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
         try {
-            mipSampleRepository.delete(existentSample);
+            pulverisationOperationRepository.delete(existentOperation);
 
         } catch (DataIntegrityViolationException cve) {
             throw new EntityInUseException();

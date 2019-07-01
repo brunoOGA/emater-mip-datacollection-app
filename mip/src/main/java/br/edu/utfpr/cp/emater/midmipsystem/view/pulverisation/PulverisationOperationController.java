@@ -152,19 +152,19 @@ public class PulverisationOperationController extends MIPSample {
         }
     }
 
-    public String delete(Long aSampleId) {
+    public String delete(Long anOperationId) {
 
         try {
-            pulverisationOperationService.delete(aSampleId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Amostra excluída!"));
+            pulverisationOperationService.delete(anOperationId);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Operação excluída!"));
             return "index.xhtml";
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque não foi encontrada na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação não pode ser excluída porque não foi encontrada na base de dados!"));
             return "index.xhtml";
 
         } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque está sendo usada no sistema!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação não pode ser excluída porque está sendo usada no sistema!"));
             return "index.xhtml";
 
         } catch (AnyPersistenceException e) {
