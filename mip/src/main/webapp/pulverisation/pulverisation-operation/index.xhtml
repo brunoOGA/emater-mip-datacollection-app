@@ -10,7 +10,7 @@
         <ui:composition template="main.xhtml">     
             <ui:define name="main-component">
 
-                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{pulverisationOperationController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
 
                     <p:column headerText="Safra" >
                         <h:outputText value="#{aSurvey.harvestName}" />
