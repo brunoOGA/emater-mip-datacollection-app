@@ -13,93 +13,54 @@
                 <p:panel style="margin-top: 15px">
 
                     <f:facet name="header">
-                        <h4>Anotações de Campo da UR '#{mipSampleDetailController.currentSurvey.fieldName}' para '#{mipSampleDetailController.currentSurvey.harvestName}'</h4>
+                        <h4>Operações de Pulverização/Aplicação da UR '#{pulverisationDetailController.currentSurvey.fieldName}' para '#{pulverisationDetailController.currentSurvey.harvestName}'</h4>
                     </f:facet>     
 
-                    <h:inputHidden value="#{mipSampleDetailController.currentSurvey}"></h:inputHidden>
+                    <h:inputHidden value="#{pulverisationDetailController.currentSurvey}"></h:inputHidden>
 
-                    <p:dataTable id="sampleTable" var="aSample" value="#{mipSampleDetailController.readAllMIPSampleBySurvey()}">
+                    <p:dataTable id="sampleTable" var="aPulverisation" value="#{pulverisationDetailController.readAllPulverisationOperationBySurvey()}">
                         <f:facet name="header">
-                            Amostras Coletadas
+                            Operações Registradas
                         </f:facet>
                         <p:column style="width:16px">
                             <p:rowToggler />
                         </p:column>
                         <p:column headerText="Data da Amostra">
-                            <h:outputText value="#{aSample.sampleDate}" />
+                            <h:outputText value="#{aPulverisation.sampleDate}" />
                         </p:column>
 
                         <p:column headerText="Dias Após Emergência">
-                            <h:outputText value="#{aSample.daysAfterEmergence}" />
-                        </p:column>
-
-                        <p:column headerText="(%) de Desfolha">
-                            <h:outputText value="#{aSample.defoliation}" />
+                            <h:outputText value="#{aPulverisation.daysAfterEmergence}" />
                         </p:column>
 
                         <p:column headerText="Estádio da Cultura">
-                            <h:outputText value="#{aSample.growthPhase}" />
+                            <h:outputText value="#{aPulverisation.growthPhase}" />
                         </p:column>
 
-                        <p:column headerText="Ações" width="100">
-                            <p:commandButton immediate="true" update="sampleTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
-                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
-                            </p:commandButton>
-                            <p:tooltip for="@previous" value="Excluir" position="top" />
+                        <p:column headerText="Volume de Calda (l/ha)">
+                            <h:outputText value="#{aPulverisation.caldaVolume}" />
+                        </p:column>
 
-                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
-                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
-                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
-                            </p:confirmDialog>                          
-                        </p:column>  
+                        <p:column headerText="Preço da Soja (R$/sc)">
+                            <h:outputText value="#{aPulverisation.soyaPrice}" />
+                        </p:column>
 
-                        <p:rowExpansion>
-                            <p:dataTable var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
+                        <p:column headerText="Custo da Operação de Pulverização (R$/ha)">
+                            <h:outputText value="#{aPulverisation.operationCostCurrency}" />
+                        </p:column>
 
-                                <f:facet name="header">
-                                    Flutuação das Pragas
-                                </f:facet>
+                        <p:column headerText="Custo Total da Operação (R$/ha)">
+                            <h:outputText value="#{aPulverisation.totalOperationCostCurrency}" />
+                        </p:column>
 
-                                <p:column headerText="Inseto Praga">
-                                    <h:outputText value="#{aPestSample.pestUsualName}" />
-                                </p:column>
+                        <p:column headerText="Custo da Aplicação (sc/ha)">
+                            <h:outputText value="#{aPulverisation.operationCostQty}" />
+                        </p:column>
 
-                                <p:column headerText="Média Encontrada">
-                                    <h:outputText value="#{aPestSample.value}" />
-                                </p:column>
+                        <p:column headerText="Custo Total da Operação (sc/ha)">
+                            <h:outputText value="#{aPulverisation.totalOperationCostQty}" />
+                        </p:column>
 
-                            </p:dataTable>  
-
-                            <p:dataTable var="aPestDiseaseSample" value="#{aSample.mipSamplePestDiseaseOccurrence}">
-
-                                <f:facet name="header">
-                                    Doenças das Pragas
-                                </f:facet>
-
-                                <p:column headerText="Inseto Praga">
-                                    <h:outputText value="#{aPestDiseaseSample.pestDiseaseUsualName}" />
-                                </p:column>
-
-                                <p:column headerText="Média Encontrada">
-                                    <h:outputText value="#{aPestDiseaseSample.value}" />
-                                </p:column>
-                            </p:dataTable>  
-                            
-                            <p:dataTable var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
-
-                                <f:facet name="header">
-                                    Inimigos Naturais
-                                </f:facet>
-
-                                <p:column headerText="Inimigo Natural">
-                                    <h:outputText value="#{aNaturalPredatorSample.pestNaturalPredatorUsualName}" />
-                                </p:column>
-
-                                <p:column headerText="Média Encontrada">
-                                    <h:outputText value="#{aNaturalPredatorSample.value}" />
-                                </p:column>
-                            </p:dataTable> 
-                        </p:rowExpansion>
                     </p:dataTable>  
 
                     <f:facet name="footer">
@@ -108,7 +69,7 @@
                             <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
 
                                 <h:inputHidden ></h:inputHidden>
-                                <p:button icon="fa fa-fw fa-ban" value="Voltar" outcome="/mip/mip-sample/index.xhtml" ></p:button>
+                                <p:button icon="fa fa-fw fa-ban" value="Voltar" outcome="/pulverisation/pulverisation-operation/index.xhtml" ></p:button>
 
                             </p:panelGrid>
                         </p:panelGrid>

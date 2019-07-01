@@ -113,7 +113,7 @@ public class PulverisationOperationService {
         return pestNaturalPredatorService.readAll();
     }
 
-    public List<MIPSample> readAllMIPSampleBySurveyId(Long aSurveyId) {
-        return List.copyOf(mipSampleRepository.findAll().stream().filter(sample -> sample.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
+    public List<PulverisationOperation> readAllPulverisationOperationBySurveyId(Long aSurveyId) {
+        return List.copyOf(pulverisationOperationRepository.findAll().stream().filter(current -> current.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
     }
 }
