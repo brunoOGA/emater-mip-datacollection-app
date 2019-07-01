@@ -57,4 +57,17 @@ public class PulverisationOperationOccurrence implements Serializable {
         
         return instance;
     }
+    
+    public String getTargetCategoryDescription() {
+        return this.getTarget().getCategory().getDescription();
+    }
+    
+    public String getTargetDescription() {
+        return this.getTarget().getDescription();
+    }
+    
+    public String getProductFormattedName() {
+        return String.format("%s - %.2f (%s)", this.getProduct().getName(), this.getProduct().getDose(), this.getProduct().getUnit().getDescription());
+    }
+    
 }

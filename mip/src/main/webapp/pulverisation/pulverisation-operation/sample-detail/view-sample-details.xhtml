@@ -61,6 +61,48 @@
                             <h:outputText value="#{aPulverisation.totalOperationCostQty}" />
                         </p:column>
 
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton immediate="true" update="sampleTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
+                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
+                            </p:commandButton>
+                            <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
+                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
+                            </p:confirmDialog>                          
+                        </p:column>  
+
+                        <p:rowExpansion>
+                            <p:dataTable var="anOccurrence" value="#{aPulverisation.operationOccurrences}">
+
+                                <p:column headerText="Categoria do Produto">
+                                    <h:outputText value="#{anOccurrence.targetCategoryDescription}" />
+                                </p:column>
+
+                                <p:column headerText="Alvo Principal/Função">
+                                    <h:outputText value="#{anOccurrence.targetDescription}" />
+                                </p:column>
+
+                                <p:column headerText="Nome do Produto - Dosagem (Unidade)">
+                                    <h:outputText value="#{anOccurrence.productFormattedName}" />
+                                </p:column>
+
+                                <p:column headerText="Preço">
+                                    <h:outputText value="#{anOccurrence.productPrice}" />
+                                </p:column>
+
+                                <p:column headerText="Custo Produto (R$/ha)">
+                                    <h:outputText value="#{anOccurrence.productCostCurrency}" />
+                                </p:column>
+
+                                <p:column headerText="Custo Produto (sc/ha)">
+                                    <h:outputText value="#{anOccurrence.productCostQty}" />
+                                </p:column>
+                                
+                            </p:dataTable>  
+                        </p:rowExpansion>
+                        
                     </p:dataTable>  
 
                     <f:facet name="footer">
