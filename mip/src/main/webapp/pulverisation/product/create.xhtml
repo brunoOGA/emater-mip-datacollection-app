@@ -24,12 +24,19 @@
                         <p:outputLabel for="@next" value="Dose"></p:outputLabel>
                         <p:inputText value="#{productController.dose}" ></p:inputText>
                         <p:message for="@previous" ></p:message>
-                        
-                        
+
+
                         <p:outputLabel for="@next" value="Unidade de Medida" />
                         <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma unidade de medida" value="#{productController.unit}" filter="true" filterMatchMode="contains">
                             <f:selectItem itemLabel="Escolha uma Unidade de Medida" itemValue="" />
                             <f:selectItems value="#{productController.readAllUnits()}" var="aUnit" itemLabel="#{aUnit.description}" itemValue="#{aUnit}"/>
+                        </p:selectOneMenu>
+                        <p:message for="@previous" ></p:message>
+
+                        <p:outputLabel for="@next" value="Alvo Principal ou Função" />
+                        <p:selectOneMenu required="true" requiredMessage="Um alvo/função deve ser selecionado" value="#{productController.targetId}" filter="true" filterMatchMode="contains">
+                            <f:selectItem noSelectionOption="true" itemLabel="Escolha um Alvo/Função" itemValue="" />
+                            <f:selectItems value="#{productController.readAllTargets()}" var="aTarget" itemLabel="#{aTarget.description}" itemValue="#{aTarget.id}"/>
                         </p:selectOneMenu>
                         <p:message for="@previous" ></p:message>
 

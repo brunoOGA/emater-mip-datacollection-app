@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
@@ -35,8 +36,13 @@ public class Product extends AuditingPersistenceEntity implements Serializable {
     @Positive (message = "O valor informado deve ser maior que zero")
     private double dose;
     
+    @EqualsAndHashCode.Include
     @Enumerated (EnumType.STRING)
     private ProductUnit unit;
+    
+    @EqualsAndHashCode.Include
+    @ManyToOne
+    private Target target;
 
     public void setName(String usualName) {
         this.name = WordUtils.capitalize(usualName.toLowerCase());
@@ -44,13 +50,26 @@ public class Product extends AuditingPersistenceEntity implements Serializable {
     }
 
     @Builder
-    public static Product create(Long id, String name, double dose, ProductUnit unit) {
+    public static Product create(Long id, String name, double dose, ProductUnit unit, Target target) {
         Product instance = new Product();
         instance.setId(id);
         instance.setDose(dose);
         instance.setUnit(unit);
         instance.setName(name);
+        instance.setTarget(target);
 
         return instance;
+    }
+    
+    public String getUnitDescription() {
+        return this.getUnit().getDescription();
+    }
+    
+    public String getTargetDescription() {
+        return this.getTarget().getDescription();
+    }
+    
+    public Long getTargetId() {
+        return this.getTarget().getId();
     }
 }

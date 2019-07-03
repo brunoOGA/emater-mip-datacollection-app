@@ -21,7 +21,11 @@
                     </p:column>
 
                     <p:column headerText="Unidade de Medida" >
-                        <h:outputText value="#{aProduct.unit.description}" />
+                        <h:outputText value="#{aProduct.unitDescription}" />
+                    </p:column>
+
+                    <p:column headerText="Alvo Principal/Função" >
+                        <h:outputText value="#{aProduct.targetDescription}" />
                     </p:column>
                     
                     <p:column headerText="Ações" width="100">
