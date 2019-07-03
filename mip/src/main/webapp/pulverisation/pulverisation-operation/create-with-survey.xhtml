@@ -16,7 +16,106 @@
                         <h1>Nova Operação de Pulverização para a UR '#{pulverisationOperationController.currentSurveyFieldName}' na Safra '#{pulverisationOperationController.currentSurveyHarvestName}'</h1>
                     </f:facet> 
 
+                    <p:tabView>
 
+                        <p:tab title="Custos">
+                            <p:panel header="Passo 1/4: ">
+
+                                <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Preço sc Soja (R$/sc, no balcão, no dia do depósito)"></p:outputLabel>
+                                        <p:inputText value="#{pulverisationOperationController.soyaPrice}" ></p:inputText>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Custo da Operação de Pulverização"></p:outputLabel>
+                                        <p:inputText value="#{pulverisationOperationController.operationCostCurrency}" ></p:inputText>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                </p:panelGrid>     
+
+                            </p:panel>
+                        </p:tab>
+
+
+                        <p:tab title="Dados da Operação">
+                            <p:panel header="Passo 2/4: ">
+
+                                <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Data da Operação"></p:outputLabel>
+                                        <p:calendar mode="inline" required="true" requiredMessage="Deve ser informada a data da operação de pulverização" value="#{pulverisationOperationController.sampleDate}" ></p:calendar>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Estádio da Cultura" />
+                                        <p:selectOneListbox required="true" requiredMessage="Deve ser informado o estádio da cultura" value="#{pulverisationOperationController.growthPhase}" filter="true" filterMatchMode="contains">
+                                            <f:selectItems value="#{pulverisationOperationController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase}" itemValue="#{aGrowthPhase}"/>
+                                        </p:selectOneListbox>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Volume de Calda (l/ha)"></p:outputLabel>
+                                        <p:inputText value="#{pulverisationOperationController.caldaVolume}" ></p:inputText>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                </p:panelGrid>     
+
+                            </p:panel>
+                        </p:tab>
+
+
+                        <p:tab title="Doenças">
+                            <p:panel header="Passo 3/3: ">
+
+                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-8 ui-g-8 ui-md-8 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                        
+                                        <p:panelGrid columns="1" >
+                                            <p:outputLabel for="@next" value="Categoria do Produto Utilizado" />
+                                            <p:selectOneMenu required="true" requiredMessage="Uma categoria deve ser selecionada" value="#{pulverisationOperationController.targetCategory}" filter="true" filterMatchMode="contains">
+                                                <p:ajax listener="#{pulverisationOperationController.onTargetCategoryChange}" update="target" />
+                                                <f:selectItem noSelectionOption="true" itemLabel="Escolha uma Categoria" itemValue="" />
+                                                <f:selectItems value="#{pulverisationOperationController.readAllTargetCategories()}" var="aTargetCategory" itemLabel="#{aTargetCategory.description}" itemValue="#{aTargetCategory}"/>
+                                            </p:selectOneMenu>
+                                            <p:message for="@previous" ></p:message>
+                                        </p:panelGrid>
+
+                                        <p:panelGrid columns="1" >
+                                            <p:outputLabel for="@next" value="Alvo Principal ou Função" />
+                                            <p:selectOneMenu id="target" required="true" requiredMessage="Um alvo principal/função deve ser selecionada" value="#{pulverisationOperationController.targetId}" filter="true" filterMatchMode="contains">
+                                                <f:selectItem itemLabel="Escolha um Alvo/Função" itemValue="" />
+                                                <f:selectItems value="#{pulverisationOperationController.targetOptions}" var="aTarget" itemLabel="#{aTarget.description}" itemValue="#{aTarget.id}"/>
+                                            </p:selectOneMenu>
+                                            <p:message for="@previous" ></p:message>
+                                        </p:panelGrid>
+
+
+                                    <h:inputHidden value="#{pulverisationOperationController.currentSurveyId}"></h:inputHidden>
+
+                                </p:panelGrid>     
+
+                                <f:facet name="footer">
+                                    <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                                        <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
+                                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+                                            <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
+                                            <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{pulverisationOperationController.create()}" ></p:commandButton>                                                    
+
+                                        </p:panelGrid>
+                                    </p:panelGrid>
+                                </f:facet>
+
+                            </p:panel>
+                        </p:tab>
+
+                    </p:tabView>     
 
                 </p:panel>
 

@@ -7,6 +7,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Component;
 public class PulverisationOperationService {
     
     private final PulverisationOperationRepository pulverisationOperationRepository;
+    private final TargetService targetService;
 
     private final MIPSampleRepository mipSampleRepository;
     private final SurveyService surveyService;
@@ -34,6 +37,8 @@ public class PulverisationOperationService {
 
     @Autowired
     public PulverisationOperationService(PulverisationOperationRepository aPulverisationOperationRepository,
+            TargetService aTargetService,
+            
             MIPSampleRepository aMIPSampleRepository,
             SurveyService aSurveyService,
             PestService aPestService,
@@ -47,6 +52,7 @@ public class PulverisationOperationService {
         this.pestNaturalPredatorService = aPestNaturalPredatorService;
         
         this.pulverisationOperationRepository = aPulverisationOperationRepository;
+        this.targetService = aTargetService;
     }
 
     public List<MIPSample> readAll() {
@@ -115,5 +121,9 @@ public class PulverisationOperationService {
 
     public List<PulverisationOperation> readAllPulverisationOperationBySurveyId(Long aSurveyId) {
         return List.copyOf(pulverisationOperationRepository.findAll().stream().filter(current -> current.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
+    }
+
+    public List<Target> readAllTargetsByCategory(TargetCategory targetCategory) {
+        return targetService.readAll().stream().filter(current -> current.getCategory().equals(targetCategory)).collect(Collectors.toList());
     }
 }
