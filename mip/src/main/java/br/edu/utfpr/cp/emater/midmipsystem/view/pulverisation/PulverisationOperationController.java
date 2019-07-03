@@ -183,10 +183,10 @@ public class PulverisationOperationController extends MIPSample {
             this.setCurrentSurveyFieldName(currentSurvey.getFieldName());
             this.setCurrentSurveyHarvestName(currentSurvey.getHarvestName());
 
-            return "/mip/mip-sample/create-with-survey.xhtml";
+            return "/pulverisation/pulverisation-operation/create-with-survey.xhtml";
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser feita porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
 

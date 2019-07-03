@@ -103,8 +103,8 @@
                         <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                         <p:tooltip for="@previous" value="Adicionar monitoramento da ferrugem para esta UR" position="top" />                        
 
-                        <p:commandButton style="background-color: green; border-color: green" icon="fa fw fa-yelp" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
-                        <p:tooltip for="@previous" value="Adicionar pulverização para esta UR" position="top" />                        
+                        <p:commandButton style="background-color: green; border-color: green" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                        <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                        
                         
                         <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
                             <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja remover a UR '#{aSurvey.fieldName}' da pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." />

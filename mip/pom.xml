@@ -48,15 +48,15 @@
     <dependencies>
             
         <!--JSF dependencies-->        
-<!--        <dependency> 
-            <groupId>org.joinfaces</groupId>
-            <artifactId>primefaces-spring-boot-starter</artifactId>
-        </dependency>-->
-
         <dependency> 
             <groupId>org.joinfaces</groupId>
+            <artifactId>primefaces-spring-boot-starter</artifactId>
+        </dependency>
+
+<!--        <dependency> 
+            <groupId>org.joinfaces</groupId>
             <artifactId>adminfaces-spring-boot-starter</artifactId>
-        </dependency>        
+        </dependency>        -->
                         
         <!--Original dependencies-->
         <dependency>
