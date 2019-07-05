@@ -6,6 +6,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +31,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component(value = "pulverisationOperationController")
-@RequestScope
+//@RequestScope
+@ViewScoped
 public class PulverisationOperationController extends PulverisationOperation {
 
     private final PulverisationOperationService pulverisationOperationService;
-
-    @Setter
-    @Getter
-    private Long currentSurveyId;
-
-    @Setter
-    @Getter
-    private String currentSurveyFieldName;
-
-    @Setter
-    @Getter
-    private String currentSurveyHarvestName;
 
     @Setter
     @Getter    
@@ -57,65 +48,27 @@ public class PulverisationOperationController extends PulverisationOperation {
     @Setter
     @Getter        
     private List<Target> targetOptions;
+    
+    @Setter
+    @Getter       
+    private List<Product> productOptions;
+    
+    @Setter
+    @Getter       
+    private Long productId;
+    
+    @Setter
+    @Getter       
+    private Long surveyId;
 
     @Setter
-    @Getter
-    private List<MIPSamplePestOccurrence> pestOccurrences;
-
-    @Setter
-    @Getter
-    private List<MIPSamplePestDiseaseOccurrence> pestDiseaseOccurrences;
-
-    @Setter
-    @Getter
-    private List<MIPSampleNaturalPredatorOccurrence> naturalPredatorOccurrences;
-
+    @Getter    
+    private double productPrice;
+    
     @Autowired
     public PulverisationOperationController(PulverisationOperationService aPulverisationOperationService) {
         this.pulverisationOperationService = aPulverisationOperationService;
 
-        this.populatePestOccurrences();
-        this.populatePestDiseaseOccurrences();
-        this.populateNaturalPredatorOccurrences();
-    }
-
-    private void populatePestOccurrences() {
-        pestOccurrences = new ArrayList<>();
-
-        pulverisationOperationService.readAllPests().forEach(currentPest
-                -> pestOccurrences.add(MIPSamplePestOccurrence.builder().pest(currentPest).value(0.0).build())
-        );
-    }
-
-    private void populatePestDiseaseOccurrences() {
-        pestDiseaseOccurrences = new ArrayList<>();
-
-        pulverisationOperationService.readAllPestDiseases().forEach(currentPestDisease
-                -> pestDiseaseOccurrences.add(MIPSamplePestDiseaseOccurrence.builder().pestDisease(currentPestDisease).value(0.0).build())
-        );
-    }
-
-    private void populateNaturalPredatorOccurrences() {
-        naturalPredatorOccurrences = new ArrayList<>();
-
-        pulverisationOperationService.readAllPestNaturalPredators().forEach(currentNaturalPredator
-                -> naturalPredatorOccurrences.add(MIPSampleNaturalPredatorOccurrence.builder().pestNaturalPredator(currentNaturalPredator).value(0.0).build())
-        );
-    }
-
-    private void trimOccurrencesForSample(MIPSample aSample) {
-
-        aSample.setMipSamplePestOccurrence(
-                pestOccurrences.stream().filter(currentPest -> currentPest.getValue() != 0).collect(Collectors.toSet())
-        );
-
-        aSample.setMipSamplePestDiseaseOccurrence(
-                pestDiseaseOccurrences.stream().filter(currentPestDisease -> currentPestDisease.getValue() != 0).collect(Collectors.toSet())
-        );
-
-        aSample.setMipSampleNaturalPredatorOccurrence(
-                naturalPredatorOccurrences.stream().filter(currentNaturalPredator -> currentNaturalPredator.getValue() != 0).collect(Collectors.toSet())
-        );
     }
 
     public List<MIPSample> readAll() {
@@ -127,6 +80,9 @@ public class PulverisationOperationController extends PulverisationOperation {
     }
 
     public String create() {
+        
+        var surveyIdAsString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId");
+        System.out.println("ID: " + surveyIdAsString);
         
 //        Survey currentSurvey = null;
 //
@@ -190,15 +146,12 @@ public class PulverisationOperationController extends PulverisationOperation {
 
     public String selectTargetSurvey(Long id) {
 
-        Survey currentSurvey = null;
-
         try {
-            currentSurvey = pulverisationOperationService.readSurveyById(id);
-            this.setCurrentSurveyId(id);
-            this.setCurrentSurveyFieldName(currentSurvey.getFieldName());
-            this.setCurrentSurveyHarvestName(currentSurvey.getHarvestName());
+            var currentSurvey = pulverisationOperationService.readSurveyById(id);
+            
+            var paramValues = String.format("?currentSurveyFieldName=%s&currentSurveyHarvestName=%s&currentSurveyId=%d&faces-redirect=true", currentSurvey.getFieldName(), currentSurvey.getHarvestName(), id);
 
-            return "/pulverisation/pulverisation-operation/create-with-survey.xhtml";
+            return "/pulverisation/pulverisation-operation/create-with-survey.xhtml" + paramValues;
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser feita porque a UR não foi encontrada na base de dados!"));
@@ -218,6 +171,18 @@ public class PulverisationOperationController extends PulverisationOperation {
     public void onTargetCategoryChange() {
         if (this.getTargetCategory() != null)
             this.setTargetOptions(pulverisationOperationService.readAllTargetsByCategory(this.getTargetCategory()));
+    }
+
+    public void onTargetChange() {
+        if (this.getTargetId() != null)
+            this.setProductOptions(pulverisationOperationService.readAllProductByTarget(this.getTargetId()));
+    }
+    
+    public void addOccurrence() throws EntityNotFoundException {
+        var product = pulverisationOperationService.readProductById (this.getProductId());
+        var target = pulverisationOperationService.readTargetById (this.getTargetId());
+        
+        this.addOperationOccurrence(product, this.getProductPrice(), target);
     }
     
 }

@@ -6,6 +6,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
@@ -28,6 +29,7 @@ public class PulverisationOperationService {
     
     private final PulverisationOperationRepository pulverisationOperationRepository;
     private final TargetService targetService;
+    private final ProductService productService;
 
     private final MIPSampleRepository mipSampleRepository;
     private final SurveyService surveyService;
@@ -38,6 +40,7 @@ public class PulverisationOperationService {
     @Autowired
     public PulverisationOperationService(PulverisationOperationRepository aPulverisationOperationRepository,
             TargetService aTargetService,
+            ProductService aProductService,
             
             MIPSampleRepository aMIPSampleRepository,
             SurveyService aSurveyService,
@@ -53,6 +56,7 @@ public class PulverisationOperationService {
         
         this.pulverisationOperationRepository = aPulverisationOperationRepository;
         this.targetService = aTargetService;
+        this.productService = aProductService;
     }
 
     public List<MIPSample> readAll() {
@@ -125,5 +129,17 @@ public class PulverisationOperationService {
 
     public List<Target> readAllTargetsByCategory(TargetCategory targetCategory) {
         return targetService.readAll().stream().filter(current -> current.getCategory().equals(targetCategory)).collect(Collectors.toList());
+    }
+
+    public List<Product> readAllProductByTarget(Long targetId) {
+        return productService.readAll().stream().filter(current -> current.getTargetId().equals(targetId)).collect(Collectors.toList());
+    }
+
+    public Product readProductById(Long productId) throws EntityNotFoundException {
+        return productService.readById(productId);
+    }
+
+    public Target readTargetById(Long targetId) throws EntityNotFoundException {
+        return targetService.readById(targetId);
     }
 }

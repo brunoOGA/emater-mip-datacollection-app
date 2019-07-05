@@ -13,7 +13,7 @@
                 <p:panel style="margin-top: 15px">
 
                     <f:facet name="header">
-                        <h1>Nova Operação de Pulverização para a UR '#{pulverisationOperationController.currentSurveyFieldName}' na Safra '#{pulverisationOperationController.currentSurveyHarvestName}'</h1>
+                        <h1>Nova Operação de Pulverização para a UR '#{param['currentSurveyFieldName']}' na Safra '#{param['currentSurveyHarvestName']}'</h1>
                     </f:facet> 
 
                     <p:tabView>
@@ -71,34 +71,66 @@
                         </p:tab>
 
 
-                        <p:tab title="Doenças">
+                        <p:tab title="Produtos">
                             <p:panel header="Passo 3/3: ">
 
-                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-8 ui-g-8 ui-md-8 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                        
-                                        <p:panelGrid columns="1" >
-                                            <p:outputLabel for="@next" value="Categoria do Produto Utilizado" />
-                                            <p:selectOneMenu required="true" requiredMessage="Uma categoria deve ser selecionada" value="#{pulverisationOperationController.targetCategory}" filter="true" filterMatchMode="contains">
-                                                <p:ajax listener="#{pulverisationOperationController.onTargetCategoryChange}" update="target" />
-                                                <f:selectItem noSelectionOption="true" itemLabel="Escolha uma Categoria" itemValue="" />
-                                                <f:selectItems value="#{pulverisationOperationController.readAllTargetCategories()}" var="aTargetCategory" itemLabel="#{aTargetCategory.description}" itemValue="#{aTargetCategory}"/>
-                                            </p:selectOneMenu>
-                                            <p:message for="@previous" ></p:message>
-                                        </p:panelGrid>
+                                <p:panelGrid columns="4" layout="grid" columnClasses="ui-lg-3 ui-g-3 ui-md-3 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                        <p:panelGrid columns="1" >
-                                            <p:outputLabel for="@next" value="Alvo Principal ou Função" />
-                                            <p:selectOneMenu id="target" required="true" requiredMessage="Um alvo principal/função deve ser selecionada" value="#{pulverisationOperationController.targetId}" filter="true" filterMatchMode="contains">
-                                                <f:selectItem itemLabel="Escolha um Alvo/Função" itemValue="" />
-                                                <f:selectItems value="#{pulverisationOperationController.targetOptions}" var="aTarget" itemLabel="#{aTarget.description}" itemValue="#{aTarget.id}"/>
-                                            </p:selectOneMenu>
-                                            <p:message for="@previous" ></p:message>
-                                        </p:panelGrid>
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Categoria do Produto Utilizado" />
+                                        <p:selectOneMenu required="true" requiredMessage="Uma categoria deve ser selecionada" value="#{pulverisationOperationController.targetCategory}" filter="true" filterMatchMode="contains">
+                                            <p:ajax listener="#{pulverisationOperationController.onTargetCategoryChange}" update="target" />
+                                            <f:selectItem noSelectionOption="true" itemLabel="Escolha uma Categoria" itemValue="" />
+                                            <f:selectItems value="#{pulverisationOperationController.readAllTargetCategories()}" var="aTargetCategory" itemLabel="#{aTargetCategory.description}" itemValue="#{aTargetCategory}"/>
+                                        </p:selectOneMenu>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
 
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Alvo Principal ou Função" />
+                                        <p:selectOneMenu id="target" required="true" requiredMessage="Um alvo principal/função deve ser selecionada" value="#{pulverisationOperationController.targetId}" filter="true" filterMatchMode="contains">
+                                            <p:ajax listener="#{pulverisationOperationController.onTargetChange()}" update="productList" />
+                                            <f:selectItem noSelectionOption="true" itemLabel="Escolha um Alvo/Função" itemValue="" />
+                                            <f:selectItems value="#{pulverisationOperationController.targetOptions}" var="aTarget" itemLabel="#{aTarget.description}" itemValue="#{aTarget.id}"/>
+                                        </p:selectOneMenu>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
 
-                                    <h:inputHidden value="#{pulverisationOperationController.currentSurveyId}"></h:inputHidden>
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Produto" />
+                                        <p:selectOneMenu id="productList" required="true" requiredMessage="Um produto deve ser selecionado"  value="#{pulverisationOperationController.productId}" filter="true" filterMatchMode="contains">
+                                            <f:selectItem noSelectionOption="true" itemLabel="Escolha um Produto" itemValue="" />
+                                            <f:selectItems value="#{pulverisationOperationController.productOptions}" var="aProduct" itemLabel="#{aProduct.name}" itemValue="#{aProduct.id}"/>
+                                        </p:selectOneMenu>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Preço do Produto (R$/Unidade)"></p:outputLabel>
+                                        <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="." value="#{pulverisationOperationController.productPrice}" ></p:inputNumber>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
 
                                 </p:panelGrid>     
+
+                                <p:commandButton value="Submit" update="occurrences" action="#{pulverisationOperationController.addOccurrence()}" ></p:commandButton>
+
+
+                                <p:dataTable id="occurrences" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="false" value="#{pulverisationOperationController.operationOccurrences}" var="anOccurrence" >
+
+                                    <p:column headerText="Produto" >
+                                        <h:outputText value="#{anOccurrence.product.name}" />
+                                    </p:column>
+
+                                    <p:column headerText="Preço" >
+                                        <h:outputText value="#{anOccurrence.productPrice}" />
+                                    </p:column>
+
+                                    <p:column headerText="Alvo" >
+                                        <h:outputText value="#{anOccurrence.target.description}" />
+                                    </p:column>
+
+                                </p:dataTable>                  
 
                                 <f:facet name="footer">
                                     <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
@@ -106,7 +138,9 @@
                                         <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
 
                                             <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
-                                            <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{pulverisationOperationController.create()}" ></p:commandButton>                                                    
+                                            <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{pulverisationOperationController.create()}" >
+                                                <f:param name="currentSurveyId" value="#{param['currentSurveyId']}" />
+                                            </p:commandButton>                                                    
 
                                         </p:panelGrid>
                                     </p:panelGrid>
