@@ -1,11 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.pulverisation;
 
-import br.edu.utfpr.cp.emater.midmipsystem.view.mip.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrence;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrence;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
@@ -15,12 +10,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
-import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationService;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -28,10 +20,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 
 @Component(value = "pulverisationOperationController")
-//@RequestScope
 @ViewScoped
 public class PulverisationOperationController extends PulverisationOperation {
 
@@ -58,10 +48,6 @@ public class PulverisationOperationController extends PulverisationOperation {
     private Long productId;
     
     @Setter
-    @Getter       
-    private Long surveyId;
-
-    @Setter
     @Getter    
     private double productPrice;
     
@@ -71,10 +57,6 @@ public class PulverisationOperationController extends PulverisationOperation {
 
     }
 
-    public List<MIPSample> readAll() {
-        return pulverisationOperationService.readAll();
-    }
-
     public List<Survey> readAllSurveysUniqueEntries() {
         return pulverisationOperationService.readAllSurveysUniqueEntries();
     }
@@ -82,45 +64,49 @@ public class PulverisationOperationController extends PulverisationOperation {
     public String create() {
         
         var surveyIdAsString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId");
-        System.out.println("ID: " + surveyIdAsString);
         
-//        Survey currentSurvey = null;
-//
-//        try {
-//            currentSurvey = pulverisationOperationService.readSurveyById(this.getCurrentSurveyId());
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//        }
-//        
-//        var newSample = MIPSample.builder()
-//                                    .defoliation(this.getDefoliation())
-//                                    .growthPhase(this.getGrowthPhase())
-//                                    .sampleDate(this.getSampleDate())
-//                                    .survey(currentSurvey)
-//                                    .build();
-//        
-//        this.trimOccurrencesForSample(newSample);
-//
-//        try {
-//            pulverisationOperationService.create(newSample);
-//
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Anotação de campo criada com sucesso!"));
-//            return "index.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma anotação de campo com essa data para essa UR! Use datas diferentes."));
-//            return "create.xhtml";
-//
-//        } catch (EntityNotFoundException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//            
-//        } catch (AnyPersistenceException | SupervisorNotAllowedInCity e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+        Survey currentSurvey = null;
+        
+        try {
+            currentSurvey = pulverisationOperationService.readSurveyById(Long.parseLong(surveyIdAsString));
+
+        } catch (EntityNotFoundException | NumberFormatException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser concluída porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
-//        }
+        }
+        
+        var newOperation = PulverisationOperation.builder()
+                            .caldaVolume(this.getCaldaVolume())
+                            .growthPhase(this.getGrowthPhase())
+                            .operationCostCurrency(this.getOperationCostCurrency())
+                            .sampleDate(this.getSampleDate())
+                            .soyaPrice(this.getSoyaPrice())
+                            .survey(currentSurvey)
+                            .build();
+                
+        newOperation.setOperationCostQty(this.getOperationCostQty());
+        newOperation.setTotalOperationCostCurrency(this.getOperationCostCurrency());
+        newOperation.setTotalOperationCostQty(this.getTotalOperationCostQty());
+        newOperation.setOperationOccurrences(this.getOperationOccurrences());
+
+        try {
+            pulverisationOperationService.create(newOperation);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Operação de pulverização criada com sucesso!"));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma operação de pulverização com essa data para essa UR! Use datas diferentes."));
+            return "create.xhtml";
+
+        } catch (EntityNotFoundException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser feita porque a UR não foi encontrada na base de dados!"));
+            return "index.xhtml";
+            
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
     }
 
     public String delete(Long anOperationId) {
@@ -149,15 +135,19 @@ public class PulverisationOperationController extends PulverisationOperation {
         try {
             var currentSurvey = pulverisationOperationService.readSurveyById(id);
             
-            var paramValues = String.format("?currentSurveyFieldName=%s&currentSurveyHarvestName=%s&currentSurveyId=%d&faces-redirect=true", currentSurvey.getFieldName(), currentSurvey.getHarvestName(), id);
-
-            return "/pulverisation/pulverisation-operation/create-with-survey.xhtml" + paramValues;
+//            var paramValues = String.format("?currentSurveyFieldName=%s&currentSurveyHarvestName=%s&currentSurveyId=%d&faces-redirect=true", currentSurvey.getFieldName(), currentSurvey.getHarvestName(), id);
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", id);
+            
+            return "/pulverisation/pulverisation-operation/create-with-survey.xhtml?faces-redirect=true";
+//            + paramValues;
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser feita porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
-
+        
     }
 
     public GrowthPhase[] readAllGrowthPhases() {
@@ -184,5 +174,5 @@ public class PulverisationOperationController extends PulverisationOperation {
         
         this.addOperationOccurrence(product, this.getProductPrice(), target);
     }
-    
+        
 }

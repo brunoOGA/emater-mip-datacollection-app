@@ -13,14 +13,14 @@
                 <p:panel style="margin-top: 15px">
 
                     <f:facet name="header">
-                        <h1>Nova Operação de Pulverização para a UR '#{param['currentSurveyFieldName']}' na Safra '#{param['currentSurveyHarvestName']}'</h1>
+                        <h1>Nova Operação de Pulverização para a UR '#{flash['currentSurveyFieldName']}' na Safra '#{flash['currentSurveyHarvestName']}'</h1>
                     </f:facet> 
 
-                    <p:tabView>
+                    <p:wizard>
 
                         <p:tab title="Custos">
-                            <p:panel header="Passo 1/4: ">
-
+                            <p:panel header="Passo 1/3: ">
+                                
                                 <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
                                     <p:panelGrid columns="1" >
                                         <p:outputLabel for="@next" value="Preço sc Soja (R$/sc, no balcão, no dia do depósito)"></p:outputLabel>
@@ -41,7 +41,7 @@
 
 
                         <p:tab title="Dados da Operação">
-                            <p:panel header="Passo 2/4: ">
+                            <p:panel header="Passo 2/3: ">
 
                                 <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
@@ -139,7 +139,7 @@
 
                                             <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
                                             <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{pulverisationOperationController.create()}" >
-                                                <f:param name="currentSurveyId" value="#{param['currentSurveyId']}" />
+                                                <f:param name="currentSurveyId" value="#{flash['currentSurveyId']}" />
                                             </p:commandButton>                                                    
 
                                         </p:panelGrid>
@@ -149,7 +149,7 @@
                             </p:panel>
                         </p:tab>
 
-                    </p:tabView>     
+                    </p:wizard>  
 
                 </p:panel>
 
