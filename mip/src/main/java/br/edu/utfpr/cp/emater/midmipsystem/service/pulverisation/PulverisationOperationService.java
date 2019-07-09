@@ -11,7 +11,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -48,6 +50,8 @@ public class PulverisationOperationService {
         if (pulverisationOperationRepository.findAll().stream().anyMatch(current -> current.equals(anOperation))) {
             throw new EntityAlreadyExistsException();
         }
+        
+        anOperation.setDaysAfterEmergence(this.calculateDaysAfterEmergence(anOperation.getSurvey().getEmergenceDate(), anOperation.getSampleDate()));
 
         try {
             pulverisationOperationRepository.save(anOperation);
@@ -57,6 +61,15 @@ public class PulverisationOperationService {
             throw new AnyPersistenceException();
 
         }
+    }
+    
+    private int calculateDaysAfterEmergence(Date emergenceDate, Date sampleDate) {
+
+        long diffInMillies = Math.abs(sampleDate.getTime() - emergenceDate.getTime());
+        
+        var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        
+        return (int) (result + 1);
     }
 
     public PulverisationOperation readById(Long anId) throws EntityNotFoundException {
