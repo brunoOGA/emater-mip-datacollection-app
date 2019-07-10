@@ -1,54 +1,79 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">
+    <ui:define name="metadata">
+        <ui:param name="title" value="Gerenciamento de Unidades de Referência"/> 
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
 
-                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{fieldController.readAll()}" var="aField" >
+    <ui:define name="description">
+        Criar, alterar, listar e excluir unidades de referência
+    </ui:define>
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton action="create?faces-redirect=true" icon="fa fa-plus"
+                                         value="Nova Unidade de Referência" styleClass="btn-primary"/>
+                        <p:spacer width="5"/>
+                    </div>
 
-                    <p:column headerText="Identificação" >
-                        <h:outputText value="#{aField.name}" />
-                    </p:column>
+                    <p:splitButton value="Nova Unidade de Referência" action="create?faces-redirect=true"
+                                   icon="fa fa-plus"
+                                   styleClass="hidden-md hidden-lg btn-primary">
+                    </p:splitButton>
 
-                    <p:column headerText="Localização" >
-                        <h:outputText value="#{aField.location}" />
-                    </p:column>
+                    <p:separator/>
 
-                    <p:column headerText="Município" >
-                        <h:outputText value="#{aField.cityName}" />
-                    </p:column>
+                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{fieldController.readAll()}" var="aField" >
 
-                    <p:column headerText="Produtor" >
-                        <h:outputText value="#{aField.farmerName}" />
-                    </p:column>
+                        <p:column headerText="Identificação" filterBy="#{aField.name}" filterMatchMode="contains">
+                            <h:outputText value="#{aField.name}" />
+                        </p:column>
 
-                    <p:column headerText="Responsável Técnico" >
-                        <h:outputText value="#{aField.supervisorNames}" />
-                    </p:column>
+                        <p:column headerText="Localização" filterBy="#{aField.location}" filterMatchMode="contains">
+                            <h:outputText value="#{aField.location}" />
+                        </p:column>
 
-                    <p:column headerText="Ações" width="100">
-                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{fieldController.prepareUpdate(aField.id)}" ></p:commandButton>
-                        <p:tooltip for="@previous" value="Alterar" position="top" />
+                        <p:column headerText="Município" filterBy="#{aField.cityName}" filterMatchMode="contains">
+                            <h:outputText value="#{aField.cityName}" />
+                        </p:column>
 
-                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{fieldController.delete(aField.id)}" >
-                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a unidade de referência '#{aField.name}'? Essa ação NÃO pode ser desfeita." />
-                        </p:commandButton>
-                        <p:tooltip for="@previous" value="Excluir" position="top" />
+                        <p:column headerText="Produtor" filterBy="#{aField.farmerName}" filterMatchMode="contains">
+                            <h:outputText value="#{aField.farmerName}" />
+                        </p:column>
 
-                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
-                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
-                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
-                        </p:confirmDialog>                          
-                    </p:column>                    
-                </p:dataTable>          
+                        <p:column headerText="Responsável Técnico" filterBy="#{aField.supervisorNames}" filterMatchMode="contains">
+                            <h:outputText value="#{aField.supervisorNames}" />
+                        </p:column>
 
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{fieldController.prepareUpdate(aField.id)}" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Alterar" position="top" />
+
+                            <p:commandButton update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{fieldController.delete(aField.id)}" >
+                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a unidade de referência '#{aField.name}'? Essa ação NÃO pode ser desfeita." />
+                            </p:commandButton>
+                            <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
+                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
+                            </p:confirmDialog>                          
+                        </p:column>                    
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
