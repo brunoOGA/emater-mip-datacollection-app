@@ -77,7 +77,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
 
             fieldService.create(newField);
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Unidade de referência [%s] criado com sucesso!", this.getName())));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência criada com sucesso!"));
             return "index.xhtml";
 
         } catch (SupervisorNotAllowedInCity ex) {

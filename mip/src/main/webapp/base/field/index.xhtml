@@ -57,7 +57,7 @@
                         </p:column>
 
                         <p:column headerText="Ações" width="100">
-                            <p:commandButton styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{fieldController.prepareUpdate(aField.id)}" ></p:commandButton>
+                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{fieldController.prepareUpdate(aField.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />
 
                             <p:commandButton update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{fieldController.delete(aField.id)}" >
