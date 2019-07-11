@@ -257,7 +257,7 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
             return "index.xhtml";
 
         } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser removida da pesquisa porque já existem dados MID/MIP para para!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser removida da pesquisa porque já existem dados MID/MIP para ela!"));
             return "index.xhtml";
 
         } catch (AnyPersistenceException e) {
