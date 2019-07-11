@@ -1,53 +1,69 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">
+    <ui:define name="metadata">
+        <ui:param name="title" value="Monitoramento da Ferrugem"/> 
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
 
-                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{midRustSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+    <ui:define name="description">
+        Monitoramento da ferrugem
+    </ui:define>
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
 
-                    <p:column headerText="Safra" >
-                        <h:outputText value="#{aSurvey.harvestName}" />
-                    </p:column>
+                    <p:separator/>
 
-                    <p:column headerText="Produtor" >
-                        <h:outputText value="#{aSurvey.farmerString}" />
-                    </p:column>
+                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{midRustSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
 
-                    <p:column headerText="Identificação" >
-                        <h:outputText value="#{aSurvey.fieldName}" />
-                    </p:column>
+                        <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.harvestName}" />
+                        </p:column>
 
-                    <p:column headerText="Cultivar" >
-                        <h:outputText value="#{aSurvey.seedName}" />
-                    </p:column>
+                        <p:column headerText="Produtor" filterBy="#{aSurvey.farmerString}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.farmerString}" />
+                        </p:column>
 
-                    <p:column headerText="Responsável Técnico" >
-                        <h:outputText value="#{aSurvey.fieldSupervisorNames}" />
-                    </p:column>
+                        <p:column headerText="Identificação" filterBy="#{aSurvey.fieldName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.fieldName}" />
+                        </p:column>
 
-                    <p:column headerText="Município" >
-                        <h:outputText value="#{aSurvey.fieldCityName}" />
-                    </p:column>
+                        <p:column headerText="Cultivar" filterBy="#{aSurvey.seedName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.seedName}" />
+                        </p:column>
 
+                        <p:column headerText="Responsável Técnico" filterBy="#{aSurvey.fieldSupervisorNames}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.fieldSupervisorNames}" />
+                        </p:column>
 
-                    <p:column headerText="Ações" width="100">
-                        <p:commandButton action="#{midRustSampleDetailController.selectTargetSurvey(aSurvey.id)}" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
-                        <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
+                        <p:column headerText="Município" filterBy="#{aSurvey.fieldCityName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.fieldCityName}" />
+                        </p:column>
 
-                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
-                        <p:tooltip for="@previous" value="Adicionar monitoramento da ferrugem para esta UR" position="top" />                        
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton action="#{midRustSampleDetailController.selectTargetSurvey(aSurvey.id)}" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
 
-                    </p:column> 
-                </p:dataTable>  
+                            <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Adicionar monitoramento da ferrugem para esta UR" position="top" />                        
 
-            </ui:define>  
-        </ui:composition>
-    </h:body>
-</html>
+                        </p:column> 
+                    </p:dataTable>  
+
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
