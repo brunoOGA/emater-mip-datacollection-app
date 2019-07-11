@@ -34,7 +34,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <dependency>
+                <groupId>com.github.adminfaces</groupId>
+                <artifactId>admin-template</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.adminfaces</groupId>
+                <artifactId>admin-theme</artifactId>
+                <version>1.0.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     
