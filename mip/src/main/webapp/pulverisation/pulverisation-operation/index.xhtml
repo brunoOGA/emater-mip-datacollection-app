@@ -52,11 +52,11 @@
                         </p:column>
 
                         <p:column headerText="Ações" width="100">
-                            <p:commandButton action="#{pulverisationDetailController.selectTargetSurvey(aSurvey.id)}" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
+                            <p:commandButton action="#{pulverisationDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
                             <p:tooltip for="@previous" value="Visualizar operações de pulverização para esta UR" position="top" />
 
-                            <p:commandButton style="background-color: green; border-color: green" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
-                            <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                        
+                            <p:commandButton ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                             
 
                         </p:column> 
                     </p:dataTable>  
