@@ -1,146 +1,162 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">       
 
-                <p:panel style="margin-top: 15px">
+    <ui:define name="title">
+        Nova Amostra de Monitoramento da Ferrugem
+    </ui:define>
 
-                    <f:facet name="header">
-                        <h1>Nova Amostra de Monitoramento da Ferrugem para a UR '#{midRustSampleController.currentSurveyFieldName}' na Safra '#{midRustSampleController.currentSurveyHarvestName}'</h1>
-                    </f:facet> 
+    <ui:define name="description">
+        UR '#{midRustSampleController.currentSurveyFieldName}' na Safra '#{midRustSampleController.currentSurveyHarvestName}'
+    </ui:define>
 
-                    <p:tabView>
+    <ui:define name="body">
+        <h:form id="form" prependId="false">
+            <p:focus context="@form"/>
+            <p:panel styleClass="box-primary card">
+                <div id="main-buttons" class="hidden-sm hidden-xs">
+                    <p:commandButton ajax="false" value="Criar" action="#{midRustSampleController.create()}" 
+                                     icon="fa fa-check" styleClass="btn-primary"/>
 
-                        <p:tab title="Data da Coleta">
-                            <p:panel header="Passo 1/4: Data da Coleta">
+                    <p:spacer width="5" />
 
-                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+                    <p:commandButton ajax="false" value="Cancelar" immediate="true"
+                                     action="index?faces-redirect=true"
+                                     process="@this"
+                                     icon="fa fa-reply"/>
+                </div>
+                <p:splitButton ajax="false" value="Criar" action="#{midRustSampleController.create()}" 
+                               icon="fa fa-check"
+                               styleClass="hidden-md hidden-lg btn-primary">
 
-                                    <p:panelGrid columns="1" >
-                                        <p:outputLabel for="@next" value="Data da Coleta"></p:outputLabel>
-                                        <p:calendar mode="inline" value="#{midRustSampleController.sampleDate}" ></p:calendar>
-                                        <p:message for="@previous" ></p:message>
-                                    </p:panelGrid>
+                    <p:separator/>
 
-                                </p:panelGrid>     
+                    <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true"
+                                process="@this" immediate="true"
+                                icon="fa fa-reply"/>
+                </p:splitButton>
 
-                            </p:panel>
-                        </p:tab>
+                <hr/>
 
-                        <p:tab title="Coletor de Esporos">
-                            <p:panel header="Passo 2/4: Dados no Coletor de Esporos">
-                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                <p:tabView>
 
-                                    <p:dataTable paginatorPosition="bottom" value="#{midRustSampleController.readAllBladeResponsiblePersons()}" var="aPerson" selection="#{midRustSampleController.bladeResponsiblePerson}" rowKey="#{aPerson.id}" id="personTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true"  >
-                                        <f:facet name="header">
-                                            Selecione Responsável pela Leitura da Lâmina
-                                        </f:facet>
-                                        <p:column selectionMode="single" style="width:16px;text-align:center" />
+                    <p:tab title="Data da Coleta">
+                        <p:panel header="Passo 1/4: Data da Coleta">
 
-                                        <p:column headerText="Nome" filterBy="#{aPerson.name}" filterMatchMode="contains">
-                                            <h:outputText value="#{aPerson.name}" />
-                                        </p:column>
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                        <p:column headerText="Entidade" filterBy="#{aPerson.entityName}" filterMatchMode="contains">
-                                            <h:outputText value="#{aPerson.entityName}" />
-                                        </p:column>
-
-                                        <p:column headerText="Município" filterBy="#{aPerson.entityCityName}" filterMatchMode="contains">
-                                            <h:outputText value="#{aPerson.entityCityName}" />
-                                        </p:column>
-
-                                    </p:dataTable>  
-
-                                    <p:panelGrid columns="1" >
-                                        <p:outputLabel for="@next" value="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
-                                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um valor na lista" value="#{midRustSampleController.bladeReadingRustResultCollector}" filter="true" filterMatchMode="contains">
-                                            <f:selectItems value="#{midRustSampleController.readAllAsiaticRustTypesSporeCollector()}" var="aAsiaticRustSporeType" itemLabel="#{aAsiaticRustSporeType.description}" itemValue="#{aAsiaticRustSporeType}"/>
-                                        </p:selectOneListbox>
-                                        <p:message for="@previous" ></p:message>
-                                    </p:panelGrid>                                    
-
-                                    <p:outputLabel for="@next" value="Data de Leitura da Lâmina"></p:outputLabel>
-                                    <p:calendar mode="inline" value="#{midRustSampleController.bladeReadingDate}" ></p:calendar>
+                                <p:panelGrid columns="1" >
+                                    <p:outputLabel for="@next" value="Data da Coleta"></p:outputLabel>
+                                    <p:calendar mode="inline" value="#{midRustSampleController.sampleDate}" ></p:calendar>
                                     <p:message for="@previous" ></p:message>
+                                </p:panelGrid>
 
-                                    <p:selectBooleanCheckbox value="#{midRustSampleController.bladeInstalledPreCold}" itemLabel="Lâmina Colocada na Véspera da Frente Fria?"/>
+                            </p:panelGrid>     
 
-                                </p:panelGrid>                            
-                            </p:panel>
-                        </p:tab>
+                        </p:panel>
+                    </p:tab>
 
-                        <p:tab title="Inspeção Foliar">
-                            <p:panel header="Passo 3/4: Dados da Inspeção Foliar">
+                    <p:tab title="Coletor de Esporos">
+                        <p:panel header="Passo 2/4: Dados no Coletor de Esporos">
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                    <p:outputLabel for="@next" value="Estádio das Plantas" />
-                                    <p:selectOneListbox required="true" requiredMessage="Deve ser informado o estádio das plantas" value="#{midRustSampleController.growthPhase}" filter="true" filterMatchMode="contains">
-                                        <f:selectItems value="#{midRustSampleController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase}" itemValue="#{aGrowthPhase}"/>
+                                <p:dataTable paginatorPosition="bottom" value="#{midRustSampleController.readAllBladeResponsiblePersons()}" var="aPerson" selection="#{midRustSampleController.bladeResponsiblePerson}" rowKey="#{aPerson.id}" id="personTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true"  >
+                                    <f:facet name="header">
+                                        Selecione Responsável pela Leitura da Lâmina
+                                    </f:facet>
+                                    <p:column selectionMode="single" style="width:16px;text-align:center" />
+
+                                    <p:column headerText="Nome" filterBy="#{aPerson.name}" filterMatchMode="contains">
+                                        <h:outputText value="#{aPerson.name}" />
+                                    </p:column>
+
+                                    <p:column headerText="Entidade" filterBy="#{aPerson.entityName}" filterMatchMode="contains">
+                                        <h:outputText value="#{aPerson.entityName}" />
+                                    </p:column>
+
+                                    <p:column headerText="Município" filterBy="#{aPerson.entityCityName}" filterMatchMode="contains">
+                                        <h:outputText value="#{aPerson.entityCityName}" />
+                                    </p:column>
+
+                                </p:dataTable>  
+
+                                <p:panelGrid columns="1" >
+                                    <p:outputLabel for="@next" value="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
+                                    <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um valor na lista" value="#{midRustSampleController.bladeReadingRustResultCollector}" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{midRustSampleController.readAllAsiaticRustTypesSporeCollector()}" var="aAsiaticRustSporeType" itemLabel="#{aAsiaticRustSporeType.description}" itemValue="#{aAsiaticRustSporeType}"/>
                                     </p:selectOneListbox>
                                     <p:message for="@previous" ></p:message>
+                                </p:panelGrid>                                    
 
-                                    <p:panelGrid columns="1" >
-                                        <p:outputLabel for="@next" value="Resultado da Inspeção Foliar para Ferrugem Asiática" />
-                                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um valor na lista" value="#{midRustSampleController.bladeReadingRustResultLeafInspection}" filter="true" filterMatchMode="contains">
-                                            <f:selectItems value="#{midRustSampleController.readAllAsiaticRustTypesLeafInspection()}" var="aAsiaticRustLeafType" itemLabel="#{aAsiaticRustLeafType.description}" itemValue="#{aAsiaticRustLeafType}"/>
-                                        </p:selectOneListbox>
-                                        <p:message for="@previous" ></p:message>
-                                    </p:panelGrid>                                    
+                                <p:outputLabel for="@next" value="Data de Leitura da Lâmina"></p:outputLabel>
+                                <p:calendar mode="inline" value="#{midRustSampleController.bladeReadingDate}" ></p:calendar>
+                                <p:message for="@previous" ></p:message>
 
-                                </p:panelGrid>                            
+                                <p:selectBooleanCheckbox value="#{midRustSampleController.bladeInstalledPreCold}" itemLabel="Lâmina Colocada na Véspera da Frente Fria?"/>
 
-                            </p:panel>
-                        </p:tab>
+                            </p:panelGrid>                            
+                        </p:panel>
+                    </p:tab>
 
-                        <p:tab id="area" title="Aplicação de Fungicidas"> 
-                            <p:panel header="Passo 4/4: Dados Sobre Aplicação de Fungicidas">
+                    <p:tab title="Inspeção Foliar">
+                        <p:panel header="Passo 3/4: Dados da Inspeção Foliar">
 
-                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                    <p:selectBooleanCheckbox value="#{midRustSampleController.asiaticRustApplication}" itemLabel="Aplicou para Ferrugem Asiática?"/>
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                <p:outputLabel for="@next" value="Estádio das Plantas" />
+                                <p:selectOneListbox required="true" requiredMessage="Deve ser informado o estádio das plantas" value="#{midRustSampleController.growthPhase}" filter="true" filterMatchMode="contains">
+                                    <f:selectItems value="#{midRustSampleController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase}" itemValue="#{aGrowthPhase}"/>
+                                </p:selectOneListbox>
+                                <p:message for="@previous" ></p:message>
 
-                                    <p:selectBooleanCheckbox value="#{midRustSampleController.otherDiseasesApplication}" itemLabel="Aplicou para Outras Doenças?"/>
-
-                                    <p:outputLabel for="@next" value="Data de Aplicação do Fungicida"></p:outputLabel>
-                                    <p:calendar mode="inline" value="#{midRustSampleController.fungicideApplicationDate}" ></p:calendar>
+                                <p:panelGrid columns="1" >
+                                    <p:outputLabel for="@next" value="Resultado da Inspeção Foliar para Ferrugem Asiática" />
+                                    <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um valor na lista" value="#{midRustSampleController.bladeReadingRustResultLeafInspection}" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{midRustSampleController.readAllAsiaticRustTypesLeafInspection()}" var="aAsiaticRustLeafType" itemLabel="#{aAsiaticRustLeafType.description}" itemValue="#{aAsiaticRustLeafType}"/>
+                                    </p:selectOneListbox>
                                     <p:message for="@previous" ></p:message>
+                                </p:panelGrid>                                    
+
+                            </p:panelGrid>                            
+
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="area" title="Aplicação de Fungicidas"> 
+                        <p:panel header="Passo 4/4: Dados Sobre Aplicação de Fungicidas">
+
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                                <p:selectBooleanCheckbox value="#{midRustSampleController.asiaticRustApplication}" itemLabel="Aplicou para Ferrugem Asiática?"/>
+
+                                <p:selectBooleanCheckbox value="#{midRustSampleController.otherDiseasesApplication}" itemLabel="Aplicou para Outras Doenças?"/>
+
+                                <p:outputLabel for="@next" value="Data de Aplicação do Fungicida"></p:outputLabel>
+                                <p:calendar mode="inline" value="#{midRustSampleController.fungicideApplicationDate}" ></p:calendar>
+                                <p:message for="@previous" ></p:message>
 
 
-                                    <p:outputLabel for="@next" value="Observações"></p:outputLabel>
-                                    <p:inputText value="#{midRustSampleController.notes}" ></p:inputText>
-                                    <p:message for="@previous" ></p:message>
+                                <p:outputLabel for="@next" value="Observações"></p:outputLabel>
+                                <p:inputText value="#{midRustSampleController.notes}" ></p:inputText>
+                                <p:message for="@previous" ></p:message>
 
-                                    <h:inputHidden value="#{midRustSampleController.currentSurveyId}"></h:inputHidden>
+                                <h:inputHidden value="#{midRustSampleController.currentSurveyId}"></h:inputHidden>
 
-                                </p:panelGrid>                            
+                            </p:panelGrid>                            
 
-                                <f:facet name="footer">
-                                    <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-                                        <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
-                                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                        </p:panel>
+                    </p:tab>
 
-                                            <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
-                                            <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{midRustSampleController.create()}" ></p:commandButton>                                                    
+                </p:tabView>     
 
-                                        </p:panelGrid>
-                                    </p:panelGrid>
-                                </f:facet>
+            </p:panel>
 
-                            </p:panel>
-                        </p:tab>
+        </h:form>
 
-                    </p:tabView>     
 
-                </p:panel>
+    </ui:define>
 
-            </ui:define>
-        </ui:composition>
-
-    </h:body>
-</html>
+</ui:composition>

@@ -52,10 +52,10 @@
                         </p:column>
 
                         <p:column headerText="Ações" width="100">
-                            <p:commandButton action="#{midRustSampleDetailController.selectTargetSurvey(aSurvey.id)}" style="background-color: green; border-color: green" icon="fa fa-fw fa-eye" ></p:commandButton>
+                            <p:commandButton action="#{midRustSampleDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
                             <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
 
-                            <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:commandButton ajax="false" styleClass="btn-success" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar monitoramento da ferrugem para esta UR" position="top" />                        
 
                         </p:column> 
