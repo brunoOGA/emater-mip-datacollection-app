@@ -18,6 +18,7 @@
     <ui:define name="description">
         Flutuação das pragas, doenças e inimigos naturais
     </ui:define>
+    
     <ui:define name="body">
         <h:form>
             <div class="box box-primary">
@@ -53,7 +54,7 @@
 
 
                         <p:column headerText="Ações" width="100">
-                            <p:commandButton action="#{mipSampleDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
+                            <p:commandButton ajax="false" action="#{mipSampleDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
                             <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
 
                             <p:commandButton ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
