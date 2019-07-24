@@ -43,7 +43,7 @@
 
                 <hr/>
 
-                <p:wizard>     
+                <p:wizard nextLabel="Próximo" backLabel="Anterior" >     
 
                         <p:tab title="Safra">
                             <p:panel header="Passo 1/6: Selecionar Safra">
@@ -65,7 +65,7 @@
                             <p:panel header="Passo 2/6: Selecionar Unidade de Referência">
                                 <p:messages />
                                 <p:dataTable paginatorPosition="bottom" value="#{surveyController.readAllFieldsOutOfCurrentSurvey()}" var="aField" selection="#{surveyController.field}" rowKey="#{aField.id}" id="urTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true"  >
-                                    <p:column selectionMode="single" style="width:16px;text-align:center" />
+                                    <p:column selectionMode="single" style="width:32px;text-align:center" />
 
                                     <p:column headerText="Identificação UR" filterBy="#{aField.name}" filterMatchMode="contains">
                                         <h:outputText value="#{aField.name}" />
@@ -109,30 +109,30 @@
                                 <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
                                     <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
-                                    <p:inputText value="#{surveyController.totalArea}" ></p:inputText>
+                                    <p:inputNumber decimalSeparator="," value="#{surveyController.totalArea}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Área Total Cultivada"></p:outputLabel>
-                                    <p:inputText value="#{surveyController.totalPlantedArea}" ></p:inputText>
+                                    <p:inputNumber decimalSeparator="," value="#{surveyController.totalPlantedArea}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="No. Plantas/Metro"></p:outputLabel>
-                                    <p:inputText value="#{surveyController.plantPerMeter}" ></p:inputText>
+                                    <p:inputNumber decimalSeparator="," value="#{surveyController.plantPerMeter}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Latitude"></p:outputLabel>
-                                    <p:inputText value="#{surveyController.latitude}" ></p:inputText>
+                                    <p:inputNumber decimalSeparator="," value="#{surveyController.latitude}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Longitude"></p:outputLabel>
-                                    <p:inputText value="#{surveyController.longitude}" ></p:inputText>
+                                    <p:inputNumber value="#{surveyController.longitude}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                 </p:panelGrid>                                                                                
                             </p:panel>
                         </p:tab>
 
-                        <p:tab id="productivity" title="Produtividade">
+<!--                        <p:tab id="productivity" title="Produtividade">
                             <p:panel header="Passo 5/6: Dados da Produtividade">
 
                                 <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
@@ -149,7 +149,7 @@
                                 </p:panelGrid>   
 
                             </p:panel>
-                        </p:tab>
+                        </p:tab>-->
 
                         <p:tab title="Datas">
                             <p:panel header="Passo 6/6: Datas">
