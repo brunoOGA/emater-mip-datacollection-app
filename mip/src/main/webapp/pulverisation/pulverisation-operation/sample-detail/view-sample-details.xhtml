@@ -37,7 +37,9 @@
                         <p:rowToggler />
                     </p:column>
                     <p:column headerText="Data da Amostra">
-                        <h:outputText value="#{aPulverisation.sampleDate}" />
+                        <h:outputText value="#{aPulverisation.sampleDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Dias Após Emergência">
@@ -53,23 +55,33 @@
                     </p:column>
 
                     <p:column headerText="Preço da Soja (R$/sc)">
-                        <h:outputText value="#{aPulverisation.soyaPrice}" />
+                        <h:outputText value="#{aPulverisation.soyaPrice}" >
+                            <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                        </h:outputText>    
                     </p:column>
 
                     <p:column headerText="Custo da Operação de Pulverização (R$/ha)">
-                        <h:outputText value="#{aPulverisation.operationCostCurrency}" />
+                        <h:outputText value="#{aPulverisation.operationCostCurrency}" >
+                            <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Custo Total da Operação (R$/ha)">
-                        <h:outputText value="#{aPulverisation.totalOperationCostCurrency}" />
+                        <h:outputText value="#{aPulverisation.totalOperationCostCurrency}" >
+                            <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Custo da Aplicação (sc/ha)">
-                        <h:outputText value="#{aPulverisation.operationCostQty}" />
+                        <h:outputText value="#{aPulverisation.operationCostQty}" >
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Custo Total da Operação (sc/ha)">
-                        <h:outputText value="#{aPulverisation.totalOperationCostQty}" />
+                        <h:outputText value="#{aPulverisation.totalOperationCostQty}" >
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Ações" width="100">                        
@@ -101,15 +113,21 @@
                             </p:column>
 
                             <p:column headerText="Preço">
-                                <h:outputText value="#{anOccurrence.productPrice}" />
+                                <h:outputText value="#{anOccurrence.productPrice}" >
+                                    <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                                </h:outputText>
                             </p:column>
 
                             <p:column headerText="Custo Produto (R$/ha)">
-                                <h:outputText value="#{anOccurrence.productCostCurrency}" />
+                                <h:outputText value="#{anOccurrence.productCostCurrency}" >
+                                    <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                                </h:outputText>
                             </p:column>
 
                             <p:column headerText="Custo Produto (sc/ha)">
-                                <h:outputText value="#{anOccurrence.productCostQty}" />
+                                <h:outputText value="#{anOccurrence.productCostQty}" >
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
                             </p:column>
 
                         </p:dataTable>  

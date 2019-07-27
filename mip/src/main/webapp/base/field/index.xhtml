@@ -15,7 +15,7 @@
     </ui:define>
 
     <ui:define name="description">
-        Criar, alterar, listar e excluir unidades de referência
+        <!--Criar, alterar, listar e excluir unidades de referência-->
     </ui:define>
     <ui:define name="body">
         <h:form>
@@ -34,7 +34,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{fieldController.readAll()}" var="aField" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{fieldController.readAll()}" var="aField" >
 
                         <p:column headerText="Identificação" filterBy="#{aField.name}" filterMatchMode="contains">
                             <h:outputText value="#{aField.name}" />

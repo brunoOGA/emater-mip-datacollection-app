@@ -35,7 +35,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable sortMode="single" paginatorPosition="top" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" var="aMacroRegion" value="#{macroRegionController.readAll()}" >
+                    <p:dataTable sortMode="single" paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" var="aMacroRegion" value="#{macroRegionController.readAll()}" >
 
                         <p:column headerText="Nome" filterBy="#{aMacroRegion.name}" filterMatchMode="contains" >
                             <h:outputText value="#{aMacroRegion.name}" />

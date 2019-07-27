@@ -38,7 +38,9 @@
                         <p:rowToggler />
                     </p:column>
                     <p:column headerText="Data da Amostra">
-                        <h:outputText value="#{aSample.sampleDate}" />
+                        <h:outputText value="#{aSample.sampleDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Dias Após Emergência">
@@ -100,10 +102,10 @@
                         <p:dataTable var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
 
                             <f:facet name="header">
-                                Inimigos Naturais
+                                Amigos Naturais
                             </f:facet>
 
-                            <p:column headerText="Inimigo Natural">
+                            <p:column headerText="Amigo Natural">
                                 <h:outputText value="#{aNaturalPredatorSample.pestNaturalPredatorUsualName}" />
                             </p:column>
 

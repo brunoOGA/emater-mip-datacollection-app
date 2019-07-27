@@ -67,14 +67,16 @@
                     </p:columnGroup>
 
                     <p:column>
-                        <h:outputText value="#{aSample.sampleDate}" />
+                        <h:outputText value="#{aSample.sampleDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column>
-                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeInstalledPreCold}" />
+                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeInstalledPreCold ? 'Sim' : 'Não'}" />
                     </p:column>
 
-                    <p:column >
+                    <p:column>
                         <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.name}" />
                     </p:column>
 
@@ -83,7 +85,9 @@
                     </p:column>
 
                     <p:column >
-                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingDate}" />
+                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column >
@@ -99,15 +103,17 @@
                     </p:column>
 
                     <p:column >
-                        <h:outputText value="#{aSample.fungicideOccurrence.asiaticRustApplication}" />
+                        <h:outputText value="#{aSample.fungicideOccurrence.asiaticRustApplication ? 'Sim' : 'Não'}" />
                     </p:column>
 
                     <p:column >
-                        <h:outputText value="#{aSample.fungicideOccurrence.otherDiseasesApplication}" />
+                        <h:outputText value="#{aSample.fungicideOccurrence.otherDiseasesApplication ? 'Sim' : 'Não'}" />
                     </p:column>
 
                     <p:column >
-                        <h:outputText value="#{aSample.fungicideOccurrence.fungicideApplicationDate}" />
+                        <h:outputText value="#{aSample.fungicideOccurrence.fungicideApplicationDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column >

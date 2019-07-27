@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="description">
-        Gerenciamento de Pulverizações
+        <!--Gerenciamento de Pulverizações-->
     </ui:define>
     <ui:define name="body">
         <h:form>
@@ -25,7 +25,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{pulverisationOperationController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{pulverisationOperationController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
 
                         <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.harvestName}" />
