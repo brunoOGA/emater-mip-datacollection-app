@@ -446,8 +446,10 @@ class CLR implements CommandLineRunner {
         mipSampleRepository.save(mipSurvey4Sample2);
 
         var bladeEntity1 = bladeEntityRepository.save(BladeReadingResponsibleEntity.builder().name("EMATER - PB").city(c3).build());
+        var bladeEntity2 = bladeEntityRepository.save(BladeReadingResponsibleEntity.builder().name("EMATER - CP").city(c3).build());
 
         var bladePerson1 = bladePersonRepository.save(BladeReadingResponsiblePerson.builder().name("Gustavo M. de Oliveira").entity(bladeEntity1).build());
+        var bladePerson2 = bladePersonRepository.save(BladeReadingResponsiblePerson.builder().name("Otávio Augusto").entity(bladeEntity2).build());
 
         var rustSurvey3Sample1 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
         var sporeCollectorOccurrenceRustSurvey3Sample1 = MIDSampleSporeCollectorOccurrence.builder()
