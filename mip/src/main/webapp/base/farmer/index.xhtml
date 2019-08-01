@@ -34,8 +34,8 @@
                     </p:splitButton>
 
                     <p:separator/>
-
-                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{farmerController.readAll()}" var="aFarmer" >
+                    
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{farmerController.readAll()}" var="aFarmer" >
 
                         <p:column headerText="Nome" >
                             <h:outputText value="#{aFarmer.name}" />
