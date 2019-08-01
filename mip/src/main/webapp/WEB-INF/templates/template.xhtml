@@ -166,12 +166,39 @@
                 </ul>
             </li>            
 
-            <li>
-                <p:link outcome="/pulverisation/pulverisation-operation/index.xhtml">
+
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fw fa-yelp"></i>
                     <span>Pulverizações</span>
-                </p:link>
-            </li>            
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/pulverisation/pulverisation-operation/index.xhtml" title="Gerenciamento de Pulverizações">
+                            <i class="fa fw fa-yelp"></i>
+                            <span>Pulverizações</span>
+                        </p:link>
+                    </li>  
+                    <li>
+                        <p:link outcome="/pulverisation/target/index.xhtml" title="Gerenciamento de Categorias">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Categorias</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/pulverisation/product/index.xhtml" title="Gerenciamento de Produtos">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Produtos</span>
+                        </p:link>
+                    </li>
+
+                </ul>
+            </li>      
+
+
 
         </ul>
     </ui:define>
