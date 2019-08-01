@@ -71,12 +71,29 @@
                 </ul>
             </li>
 
-            <li>
-                <p:link outcome="/survey/survey/index.xhtml">
-                    <i class="fa fw fa-book"></i>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fw fa-group"></i>
                     <span>URs Participantes da Pesquisa</span>
-                </p:link>
-            </li>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/survey/survey/index.xhtml">
+                            <i class="fa fw fa-book"></i>
+                            <span>URs Participantes da Pesquisa</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/survey/harvest/index.xhtml" title="Gerenciamento das Safras">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Safra</span>
+                        </p:link>
+                    </li>
+                </ul>
+            </li>            
 
             <li>
                 <p:link outcome="/mip/mip-sample/index.xhtml">
