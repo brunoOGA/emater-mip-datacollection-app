@@ -83,7 +83,7 @@
                     <li>
                         <p:link outcome="/survey/survey/index.xhtml">
                             <i class="fa fw fa-book"></i>
-                            <span>URs Participantes da Pesquisa</span>
+                            <span>Gerenciamento das URs na Pesquisa</span>
                         </p:link>
                     </li>
                     <li>
@@ -95,12 +95,44 @@
                 </ul>
             </li>            
 
-            <li>
-                <p:link outcome="/mip/mip-sample/index.xhtml">
-                    <i class="fa fw fa-bug"></i>
-                    <span>Anotações de Campo</span>
-                </p:link>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fw fa-group"></i>
+                    <span>MIP</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/mip/mip-sample/index.xhtml">
+                            <i class="fa fw fa-bug"></i>
+                            <span>Anotações de Campo</span>
+                        </p:link>
+                    </li>  
+                    <li>
+                        <p:link outcome="/mip/pest/index.xhtml" title="Gerenciamento de Pragas">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Pragas</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/mip/pest-disease/index.xhtml" title="Gerenciamento de Doenças das Pragas">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Doenças das Pragas</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/mip/pest-natural-predator/index.xhtml" title="Gerenciamento de Inimigos Naturais de Pragas">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Inimigos Naturais</span>
+                        </p:link>
+                    </li>
+
+                </ul>
             </li>            
+
+
 
             <li>
                 <p:link outcome="/mid/rust-sample/index.xhtml">
