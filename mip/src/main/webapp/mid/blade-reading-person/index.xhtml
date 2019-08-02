@@ -3,7 +3,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Gerenciamento de Profissionais para Leitura de Lâminas"/> 
@@ -35,17 +37,17 @@
 
                     <p:separator/>
 
-                    <p:dataTable sortMode="single" paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{bladeReadingResponsiblePersonController.readAll()}" var="aPerson" >
+                    <p:dataTable sortMode="single" paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{bladeReadingResponsiblePersonController.readAll()}" var="aPerson" >
 
-                        <p:column headerText="Nome" >
+                        <p:column headerText="Nome" filterBy="#{aPerson.name}" filterMatchMode="contains" >
                             <h:outputText value="#{aPerson.name}" />
                         </p:column>
 
-                        <p:column headerText="Entidade" >
+                        <p:column headerText="Entidade" filterBy="#{aPerson.entityName}" filterMatchMode="contains" >
                             <h:outputText value="#{aPerson.entityName}" />
                         </p:column>
 
-                        <p:column headerText="Município" >
+                        <p:column headerText="Município" filterBy="#{aPerson.entityCityName}" filterMatchMode="contains" >
                             <h:outputText value="#{aPerson.entityCityName}" />
                         </p:column>
 
@@ -62,7 +64,11 @@
                                 <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
                                 <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
                             </p:confirmDialog>                         
-                        </p:column>         
+                        </p:column>  
+
+                        <f:facet name="footer">
+                            #{fn:length(bladeReadingResponsiblePersonController.readAll())} Profissionais foram encontrados.
+                        </f:facet>
                     </p:dataTable>   
 
                 </div>

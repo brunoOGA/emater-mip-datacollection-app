@@ -4,7 +4,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Gerenciamento de URs Participantes da Pesquisa"/> 
@@ -35,7 +36,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{surveyController.readAll()}" var="aSurvey" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{surveyController.readAll()}" var="aSurvey" >
 
                         <f:facet name="header">
                             <p:panelGrid columns="4" layout="grid" columnClasses="ui-lg-3 ui-g-3 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
@@ -46,7 +47,7 @@
 
                             </p:panelGrid>
                         </f:facet>                        
-                        
+
                         <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.harvestName}" />
                         </p:column>
@@ -130,7 +131,7 @@
 
                             <p:commandButton ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                             
-                        
+
                             <p:commandButton update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja remover a UR '#{aSurvey.fieldName}' da pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." />
                             </p:commandButton>
@@ -140,8 +141,11 @@
                                 <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
                                 <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
                             </p:confirmDialog>                          
-                        
                         </p:column>   
+
+                        <f:facet name="footer">
+                            #{fn:length(surveyController.readAll())} Unidades de referência participam em alguma pesquisa.
+                        </f:facet>
                     </p:dataTable>  
 
                 </div>

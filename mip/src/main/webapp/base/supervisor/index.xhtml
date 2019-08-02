@@ -3,7 +3,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Gerenciamento de Responsáveis Técnicos"/> 
@@ -35,16 +37,16 @@
 
                     <p:separator/>
 
-                    <p:dataTable sortMode="single" paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{supervisorController.readAll()}" var="aSupervisor" >
-                        <p:column headerText="Nome" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{supervisorController.readAll()}" var="aSupervisor" >
+                        <p:column headerText="Nome" filterBy="#{aSupervisor.name}" filterMatchMode="contains" >
                             <h:outputText value="#{aSupervisor.name}" />
                         </p:column>
 
-                        <p:column headerText="e-mail" >
+                        <p:column headerText="e-mail" filterBy="#{aSupervisor.email}" filterMatchMode="contains" >
                             <h:outputText value="#{aSupervisor.email}" />
                         </p:column>
 
-                        <p:column headerText="Região" >
+                        <p:column headerText="Região" filterBy="#{aSupervisor.regionName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSupervisor.regionName}" />
                         </p:column>
 
@@ -61,7 +63,11 @@
                                 <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
                                 <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
                             </p:confirmDialog>                             
-                        </p:column>           
+                        </p:column>  
+
+                        <f:facet name="footer">
+                            #{fn:length(supervisorController.readAll())} Responsáveis técnicos foram encontrados.
+                        </f:facet>
                     </p:dataTable>   
 
                 </div>

@@ -4,7 +4,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/template.xhtml"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Gerenciamento de Safras"/> 
@@ -36,18 +37,18 @@
 
                     <p:separator/>
 
-                    <p:dataTable sortMode="single" paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{harvestController.readAll()}" var="aHarvest" >
-                        <p:column headerText="Nome" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{harvestController.readAll()}" var="aHarvest" >
+                        <p:column headerText="Nome" filterBy="#{aHarvest.name}" filterMatchMode="contains" >
                             <h:outputText value="#{aHarvest.name}" />
                         </p:column>
 
-                        <p:column headerText="Data de Início" >
+                        <p:column headerText="Data de Início" filterBy="#{aHarvest.begin}" filterMatchMode="contains" >
                             <h:outputText value="#{aHarvest.begin}" >
                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Data de Término" >
+                        <p:column headerText="Data de Término" filterBy="#{aHarvest.end}" filterMatchMode="contains" >
                             <h:outputText value="#{aHarvest.end}" >
                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                             </h:outputText>
@@ -66,7 +67,11 @@
                                 <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
                                 <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
                             </p:confirmDialog>                         
-                        </p:column>         
+                        </p:column> 
+
+                        <f:facet name="footer">
+                            #{fn:length(harvestController.readAll())} Safras foram encontradas.
+                        </f:facet>
                     </p:dataTable>   
 
                 </div>

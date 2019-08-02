@@ -3,7 +3,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Gerenciamento de Alvo Principal ou Função"/> 
@@ -35,12 +37,13 @@
 
                     <p:separator/>
 
-                    <p:dataTable sortMode="single" paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{targetController.readAll()}" var="aTarget" >
-                        <p:column headerText="Descrição" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{targetController.readAll()}" var="aTarget" >
+                        
+                        <p:column headerText="Descrição" filterBy="#{aTarget.description}" filterMatchMode="contains" >
                             <h:outputText value="#{aTarget.description}" />
                         </p:column>
 
-                        <p:column headerText="Categoria" >
+                        <p:column headerText="Categoria" filterBy="#{aTarget.category.description}" filterMatchMode="contains" >
                             <h:outputText value="#{aTarget.category.description}" />
                         </p:column>
 
@@ -57,7 +60,11 @@
                                 <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
                                 <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
                             </p:confirmDialog>                         
-                        </p:column>         
+                        </p:column>  
+                        
+                        <f:facet name="footer">
+                            #{fn:length(targetController.readAll())} Alvos/funções foram encontrados.
+                        </f:facet>   
                     </p:dataTable>   
 
                 </div>

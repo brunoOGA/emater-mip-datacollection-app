@@ -3,7 +3,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Gerenciamento de Insetos Pragas"/> 
@@ -35,14 +37,14 @@
 
                     <p:separator/>
 
-                    <p:dataTable sortMode="single" paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" var="aPest" value="#{pestController.readAll()}" >
-                        <p:column headerText="Nome" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" var="aPest" value="#{pestController.readAll()}" >
+                        <p:column headerText="Nome" filterBy="#{aPest.usualName}" filterMatchMode="contains" >
                             <h:outputText value="#{aPest.usualName}" />
                         </p:column>
-                        <p:column headerText="Nome Científico" >
+                        <p:column headerText="Nome Científico" filterBy="#{aPest.scientificName}" filterMatchMode="contains" >
                             <h:outputText value="#{aPest.scientificName}" />
                         </p:column>
-                        <p:column headerText="Tamanho" >
+                        <p:column headerText="Tamanho" filterBy="#{aPest.pestSizeName}" filterMatchMode="contains" >
                             <h:outputText value="#{aPest.pestSizeName}" />
                         </p:column>                    
 
@@ -59,7 +61,11 @@
                                 <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
                                 <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
                             </p:confirmDialog>                         
-                        </p:column>         
+                        </p:column>   
+
+                        <f:facet name="footer">
+                            #{fn:length(pestController.readAll())} Pragas foram encontradas.
+                        </f:facet>
                     </p:dataTable>   
 
                 </div>
