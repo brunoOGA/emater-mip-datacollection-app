@@ -79,7 +79,9 @@
                             </p:column>
 
                             <p:column headerText="Média Encontrada">
-                                <h:outputText value="#{aPestSample.value}" />
+                                <h:outputText value="#{aPestSample.value}" >
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                </h:outputText>
                             </p:column>
 
                         </p:dataTable>  
@@ -95,7 +97,9 @@
                             </p:column>
 
                             <p:column headerText="Média Encontrada">
-                                <h:outputText value="#{aPestDiseaseSample.value}" />
+                                <h:outputText value="#{aPestDiseaseSample.value}" >
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                </h:outputText>
                             </p:column>
                         </p:dataTable>  
 
@@ -110,7 +114,9 @@
                             </p:column>
 
                             <p:column headerText="Média Encontrada">
-                                <h:outputText value="#{aNaturalPredatorSample.value}" />
+                                <h:outputText value="#{aNaturalPredatorSample.value}" >
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                </h:outputText>
                             </p:column>
                         </p:dataTable> 
                     </p:rowExpansion>

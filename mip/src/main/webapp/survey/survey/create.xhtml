@@ -109,23 +109,23 @@
                                 <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
                                     <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
-                                    <p:inputNumber decimalSeparator="," value="#{surveyController.totalArea}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalArea}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Área Total Cultivada"></p:outputLabel>
-                                    <p:inputNumber decimalSeparator="," value="#{surveyController.totalPlantedArea}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalPlantedArea}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="No. Plantas/Metro"></p:outputLabel>
-                                    <p:inputNumber decimalSeparator="," value="#{surveyController.plantPerMeter}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.plantPerMeter}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Latitude"></p:outputLabel>
-                                    <p:inputNumber decimalSeparator="," value="#{surveyController.latitude}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.latitude}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Longitude"></p:outputLabel>
-                                    <p:inputNumber value="#{surveyController.longitude}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.longitude}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                 </p:panelGrid>                                                                                

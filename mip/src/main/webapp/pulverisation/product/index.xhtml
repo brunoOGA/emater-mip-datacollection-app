@@ -44,7 +44,9 @@
                         </p:column>
 
                         <p:column headerText="Dose" filterBy="#{aProduct.dose}" filterMatchMode="contains" >
-                            <h:outputText value="#{aProduct.dose}" />
+                            <h:outputText value="#{aProduct.dose}" >
+                                <f:convertNumber locale="pt_BR" minFractionDigits="2" maxFractionDigits="2" ></f:convertNumber>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Unidade de Medida" filterBy="#{aProduct.unitDescription}" filterMatchMode="contains" >
