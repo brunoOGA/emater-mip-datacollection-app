@@ -50,13 +50,13 @@
                     <p:panelGrid columns="2" layout="grid" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
                         <p:panelGrid columns="1">
                             <p:outputLabel for="@next" value="Data de Início"></p:outputLabel>
-                            <p:calendar mode="inline" required="true" requiredMessage="Deve ser informada a data de início da safra" value="#{harvestController.begin}" ></p:calendar>
+                            <p:datePicker inline="true" required="true" requiredMessage="Deve ser informada a data de início da safra" value="#{harvestController.begin}" ></p:datePicker>
                             <p:message for="@previous" ></p:message>
                         </p:panelGrid>
 
                         <p:panelGrid columns="1">
                             <p:outputLabel for="@next" value="Data de Término"></p:outputLabel>
-                            <p:calendar mode="inline" required="true" requiredMessage="Deve ser informada a data de término da safra" value="#{harvestController.end}" ></p:calendar>
+                            <p:datePicker inline="true" required="true" requiredMessage="Deve ser informada a data de término da safra" value="#{harvestController.end}" ></p:datePicker>
                             <p:message for="@previous" ></p:message>
                         </p:panelGrid>
 

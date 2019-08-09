@@ -157,19 +157,19 @@
 
                                     <p:panelGrid columns="1">
                                         <p:outputLabel for="@next" value="Data da Semeadura"></p:outputLabel>
-                                        <p:calendar value="#{surveyController.sowedDate}" mode="inline"></p:calendar>
+                                        <p:datePicker inline="true" value="#{surveyController.sowedDate}" ></p:datePicker>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 
                                     <p:panelGrid columns="1">
                                         <p:outputLabel for="@next" value="Data da Emergência"></p:outputLabel>
-                                        <p:calendar value="#{surveyController.emergenceDate}" mode="inline"></p:calendar>
+                                        <p:datePicker inline="true"  value="#{surveyController.emergenceDate}" ></p:datePicker>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 
                                     <p:panelGrid columns="1">
                                         <p:outputLabel for="@next" value="Data da Colheita"></p:outputLabel>
-                                        <p:calendar value="#{surveyController.harvestDate}" mode="inline" ></p:calendar>
+                                        <p:datePicker inline="true" value="#{surveyController.harvestDate}" ></p:datePicker>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 

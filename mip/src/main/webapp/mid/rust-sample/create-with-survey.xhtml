@@ -52,7 +52,7 @@
 
                                 <p:panelGrid columns="1" >
                                     <p:outputLabel for="@next" value="Data da Coleta"></p:outputLabel>
-                                    <p:calendar mode="inline" value="#{midRustSampleController.sampleDate}" ></p:calendar>
+                                    <p:datePicker inline="true" value="#{midRustSampleController.sampleDate}" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>
 
@@ -96,7 +96,7 @@
 
                                     <p:panelGrid columns="1" >
                                         <p:outputLabel for="@next" value="Data de Leitura da Lâmina"></p:outputLabel>
-                                        <p:calendar mode="inline" value="#{midRustSampleController.bladeReadingDate}" ></p:calendar>
+                                        <p:datePicker inline="true" value="#{midRustSampleController.bladeReadingDate}" ></p:datePicker>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
                                 </p:panelGrid>                                    
@@ -139,7 +139,7 @@
                                 <p:selectBooleanCheckbox value="#{midRustSampleController.otherDiseasesApplication}" itemLabel="Aplicou para Outras Doenças?"/>
 
                                 <p:outputLabel for="@next" value="Data de Aplicação do Fungicida"></p:outputLabel>
-                                <p:calendar mode="inline" value="#{midRustSampleController.fungicideApplicationDate}" ></p:calendar>
+                                <p:datePicker inline="true" value="#{midRustSampleController.fungicideApplicationDate}" ></p:datePicker>
                                 <p:message for="@previous" ></p:message>
 
 
