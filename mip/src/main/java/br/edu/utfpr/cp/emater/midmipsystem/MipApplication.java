@@ -62,10 +62,14 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepositor
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetRepository;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class MipApplication {
+@EnableWebSecurity
+public class MipApplication extends WebSecurityConfigurerAdapter {
 
     public static void main(String[] args) {
         SpringApplication.run(MipApplication.class, args);
@@ -76,6 +80,18 @@ public class MipApplication {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(new Locale("pt", "BR"));
         return slr;
+    }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        // form login
+        http.authorizeRequests().antMatchers("/", "/login.xhtml", "/javax.faces.resource/**").permitAll().anyRequest()
+                .fullyAuthenticated().and().formLogin().defaultSuccessUrl("/index.xhtml")
+                .permitAll().and().logout()
+                .logoutUrl("/j_spring_security_logout").and().csrf().disable();
+
+        // allow to use ressource links like pdf
+        http.headers().frameOptions().sameOrigin();
     }
 }
 
@@ -631,9 +647,9 @@ class CLR implements CommandLineRunner {
                 .growthPhase(GrowthPhase.V6)
                 .caldaVolume(100.0)
                 .build();
-        
+
         pulverisationOp2Survey2.addOperationOccurrence(product1, 13.0, target5);
-        
+
         pulverisationRepository.save(pulverisationOp2Survey2);
     }
 
