@@ -44,11 +44,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.eclipse.jdt.core.compiler.CharOperation;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -62,14 +57,12 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepositor
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetRepository;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableWebSecurity
-public class MipApplication extends WebSecurityConfigurerAdapter {
+public class MipApplication  {
 
     public static void main(String[] args) {
         SpringApplication.run(MipApplication.class, args);
@@ -80,18 +73,6 @@ public class MipApplication extends WebSecurityConfigurerAdapter {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(new Locale("pt", "BR"));
         return slr;
-    }
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        // form login
-        http.authorizeRequests().antMatchers("/", "/login.xhtml", "/javax.faces.resource/**").permitAll().anyRequest()
-                .fullyAuthenticated().and().formLogin().defaultSuccessUrl("/index.xhtml")
-                .permitAll().and().logout()
-                .logoutUrl("/j_spring_security_logout").and().csrf().disable();
-
-        // allow to use ressource links like pdf
-        http.headers().frameOptions().sameOrigin();
     }
 }
 
