@@ -38,7 +38,7 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     private boolean sporeCollectorPresent;
     
     @Embedded
-    private QuestionData questionData;
+    private CultivarData cultivarData;
     
     @Embedded
     private CropData cropData;
@@ -96,18 +96,18 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         instance.setCropData(CropData.builder().emergenceDate(emergenceDate).harvestDate(harvestDate).sowedDate(sowedDate).build());
         instance.setLocationData(LocationData.builder().latitude(latitude).longitude(longitude).build());
         instance.setProductivityData(ProductivityData.builder().productivityFarmer(productivityFarmer).productivityField(productivityField).separatedWeight(separatedWeight).build());
-        instance.setQuestionData(QuestionData.builder().bt(bt).rustResistant(rustResistant).build());
+        instance.setCultivarData(CultivarData.builder().bt(bt).rustResistant(rustResistant).build());
         instance.setSizeData(SizeData.builder().plantPerMeter(plantPerMeter).totalArea(totalArea).totalPlantedArea(totalPlantedArea).build());
         
         return instance;
     }
     
     public boolean isRustResistant() {
-        return this.getQuestionData().isRustResistant();
+        return this.getCultivarData().isRustResistant();
     }
     
     public boolean isBt() {
-        return this.getQuestionData().isBt();
+        return this.getCultivarData().isBt();
     }
     
     public Date getSowedDate() {

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class QuestionData implements Serializable {
+public class CultivarData implements Serializable {
     
     private boolean rustResistant;
     private boolean bt;

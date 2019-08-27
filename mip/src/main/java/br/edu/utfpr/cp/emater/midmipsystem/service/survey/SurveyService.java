@@ -83,8 +83,8 @@ public class SurveyService implements ICRUDService<Survey> {
         var existentSurvey = surveyRepository.findById(aSurvey.getId()).orElseThrow(EntityNotFoundException::new);
 
         try {
-            existentSurvey.getQuestionData().setBt(aSurvey.isBt());
-            existentSurvey.getQuestionData().setRustResistant(aSurvey.isRustResistant());
+            existentSurvey.getCultivarData().setBt(aSurvey.isBt());
+            existentSurvey.getCultivarData().setRustResistant(aSurvey.isRustResistant());
             
             existentSurvey.getCropData().setEmergenceDate(aSurvey.getEmergenceDate());
             existentSurvey.getCropData().setHarvestDate(aSurvey.getHarvestDate());
