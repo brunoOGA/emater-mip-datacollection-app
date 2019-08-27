@@ -86,9 +86,9 @@ public class SurveyService implements ICRUDService<Survey> {
             existentSurvey.getQuestionData().setBt(aSurvey.isBt());
             existentSurvey.getQuestionData().setRustResistant(aSurvey.isRustResistant());
             
-            existentSurvey.getDateData().setEmergenceDate(aSurvey.getEmergenceDate());
-            existentSurvey.getDateData().setHarvestDate(aSurvey.getHarvestDate());
-            existentSurvey.getDateData().setSowedDate(aSurvey.getSowedDate());
+            existentSurvey.getCropData().setEmergenceDate(aSurvey.getEmergenceDate());
+            existentSurvey.getCropData().setHarvestDate(aSurvey.getHarvestDate());
+            existentSurvey.getCropData().setSowedDate(aSurvey.getSowedDate());
             
             existentSurvey.getSizeData().setPlantPerMeter(aSurvey.getPlantPerMeter());
             existentSurvey.getSizeData().setTotalArea(aSurvey.getTotalArea());

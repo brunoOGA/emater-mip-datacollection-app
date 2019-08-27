@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DateData implements Serializable {
+public class CropData implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date sowedDate;

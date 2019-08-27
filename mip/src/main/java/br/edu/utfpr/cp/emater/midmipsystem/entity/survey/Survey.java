@@ -41,7 +41,7 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     private QuestionData questionData;
     
     @Embedded
-    private DateData dateData;
+    private CropData cropData;
     
     @Embedded
     private SizeData sizeData;
@@ -93,7 +93,7 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         instance.setField(field);
         instance.setHarvest(harvest);
         
-        instance.setDateData(DateData.builder().emergenceDate(emergenceDate).harvestDate(harvestDate).sowedDate(sowedDate).build());
+        instance.setCropData(CropData.builder().emergenceDate(emergenceDate).harvestDate(harvestDate).sowedDate(sowedDate).build());
         instance.setLocationData(LocationData.builder().latitude(latitude).longitude(longitude).build());
         instance.setProductivityData(ProductivityData.builder().productivityFarmer(productivityFarmer).productivityField(productivityField).separatedWeight(separatedWeight).build());
         instance.setQuestionData(QuestionData.builder().bt(bt).rustResistant(rustResistant).build());
@@ -111,15 +111,15 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     }
     
     public Date getSowedDate() {
-        return this.getDateData().getSowedDate();
+        return this.getCropData().getSowedDate();
     }
     
     public Date getEmergenceDate() {
-        return this.getDateData().getEmergenceDate();
+        return this.getCropData().getEmergenceDate();
     }
     
     public Date getHarvestDate() {
-        return this.getDateData().getHarvestDate();
+        return this.getCropData().getHarvestDate();
     }
     
     public double getLongitude() {
