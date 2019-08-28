@@ -15,10 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.Builder;
 
-import org.apache.commons.text.WordUtils;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,7 +30,6 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
 
     @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean sporeCollectorPresent;
     
     @Embedded
     private CultivarData cultivarData;
@@ -48,6 +45,9 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     
     @Embedded
     private ProductivityData productivityData;
+    
+    @Embedded
+    private MIDData midData;
     
     @ManyToOne (fetch = FetchType.EAGER)
     @EqualsAndHashCode.Include
@@ -82,7 +82,6 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
                 
         var instance = new Survey();
         instance.setId(id);
-        instance.setSporeCollectorPresent(sporeCollectorPresent);
         instance.setField(field);
         instance.setHarvest(harvest);
         
@@ -91,6 +90,7 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         instance.setProductivityData(ProductivityData.builder().productivityFarmer(productivityFarmer).productivityField(productivityField).separatedWeight(separatedWeight).build());
         instance.setCultivarData(CultivarData.builder().name(cultivarName).bt(bt).rustResistant(rustResistant).build());
         instance.setSizeData(SizeData.builder().plantPerMeter(plantPerMeter).totalArea(totalArea).totalPlantedArea(totalPlantedArea).build());
+        instance.setMidData(MIDData.builder().sporeCollectorPresent(sporeCollectorPresent).build());
         
         return instance;
     }
@@ -209,6 +209,10 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     
     public String getFieldSupervisorNames() {
         return this.getField().getSupervisorNames().toString();
+    }
+    
+    public boolean isSporeCollectorPresent() {
+        return this.getMidData().isSporeCollectorPresent();
     }
     
 }

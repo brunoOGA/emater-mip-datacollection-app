@@ -15,6 +15,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,12 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
     
     @Getter
     @Setter
+    @Size(min = 3, max = 50, message = "A identificação da cultivar deve ter entre 3 e 50 caracteres")
     private String seedName;
+    
+    @Getter
+    @Setter
+    private boolean sporeCollectorPresent;
 
     @Getter
     @Setter

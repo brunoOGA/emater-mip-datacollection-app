@@ -2,7 +2,6 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -10,7 +9,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
@@ -102,7 +100,7 @@ public class SurveyService implements ICRUDService<Survey> {
             existentSurvey.getProductivityData().setProductivityField(aSurvey.getProductivityField());
             existentSurvey.getProductivityData().setSeparatedWeight(aSurvey.isSeparatedWeight());
             
-            existentSurvey.setSporeCollectorPresent(aSurvey.isSporeCollectorPresent());
+            existentSurvey.getMidData().setSporeCollectorPresent(aSurvey.isSporeCollectorPresent());
             
             surveyRepository.saveAndFlush(existentSurvey);
 
