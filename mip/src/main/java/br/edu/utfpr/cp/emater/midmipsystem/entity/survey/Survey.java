@@ -69,8 +69,8 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
                                  Date sowedDate, 
                                  Date emergenceDate, 
                                  Date harvestDate,
-                                 double longitude,
-                                 double latitude,
+                                 String longitude,
+                                 String latitude,
                                  double productivityField,
                                  double productivityFarmer,
                                  boolean separatedWeight,
@@ -123,11 +123,11 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         return this.getCropData().getHarvestDate();
     }
     
-    public double getLongitude() {
+    public String getLongitude() {
         return this.getLocationData().getLongitude();
     }
     
-    public double getLatitude() {
+    public String getLatitude() {
         return this.getLocationData().getLatitude();
     }
     

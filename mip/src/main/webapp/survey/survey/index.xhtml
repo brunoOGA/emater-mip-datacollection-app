@@ -132,15 +132,11 @@
                         </p:column>
 
                         <p:column visible="false" headerText="Latitude" filterBy="#{aSurvey.latitude}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.latitude}" >
-                                <f:convertNumber maxFractionDigits="2" minFractionDigits="2" locale="pt_BR" ></f:convertNumber>
-                            </h:outputText>
+                            <h:outputText value="#{aSurvey.latitude}" ></h:outputText>
                         </p:column>
 
                         <p:column visible="false" headerText="Longitude" filterBy="#{aSurvey.longitude}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.longitude}" >
-                                <f:convertNumber maxFractionDigits="2" minFractionDigits="2" locale="pt_BR" ></f:convertNumber>
-                            </h:outputText>
+                            <h:outputText value="#{aSurvey.longitude}" ></h:outputText>
                         </p:column>
 
                         <p:column headerText="Ações" width="200">

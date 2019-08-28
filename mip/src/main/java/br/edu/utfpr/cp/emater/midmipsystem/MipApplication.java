@@ -254,8 +254,8 @@ class CLR implements CommandLineRunner {
                         .productivityField(161.7)
                         .productivityFarmer(159.5)
                         .separatedWeight(true)
-                        .longitude(2.5)
-                        .latitude(3.5)
+                        .longitude("2.5")
+                        .latitude("3.5")
                         .build()
         );
 
@@ -275,8 +275,8 @@ class CLR implements CommandLineRunner {
                         .productivityField(197)
                         .productivityFarmer(182)
                         .separatedWeight(true)
-                        .longitude(3.5)
-                        .latitude(4.5)
+                        .longitude("3.5")
+                        .latitude("4.5")
                         .build()
         );
 
@@ -296,8 +296,8 @@ class CLR implements CommandLineRunner {
                         .productivityField(137.5)
                         .productivityFarmer(120)
                         .separatedWeight(true)
-                        .longitude(4.5)
-                        .latitude(5.5)
+                        .longitude("4.5")
+                        .latitude("5.5")
                         .build()
         );
 
@@ -317,8 +317,8 @@ class CLR implements CommandLineRunner {
                         .productivityField(158.5)
                         .productivityFarmer(158.5)
                         .separatedWeight(true)
-                        .longitude(6.5)
-                        .latitude(6.5)
+                        .longitude("6.5")
+                        .latitude("6.5")
                         .build()
         );
 
@@ -338,8 +338,8 @@ class CLR implements CommandLineRunner {
                         .productivityField(187)
                         .productivityFarmer(170)
                         .separatedWeight(true)
-                        .longitude(7.5)
-                        .latitude(8.5)
+                        .longitude("7.5")
+                        .latitude("8.5")
                         .build()
         );
 

@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LocationData implements Serializable {
     
-    private double longitude;
-    private double latitude;
+    private String longitude;
+    private String latitude;
 }

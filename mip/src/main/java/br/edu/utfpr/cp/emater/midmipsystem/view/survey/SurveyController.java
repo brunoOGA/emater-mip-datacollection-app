@@ -62,11 +62,11 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
 
     @Getter
     @Setter
-    private double longitude;
+    private String longitude;
 
     @Getter
     @Setter
-    private double latitude;
+    private String latitude;
 
     @Getter
     @Setter
