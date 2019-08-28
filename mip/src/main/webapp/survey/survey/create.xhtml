@@ -20,7 +20,7 @@
             <p:focus context="@form"/>
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
-                    <p:commandButton disabled="true" id="saveButton" ajax="false" value="Adicionar à Pesquisa" action="#{surveyController.create()}" 
+                    <p:commandButton id="saveButton" ajax="false" value="Adicionar à Pesquisa" action="#{surveyController.create()}" 
                                      icon="fa fa-check" styleClass="btn-primary"/>
 
                     <p:spacer width="5" />
@@ -43,8 +43,8 @@
 
                 <hr/>
 
-                <p:wizard widgetVar="wizard" nextLabel="Próximo" backLabel="Anterior" onback="if (PF('wizard').currentStep != PF('wizard').cfg.steps[PF('wizard').cfg.steps.length - 2]) document.getElementById('saveButton').classList.add('ui-state-disabled')" onnext="if (PF('wizard').currentStep == PF('wizard').cfg.steps[PF('wizard').cfg.steps.length - 2]) document.getElementById('saveButton').classList.remove('ui-state-disabled')" >     
-
+                <p:wizard widgetVar="wizard" nextLabel="Próximo" backLabel="Anterior" >     
+                    
                         <p:tab title="Safra">
                             <p:panel header="Passo 1/5: Selecionar Safra">
 
