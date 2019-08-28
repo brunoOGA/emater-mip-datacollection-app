@@ -25,6 +25,10 @@ import org.springframework.stereotype.Component;
 public class SurveyController extends Survey implements ICRUDController<Survey> {
 
     private final SurveyService surveyService;
+    
+    @Getter
+    @Setter
+    private String seedName;
 
     @Getter
     @Setter
@@ -132,7 +136,7 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
                     .productivityFarmer(this.getProductivityFarmer())
                     .productivityField(this.getProductivityField())
                     .rustResistant(this.isRustResistant())
-                    .seedName(this.getSeedName())
+                    .cultivarName(this.getSeedName())
                     .separatedWeight(this.isSeparatedWeight())
                     .sowedDate(this.getSowedDate())
                     .harvestDate(this.getHarvestDate())
@@ -216,7 +220,7 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
                     .productivityFarmer(this.getProductivityFarmer())
                     .productivityField(this.getProductivityField())
                     .rustResistant(this.isRustResistant())
-                    .seedName(this.getSeedName())
+                    .cultivarName(this.getSeedName())
                     .separatedWeight(this.isSeparatedWeight())
                     .sowedDate(this.getSowedDate())
                     .harvestDate(this.getHarvestDate())

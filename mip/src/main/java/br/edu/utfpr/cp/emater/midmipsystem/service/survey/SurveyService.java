@@ -85,6 +85,7 @@ public class SurveyService implements ICRUDService<Survey> {
         try {
             existentSurvey.getCultivarData().setBt(aSurvey.isBt());
             existentSurvey.getCultivarData().setRustResistant(aSurvey.isRustResistant());
+            existentSurvey.getCultivarData().setName(aSurvey.getCultivarName());
             
             existentSurvey.getCropData().setEmergenceDate(aSurvey.getEmergenceDate());
             existentSurvey.getCropData().setHarvestDate(aSurvey.getHarvestDate());
@@ -101,7 +102,6 @@ public class SurveyService implements ICRUDService<Survey> {
             existentSurvey.getProductivityData().setProductivityField(aSurvey.getProductivityField());
             existentSurvey.getProductivityData().setSeparatedWeight(aSurvey.isSeparatedWeight());
             
-            existentSurvey.setSeedName(aSurvey.getSeedName());
             existentSurvey.setSporeCollectorPresent(aSurvey.isSporeCollectorPresent());
             
             surveyRepository.saveAndFlush(existentSurvey);

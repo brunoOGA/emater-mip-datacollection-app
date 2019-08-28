@@ -32,9 +32,6 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
 
     @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Size(min = 3, max = 50, message = "A identificação da cultivar deve ter entre 3 e 50 caracteres")
-    private String seedName;
     private boolean sporeCollectorPresent;
     
     @Embedded
@@ -62,13 +59,10 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     @NotNull (message = "Uma pesquisa deve ser referente a uma safra")
     private Harvest harvest;
 
-    public void setSeedName (String seedName) {
-        this.seedName = WordUtils.capitalize(seedName.toLowerCase());
-    }
     
     @Builder
     public static Survey create (Long id, 
-                                 String seedName, 
+                                 String cultivarName, 
                                  boolean sporeCollectorPresent, 
                                  boolean rustResistant, 
                                  boolean bt, 
@@ -88,7 +82,6 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
                 
         var instance = new Survey();
         instance.setId(id);
-        instance.setSeedName(seedName);
         instance.setSporeCollectorPresent(sporeCollectorPresent);
         instance.setField(field);
         instance.setHarvest(harvest);
@@ -96,10 +89,18 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         instance.setCropData(CropData.builder().emergenceDate(emergenceDate).harvestDate(harvestDate).sowedDate(sowedDate).build());
         instance.setLocationData(LocationData.builder().latitude(latitude).longitude(longitude).build());
         instance.setProductivityData(ProductivityData.builder().productivityFarmer(productivityFarmer).productivityField(productivityField).separatedWeight(separatedWeight).build());
-        instance.setCultivarData(CultivarData.builder().bt(bt).rustResistant(rustResistant).build());
+        instance.setCultivarData(CultivarData.builder().name(cultivarName).bt(bt).rustResistant(rustResistant).build());
         instance.setSizeData(SizeData.builder().plantPerMeter(plantPerMeter).totalArea(totalArea).totalPlantedArea(totalPlantedArea).build());
         
         return instance;
+    }
+    
+    public String getSeedName() {
+        return this.getCultivarData().getName();
+    }
+    
+    public String getCultivarName() {
+        return this.getCultivarData().getName();
     }
     
     public boolean isRustResistant() {

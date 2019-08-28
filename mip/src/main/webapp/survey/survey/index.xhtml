@@ -5,7 +5,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="/WEB-INF/templates/template.xhtml"
-                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Gerenciamento de URs Participantes da Pesquisa"/> 
@@ -73,21 +74,27 @@
                         </p:column>
 
                         <p:column headerText="Data da Semeadura" filterBy="#{aSurvey.sowedDate}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.sowedDate}" >
-                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                            </h:outputText>
+                            <c:if test="#{not empty aSurvey.sowedDate}" >
+                                <h:outputText value="#{aSurvey.sowedDate}" >
+                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                            </c:if>
                         </p:column>
 
                         <p:column headerText="Data da Emergência" filterBy="#{aSurvey.emergenceDate}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.emergenceDate}" >
-                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                            </h:outputText>
+                            <c:if test="#{not empty aSurvey.emergenceDate}" >
+                                <h:outputText value="#{aSurvey.emergenceDate}" >
+                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                </h:outputText>
+                            </c:if>
                         </p:column>
 
                         <p:column visible="false" headerText="Data da Colheita" filterBy="#{aSurvey.harvestDate}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.harvestDate}" >
-                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                            </h:outputText>
+                            <c:if test="#{not empty aSurvey.harvestDate}" >
+                                <h:outputText value="#{aSurvey.harvestDate}" >
+                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                </h:outputText>
+                            </c:if>
                         </p:column>
 
                         <p:column visible="false" headerText="Produtividade da Unidade" filterBy="#{aSurvey.productivityField}" filterMatchMode="contains" >
