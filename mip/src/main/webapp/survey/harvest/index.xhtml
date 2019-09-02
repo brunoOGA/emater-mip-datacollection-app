@@ -22,6 +22,8 @@
 
     <ui:define name="body">
         <h:form>
+            <p:growl showDetail="true" life="3000"></p:growl>
+
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
@@ -58,7 +60,7 @@
                             <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{harvestController.prepareUpdate(aHarvest.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                            <p:commandButton update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{harvestController.delete(aHarvest.id)}" >
+                            <p:commandButton update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{harvestController.delete(aHarvest.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a safra '#{aHarvest.name}'? Essa ação NÃO pode ser desfeita." />
                             </p:commandButton>
                             <p:tooltip for="@previous" value="Excluir" position="top" />

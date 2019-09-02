@@ -16,6 +16,8 @@
 
     <ui:define name="body">
         <h:form>
+            <p:growl showDetail="true" life="3000"></p:growl>
+
             <p:focus context="@form"/>
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
@@ -122,7 +124,7 @@
 
 
                     <p:column width="100">
-                        <p:commandButton immediate="true" update="sampleTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{midRustSampleController.delete(aSample.id)}" >
+                        <p:commandButton immediate="true" update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{midRustSampleController.delete(aSample.id)}" >
                             <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
                         </p:commandButton>
                         <p:tooltip for="@previous" value="Excluir" position="top" />
