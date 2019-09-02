@@ -112,15 +112,36 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     }
     
     public Date getSowedDate() {
-        return this.getCropData().getSowedDate();
+        if (this.getCropData() == null)
+            return this.getHarvest().getBegin();
+        
+        else if (this.getCropData().getSowedDate() == null)
+            return this.getHarvest().getBegin();
+        
+        else
+            return this.getCropData().getSowedDate();
     }
     
     public Date getEmergenceDate() {
-        return this.getCropData().getEmergenceDate();
+        if (this.getCropData() == null)
+            return this.getHarvest().getBegin();
+        
+        else if (this.getCropData().getEmergenceDate() == null)
+            return this.getHarvest().getBegin();
+        
+        else
+            return this.getCropData().getEmergenceDate();
     }
     
     public Date getHarvestDate() {
-        return this.getCropData().getHarvestDate();
+        if (this.getCropData() == null)
+            return this.getHarvest().getBegin();
+        
+        else if (this.getCropData().getHarvestDate() == null)
+            return this.getHarvest().getBegin();
+        
+        else
+            return this.getCropData().getHarvestDate();
     }
     
     public String getLongitude() {
