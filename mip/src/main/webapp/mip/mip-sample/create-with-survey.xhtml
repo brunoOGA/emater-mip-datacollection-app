@@ -84,6 +84,9 @@
                                         <p:column headerText="Insetos Praga" >
                                             <h:outputText value="#{aPestOccurrence.pest.usualName} (#{aPestOccurrence.pest.scientificName})" />
                                         </p:column>
+                                        <p:column headerText="Tamanho" >
+                                            <h:outputText value="#{aPestOccurrence.pest.pestSizeName}" />
+                                        </p:column>
                                         <p:column headerText="Média Encontrada" >
                                             <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{aPestOccurrence.value}" ></p:inputNumber>
                                         </p:column>
