@@ -3,7 +3,6 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.mid;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;

@@ -69,7 +69,6 @@ public class SupervisorController extends Supervisor implements ICRUDController<
             this.setName(existentSupervisor.getName());
             this.setEmail(existentSupervisor.getEmail());
             this.setSelectedRegionId(existentSupervisor.getRegionId());
-//            this.setRegion(existentSupervisor.getRegion());
 
             return "update.xhtml";
 

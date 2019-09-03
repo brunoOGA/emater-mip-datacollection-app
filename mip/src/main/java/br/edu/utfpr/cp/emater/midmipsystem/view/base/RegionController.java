@@ -78,9 +78,7 @@ public class RegionController extends Region implements ICRUDController<Region> 
         try {
             var newRegion = Region.builder()
                     .name(this.getName())
-                    //                    .macroRegion(this.getMacroRegion())
                     .macroRegion(this.regionService.readMacroRegionById(this.getSelectedMacroRegion()))
-                    //                    .cities(retrieveCities(this.convertStringCitiesIdToSetId()))
                     .cities(new HashSet<City>(this.getSelectedCities()))
                     .build();
 
@@ -110,11 +108,9 @@ public class RegionController extends Region implements ICRUDController<Region> 
             Region existentRegion = regionService.readById(anId);
             this.setId(existentRegion.getId());
             this.setName(existentRegion.getName());
-//            this.setMacroRegion(existentRegion.getMacroRegion());
             this.setSelectedMacroRegion(existentRegion.getMacroRegion().getId());
             this.setCities(existentRegion.getCities());
 
-//            this.setSelectedCities(convertEntityCitiesToStringId(existentRegion.getCities()));
             this.setSelectedCities(new ArrayList<City>(existentRegion.getCities()));
 
             return "update.xhtml";
@@ -132,9 +128,7 @@ public class RegionController extends Region implements ICRUDController<Region> 
             var updatedRegion = Region.builder()
                     .id(this.getId())
                     .name(this.getName())
-                    //                    .macroRegion(this.getMacroRegion())
                     .macroRegion(this.regionService.readMacroRegionById(this.getSelectedMacroRegion()))
-                    //                    .cities(retrieveCities(this.convertStringCitiesIdToSetId()))
                     .cities(new HashSet<City>(this.getSelectedCities()))
                     .build();
 

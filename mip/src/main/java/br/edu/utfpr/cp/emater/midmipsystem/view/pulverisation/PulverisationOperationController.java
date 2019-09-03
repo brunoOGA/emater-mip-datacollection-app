@@ -12,7 +12,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationService;
 import java.util.List;
-import javax.faces.annotation.ManagedProperty;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -135,13 +134,11 @@ public class PulverisationOperationController extends PulverisationOperation {
         try {
             var currentSurvey = pulverisationOperationService.readSurveyById(id);
             
-//            var paramValues = String.format("?currentSurveyFieldName=%s&currentSurveyHarvestName=%s&currentSurveyId=%d&faces-redirect=true", currentSurvey.getFieldName(), currentSurvey.getHarvestName(), id);
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", id);
             
             return "/pulverisation/pulverisation-operation/create-with-survey.xhtml?faces-redirect=true";
-//            + paramValues;
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser feita porque a UR não foi encontrada na base de dados!"));

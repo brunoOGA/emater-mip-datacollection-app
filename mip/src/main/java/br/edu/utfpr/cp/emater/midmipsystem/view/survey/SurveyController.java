@@ -105,26 +105,8 @@ public class SurveyController extends Survey {
     }
 
     public List<Field> readAllFieldsOutOfCurrentSurvey() {
-//        return surveyService.readAllFieldsOutOfCurrentHarvest(this.getSelectedHarvestId());
         return surveyService.readAllFields();
     }
-
-//    public String selectHarvest() {
-//        
-//        try {
-//            var selectedHarvest = surveyService.readHarvestById(this.getSelectedHarvestId());
-//
-//            this.setHarvest(selectedHarvest);
-//            this.setSelectedHarvestId(selectedHarvest.getId());
-//            
-//            return "create.xhtml";
-//
-//        } catch (EntityNotFoundException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser selecionada porque não foi encontrada na base de dados!"));
-//            return "index.xhtml";
-//        }
-//
-//    }
 
     public String create() {
 

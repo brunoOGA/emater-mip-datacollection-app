@@ -1,22 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.mid;
 
-import br.edu.utfpr.cp.emater.midmipsystem.view.base.*;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsibleEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsiblePerson;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsibleEntityService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsiblePersonService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

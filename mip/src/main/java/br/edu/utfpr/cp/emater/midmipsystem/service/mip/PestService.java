@@ -28,10 +28,6 @@ public class PestService implements ICRUDService<Pest> {
         return List.copyOf(pestRepository.findAll());
     }
     
-//    public List<Region> readAllRegions() {
-//        return this.regionService.readAll();
-//    }
-
     @Override
     public Pest readById(Long anId) throws EntityNotFoundException {
         return pestRepository.findById(anId).orElseThrow(EntityNotFoundException::new);

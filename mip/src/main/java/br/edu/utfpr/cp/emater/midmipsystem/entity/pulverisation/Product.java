@@ -46,7 +46,6 @@ public class Product extends AuditingPersistenceEntity implements Serializable {
 
     public void setName(String usualName) {
         this.name = WordUtils.capitalize(usualName.toLowerCase());
-//        this.name = String.format("%s - %.2f (%s)", this.name, this.getDose(), this.getUnit().getDescription());
     }
 
     @Builder

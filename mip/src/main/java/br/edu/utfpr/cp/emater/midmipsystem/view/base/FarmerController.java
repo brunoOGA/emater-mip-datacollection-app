@@ -1,8 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;

@@ -1,6 +1,5 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import java.io.Serializable;
 import javax.persistence.Entity;

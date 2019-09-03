@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 
 import lombok.Getter;
 import lombok.Setter;

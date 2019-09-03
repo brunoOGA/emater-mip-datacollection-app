@@ -1,7 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
-import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.MacroRegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
@@ -162,35 +162,15 @@ class CLR implements CommandLineRunner {
         var c4 = cityRepository.save(City.builder().name("Apucarana").state(State.PR).build());
         var c5 = cityRepository.save(City.builder().name("Campo Mourão").state(State.PR).build());
 
-//        var r1 = regionRepository.save(Region.builder().name("Apucarana").macroRegion(mr1).build());
-//        var r2 = regionRepository.save(Region.builder().name("Campo Mourão").macroRegion(mr2).build());
-//        var r3 = regionRepository.save(Region.builder().name("Cascavel").macroRegion(mr3).build());
-//        var r4 = regionRepository.save(Region.builder().name("Cianorte").macroRegion(mr2).build());
-//        var r5 = regionRepository.save(Region.builder().name("Cornélio Procópio").macroRegion(mr2).build());
-//        var r6 = regionRepository.save(Region.builder().name("Curitiba").macroRegion(mr2).build());
         var region7 = Region.builder().name("Dois Vizinhos").macroRegion(mr4).build();
         region7.addCity(c1);
         var r7 = regionRepository.save(region7);
 
-//        var r8 = regionRepository.save(Region.builder().name("Francisco Beltrão").macroRegion(mr4).build());
-//        var r9 = regionRepository.save(Region.builder().name("Guarapuava").macroRegion(mr2).build());
-//        var r10 = regionRepository.save(Region.builder().name("Irati").macroRegion(mr2).build());
-//        var r11 = regionRepository.save(Region.builder().name("Ivaiporã").macroRegion(mr2).build());
-//        var r12 = regionRepository.save(Region.builder().name("Laranjeiras do Sul").macroRegion(mr2).build());
-//        var r13 = regionRepository.save(Region.builder().name("Londrina").macroRegion(mr2).build());
-//        var r14 = regionRepository.save(Region.builder().name("Maringá").macroRegion(mr1).build());
-//        var r15 = regionRepository.save(Region.builder().name("Paranaguá").macroRegion(mr2).build());
-//        var r16 = regionRepository.save(Region.builder().name("Paranavaí").macroRegion(mr1).build());
         var region17 = Region.builder().name("Pato Branco").macroRegion(mr4).build();
         region17.addCity(c2);
         region17.addCity(c3);
         var r17 = regionRepository.save(region17);
 
-//        var r18 = regionRepository.save(Region.builder().name("Ponta Grossa").macroRegion(mr2).build());
-//        var r19 = regionRepository.save(Region.builder().name("Sto. Antonio da Platina").macroRegion(mr2).build());
-//        var r20 = regionRepository.save(Region.builder().name("Toledo").macroRegion(mr2).build());
-//        var r21 = regionRepository.save(Region.builder().name("Umuarama").macroRegion(mr1).build());
-//        var r22 = regionRepository.save(Region.builder().name("União da Vitória").macroRegion(mr4).build());
         var f1 = farmerRepository.save(Farmer.builder().name("Gilson Dariva").build());
         var f2 = farmerRepository.save(Farmer.builder().name("LUIZ ARCANGELO GIORDANI").build());
         var f3 = farmerRepository.save(Farmer.builder().name("Maurílio Bertoldo").build());
