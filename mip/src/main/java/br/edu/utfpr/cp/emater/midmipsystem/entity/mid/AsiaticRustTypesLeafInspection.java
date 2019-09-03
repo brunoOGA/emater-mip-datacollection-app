@@ -1,11 +1,11 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mid;
 
 public enum AsiaticRustTypesLeafInspection {
-    NO_VISIBLE_DAMAGE("Sem Lesões Visíveis"),
-    VISIBLE_DAMAGE_ISOLATED("Com Lesões Visíveis - em Plantas Isoladas"),
-    VISIBLE_DAMAGE_PARTIAL_CROP("Com Lesões Visíveis - em Parte da Lavoura"),
-    VISIBLE_DAMAGE_ALL_CROP("Com Lesões Visíveis - em Toda a Lavoura"),
-    NO_RUST_LIKELY_OTHER_DISESES("Sem Ferrugem, mas c/ sinais de Outras Doenças");
+    SEM_LESOES_VISIVEIS ("Sem Lesões Visíveis"),
+    COM_LESOES_VISIVEIS_PLANTAS_ISOLADAS ("Com Lesões Visíveis - em Plantas Isoladas"),
+    COM_LESOES_VISIVEIS_PARTE_LAVOURA ("Com Lesões Visíveis - em Parte da Lavoura"),
+    COM_LESOES_VISIVEIS_TODA_LAVOURA ("Com Lesões Visíveis - em Toda a Lavoura"),
+    SEM_FERRUGEM_COM_SINAIS_OUTRAS_DOENCAS ("Sem Ferrugem, mas c/ sinais de Outras Doenças");
 
     private String description;
 

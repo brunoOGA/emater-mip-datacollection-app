@@ -324,24 +324,24 @@ class CLR implements CommandLineRunner {
         );
 
 //        **** MIP ****
-        var p1 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.GREATER_15CM).build());
-        var p2 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.SMALLER_15CM).build());
-        var p3 = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(PestSize.GREATER_15CM).build());
-        var p4 = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(PestSize.SMALLER_15CM).build());
-        var p5 = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(PestSize.GREATER_15CM).build());
-        var p6 = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(PestSize.SMALLER_15CM).build());
-        var p7 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("").pestSize(PestSize.GREATER_15CM).build());
-        var p8 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("Chrysodeixis spp.").pestSize(PestSize.SMALLER_15CM).build());
-        var p9 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
-        var p10 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(PestSize.ADULT).build());
-        var p11 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
-        var p12 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(PestSize.ADULT).build());
-        var p13 = pestRepository.save(Pest.builder().usualName("Percevejo Marrom").scientificName("Eushistus sp.").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
-        var p14 = pestRepository.save(Pest.builder().usualName("Percevejo Marrom").scientificName("Eushistus sp.").pestSize(PestSize.ADULT).build());
-        var p15 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
-        var p16 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(PestSize.ADULT).build());
-        var p17 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(PestSize.THIRD_TO_FIFTH_INSTAR).build());
-        var p18 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(PestSize.ADULT).build());
+        var p1 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.MAIOR_15CM).build());
+        var p2 = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.MENOR_15CM).build());
+        var p3 = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(PestSize.MAIOR_15CM).build());
+        var p4 = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(PestSize.MENOR_15CM).build());
+        var p5 = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(PestSize.MAIOR_15CM).build());
+        var p6 = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(PestSize.MENOR_15CM).build());
+        var p7 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("").pestSize(PestSize.MAIOR_15CM).build());
+        var p8 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("Chrysodeixis spp.").pestSize(PestSize.MENOR_15CM).build());
+        var p9 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(PestSize.TERCEIRO_AO_QUINTO_INSTAR).build());
+        var p10 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(PestSize.ADULTOS).build());
+        var p11 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(PestSize.TERCEIRO_AO_QUINTO_INSTAR).build());
+        var p12 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(PestSize.ADULTOS).build());
+        var p13 = pestRepository.save(Pest.builder().usualName("Percevejo Marrom").scientificName("Eushistus sp.").pestSize(PestSize.TERCEIRO_AO_QUINTO_INSTAR).build());
+        var p14 = pestRepository.save(Pest.builder().usualName("Percevejo Marrom").scientificName("Eushistus sp.").pestSize(PestSize.ADULTOS).build());
+        var p15 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(PestSize.TERCEIRO_AO_QUINTO_INSTAR).build());
+        var p16 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(PestSize.ADULTOS).build());
+        var p17 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(PestSize.TERCEIRO_AO_QUINTO_INSTAR).build());
+        var p18 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(PestSize.ADULTOS).build());
 
         var pestDisease1 = pestDiseaseRepository.save(PestDisease.builder().usualName("Lagarta com Nomuraea rileyi (Doença Branca)").build());
         var pestDisease2 = pestDiseaseRepository.save(PestDisease.builder().usualName("Lagarta com Baculovírus (Doença Preta)").build());
@@ -433,11 +433,11 @@ class CLR implements CommandLineRunner {
                 .bladeInstalledPreCold(true)
                 .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-10"))
                 .bladeReadingResponsiblePerson(bladePerson1)
-                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.SEM_ESPOROS_FERRUGEM)
                 .build();
 
         var leafInspectionOccurrenceRustSurvey3Sample1 = MIDSampleLeafInspectionOccurrence.builder()
-                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.SEM_LESOES_VISIVEIS)
                 .growthPhase(GrowthPhase.V3)
                 .build();
 
@@ -459,11 +459,11 @@ class CLR implements CommandLineRunner {
                 .bladeInstalledPreCold(true)
                 .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-14"))
                 .bladeReadingResponsiblePerson(bladePerson1)
-                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.SEM_ESPOROS_FERRUGEM)
                 .build();
 
         var leafInspectionOccurrenceRustSurvey3Sample2 = MIDSampleLeafInspectionOccurrence.builder()
-                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.SEM_LESOES_VISIVEIS)
                 .growthPhase(GrowthPhase.R1)
                 .build();
 
@@ -486,11 +486,11 @@ class CLR implements CommandLineRunner {
                 .bladeInstalledPreCold(true)
                 .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-23"))
                 .bladeReadingResponsiblePerson(bladePerson1)
-                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.SEM_ESPOROS_FERRUGEM)
                 .build();
 
         var leafInspectionOccurrenceRustSurvey3Sample3 = MIDSampleLeafInspectionOccurrence.builder()
-                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.SEM_LESOES_VISIVEIS)
                 .growthPhase(GrowthPhase.R2)
                 .build();
 
@@ -513,11 +513,11 @@ class CLR implements CommandLineRunner {
                 .bladeInstalledPreCold(false)
                 .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-19"))
                 .bladeReadingResponsiblePerson(bladePerson1)
-                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.SEM_ESPOROS_FERRUGEM)
                 .build();
 
         var leafInspectionOccurrenceRustSurvey2Sample1 = MIDSampleLeafInspectionOccurrence.builder()
-                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.SEM_LESOES_VISIVEIS)
                 .growthPhase(GrowthPhase.R3)
                 .build();
 
@@ -540,11 +540,11 @@ class CLR implements CommandLineRunner {
                 .bladeInstalledPreCold(false)
                 .bladeReadingDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-01-05"))
                 .bladeReadingResponsiblePerson(bladePerson1)
-                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.NO_RUST_SPORES)
+                .bladeReadingRustResultCollector(AsiaticRustTypesSporeCollector.SEM_ESPOROS_FERRUGEM)
                 .build();
 
         var leafInspectionOccurrenceRustSurvey2Sample2 = MIDSampleLeafInspectionOccurrence.builder()
-                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.NO_VISIBLE_DAMAGE)
+                .bladeReadingRustResultLeafInspection(AsiaticRustTypesLeafInspection.SEM_LESOES_VISIVEIS)
                 .growthPhase(GrowthPhase.R4)
                 .build();
 

@@ -2,10 +2,10 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
 public enum PestSize {
     
-    GREATER_15CM ("> 15 cm"),
-    SMALLER_15CM ("< 15 cm"),
-    THIRD_TO_FIFTH_INSTAR ("3. ao 5. Instar"),
-    ADULT ("Adultos");
+    MAIOR_15CM ("> 15 cm"),
+    MENOR_15CM ("< 15 cm"),
+    TERCEIRO_AO_QUINTO_INSTAR ("3. ao 5. Instar"),
+    ADULTOS ("Adultos");
     
     private String name;
     
