@@ -3,7 +3,6 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.survey;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ViewScoped
-public class SurveyController extends Survey implements ICRUDController<Survey> {
+public class SurveyController extends Survey {
 
     private final SurveyService surveyService;
     
@@ -97,7 +96,6 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
         this.surveyService = aSurveyService;
     }
 
-    @Override
     public List<Survey> readAll() {
         return surveyService.readAll();
     }
@@ -127,7 +125,7 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
 //        }
 //
 //    }
-    @Override
+
     public String create() {
 
         try {
@@ -170,89 +168,6 @@ public class SurveyController extends Survey implements ICRUDController<Survey> 
             return "index.xhtml";
 
         }
-    }
-
-    @Override
-    public String prepareUpdate(Long anId) {
-
-        try {
-            var existentSurvey = surveyService.readById(anId);
-
-            this.setId(existentSurvey.getId());
-            this.setSeedName(existentSurvey.getSeedName());
-            this.setSporeCollectorPresent(existentSurvey.isSporeCollectorPresent());
-
-            this.setField(existentSurvey.getField());
-
-            this.setHarvest(existentSurvey.getHarvest());
-            this.setSelectedHarvestId(existentSurvey.getHarvestId());
-
-            this.setBt(existentSurvey.isBt());
-            this.setEmergenceDate(existentSurvey.getEmergenceDate());
-            this.setHarvestDate(existentSurvey.getHarvestDate());
-            this.setLatitude(existentSurvey.getLatitude());
-            this.setLongitude(existentSurvey.getLongitude());
-            this.setPlantPerMeter(existentSurvey.getPlantPerMeter());
-            this.setProductivityFarmer(existentSurvey.getProductivityFarmer());
-            this.setProductivityField(existentSurvey.getProductivityField());
-            this.setRustResistant(existentSurvey.isRustResistant());
-            this.setSeparatedWeight(existentSurvey.isSeparatedWeight());
-            this.setSowedDate(existentSurvey.getSowedDate());
-            this.setTotalArea(existentSurvey.getTotalArea());
-            this.setTotalPlantedArea(existentSurvey.getTotalPlantedArea());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Dados não puderam ser alterados porque não foram encontrados na base de dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    @Override
-    public String update() {
-
-        try {
-
-            var updatedSurvey = Survey.builder()
-                    .id(this.getId())
-                    .bt(this.isBt())
-                    .emergenceDate(this.getEmergenceDate())
-                    .field(this.getField())
-                    .harvest(surveyService.readHarvestById(this.getSelectedHarvestId()))
-                    .latitude(this.getLatitude())
-                    .longitude(this.getLongitude())
-                    .plantPerMeter(this.getPlantPerMeter())
-                    .productivityFarmer(this.getProductivityFarmer())
-                    .productivityField(this.getProductivityField())
-                    .rustResistant(this.isRustResistant())
-                    .cultivarName(this.getSeedName())
-                    .separatedWeight(this.isSeparatedWeight())
-                    .sowedDate(this.getSowedDate())
-                    .harvestDate(this.getHarvestDate())
-                    .sporeCollectorPresent(this.isSporeCollectorPresent())
-                    .totalArea(this.getTotalArea())
-                    .totalPlantedArea(this.totalPlantedArea)
-                    .build();
-
-            surveyService.update(updatedSurvey);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "UR alterada!"));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "A unidade de referência já faz parte dessa pesquisa."));
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Não foi possível adicionar a UR à pesquisa porque a safra ou a UR não foram encontradas na base de dados!"));
-            return "update.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-
     }
 
     public String delete(Long anId) {

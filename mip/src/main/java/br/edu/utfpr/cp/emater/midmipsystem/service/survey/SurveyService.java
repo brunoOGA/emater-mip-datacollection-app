@@ -19,7 +19,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SurveyService implements ICRUDService<Survey> {
+public class SurveyService {
 
     private final SurveyRepository surveyRepository;
     private final HarvestService harvestService;
@@ -70,39 +70,6 @@ public class SurveyService implements ICRUDService<Survey> {
 
         try {
             surveyRepository.save(aSurvey);
-
-        } catch (Exception e) {
-            throw new AnyPersistenceException();
-        }
-    }
-
-    public void update(Survey aSurvey) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-
-        var existentSurvey = surveyRepository.findById(aSurvey.getId()).orElseThrow(EntityNotFoundException::new);
-
-        try {
-            existentSurvey.getCultivarData().setBt(aSurvey.isBt());
-            existentSurvey.getCultivarData().setRustResistant(aSurvey.isRustResistant());
-            existentSurvey.getCultivarData().setName(aSurvey.getCultivarName());
-            
-            existentSurvey.getCropData().setEmergenceDate(aSurvey.getEmergenceDate());
-            existentSurvey.getCropData().setHarvestDate(aSurvey.getHarvestDate());
-            existentSurvey.getCropData().setSowedDate(aSurvey.getSowedDate());
-            
-            existentSurvey.getSizeData().setPlantPerMeter(aSurvey.getPlantPerMeter());
-            existentSurvey.getSizeData().setTotalArea(aSurvey.getTotalArea());
-            existentSurvey.getSizeData().setTotalPlantedArea(aSurvey.getTotalPlantedArea());
-            
-            existentSurvey.getLocationData().setLatitude(aSurvey.getLatitude());
-            existentSurvey.getLocationData().setLongitude(aSurvey.getLongitude());
-            
-            existentSurvey.getProductivityData().setProductivityFarmer(aSurvey.getProductivityFarmer());
-            existentSurvey.getProductivityData().setProductivityField(aSurvey.getProductivityField());
-            existentSurvey.getProductivityData().setSeparatedWeight(aSurvey.isSeparatedWeight());
-            
-            existentSurvey.getMidData().setSporeCollectorPresent(aSurvey.isSporeCollectorPresent());
-            
-            surveyRepository.saveAndFlush(existentSurvey);
 
         } catch (Exception e) {
             throw new AnyPersistenceException();
