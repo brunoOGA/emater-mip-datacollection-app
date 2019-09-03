@@ -113,7 +113,7 @@
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
                                 <p:outputLabel for="@next" value="Estádio das Plantas" />
                                 <p:selectOneListbox required="true" requiredMessage="Deve ser informado o estádio das plantas" value="#{midRustSampleController.growthPhase}" filter="true" filterMatchMode="contains">
-                                    <f:selectItems value="#{midRustSampleController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase}" itemValue="#{aGrowthPhase}"/>
+                                    <f:selectItems value="#{midRustSampleController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase.description}" itemValue="#{aGrowthPhase}"/>
                                 </p:selectOneListbox>
                                 <p:message for="@previous" ></p:message>
 

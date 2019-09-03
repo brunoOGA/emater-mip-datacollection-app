@@ -84,7 +84,7 @@
                                 <p:panelGrid columns="1" >
                                     <p:outputLabel for="@next" value="Estádio da Cultura" />
                                     <p:selectOneListbox required="true" requiredMessage="Deve ser informado o estádio da cultura" value="#{pulverisationOperationController.growthPhase}" filter="true" filterMatchMode="contains">
-                                        <f:selectItems value="#{pulverisationOperationController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase}" itemValue="#{aGrowthPhase}"/>
+                                        <f:selectItems value="#{pulverisationOperationController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase.description}" itemValue="#{aGrowthPhase}"/>
                                     </p:selectOneListbox>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>

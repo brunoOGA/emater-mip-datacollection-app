@@ -59,14 +59,14 @@
                                     <p:panelGrid columns="1" >
                                         <p:outputLabel for="@next" value="Estádio da Cultura" />
                                         <p:selectOneListbox required="true" requiredMessage="Deve ser informado o estádio da cultura" value="#{mipSampleController.growthPhase}" filter="true" filterMatchMode="contains">
-                                            <f:selectItems value="#{mipSampleController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase}" itemValue="#{aGrowthPhase}"/>
+                                            <f:selectItems value="#{mipSampleController.readAllGrowthPhases()}" var="aGrowthPhase" itemLabel="#{aGrowthPhase.description}" itemValue="#{aGrowthPhase}"/>
                                         </p:selectOneListbox>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 
                                     <p:panelGrid columns="1" >
                                         <p:outputLabel for="@next" value="% de Desfolha (em números inteiros)"></p:outputLabel>
-                                        <p:inputNumber symbol="%" symbolPosition="s" minValue="0" value="#{mipSampleController.defoliation}" ></p:inputNumber>
+                                        <p:inputNumber decimalPlaces="0" symbol="%" symbolPosition="s" minValue="0" value="#{mipSampleController.defoliation}" ></p:inputNumber>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 
