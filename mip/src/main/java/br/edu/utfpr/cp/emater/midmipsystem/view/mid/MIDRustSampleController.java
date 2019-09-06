@@ -18,14 +18,14 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 
 @Component(value = "midRustSampleController")
-@RequestScope
+@ViewScoped
 public class MIDRustSampleController extends MIDRustSample {
 
     private final MIDRustSampleService midRustSampleService;
@@ -69,7 +69,7 @@ public class MIDRustSampleController extends MIDRustSample {
     @Setter
     @Getter
     private boolean asiaticRustApplication;
-    
+
     @Setter
     @Getter
     private boolean otherDiseasesApplication;
@@ -77,7 +77,7 @@ public class MIDRustSampleController extends MIDRustSample {
     @Setter
     @Getter
     private Date fungicideApplicationDate;
-    
+
     @Setter
     @Getter
     private String notes;
@@ -91,51 +91,53 @@ public class MIDRustSampleController extends MIDRustSample {
     public List<Survey> readAllSurveysUniqueEntries() {
         return midRustSampleService.readAllSurveysUniqueEntries();
     }
-    
+
     public List<BladeReadingResponsiblePerson> readAllBladeResponsiblePersons() {
         return midRustSampleService.readAllBladeResponsiblePersons();
     }
 
     public String create() {
-        
+
+        var surveyIdAsString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId");
+
         Survey currentSurvey = null;
 
         try {
-            currentSurvey = midRustSampleService.readSurveyById(this.getCurrentSurveyId());
+            currentSurvey = midRustSampleService.readSurveyById(Long.parseLong(surveyIdAsString));
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Monitoramento da ferrugem não pode ser feito porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
-        
+
         var newSample = MIDRustSample.builder()
-                                    .sampleDate(this.getSampleDate())
-                                    .survey(currentSurvey)
-                                    .build();
-        
+                .sampleDate(this.getSampleDate())
+                .survey(currentSurvey)
+                .build();
+
         var sporeCollectorOccurrence = MIDSampleSporeCollectorOccurrence.builder()
-                          .bladeInstalledPreCold(this.isBladeInstalledPreCold())
-                          .bladeReadingDate(this.getBladeReadingDate())
-                          .bladeReadingResponsiblePerson(bladeResponsiblePerson)
-                          .bladeReadingRustResultCollector(this.getBladeReadingRustResultCollector())
-                          .build();
-        
+                .bladeInstalledPreCold(this.isBladeInstalledPreCold())
+                .bladeReadingDate(this.getBladeReadingDate())
+                .bladeReadingResponsiblePerson(bladeResponsiblePerson)
+                .bladeReadingRustResultCollector(this.getBladeReadingRustResultCollector())
+                .build();
+
         var leafInspectionOccurrence = MIDSampleLeafInspectionOccurrence.builder()
-                        .bladeReadingRustResultLeafInspection(this.getBladeReadingRustResultLeafInspection())
-                        .growthPhase(this.getGrowthPhase())
-                        .build();
-        
+                .bladeReadingRustResultLeafInspection(this.getBladeReadingRustResultLeafInspection())
+                .growthPhase(this.getGrowthPhase())
+                .build();
+
         var fungicideOccurrence = MIDSampleFungicideApplicationOccurrence.builder()
-                        .asiaticRustApplication(this.isAsiaticRustApplication())
-                        .otherDiseasesApplication(this.isOtherDiseasesApplication())
-                        .fungicideApplicationDate(this.getFungicideApplicationDate())
-                        .notes(this.getNotes())
-                        .build();
-        
+                .asiaticRustApplication(this.isAsiaticRustApplication())
+                .otherDiseasesApplication(this.isOtherDiseasesApplication())
+                .fungicideApplicationDate(this.getFungicideApplicationDate())
+                .notes(this.getNotes())
+                .build();
+
         newSample.setSporeCollectorOccurrence(sporeCollectorOccurrence);
         newSample.setLeafInspectionOccurrence(leafInspectionOccurrence);
         newSample.setFungicideOccurrence(fungicideOccurrence);
-        
+
         try {
             midRustSampleService.create(newSample);
 
@@ -149,13 +151,13 @@ public class MIDRustSampleController extends MIDRustSample {
         } catch (EntityNotFoundException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser feita porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
-            
+
         } catch (AnyPersistenceException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
             return "index.xhtml";
         }
     }
-    
+
     public String delete(Long aSampleId) {
 
         try {
@@ -176,18 +178,17 @@ public class MIDRustSampleController extends MIDRustSample {
             return "index.xhtml";
         }
     }
-    
+
     public String selectTargetSurvey(Long id) {
 
-        Survey currentSurvey = null;
-
         try {
-            currentSurvey = midRustSampleService.readSurveyById(id);
-            this.setCurrentSurveyId(id);
-            this.setCurrentSurveyFieldName(currentSurvey.getFieldName());
-            this.setCurrentSurveyHarvestName(currentSurvey.getHarvestName());
+            var currentSurvey = midRustSampleService.readSurveyById(id);
 
-            return "/mid/rust-sample/create-with-survey.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", id);
+
+            return "/mid/rust-sample/create-with-survey.xhtml?faces-redirect=true";
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Monitoramento da ferrugem não pode ser feito porque a UR não foi encontrada na base de dados!"));
