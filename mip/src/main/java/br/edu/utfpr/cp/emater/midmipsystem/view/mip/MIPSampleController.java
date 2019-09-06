@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 
 @Component(value = "mipSampleController")
-@RequestScope
+@ViewScoped
 public class MIPSampleController extends MIPSample {
 
     private final MIPSampleService mipSampleService;
@@ -111,10 +111,12 @@ public class MIPSampleController extends MIPSample {
 
     public String create() {
         
+        var surveyIdAsString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId");
+        
         Survey currentSurvey = null;
 
         try {
-            currentSurvey = mipSampleService.readSurveyById(this.getCurrentSurveyId());
+            currentSurvey = mipSampleService.readSurveyById(Long.parseLong(surveyIdAsString));
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
@@ -173,15 +175,14 @@ public class MIPSampleController extends MIPSample {
 
     public String selectTargetSurvey(Long id) {
 
-        Survey currentSurvey = null;
-
         try {
-            currentSurvey = mipSampleService.readSurveyById(id);
-            this.setCurrentSurveyId(id);
-            this.setCurrentSurveyFieldName(currentSurvey.getFieldName());
-            this.setCurrentSurveyHarvestName(currentSurvey.getHarvestName());
-
-            return "/mip/mip-sample/create-with-survey.xhtml";
+            var currentSurvey = mipSampleService.readSurveyById(id);
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", id);
+            
+            return "/mip/mip-sample/create-with-survey.xhtml?faces-redirect=true";
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));

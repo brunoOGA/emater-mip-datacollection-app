@@ -33,10 +33,12 @@
                                      icon="fa fa-reply" />
                 </div>
 
-                <p:splitButton disabled="true" id="saveButtonSmall" ajax="false" value="Salvar" action="#{pulverisationOperationController.create()}" 
+                <p:splitButton ajax="false" value="Salvar" action="#{pulverisationOperationController.create()}" 
                                icon="fa fa-check"
                                styleClass="hidden-md hidden-lg btn-primary">
+                    
                     <f:param name="currentSurveyId" value="#{flash['currentSurveyId']}" />
+                    
                     <p:separator/>
 
                     <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true"
