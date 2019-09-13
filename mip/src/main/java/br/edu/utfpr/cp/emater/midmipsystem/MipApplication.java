@@ -331,7 +331,7 @@ class CLR implements CommandLineRunner {
         var p5 = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(PestSize.MAIOR_15CM).build());
         var p6 = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(PestSize.MENOR_15CM).build());
         var p7 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("").pestSize(PestSize.MAIOR_15CM).build());
-        var p8 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("Chrysodeixis spp.").pestSize(PestSize.MENOR_15CM).build());
+        var p8 = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("").pestSize(PestSize.MENOR_15CM).build());
         var p9 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(PestSize.TERCEIRO_AO_QUINTO_INSTAR).build());
         var p10 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(PestSize.ADULTOS).build());
         var p11 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(PestSize.TERCEIRO_AO_QUINTO_INSTAR).build());
