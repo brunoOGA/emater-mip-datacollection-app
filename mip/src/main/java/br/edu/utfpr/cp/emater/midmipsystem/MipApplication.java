@@ -15,7 +15,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesSporeColle
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsibleEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsiblePerson;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleFungicideApplicationOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleLeafInspectionOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleSporeCollectorOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
@@ -428,6 +427,8 @@ class CLR implements CommandLineRunner {
         var bladePerson1 = bladePersonRepository.save(BladeReadingResponsiblePerson.builder().name("Gustavo M. de Oliveira").entity(bladeEntity1).build());
         var bladePerson2 = bladePersonRepository.save(BladeReadingResponsiblePerson.builder().name("Otávio Augusto").entity(bladeEntity2).build());
 
+//        *** MID ***
+
         var rustSurvey3Sample1 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
         var sporeCollectorOccurrenceRustSurvey3Sample1 = MIDSampleSporeCollectorOccurrence.builder()
                 .bladeInstalledPreCold(true)
@@ -441,16 +442,8 @@ class CLR implements CommandLineRunner {
                 .growthPhase(GrowthPhase.V3)
                 .build();
 
-        var fungicideOccurrenceRustSurvey3Sample1 = MIDSampleFungicideApplicationOccurrence.builder()
-                .asiaticRustApplication(false)
-                .otherDiseasesApplication(false)
-                .fungicideApplicationDate(null)
-                .notes(null)
-                .build();
-
         rustSurvey3Sample1.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey3Sample1);
         rustSurvey3Sample1.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey3Sample1);
-        rustSurvey3Sample1.setFungicideOccurrence(fungicideOccurrenceRustSurvey3Sample1);
 
         midRustRepository.save(rustSurvey3Sample1);
 
@@ -467,16 +460,8 @@ class CLR implements CommandLineRunner {
                 .growthPhase(GrowthPhase.R1)
                 .build();
 
-        var fungicideOccurrenceRustSurvey3Sample2 = MIDSampleFungicideApplicationOccurrence.builder()
-                .asiaticRustApplication(false)
-                .otherDiseasesApplication(false)
-                .fungicideApplicationDate(null)
-                .notes(null)
-                .build();
-
         rustSurvey3Sample2.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey3Sample2);
         rustSurvey3Sample2.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey3Sample2);
-        rustSurvey3Sample2.setFungicideOccurrence(fungicideOccurrenceRustSurvey3Sample2);
 
         midRustRepository.save(rustSurvey3Sample2);
 
@@ -494,16 +479,8 @@ class CLR implements CommandLineRunner {
                 .growthPhase(GrowthPhase.R2)
                 .build();
 
-        var fungicideOccurrenceRustSurvey3Sample3 = MIDSampleFungicideApplicationOccurrence.builder()
-                .asiaticRustApplication(false)
-                .otherDiseasesApplication(false)
-                .fungicideApplicationDate(null)
-                .notes(null)
-                .build();
-
         rustSurvey3Sample3.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey3Sample3);
         rustSurvey3Sample3.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey3Sample3);
-        rustSurvey3Sample3.setFungicideOccurrence(fungicideOccurrenceRustSurvey3Sample3);
 
         midRustRepository.save(rustSurvey3Sample3);
 
@@ -521,16 +498,8 @@ class CLR implements CommandLineRunner {
                 .growthPhase(GrowthPhase.R3)
                 .build();
 
-        var fungicideOccurrenceRustSurvey2Sample1 = MIDSampleFungicideApplicationOccurrence.builder()
-                .asiaticRustApplication(false)
-                .otherDiseasesApplication(true)
-                .fungicideApplicationDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-14"))
-                .notes("OIDIO")
-                .build();
-
         rustSurvey2Sample1.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey2Sample1);
         rustSurvey2Sample1.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey2Sample1);
-        rustSurvey2Sample1.setFungicideOccurrence(fungicideOccurrenceRustSurvey2Sample1);
 
         midRustRepository.save(rustSurvey2Sample1);
 
@@ -548,20 +517,13 @@ class CLR implements CommandLineRunner {
                 .growthPhase(GrowthPhase.R4)
                 .build();
 
-        var fungicideOccurrenceRustSurvey2Sample2 = MIDSampleFungicideApplicationOccurrence.builder()
-                .asiaticRustApplication(true)
-                .otherDiseasesApplication(true)
-                .fungicideApplicationDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-12-31"))
-                .notes("FERRUGEM,OIDIO")
-                .build();
-
         rustSurvey2Sample2.setSporeCollectorOccurrence(sporeCollectorOccurrenceRustSurvey2Sample2);
         rustSurvey2Sample2.setLeafInspectionOccurrence(leafInspectionOccurrenceRustSurvey2Sample2);
-        rustSurvey2Sample2.setFungicideOccurrence(fungicideOccurrenceRustSurvey2Sample2);
 
         midRustRepository.save(rustSurvey2Sample2);
 
         // ****** Pulverisation ******
+        
         var target1 = targetRepository.save(Target.builder().description("Folha Larga (Pós-emergência)").category(TargetCategory.HERBICIDA).build());
         var target2 = targetRepository.save(Target.builder().description("Dessecação").category(TargetCategory.OUTROS).build());
 

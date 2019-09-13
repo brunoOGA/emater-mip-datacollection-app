@@ -4,7 +4,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesLeafInspec
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.AsiaticRustTypesSporeCollector;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.BladeReadingResponsiblePerson;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleFungicideApplicationOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleLeafInspectionOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDSampleSporeCollectorOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
@@ -66,22 +65,6 @@ public class MIDRustSampleController extends MIDRustSample {
     @Getter
     private AsiaticRustTypesLeafInspection bladeReadingRustResultLeafInspection;
 
-    @Setter
-    @Getter
-    private boolean asiaticRustApplication;
-
-    @Setter
-    @Getter
-    private boolean otherDiseasesApplication;
-
-    @Setter
-    @Getter
-    private Date fungicideApplicationDate;
-
-    @Setter
-    @Getter
-    private String notes;
-
     @Autowired
     public MIDRustSampleController(MIDRustSampleService aMIDRustSampleService) {
         this.midRustSampleService = aMIDRustSampleService;
@@ -127,16 +110,8 @@ public class MIDRustSampleController extends MIDRustSample {
                 .growthPhase(this.getGrowthPhase())
                 .build();
 
-        var fungicideOccurrence = MIDSampleFungicideApplicationOccurrence.builder()
-                .asiaticRustApplication(this.isAsiaticRustApplication())
-                .otherDiseasesApplication(this.isOtherDiseasesApplication())
-                .fungicideApplicationDate(this.getFungicideApplicationDate())
-                .notes(this.getNotes())
-                .build();
-
         newSample.setSporeCollectorOccurrence(sporeCollectorOccurrence);
         newSample.setLeafInspectionOccurrence(leafInspectionOccurrence);
-        newSample.setFungicideOccurrence(fungicideOccurrence);
 
         try {
             midRustSampleService.create(newSample);

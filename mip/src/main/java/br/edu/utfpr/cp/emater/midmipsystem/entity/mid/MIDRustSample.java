@@ -43,9 +43,6 @@ public class MIDRustSample extends AuditingPersistenceEntity implements Serializ
     @Embedded
     private MIDSampleLeafInspectionOccurrence leafInspectionOccurrence;
     
-    @Embedded
-    private MIDSampleFungicideApplicationOccurrence fungicideOccurrence;
-
     @Builder
     public static MIDRustSample create (Long id,
                                                   Survey  survey,
