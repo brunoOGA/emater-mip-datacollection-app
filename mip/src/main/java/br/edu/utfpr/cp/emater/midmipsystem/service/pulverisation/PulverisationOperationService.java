@@ -1,6 +1,5 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation;
 
-import br.edu.utfpr.cp.emater.midmipsystem.service.survey.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
@@ -11,6 +10,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -104,9 +104,9 @@ public class PulverisationOperationService {
         return targetService.readAll().stream().filter(current -> current.getCategory().equals(targetCategory)).collect(Collectors.toList());
     }
 
-    public List<Product> readAllProductByTarget(Long targetId) {
-        return productService.readAll().stream().filter(current -> current.getTargetId().equals(targetId)).collect(Collectors.toList());
-    }
+//    public List<Product> readAllProductByTarget(Long targetId) {
+//        return productService.readAll().stream().filter(current -> current.getTargetId().equals(targetId)).collect(Collectors.toList());
+//    }
 
     public Product readProductById(Long productId) throws EntityNotFoundException {
         return productService.readById(productId);

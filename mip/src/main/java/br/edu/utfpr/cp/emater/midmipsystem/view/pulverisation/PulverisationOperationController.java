@@ -161,8 +161,8 @@ public class PulverisationOperationController extends PulverisationOperation {
     }
 
     public void onTargetChange() {
-        if (this.getTargetId() != null)
-            this.setProductOptions(pulverisationOperationService.readAllProductByTarget(this.getTargetId()));
+//        if (this.getTargetId() != null)
+//            this.setProductOptions(pulverisationOperationService.readAllProductByTarget(this.getTargetId()));
     }
     
     public void addOccurrence() throws EntityNotFoundException {

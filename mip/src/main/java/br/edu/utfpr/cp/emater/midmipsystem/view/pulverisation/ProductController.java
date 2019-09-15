@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.pulverisation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.ProductUnit;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -41,14 +42,16 @@ public class ProductController extends Product implements ICRUDController<Produc
     public ProductUnit[] readAllUnits() {
         return ProductUnit.values();
     }
+    
+    public UseClass[] readAllUseClasses() {
+        return UseClass.values();
+    }
 
     @Override
     public String create() {
 
         try {
-            var target = productService.readTargetById(this.getTargetId());
-
-            var newProduct = Product.builder().name(this.getName()).dose(this.getDose()).unit(this.getUnit()).target(target).build();
+            var newProduct = Product.builder().name(this.getName()).dose(this.getDose()).unit(this.getUnit()).useClass(this.getUseClass()).build();
 
             productService.create(newProduct);
 
@@ -79,7 +82,7 @@ public class ProductController extends Product implements ICRUDController<Produc
             this.setName(existentProduct.getName());
             this.setDose(existentProduct.getDose());
             this.setUnit(existentProduct.getUnit());
-            this.setTargetId(existentProduct.getTargetId());
+            this.setUseClass(existentProduct.getUseClass());
 
             return "update.xhtml";
 
@@ -93,9 +96,7 @@ public class ProductController extends Product implements ICRUDController<Produc
     public String update() {
 
         try {
-            var target = productService.readTargetById(this.getTargetId());
-
-            var updatedProduct = Product.builder().id(this.getId()).name(this.getName()).dose(this.getDose()).unit(this.getUnit()).target(target).build();
+            var updatedProduct = Product.builder().id(this.getId()).name(this.getName()).dose(this.getDose()).unit(this.getUnit()).useClass(this.getUseClass()).build();
 
             productService.update(updatedProduct);
 

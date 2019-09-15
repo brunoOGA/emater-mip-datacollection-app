@@ -55,8 +55,8 @@
                             <h:outputText value="#{aProduct.unitDescription}" />
                         </p:column>
 
-                        <p:column headerText="Alvo Principal/Função" filterBy="#{aProduct.targetDescription}" filterMatchMode="contains" >
-                            <h:outputText value="#{aProduct.targetDescription}" />
+                        <p:column headerText="Classe de Uso" filterBy="#{aProduct.useClass}" filterMatchMode="contains" >
+                            <h:outputText value="#{aProduct.useClass.description}" />
                         </p:column>
 
 
