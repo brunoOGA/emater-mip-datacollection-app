@@ -39,7 +39,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
     public String create() {
 
         try {
-            var newTarget = Target.builder().description(this.getDescription()).category(this.getCategory()).build();
+            var newTarget = Target.builder().description(this.getDescription()).useClass(this.getUseClass()).build();
             
             targetService.create(newTarget);
 
@@ -68,7 +68,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
             
             this.setId(existentTarget.getId());
             this.setDescription(existentTarget.getDescription());
-            this.setCategory(existentTarget.getCategory());
+            this.setUseClass(existentTarget.getUseClass());
 
             return "update.xhtml";
 
@@ -82,7 +82,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
     public String update() {
 
         try {
-            var updatedTarget = Target.builder().id(this.getId()).description(this.getDescription()).category(this.getCategory()).build();
+            var updatedTarget = Target.builder().id(this.getId()).description(this.getDescription()).useClass(this.getUseClass()).build();
 
             targetService.update(updatedTarget);
 

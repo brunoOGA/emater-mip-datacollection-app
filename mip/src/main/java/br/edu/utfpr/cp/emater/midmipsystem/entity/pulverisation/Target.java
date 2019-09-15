@@ -33,18 +33,18 @@ public class Target extends AuditingPersistenceEntity implements Serializable {
 
     @EqualsAndHashCode.Include
     @Enumerated(EnumType.STRING)
-    private UseClass category;
+    private UseClass useClass;
 
     public void description(String usualName) {
         this.description = WordUtils.capitalize(usualName.toLowerCase());
     }
 
     @Builder
-    public static Target create(Long id, String description, UseClass category) {
+    public static Target create(Long id, String description, UseClass useClass) {
         Target instance = new Target();
         instance.setId(id);
         instance.setDescription(description);
-        instance.setCategory(category);
+        instance.setUseClass(useClass);
 
         return instance;
     }

@@ -524,16 +524,16 @@ class CLR implements CommandLineRunner {
 
         // ****** Pulverisation ******
         
-        var target1 = targetRepository.save(Target.builder().description("Folha Larga (Pós-emergência)").category(UseClass.HERBICIDA).build());
-        var target2 = targetRepository.save(Target.builder().description("Dessecação").category(UseClass.OUTROS).build());
+        var target1 = targetRepository.save(Target.builder().description("Folha Larga (Pós-emergência)").useClass(UseClass.HERBICIDA).build());
+        var target2 = targetRepository.save(Target.builder().description("Dessecação").useClass(UseClass.OUTROS).build());
 
-        var target3 = targetRepository.save(Target.builder().description("Folha Estreita (Pré-emergência)").category(UseClass.HERBICIDA).build());
-        var target4 = targetRepository.save(Target.builder().description("Lagartas Grupo Heliotinae").category(UseClass.INSETICIDA).build());
-        var target5 = targetRepository.save(Target.builder().description("Folha Larga (Pré-emergência)").category(UseClass.HERBICIDA).build());
+        var target3 = targetRepository.save(Target.builder().description("Folha Estreita (Pré-emergência)").useClass(UseClass.HERBICIDA).build());
+        var target4 = targetRepository.save(Target.builder().description("Lagartas Grupo Heliotinae").useClass(UseClass.INSETICIDA).build());
+        var target5 = targetRepository.save(Target.builder().description("Folha Larga (Pré-emergência)").useClass(UseClass.HERBICIDA).build());
 
-        var product1 = productRepository.save(Product.builder().name("ROUND UP TRANSORB").unit(ProductUnit.L).useClass(UseClass.OUTROS).build());
+        var product1 = productRepository.save(Product.builder().name("ROUND UP TRANSORB").unit(ProductUnit.L).useClass(UseClass.HERBICIDA).build());
         var product2 = productRepository.save(Product.builder().name("TRIFLUBENZURON").unit(ProductUnit.L).useClass(UseClass.OUTROS).build());
-        var product3 = productRepository.save(Product.builder().name("ZAPP QI").unit(ProductUnit.L).useClass(UseClass.OUTROS).build());
+        var product3 = productRepository.save(Product.builder().name("ZAPP QI").unit(ProductUnit.L).useClass(UseClass.INSETICIDA).build());
 
         var pulverisationOp1Survey3 = PulverisationOperation.builder()
                 .survey(survey3)

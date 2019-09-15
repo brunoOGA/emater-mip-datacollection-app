@@ -100,13 +100,13 @@ public class PulverisationOperationService {
         return List.copyOf(pulverisationOperationRepository.findAll().stream().filter(current -> current.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
     }
 
-    public List<Target> readAllTargetsByCategory(UseClass targetCategory) {
-        return targetService.readAll().stream().filter(current -> current.getCategory().equals(targetCategory)).collect(Collectors.toList());
+    public List<Target> readAllTargetsByUseClass(UseClass aUseClass) {
+        return targetService.readAll().stream().filter(current -> current.getUseClass().equals(aUseClass)).collect(Collectors.toList());
     }
 
-//    public List<Product> readAllProductByTarget(Long targetId) {
-//        return productService.readAll().stream().filter(current -> current.getTargetId().equals(targetId)).collect(Collectors.toList());
-//    }
+    public List<Product> readAllProductByUseClass(UseClass aUseClass) {
+        return productService.readAll().stream().filter(current -> current.getUseClass().equals(aUseClass)).collect(Collectors.toList());
+    }
 
     public Product readProductById(Long productId) throws EntityNotFoundException {
         return productService.readById(productId);

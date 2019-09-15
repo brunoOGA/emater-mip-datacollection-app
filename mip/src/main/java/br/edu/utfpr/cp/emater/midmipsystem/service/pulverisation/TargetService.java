@@ -59,7 +59,7 @@ public class TargetService implements ICRUDService<Target> {
 
         try {
             existentTarget.setDescription(aTarget.getDescription());
-            existentTarget.setCategory(aTarget.getCategory());
+            existentTarget.setUseClass(aTarget.getUseClass());
 
             targetRepository.saveAndFlush(existentTarget);
 

@@ -109,11 +109,11 @@
                             <p:panelGrid columns="4" layout="grid" columnClasses="ui-lg-3 ui-g-3 ui-md-3 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
                                 <p:panelGrid columns="1" >
-                                    <p:outputLabel for="@next" value="Categoria do Produto Utilizado" />
-                                    <p:selectOneMenu required="true" requiredMessage="Uma categoria deve ser selecionada" value="#{pulverisationOperationController.targetCategory}" filter="true" filterMatchMode="contains">
-                                        <p:ajax listener="#{pulverisationOperationController.onTargetCategoryChange}" update="target" />
-                                        <f:selectItem noSelectionOption="true" itemLabel="Escolha uma Categoria" itemValue="" />
-                                        <f:selectItems value="#{pulverisationOperationController.readAllTargetCategories()}" var="aTargetCategory" itemLabel="#{aTargetCategory.description}" itemValue="#{aTargetCategory}"/>
+                                    <p:outputLabel for="@next" value="Classe de Uso do Produto Utilizado" />
+                                    <p:selectOneMenu required="true" requiredMessage="Uma classe de uso deve ser selecionada" value="#{pulverisationOperationController.useClass}" filter="true" filterMatchMode="contains">
+                                        <p:ajax listener="#{pulverisationOperationController.onUseClassChange}" update="target productList" />
+                                        <f:selectItem noSelectionOption="true" itemLabel="Escolha uma Classe de Uso" itemValue="" />
+                                        <f:selectItems value="#{pulverisationOperationController.readAllUseClasses()}" var="aUseClass" itemLabel="#{aUseClass.description}" itemValue="#{aUseClass}"/>
                                     </p:selectOneMenu>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>
@@ -121,7 +121,7 @@
                                 <p:panelGrid columns="1" >
                                     <p:outputLabel for="@next" value="Alvo Principal ou Função" />
                                     <p:selectOneMenu id="target" required="true" requiredMessage="Um alvo principal/função deve ser selecionada" value="#{pulverisationOperationController.targetId}" filter="true" filterMatchMode="contains">
-                                        <p:ajax listener="#{pulverisationOperationController.onTargetChange()}" update="productList" />
+                                        <!--<p:ajax listener="#{pulverisationOperationController.onTargetChange()}" update="productList" />-->
                                         <f:selectItem noSelectionOption="true" itemLabel="Escolha um Alvo/Função" itemValue="" />
                                         <f:selectItems value="#{pulverisationOperationController.targetOptions}" var="aTarget" itemLabel="#{aTarget.description}" itemValue="#{aTarget.id}"/>
                                     </p:selectOneMenu>
