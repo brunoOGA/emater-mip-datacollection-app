@@ -4,7 +4,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -28,7 +28,7 @@ public class PulverisationOperationController extends PulverisationOperation {
 
     @Setter
     @Getter    
-    private TargetCategory targetCategory;
+    private UseClass targetCategory;
     
     @Setter
     @Getter
@@ -151,8 +151,8 @@ public class PulverisationOperationController extends PulverisationOperation {
         return GrowthPhase.values();
     }
     
-    public TargetCategory[] readAllTargetCategories() {
-        return TargetCategory.values();
+    public UseClass[] readAllTargetCategories() {
+        return UseClass.values();
     }
     
     public void onTargetCategoryChange() {

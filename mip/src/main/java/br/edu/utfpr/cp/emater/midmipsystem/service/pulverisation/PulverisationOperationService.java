@@ -4,7 +4,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.survey.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -100,7 +100,7 @@ public class PulverisationOperationService {
         return List.copyOf(pulverisationOperationRepository.findAll().stream().filter(current -> current.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
     }
 
-    public List<Target> readAllTargetsByCategory(TargetCategory targetCategory) {
+    public List<Target> readAllTargetsByCategory(UseClass targetCategory) {
         return targetService.readAll().stream().filter(current -> current.getCategory().equals(targetCategory)).collect(Collectors.toList());
     }
 

@@ -1,6 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 
-public enum TargetCategory {
+public enum UseClass {
 
     
     HERBICIDA("Herbicida"),
@@ -15,7 +15,7 @@ public enum TargetCategory {
 
     private String description;
 
-    TargetCategory(String description) {
+    UseClass(String description) {
         this.description = description;
     }
 

@@ -1,7 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.pulverisation;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -31,8 +31,8 @@ public class TargetController extends Target implements ICRUDController<Target> 
         return targetService.readAll();
     }
     
-    public TargetCategory[] readAllTargetCategories() {
-        return TargetCategory.values();
+    public UseClass[] readAllTargetCategories() {
+        return UseClass.values();
     }
 
     @Override

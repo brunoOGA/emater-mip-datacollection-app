@@ -27,7 +27,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.ProductUnit;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategory;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
@@ -524,12 +524,12 @@ class CLR implements CommandLineRunner {
 
         // ****** Pulverisation ******
         
-        var target1 = targetRepository.save(Target.builder().description("Folha Larga (Pós-emergência)").category(TargetCategory.HERBICIDA).build());
-        var target2 = targetRepository.save(Target.builder().description("Dessecação").category(TargetCategory.OUTROS).build());
+        var target1 = targetRepository.save(Target.builder().description("Folha Larga (Pós-emergência)").category(UseClass.HERBICIDA).build());
+        var target2 = targetRepository.save(Target.builder().description("Dessecação").category(UseClass.OUTROS).build());
 
-        var target3 = targetRepository.save(Target.builder().description("Folha Estreita (Pré-emergência)").category(TargetCategory.HERBICIDA).build());
-        var target4 = targetRepository.save(Target.builder().description("Lagartas Grupo Heliotinae").category(TargetCategory.INSETICIDA).build());
-        var target5 = targetRepository.save(Target.builder().description("Folha Larga (Pré-emergência)").category(TargetCategory.HERBICIDA).build());
+        var target3 = targetRepository.save(Target.builder().description("Folha Estreita (Pré-emergência)").category(UseClass.HERBICIDA).build());
+        var target4 = targetRepository.save(Target.builder().description("Lagartas Grupo Heliotinae").category(UseClass.INSETICIDA).build());
+        var target5 = targetRepository.save(Target.builder().description("Folha Larga (Pré-emergência)").category(UseClass.HERBICIDA).build());
 
         var product1 = productRepository.save(Product.builder().name("ROUND UP TRANSORB").dose(2.0).unit(ProductUnit.L).target(target3).build());
         var product2 = productRepository.save(Product.builder().name("TRIFLUBENZURON").dose(0.13).unit(ProductUnit.L).target(target4).build());
