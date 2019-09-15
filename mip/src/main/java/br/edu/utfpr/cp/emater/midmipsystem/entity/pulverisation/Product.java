@@ -43,25 +43,50 @@ public class Product extends AuditingPersistenceEntity implements Serializable {
     @EqualsAndHashCode.Include
     @Enumerated (EnumType.STRING)
     private UseClass useClass;
+    
+    private String concentrationActiveIngredient;
+    private Long registerNumber;
+    private String company;
+    private String activeIngredient;
+    
+    @Enumerated (EnumType.STRING)
+    private ToxiClass toxiClass;
 
     public void setName(String usualName) {
         this.name = WordUtils.capitalize(usualName.toLowerCase());
     }
 
     @Builder
-    public static Product create(Long id, String name, double dose, ProductUnit unit, UseClass useClass) {
+    public static Product create(Long id, String name, UseClass useClass, ProductUnit unit, double dose, String concentrationActiveIngredient, Long registerNumber, String company, ToxiClass toxiClass, String activeIngredient) {
         Product instance = new Product();
         instance.setId(id);
-        instance.setDose(dose);
-        instance.setUnit(unit);
         instance.setName(name);
         instance.setUseClass(useClass);
+        instance.setUnit(unit);
+        instance.setDose(dose);
+        instance.setConcentrationActiveIngredient(concentrationActiveIngredient);
+        instance.setRegisterNumber(registerNumber);
+        instance.setCompany(company);
+        instance.setToxiClass(toxiClass);
+        instance.setActiveIngredient(activeIngredient);
 
         return instance;
     }
     
     public String getUnitDescription() {
         return this.getUnit().getDescription();
+    }
+    
+    public String getUseClassDescription() {
+        return this.getUseClass().getDescription();
+    }
+    
+    public String getToxiClassDescription() {
+        if (this.getToxiClass() == null)
+            return "";
+        
+        else
+            return this.getToxiClass().getDescription();
     }
     
 

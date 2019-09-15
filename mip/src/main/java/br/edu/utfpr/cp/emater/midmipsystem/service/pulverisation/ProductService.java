@@ -67,6 +67,11 @@ public class ProductService implements ICRUDService<Product> {
             existentProduct.setDose(aProduct.getDose());
             existentProduct.setUnit(aProduct.getUnit());
             existentProduct.setUseClass(aProduct.getUseClass());
+            existentProduct.setActiveIngredient(aProduct.getActiveIngredient());
+            existentProduct.setCompany(aProduct.getCompany());
+            existentProduct.setConcentrationActiveIngredient(aProduct.getConcentrationActiveIngredient());
+            existentProduct.setRegisterNumber(aProduct.getRegisterNumber());
+            existentProduct.setToxiClass(aProduct.getToxiClass());
 
             productRepository.saveAndFlush(existentProduct);
 
