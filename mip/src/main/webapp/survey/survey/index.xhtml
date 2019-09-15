@@ -74,6 +74,10 @@
                         <p:column visible="false" headerText="Col. Esporos Instal." filterBy="#{aSurvey.sporeCollectorPresent}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.sporeCollectorPresent ? 'Sim' : 'Não' }" />
                         </p:column>
+                        
+                        <p:column visible="false" headerText="Data Inst. Coletor" filterBy="#{aSurvey.collectorInstallationDate}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.collectorInstallationDate}" />
+                        </p:column>
 
                         <p:column headerText="Data da Semeadura" filterBy="#{aSurvey.sowedDate}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.sowedDate}" >

@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.survey;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,4 +16,5 @@ import lombok.NoArgsConstructor;
 public class MIDData implements Serializable {
 
     private boolean sporeCollectorPresent;
+    private Date collectorInstallationDate;
 }

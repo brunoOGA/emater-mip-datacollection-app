@@ -64,6 +64,7 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     public static Survey create (Long id, 
                                  String cultivarName, 
                                  boolean sporeCollectorPresent, 
+                                 Date collectorInstallationDate,
                                  boolean rustResistant, 
                                  boolean bt, 
                                  Date sowedDate, 
@@ -90,7 +91,7 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         instance.setProductivityData(ProductivityData.builder().productivityFarmer(productivityFarmer).productivityField(productivityField).separatedWeight(separatedWeight).build());
         instance.setCultivarData(CultivarData.builder().name(cultivarName).bt(bt).rustResistant(rustResistant).build());
         instance.setSizeData(SizeData.builder().plantPerMeter(plantPerMeter).totalArea(totalArea).totalPlantedArea(totalPlantedArea).build());
-        instance.setMidData(MIDData.builder().sporeCollectorPresent(sporeCollectorPresent).build());
+        instance.setMidData(MIDData.builder().sporeCollectorPresent(sporeCollectorPresent).collectorInstallationDate(collectorInstallationDate).build());
         
         return instance;
     }
@@ -234,6 +235,10 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     
     public boolean isSporeCollectorPresent() {
         return this.getMidData().isSporeCollectorPresent();
+    }
+    
+    public Date getCollectorInstallationDate() {
+        return this.getMidData().getCollectorInstallationDate();
     }
     
 }

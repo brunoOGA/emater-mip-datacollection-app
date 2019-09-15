@@ -34,6 +34,10 @@ public class SurveyController extends Survey {
     @Getter
     @Setter
     private boolean sporeCollectorPresent;
+    
+    @Getter
+    @Setter    
+    private Date collectorInstallationDate;
 
     @Getter
     @Setter
@@ -127,6 +131,7 @@ public class SurveyController extends Survey {
                     .sowedDate(this.getSowedDate())
                     .harvestDate(this.getHarvestDate())
                     .sporeCollectorPresent(this.isSporeCollectorPresent())
+                    .collectorInstallationDate(this.getCollectorInstallationDate())
                     .totalArea(this.getTotalArea())
                     .totalPlantedArea(this.totalPlantedArea)
                     .build();
