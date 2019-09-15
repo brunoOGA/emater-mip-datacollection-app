@@ -58,7 +58,6 @@ public class ProductController extends Product implements ICRUDController<Produc
         try {
             var newProduct = Product.builder()
                     .name(this.getName())
-                    .dose(this.getDose())
                     .unit(this.getUnit())
                     .useClass(this.getUseClass())
                     .activeIngredient(this.getActiveIngredient())
@@ -95,7 +94,6 @@ public class ProductController extends Product implements ICRUDController<Produc
 
             this.setId(existentProduct.getId());
             this.setName(existentProduct.getName());
-            this.setDose(existentProduct.getDose());
             this.setUnit(existentProduct.getUnit());
             this.setUseClass(existentProduct.getUseClass());
             this.setActiveIngredient(existentProduct.getActiveIngredient());
@@ -119,7 +117,6 @@ public class ProductController extends Product implements ICRUDController<Produc
             var updatedProduct = Product.builder()
                                         .id(this.getId())
                                         .name(this.getName())
-                                        .dose(this.getDose())
                                         .unit(this.getUnit())
                                         .useClass(this.getUseClass())
                                         .activeIngredient(this.getActiveIngredient())

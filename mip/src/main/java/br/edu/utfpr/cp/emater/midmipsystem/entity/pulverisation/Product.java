@@ -33,10 +33,6 @@ public class Product extends AuditingPersistenceEntity implements Serializable {
     private String name;
     
     @EqualsAndHashCode.Include
-    @Positive (message = "O valor informado deve ser maior que zero")
-    private double dose;
-    
-    @EqualsAndHashCode.Include
     @Enumerated (EnumType.STRING)
     private ProductUnit unit;
     
@@ -57,13 +53,12 @@ public class Product extends AuditingPersistenceEntity implements Serializable {
     }
 
     @Builder
-    public static Product create(Long id, String name, UseClass useClass, ProductUnit unit, double dose, String concentrationActiveIngredient, Long registerNumber, String company, ToxiClass toxiClass, String activeIngredient) {
+    public static Product create(Long id, String name, UseClass useClass, ProductUnit unit, String concentrationActiveIngredient, Long registerNumber, String company, ToxiClass toxiClass, String activeIngredient) {
         Product instance = new Product();
         instance.setId(id);
         instance.setName(name);
         instance.setUseClass(useClass);
         instance.setUnit(unit);
-        instance.setDose(dose);
         instance.setConcentrationActiveIngredient(concentrationActiveIngredient);
         instance.setRegisterNumber(registerNumber);
         instance.setCompany(company);
