@@ -33,6 +33,9 @@ public class PulverisationOperationOccurrence implements Serializable {
 
     @ManyToOne
     private Target target;
+    
+    @Positive(message = "A dosagem do produto deve ser informada")
+    private double dose;
 
     public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
@@ -45,17 +48,17 @@ public class PulverisationOperationOccurrence implements Serializable {
     }
 
     private double calculateProductCost() {
-//        return this.getProductPrice() * this.getProduct().getDose();
-        return 1;
+        return this.getProductPrice() * this.getDose();
     }
 
     @Builder
-    private static PulverisationOperationOccurrence create(Product product, double productPrice, Target target) {
+    private static PulverisationOperationOccurrence create(Product product, double productPrice, Target target, double dose) {
         var instance = new PulverisationOperationOccurrence();
 
         instance.setProduct(product);
-        instance.setProductPrice(productPrice);
         instance.setTarget(target);
+        instance.setDose(dose);
+        instance.setProductPrice(productPrice);
 
         return instance;
     }
@@ -69,8 +72,7 @@ public class PulverisationOperationOccurrence implements Serializable {
     }
 
     public String getProductFormattedName() {
-//        return String.format("%s - %.2f (%s)", this.getProduct().getName(), this.getProduct().getDose(), this.getProduct().getUnit().getDescription());
-        return "";
+        return String.format("%s - %.2f (%s)", this.getProduct().getName(), this.getDose(), this.getProduct().getUnit().getDescription());
     }
 
 }

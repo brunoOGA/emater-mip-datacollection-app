@@ -544,7 +544,7 @@ class CLR implements CommandLineRunner {
                 .caldaVolume(150.0)
                 .build();
 
-        pulverisationOp1Survey3.addOperationOccurrence(product3, 15.0, target1);
+        pulverisationOp1Survey3.addOperationOccurrence(product3, 15.0, 3, target1);
 
         pulverisationRepository.save(pulverisationOp1Survey3);
 
@@ -557,8 +557,8 @@ class CLR implements CommandLineRunner {
                 .caldaVolume(100.0)
                 .build();
 
-        pulverisationOp1Survey2.addOperationOccurrence(product1, 13.0, target3);
-        pulverisationOp1Survey2.addOperationOccurrence(product2, 35.0, target4);
+        pulverisationOp1Survey2.addOperationOccurrence(product1, 13.0, 4, target3);
+        pulverisationOp1Survey2.addOperationOccurrence(product2, 35.0, 5, target4);
 
         pulverisationRepository.save(pulverisationOp1Survey2);
 
@@ -571,7 +571,7 @@ class CLR implements CommandLineRunner {
                 .caldaVolume(100.0)
                 .build();
 
-        pulverisationOp2Survey2.addOperationOccurrence(product1, 13.0, target5);
+        pulverisationOp2Survey2.addOperationOccurrence(product1, 13.0, 6, target5);
 
         pulverisationRepository.save(pulverisationOp2Survey2);
     }

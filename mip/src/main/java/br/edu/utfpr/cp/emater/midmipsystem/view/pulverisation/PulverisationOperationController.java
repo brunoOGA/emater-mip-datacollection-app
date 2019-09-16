@@ -49,6 +49,10 @@ public class PulverisationOperationController extends PulverisationOperation {
     @Setter
     @Getter
     private double productPrice;
+    
+    @Setter
+    @Getter
+    private double productDose;
 
     @Autowired
     public PulverisationOperationController(PulverisationOperationService aPulverisationOperationService) {
@@ -166,7 +170,7 @@ public class PulverisationOperationController extends PulverisationOperation {
         var product = pulverisationOperationService.readProductById(this.getProductId());
         var target = pulverisationOperationService.readTargetById(this.getTargetId());
 
-        this.addOperationOccurrence(product, this.getProductPrice(), target);
+        this.addOperationOccurrence(product, this.getProductPrice(), this.getProductDose(), target);
     }
 
 }
