@@ -47,10 +47,10 @@
                     <p:inputText value="#{targetController.description}" ></p:inputText>
                     <p:message for="@previous" ></p:message>
 
-                    <p:outputLabel for="@next" value="Categoria" />
-                    <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma cateogoria" value="#{targetController.category}" filter="true" filterMatchMode="contains">
+                    <p:outputLabel for="@next" value="Classe de Uso" />
+                    <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma classe de uso" value="#{targetController.useClass}" filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="Escolha uma Categoria" itemValue="" />
-                        <f:selectItems value="#{targetController.readAllTargetCategories()}" var="aCategory" itemLabel="#{aCategory.description}" itemValue="#{aCategory}"/>
+                        <f:selectItems value="#{targetController.readAllUseClasses()}" var="aUseClass" itemLabel="#{aUseClass.description}" itemValue="#{aUseClass}"/>
                     </p:selectOneMenu>
                     <p:message for="@previous" ></p:message>
 

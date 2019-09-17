@@ -28,7 +28,7 @@ public class Target extends AuditingPersistenceEntity implements Serializable {
     protected Long id;
 
     @EqualsAndHashCode.Include
-    @Size(min = 3, max = 50, message = "A descrição deve ter entre 3 e 50 caracteres")
+    @Size(min = 3, max = 80, message = "A descrição deve ter entre 3 e 80 caracteres")
     protected String description;
 
     @EqualsAndHashCode.Include

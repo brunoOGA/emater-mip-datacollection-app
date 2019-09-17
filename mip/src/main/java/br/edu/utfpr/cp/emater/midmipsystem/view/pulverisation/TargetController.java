@@ -31,7 +31,7 @@ public class TargetController extends Target implements ICRUDController<Target> 
         return targetService.readAll();
     }
     
-    public UseClass[] readAllTargetCategories() {
+    public UseClass[] readAllUseClasses() {
         return UseClass.values();
     }
 
