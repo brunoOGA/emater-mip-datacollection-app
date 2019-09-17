@@ -19,7 +19,8 @@ public enum UseClass {
     AGENTE_BIOLOGICO("Agente Biológico"),
     INCETICIDA_BIOLOGICO("Inseticida Biológico"),
     ADUBO_FOLIAR("Adubo Foliar"),
-    SAL_COMUM("Sal Comum");
+    SAL_COMUM("Sal Comum"),
+    MULTIPLAS("Multiplas");
 
     private String description;
 

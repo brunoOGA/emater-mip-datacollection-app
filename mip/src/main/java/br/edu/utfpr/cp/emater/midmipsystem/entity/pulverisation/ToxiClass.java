@@ -6,7 +6,8 @@ public enum ToxiClass {
     I("I"),
     II("II"),
     III("III"),
-    IV("IV");
+    IV("IV"),
+    INDEFINIDA("INDEFINIDA");
 
     private String description;
 
