@@ -2,15 +2,23 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 
 public enum UseClass {
 
-    
+    ACARICIDA("Acaricida"),
+    BACTERICIDA("Bactericida"),
+    ESPALHANTE_ADESIVO("Espalhante Adesivo"),
+    FUNGICIDA("Fungicida"),
+    ESTIMULANTE("Estimulante"),
     HERBICIDA("Herbicida"),
     INSETICIDA("Inseticida"),
-    INCETICIDA_BIOLOGICO("Inseticida Biológico"),
-    AGENTE_BIOLOGICO("Agente Biológico"),
-    FUNGICIDA("Fungicida"),
-    ADJUVANTE("Adjuvante"),
-    ADUBO_FOLIAR("Adubo Foliar"),
     OUTROS("Outros"),
+    ADJUVANTE("Adjuvante"),
+    LESMICIDA_MOLUSCICIDA("Lesmicida/Moluscicida"),
+    FEROMONIO("Feromônio"),
+    NEMATICIDA("Nematicida"),
+    FORMICIDA("Formicida"),
+    REGULADOR_CRESCIMENTO("Regulador de Crescimento"),
+    AGENTE_BIOLOGICO("Agente Biológico"),
+    INCETICIDA_BIOLOGICO("Inseticida Biológico"),
+    ADUBO_FOLIAR("Adubo Foliar"),
     SAL_COMUM("Sal Comum");
 
     private String description;
