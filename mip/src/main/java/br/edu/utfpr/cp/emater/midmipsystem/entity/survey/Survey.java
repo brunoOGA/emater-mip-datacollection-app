@@ -49,6 +49,9 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     @Embedded
     private MIDData midData;
     
+    @Embedded
+    private PulverisationData pulverisationData;
+    
     @ManyToOne (fetch = FetchType.EAGER)
     @EqualsAndHashCode.Include
     @NotNull (message = "Uma pesquisa deve conter uma unidade de referência")
@@ -78,6 +81,8 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
                                  double totalArea,
                                  double totalPlantedArea,
                                  double plantPerMeter,
+                                 double soyaPrice,
+                                 double applicationCostCurrency,
                                  Field field,
                                  Harvest harvest) {
                 
@@ -92,6 +97,7 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         instance.setCultivarData(CultivarData.builder().name(cultivarName).bt(bt).rustResistant(rustResistant).build());
         instance.setSizeData(SizeData.builder().plantPerMeter(plantPerMeter).totalArea(totalArea).totalPlantedArea(totalPlantedArea).build());
         instance.setMidData(MIDData.builder().sporeCollectorPresent(sporeCollectorPresent).collectorInstallationDate(collectorInstallationDate).build());
+        instance.setPulverisationData(PulverisationData.builder().soyaPrice(soyaPrice).applicationCostCurrency(applicationCostCurrency).build());
         
         return instance;
     }
