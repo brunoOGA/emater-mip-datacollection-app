@@ -256,6 +256,8 @@ class CLR implements CommandLineRunner {
                         .separatedWeight(true)
                         .longitude("3.5")
                         .latitude("4.5")
+                        .soyaPrice(70.0)
+                        .applicationCostCurrency(49.0)
                         .build()
         );
 
@@ -277,6 +279,8 @@ class CLR implements CommandLineRunner {
                         .separatedWeight(true)
                         .longitude("4.5")
                         .latitude("5.5")
+                        .soyaPrice(70.0)
+                        .applicationCostCurrency(30.0)
                         .build()
         );
 
@@ -537,8 +541,6 @@ class CLR implements CommandLineRunner {
 
         var pulverisationOp1Survey3 = PulverisationOperation.builder()
                 .survey(survey3)
-                .soyaPrice(70.0)
-                .operationCostCurrency(30.0)
                 .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01"))
                 .growthPhase(GrowthPhase.R4)
                 .caldaVolume(150.0)
@@ -550,8 +552,6 @@ class CLR implements CommandLineRunner {
 
         var pulverisationOp1Survey2 = PulverisationOperation.builder()
                 .survey(survey2)
-                .soyaPrice(70.0)
-                .operationCostCurrency(49.0)
                 .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-08-28"))
                 .growthPhase(GrowthPhase.V6)
                 .caldaVolume(100.0)
@@ -564,8 +564,6 @@ class CLR implements CommandLineRunner {
 
         var pulverisationOp2Survey2 = PulverisationOperation.builder()
                 .survey(survey2)
-                .soyaPrice(70.0)
-                .operationCostCurrency(49.0)
                 .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-16"))
                 .growthPhase(GrowthPhase.V6)
                 .caldaVolume(100.0)

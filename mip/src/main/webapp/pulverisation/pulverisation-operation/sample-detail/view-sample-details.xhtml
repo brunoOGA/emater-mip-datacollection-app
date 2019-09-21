@@ -62,8 +62,8 @@
                         </h:outputText>    
                     </p:column>
 
-                    <p:column headerText="Custo da Operação de Pulverização (R$/ha)">
-                        <h:outputText value="#{aPulverisation.operationCostCurrency}" >
+                    <p:column headerText="Custo da Aplicação (R$/ha)">
+                        <h:outputText value="#{aPulverisation.applicationCostCurrency}" >
                             <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
                         </h:outputText>
                     </p:column>
@@ -75,7 +75,7 @@
                     </p:column>
 
                     <p:column headerText="Custo da Aplicação (sc/ha)">
-                        <h:outputText value="#{aPulverisation.operationCostQty}" >
+                        <h:outputText value="#{aPulverisation.applicationCostQty}" >
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
                     </p:column>

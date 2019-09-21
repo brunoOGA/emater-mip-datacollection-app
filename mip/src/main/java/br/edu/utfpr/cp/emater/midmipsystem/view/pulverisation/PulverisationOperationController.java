@@ -81,14 +81,10 @@ public class PulverisationOperationController extends PulverisationOperation {
         var newOperation = PulverisationOperation.builder()
                 .caldaVolume(this.getCaldaVolume())
                 .growthPhase(this.getGrowthPhase())
-                .operationCostCurrency(this.getOperationCostCurrency())
                 .sampleDate(this.getSampleDate())
-                .soyaPrice(this.getSoyaPrice())
                 .survey(currentSurvey)
                 .build();
 
-        newOperation.setOperationCostQty(this.getOperationCostQty());
-        newOperation.setTotalOperationCostCurrency(this.getOperationCostCurrency());
         newOperation.setTotalOperationCostQty(this.getTotalOperationCostQty());
         newOperation.setOperationOccurrences(this.getOperationOccurrences());
 

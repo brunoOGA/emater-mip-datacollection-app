@@ -48,15 +48,9 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
     private double caldaVolume;
 
     private int daysAfterEmergence;
-
-    private double soyaPrice;
-
-    private double operationCostCurrency;
     
     private double totalOperationCostCurrency;
-    
-    private double operationCostQty;
-    
+        
     private double totalOperationCostQty;
 
     @ElementCollection
@@ -66,8 +60,6 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
     public static PulverisationOperation create(Long id,
                                                 Survey survey,
                                                 Date sampleDate,
-                                                double soyaPrice,
-                                                double operationCostCurrency,
                                                 GrowthPhase growthPhase,
                                                 double caldaVolume) {
         
@@ -75,8 +67,6 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
         instance.setId(id);
         instance.setSurvey(survey);
         instance.setSampleDate(sampleDate);
-        instance.setSoyaPrice(soyaPrice);
-        instance.setOperationCostCurrency(operationCostCurrency);
         instance.setGrowthPhase(growthPhase);
         instance.setCaldaVolume(caldaVolume);
         
@@ -92,33 +82,21 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
     public boolean addOperationOccurrence (Product product, double productPrice, double productDose, Target target) {
         
         var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).dose(productDose).target(target).build();
-//        occurrence.setProductCostQty(occurrence.getProductCostCurrency()/this.getSoyaPrice());
         
         var result = this.getOperationOccurrences().add(occurrence);
-        
-//        this.setTotalOperationCostCurrency(updateTotalOperationCostCurrency());
-        
-//        this.updateOperationCostQty();
-        
-//        this.setTotalOperationCostQty(this.updateTotalOperationCostQty());
-        
+                
         return result;
+    }    
+    
+    public double getSoyaPrice() {
+        return this.getSurvey().getPulverisationData().getSoyaPrice();
     }
     
-    private double updateTotalOperationCostCurrency() {        
-        return 
-                (this.getOperationOccurrences().stream().mapToDouble(PulverisationOperationOccurrence::getProductCostCurrency).sum() 
-                + this.getOperationCostCurrency());
+    public double getApplicationCostCurrency() {
+        return this.getSurvey().getPulverisationData().getApplicationCostCurrency();
     }
     
-    private void updateOperationCostQty() {
-        this.setOperationCostQty(this.getOperationCostCurrency() / this.getSoyaPrice());
+    public double getApplicationCostQty() {
+        return this.getSurvey().getPulverisationData().getApplicationCostQty();
     }
-
-    private double updateTotalOperationCostQty() {
-        return 
-                (this.getOperationOccurrences().stream().mapToDouble(PulverisationOperationOccurrence::getProductCostQty).sum() 
-                + this.getOperationCostQty());
-    }
-    
 }
