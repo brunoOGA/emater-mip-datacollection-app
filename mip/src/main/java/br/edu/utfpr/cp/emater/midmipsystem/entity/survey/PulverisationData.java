@@ -19,7 +19,6 @@ public class PulverisationData implements Serializable {
 
     @Positive(message = "O custo da aplicação precisa ser um valor maior que zero.")
     private double applicationCostCurrency;
-    private double applicationCostQty;
 
     @Builder
     public static PulverisationData create(double soyaPrice, double applicationCostCurrency) {
@@ -29,24 +28,12 @@ public class PulverisationData implements Serializable {
 
         return instance;
     }
-
-    private double calculateApplicationCostQty(double aSoyaPrice, double anApplicationCostCurrency) {
-        return anApplicationCostCurrency / aSoyaPrice;
-    }
-
-    public void setApplicationCostCurrency(double anApplicationCostCurrency) {
-        this.applicationCostCurrency = anApplicationCostCurrency;
-
-        if (soyaPrice != 0) {
-            this.setApplicationCostQty(this.calculateApplicationCostQty(this.getSoyaPrice(), this.getApplicationCostCurrency()));
-        }
-    }
-
-    public void setSoyaPrice(double aSoyaPrice) {
-        this.soyaPrice = aSoyaPrice;
-
-        if (applicationCostCurrency != 0) {
-            this.setApplicationCostQty(this.calculateApplicationCostQty(this.getSoyaPrice(), this.getApplicationCostCurrency()));
-        }
+    
+    public double getApplicationCostQty() {
+         if (soyaPrice != 0) 
+              if (applicationCostCurrency != 0) 
+                    return (this.getApplicationCostCurrency() / this.getSoyaPrice());
+         
+         return 0;
     }
 }

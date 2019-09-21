@@ -27,29 +27,11 @@ public class PulverisationOperationOccurrence implements Serializable {
     @Positive(message = "O preço do produto deve ser informado")
     private double productPrice;
 
-    private double productCostCurrency;
-
-    private double productCostQty;
-
     @ManyToOne
     private Target target;
-    
+
     @Positive(message = "A dosagem do produto deve ser informada")
     private double dose;
-
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-
-        if (this.product == null) {
-            throw new RuntimeException("Um produto deve ser informado");
-        }
-
-        this.setProductCostCurrency(this.calculateProductCost());
-    }
-
-    private double calculateProductCost() {
-        return this.getProductPrice() * this.getDose();
-    }
 
     @Builder
     private static PulverisationOperationOccurrence create(Product product, double productPrice, Target target, double dose) {
@@ -61,6 +43,18 @@ public class PulverisationOperationOccurrence implements Serializable {
         instance.setProductPrice(productPrice);
 
         return instance;
+    }
+
+    public double getProductCostCurrency() {
+        if (this.getProductPrice() != 0) 
+            if (this.getDose() != 0)
+                return this.getProductPrice() * this.getDose();
+        
+        return 0;
+    }
+    
+    public double getProductCostQty() {
+        return 0;
     }
 
     public String getTargetCategoryDescription() {

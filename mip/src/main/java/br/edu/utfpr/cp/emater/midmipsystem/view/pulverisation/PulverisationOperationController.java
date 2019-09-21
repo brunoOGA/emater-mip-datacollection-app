@@ -85,7 +85,6 @@ public class PulverisationOperationController extends PulverisationOperation {
                 .survey(currentSurvey)
                 .build();
 
-        newOperation.setTotalOperationCostQty(this.getTotalOperationCostQty());
         newOperation.setOperationOccurrences(this.getOperationOccurrences());
 
         try {

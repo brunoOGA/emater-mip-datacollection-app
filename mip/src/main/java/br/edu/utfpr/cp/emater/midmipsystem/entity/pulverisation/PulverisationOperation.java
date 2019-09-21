@@ -48,10 +48,6 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
     private double caldaVolume;
 
     private int daysAfterEmergence;
-    
-    private double totalOperationCostCurrency;
-        
-    private double totalOperationCostQty;
 
     @ElementCollection
     private Set<PulverisationOperationOccurrence> operationOccurrences;
@@ -79,6 +75,8 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
         this.setOperationOccurrences(new HashSet<>());
     }
     
+    
+    
     public boolean addOperationOccurrence (Product product, double productPrice, double productDose, Target target) {
         
         var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).dose(productDose).target(target).build();
@@ -98,5 +96,15 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
     
     public double getApplicationCostQty() {
         return this.getSurvey().getPulverisationData().getApplicationCostQty();
+    }
+    
+    public double getTotalOperationCostCurrency() {
+        var totalCostWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostCurrency()).sum();
+        return totalCostWithProducts + this.getApplicationCostCurrency();
+    }
+    
+    public double getTotalOperationCostQty() {
+        var totalCostQtyWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostQty()).sum();
+        return totalCostQtyWithProducts + this.getApplicationCostQty();
     }
 }
