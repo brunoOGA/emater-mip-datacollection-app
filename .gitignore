@@ -5,3 +5,7 @@ mip/target/
 /**/_config.yml
 /**/.settings/
 /**/.factorypath
+/**/.vscode
+/**/.classpath
+/**/nb-configuration
+/**/nb-actions
