@@ -45,7 +45,7 @@ public class RegionController extends Region implements ICRUDController<Region> 
     public List<Region> readAll() {
         return regionService.readAll();
     }
-
+    
     public List<MacroRegion> readAllMacroRegions() {
         return regionService.readAllMacroRegions();
     }
