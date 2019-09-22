@@ -536,8 +536,8 @@ class CLR implements CommandLineRunner {
         var target5 = targetRepository.save(Target.builder().description("Folha Larga (Pré-emergência)").useClass(UseClass.HERBICIDA).build());
 
         var product1 = productRepository.save(Product.builder().name("ROUND UP TRANSORB").unit(ProductUnit.L).useClass(UseClass.HERBICIDA).build());
-        var product2 = productRepository.save(Product.builder().name("TRIFLUBENZURON").unit(ProductUnit.L).useClass(UseClass.OUTROS).build());
-        var product3 = productRepository.save(Product.builder().name("ZAPP QI").unit(ProductUnit.L).useClass(UseClass.INSETICIDA).build());
+        var product2 = productRepository.save(Product.builder().name("TRIFLUBENZURON").unit(ProductUnit.L).useClass(UseClass.INSETICIDA).build());
+        var product3 = productRepository.save(Product.builder().name("ZAPP QI").unit(ProductUnit.L).useClass(UseClass.HERBICIDA).build());
 
         var pulverisationOp1Survey3 = PulverisationOperation.builder()
                 .survey(survey3)

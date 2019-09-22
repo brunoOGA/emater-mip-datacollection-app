@@ -10,6 +10,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.ProductUseClassDifferFromTargetException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationService;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -49,7 +50,7 @@ public class PulverisationOperationController extends PulverisationOperation {
     @Setter
     @Getter
     private double productPrice;
-    
+
     @Setter
     @Getter
     private double productDose;
@@ -162,10 +163,15 @@ public class PulverisationOperationController extends PulverisationOperation {
     }
 
     public void addOccurrence() throws EntityNotFoundException {
-        var product = pulverisationOperationService.readProductById(this.getProductId());
-        var target = pulverisationOperationService.readTargetById(this.getTargetId());
 
-        this.addOperationOccurrence(product, this.getProductPrice(), this.getProductDose(), target);
+        try {
+            var product = pulverisationOperationService.readProductById(this.getProductId());
+            var target = pulverisationOperationService.readTargetById(this.getTargetId());
+
+            this.addOperationOccurrence(product, this.getProductPrice(), this.getProductDose(), target);
+
+        } catch (ProductUseClassDifferFromTargetException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", e.getMessage()));
+        }
     }
-
 }

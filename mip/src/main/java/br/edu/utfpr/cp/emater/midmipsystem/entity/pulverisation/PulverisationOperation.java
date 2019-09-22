@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.ProductUseClassDifferFromTargetException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -54,55 +55,59 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
     @Builder
     public static PulverisationOperation create(Long id,
-                                                Survey survey,
-                                                Date sampleDate,
-                                                GrowthPhase growthPhase,
-                                                double caldaVolume) {
-        
+            Survey survey,
+            Date sampleDate,
+            GrowthPhase growthPhase,
+            double caldaVolume) {
+
         var instance = new PulverisationOperation();
         instance.setId(id);
         instance.setSurvey(survey);
         instance.setSampleDate(sampleDate);
         instance.setGrowthPhase(growthPhase);
         instance.setCaldaVolume(caldaVolume);
-        
+
         return instance;
     }
 
     public PulverisationOperation() {
         super();
-        
+
         this.setOperationOccurrences(new HashSet<>());
     }
-    
-    
-    
-    public boolean addOperationOccurrence (Product product, double productPrice, double productDose, Target target) {
-        
-        var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).dose(productDose).target(target).build();
-        
-        var result = this.getOperationOccurrences().add(occurrence);
-                
-        return result;
-    }    
-    
+
+    public boolean addOperationOccurrence(Product product, double productPrice, double productDose, Target target) throws ProductUseClassDifferFromTargetException {
+
+        if (product.getUseClass() != target.getUseClass()) {
+            throw new ProductUseClassDifferFromTargetException();
+            
+        } else {
+            var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).dose(productDose).target(target).build();
+
+            var result = this.getOperationOccurrences().add(occurrence);
+            
+            return result;
+        }
+
+    }
+
     public double getSoyaPrice() {
         return this.getSurvey().getPulverisationData().getSoyaPrice();
     }
-    
+
     public double getApplicationCostCurrency() {
         return this.getSurvey().getPulverisationData().getApplicationCostCurrency();
     }
-    
+
     public double getApplicationCostQty() {
         return this.getSurvey().getPulverisationData().getApplicationCostQty();
     }
-    
+
     public double getTotalOperationCostCurrency() {
         var totalCostWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostCurrency()).sum();
         return totalCostWithProducts + this.getApplicationCostCurrency();
     }
-    
+
     public double getTotalOperationCostQty() {
         var totalCostQtyWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostQty()).sum();
         return totalCostQtyWithProducts + this.getApplicationCostQty();
