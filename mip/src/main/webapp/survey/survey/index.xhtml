@@ -54,6 +54,10 @@
                         <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.harvestName}" />
                         </p:column>
+                        
+                        <p:column headerText="Município" filterBy="#{aSurvey.fieldCityName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.fieldCityName}" />
+                        </p:column>
 
                         <p:column headerText="UR" filterBy="#{aSurvey.fieldName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.fieldName}" />
@@ -67,7 +71,7 @@
                             <h:outputText value="#{aSurvey.rustResistant ? 'Sim' : 'Não' }" />
                         </p:column>
 
-                        <p:column headerText="BT" filterBy="#{aSurvey.bt}" filterMatchMode="contains" >
+                        <p:column visible="false" headerText="BT" filterBy="#{aSurvey.bt}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.bt ? 'Sim' : 'Não'}" />
                         </p:column>
 

@@ -93,7 +93,7 @@
                                 <p:panelGrid columns="2" >
                                     <p:panelGrid columns="1" >
                                         <p:outputLabel for="@next" value="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
-                                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um valor na lista" value="#{midRustSampleController.bladeReadingRustResultCollector}" filter="true" filterMatchMode="contains">
+                                        <p:selectOneListbox value="#{midRustSampleController.bladeReadingRustResultCollector}" filter="true" filterMatchMode="contains">
                                             <f:selectItems value="#{midRustSampleController.readAllAsiaticRustTypesSporeCollector()}" var="aAsiaticRustSporeType" itemLabel="#{aAsiaticRustSporeType.description}" itemValue="#{aAsiaticRustSporeType}"/>
                                         </p:selectOneListbox>
                                         <p:message for="@previous" ></p:message>
