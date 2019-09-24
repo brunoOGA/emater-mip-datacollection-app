@@ -174,4 +174,13 @@ public class FieldService implements ICRUDService<Field> {
         }
     }
 
+    public Set<Supervisor> readSupervisorsByIds(List<Long> selectedSupervisorIds) throws EntityNotFoundException {
+        var result = new HashSet<Supervisor>();
+        
+        for (Long id: selectedSupervisorIds)
+            result.add(supervisorService.readById(id));
+        
+        return result;
+    }
+
 }

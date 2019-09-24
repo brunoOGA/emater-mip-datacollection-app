@@ -12,8 +12,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
@@ -31,7 +31,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
 
     @Getter
     @Setter
-    private List<Supervisor> selectedSupervisors;
+    private List<Long> selectedSupervisorIds;
 
     @Getter
     @Setter
@@ -72,7 +72,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
                     .location(this.getLocation())
                     .city(this.fieldService.readCityById(this.getSelectedCityId()))
                     .farmer(this.fieldService.readFarmerById(this.getSelectedFarmerId()))
-                    .supervisors(new HashSet<Supervisor>(this.getSelectedSupervisors()))
+                    .supervisors(fieldService.readSupervisorsByIds(this.getSelectedSupervisorIds()))
                     .build();
 
             fieldService.create(newField);
@@ -108,7 +108,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
             this.setLocation(existentField.getLocation());
             this.setSelectedCityId(existentField.getCityId());
             this.setSelectedFarmerId(existentField.getFarmerId());
-            this.setSelectedSupervisors(new ArrayList<>(existentField.getSupervisors()));
+            this.setSelectedSupervisorIds(existentField.getSupervisors().stream().map(Supervisor::getId).collect(Collectors.toList()));
 
             return "update.xhtml";
 
@@ -128,7 +128,7 @@ public class FieldController extends Field implements ICRUDController<Field> {
                     .location(this.getLocation())
                     .city(this.fieldService.readCityById(this.getSelectedCityId()))
                     .farmer(this.fieldService.readFarmerById(this.getSelectedFarmerId()))
-                    .supervisors(new HashSet<Supervisor>(this.getSelectedSupervisors()))
+                    .supervisors(fieldService.readSupervisorsByIds(this.getSelectedSupervisorIds()))
                     .build();
 
             fieldService.update(updatedField);
