@@ -56,10 +56,12 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepositor
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.security.SystemAuditorAware;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
-@EnableJpaAuditing
+@EnableJpaAuditing (auditorAwareRef="auditorProvider")
 @EnableWebSecurity
 public class MipApplication  {
 
@@ -72,6 +74,11 @@ public class MipApplication  {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(new Locale("pt", "BR"));
         return slr;
+    }
+    
+    @Bean
+    AuditorAware<String> auditorProvider() {
+        return new SystemAuditorAware();
     }
 }
 
