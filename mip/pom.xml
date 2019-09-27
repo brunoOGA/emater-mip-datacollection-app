@@ -67,14 +67,20 @@
         <dependency> 
             <groupId>org.joinfaces</groupId>
             <artifactId>adminfaces-spring-boot-starter</artifactId>
-        </dependency>        
-                        
-        <!--Original dependencies-->
+        </dependency>    
+        
+        <!--Security-related dependencies-->    
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>org.joinfaces</groupId>
+            <artifactId>security-spring-boot-starter</artifactId>
+        </dependency>
 
+        <!--Original dependencies-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -119,9 +125,8 @@
             <artifactId>commons-text</artifactId>
             <version>1.6</version>
         </dependency>
-
     </dependencies>
-
+    
     <build>
         <plugins>
             <plugin>
