@@ -25,18 +25,18 @@ import org.springframework.stereotype.Component;
 public class SurveyController extends Survey {
 
     private final SurveyService surveyService;
-    
+
     @Getter
     @Setter
     @Size(min = 3, max = 50, message = "A identificação da cultivar deve ter entre 3 e 50 caracteres")
-    private String seedName;
-    
+    private String cultivarName;
+
     @Getter
     @Setter
     private boolean sporeCollectorPresent;
-    
+
     @Getter
-    @Setter    
+    @Setter
     private Date collectorInstallationDate;
 
     @Getter
@@ -126,7 +126,7 @@ public class SurveyController extends Survey {
                     .productivityFarmer(this.getProductivityFarmer())
                     .productivityField(this.getProductivityField())
                     .rustResistant(this.isRustResistant())
-                    .cultivarName(this.getSeedName())
+                    .cultivarName(this.getCultivarName())
                     .separatedWeight(this.isSeparatedWeight())
                     .sowedDate(this.getSowedDate())
                     .harvestDate(this.getHarvestDate())
@@ -177,9 +177,48 @@ public class SurveyController extends Survey {
             return "index.xhtml";
         }
     }
-    
+
     public String prepareUpdate(Long surveyId) {
-        
+        try {
+            var currentSurvey = surveyService.readById(surveyId);
+
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", surveyId);
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSowedDate", currentSurvey.getSowedDate());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentEmergenceDate", currentSurvey.getEmergenceDate());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentHarvestDate", currentSurvey.getHarvestDate());
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentProductivityField", currentSurvey.getProductivityField());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentProductivityFarmer", currentSurvey.getProductivityFarmer());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSeparatedWeight", currentSurvey.isSeparatedWeight());
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSoyaPrice", currentSurvey.getSoyaPrice());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSoyaPrice", currentSurvey.getApplicationCostCurrency());
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentLongitude", currentSurvey.getLongitude());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentLatitude", currentSurvey.getLatitude());
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentCultivarName", currentSurvey.getCultivarName());
+            this.setCultivarName(currentSurvey.getCultivarName());
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentRestResistant", currentSurvey.isRustResistant());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentBT", currentSurvey.isBt());
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSporeCollectorPresent", currentSurvey.isSporeCollectorPresent());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentCollectorInstallationDate", currentSurvey.getCollectorInstallationDate());
+            
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentTotalArea", currentSurvey.getTotalArea());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentTotalPlantedArea", currentSurvey.getTotalPlantedArea());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentPlantPerMeter", currentSurvey.getPlantPerMeter());
+            
+            return "/survey/survey/update.xhtml?faces-redirect=true";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alteração não pode ser iniciada porque a UR não foi encontrada na base de dados!"));
+            return "index.xhtml";
+        }
     }
 
 }

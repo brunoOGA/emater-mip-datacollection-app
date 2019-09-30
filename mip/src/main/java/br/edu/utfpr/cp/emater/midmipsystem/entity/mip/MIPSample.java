@@ -120,7 +120,7 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
         return this.getSurvey().getField().getSupervisorNames().toString();
     }
 
-    public String getSeedName() {
-        return this.getSurvey().getSeedName();
+    public String getCultivarName() {
+        return this.getSurvey().getCultivarName();
     }
 }

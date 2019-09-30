@@ -94,20 +94,16 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         instance.setCropData(CropData.builder().emergenceDate(emergenceDate).harvestDate(harvestDate).sowedDate(sowedDate).build());
         instance.setLocationData(LocationData.builder().latitude(latitude).longitude(longitude).build());
         instance.setProductivityData(ProductivityData.builder().productivityFarmer(productivityFarmer).productivityField(productivityField).separatedWeight(separatedWeight).build());
-        instance.setCultivarData(CultivarData.builder().name(cultivarName).bt(bt).rustResistant(rustResistant).build());
+        instance.setCultivarData(CultivarData.builder().cultivarName(cultivarName).bt(bt).rustResistant(rustResistant).build());
         instance.setSizeData(SizeData.builder().plantPerMeter(plantPerMeter).totalArea(totalArea).totalPlantedArea(totalPlantedArea).build());
         instance.setMidData(MIDData.builder().sporeCollectorPresent(sporeCollectorPresent).collectorInstallationDate(collectorInstallationDate).build());
         instance.setPulverisationData(PulverisationData.builder().soyaPrice(soyaPrice).applicationCostCurrency(applicationCostCurrency).build());
         
         return instance;
     }
-    
-    public String getSeedName() {
-        return this.getCultivarData().getName();
-    }
-    
+        
     public String getCultivarName() {
-        return this.getCultivarData().getName();
+        return this.getCultivarData().getCultivarName();
     }
     
     public boolean isRustResistant() {
@@ -247,4 +243,18 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         return this.getMidData().getCollectorInstallationDate();
     }
     
+    public double getSoyaPrice() {
+        if (this.getPulverisationData() != null)
+            return this.getPulverisationData().getSoyaPrice();
+        
+        return 0;
+    }
+    
+    public double getApplicationCostCurrency() {
+        if (this.getPulverisationData() != null)
+            return this.getPulverisationData().getApplicationCostCurrency();
+        
+        return 0;
+    }
+        
 }

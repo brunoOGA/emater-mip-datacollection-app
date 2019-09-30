@@ -108,4 +108,43 @@ public class SurveyService {
 
         return allFieldsOutOfCurrentHarvest;
     }
+
+    public void update(Survey updatedSurvey) throws EntityNotFoundException, AnyPersistenceException {
+        
+        var currentSurvey = surveyRepository.findById(updatedSurvey.getId()).orElseThrow(EntityNotFoundException::new);
+        
+        currentSurvey.getCropData().setEmergenceDate(updatedSurvey.getEmergenceDate());
+        currentSurvey.getCropData().setHarvestDate(updatedSurvey.getHarvestDate());
+        currentSurvey.getCropData().setSowedDate(updatedSurvey.getSowedDate());
+        
+        currentSurvey.getProductivityData().setProductivityFarmer(updatedSurvey.getProductivityFarmer());
+        currentSurvey.getProductivityData().setProductivityField(updatedSurvey.getProductivityField());
+        currentSurvey.getProductivityData().setSeparatedWeight(updatedSurvey.isSeparatedWeight());
+        
+        currentSurvey.getPulverisationData().setApplicationCostCurrency(updatedSurvey.getApplicationCostCurrency());
+        currentSurvey.getPulverisationData().setSoyaPrice(updatedSurvey.getSoyaPrice());
+                
+        currentSurvey.getLocationData().setLatitude(updatedSurvey.getLatitude());
+        currentSurvey.getLocationData().setLongitude(updatedSurvey.getLongitude());
+        
+        currentSurvey.getCultivarData().setBt(updatedSurvey.isBt());
+        currentSurvey.getCultivarData().setCultivarName(updatedSurvey.getCultivarName());
+        currentSurvey.getCultivarData().setRustResistant(updatedSurvey.isRustResistant());
+        
+        currentSurvey.getMidData().setCollectorInstallationDate(updatedSurvey.getCollectorInstallationDate());
+        currentSurvey.getMidData().setSporeCollectorPresent(updatedSurvey.isSporeCollectorPresent());
+        
+        currentSurvey.getSizeData().setPlantPerMeter(updatedSurvey.getPlantPerMeter());
+        currentSurvey.getSizeData().setTotalArea(updatedSurvey.getTotalArea());
+        currentSurvey.getSizeData().setTotalPlantedArea(updatedSurvey.getTotalPlantedArea());
+        
+        
+         try {
+            surveyRepository.saveAndFlush(currentSurvey);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+        
+    }
 }
