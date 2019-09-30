@@ -177,5 +177,9 @@ public class SurveyController extends Survey {
             return "index.xhtml";
         }
     }
+    
+    public String prepareUpdate(Long surveyId) {
+        
+    }
 
 }

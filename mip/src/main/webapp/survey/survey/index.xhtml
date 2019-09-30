@@ -154,6 +154,9 @@
                             <p:commandButton ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                             
 
+                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{surveyController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Alterar" position="top" />                            
+                            
                             <p:commandButton update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja remover a UR '#{aSurvey.fieldName}' da pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." />
                             </p:commandButton>
