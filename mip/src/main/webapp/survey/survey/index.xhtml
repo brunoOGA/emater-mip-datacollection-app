@@ -143,6 +143,14 @@
                         <p:column visible="false" headerText="Longitude" filterBy="#{aSurvey.longitude}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.longitude}" ></h:outputText>
                         </p:column>
+                        
+                        <p:column visible="false" headerText="Preço da Soja" filterBy="#{aSurvey.soyaPrice}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.soyaPrice}" ></h:outputText>
+                        </p:column>
+                        
+                        <p:column visible="false" headerText="Custo Operação Pulverização" filterBy="#{aSurvey.applicationCostCurrency}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.applicationCostCurrency}" ></h:outputText>
+                        </p:column>
 
                         <p:column headerText="Ações" width="200">
                             <p:commandButton ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>

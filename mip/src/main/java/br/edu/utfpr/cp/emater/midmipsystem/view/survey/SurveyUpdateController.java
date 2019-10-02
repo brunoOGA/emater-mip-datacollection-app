@@ -1,9 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.survey;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.Date;
@@ -69,8 +67,6 @@ public class SurveyUpdateController {
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", surveyId);
-            
-            this.setSurveyId(surveyId);
 
             this.setSowedDate(currentSurvey.getSowedDate());
             this.setEmergenceDate(currentSurvey.getEmergenceDate());
@@ -107,8 +103,10 @@ public class SurveyUpdateController {
     
     public String update() {
         
+        var currentSurveyId = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId"));
+        
         var updatedSurvey = Survey.builder()
-                                        .id(this.getSurveyId())
+                                        .id(currentSurveyId)
                                         .sowedDate(this.getSowedDate())
                                         .emergenceDate(this.getEmergenceDate())
                                         .harvestDate(this.getHarvestDate())
