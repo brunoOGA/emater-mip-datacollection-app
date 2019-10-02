@@ -11,11 +11,12 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepositor
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class MIDRustSampleService {
 
     private final MIDRustSampleRepository midRustSampleRepository;
@@ -23,16 +24,6 @@ public class MIDRustSampleService {
     private final SurveyService surveyService;
     
     private final BladeReadingResponsiblePersonService bladeResponsiblePersonService;
-
-    @Autowired
-    public MIDRustSampleService(MIDRustSampleRepository midRustSampleRepository,
-            SurveyService aSurveyService,
-            BladeReadingResponsiblePersonService aBladeResponsiblePersonService) {
-
-        this.midRustSampleRepository = midRustSampleRepository;
-        this.surveyService = aSurveyService;
-        this.bladeResponsiblePersonService = aBladeResponsiblePersonService;
-    }
 
     public Survey readSurveyById(Long id) throws EntityNotFoundException {
         return surveyService.readById(id);

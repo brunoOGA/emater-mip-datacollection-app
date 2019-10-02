@@ -15,31 +15,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class PulverisationOperationService {
     
     private final PulverisationOperationRepository pulverisationOperationRepository;
     private final TargetService targetService;
     private final ProductService productService;
     private final SurveyService surveyService;
-
-    @Autowired
-    public PulverisationOperationService(
-            PulverisationOperationRepository aPulverisationOperationRepository,
-            TargetService aTargetService,
-            ProductService aProductService,
-            SurveyService aSurveyService) {
-
-        this.pulverisationOperationRepository = aPulverisationOperationRepository;
-        this.targetService = aTargetService;
-        this.productService = aProductService;
-        this.surveyService = aSurveyService;
-    }
-
 
     public List<Survey> readAllSurveysUniqueEntries() {
         return List.copyOf(pulverisationOperationRepository.findAll().stream().map(PulverisationOperation::getSurvey).distinct().collect(Collectors.toList()));

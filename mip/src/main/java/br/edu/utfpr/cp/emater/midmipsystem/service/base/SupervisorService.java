@@ -10,21 +10,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class SupervisorService implements ICRUDService<Supervisor> {
 
     private final SupervisorRepository supervisorRepository;
     private final RegionService regionService;
-
-    @Autowired
-    public SupervisorService(SupervisorRepository aSupervisorRepository, RegionService aRegionService) {
-        this.supervisorRepository = aSupervisorRepository;
-        this.regionService = aRegionService;
-    }
 
     @Override
     public List<Supervisor> readAll() {

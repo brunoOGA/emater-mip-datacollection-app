@@ -13,23 +13,17 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class SurveyService {
 
     private final SurveyRepository surveyRepository;
     private final HarvestService harvestService;
     private final FieldService fieldService;
-
-    @Autowired
-    public SurveyService(SurveyRepository aSurveyRepository, HarvestService aHarvestService, FieldService aFieldService) {
-        this.surveyRepository = aSurveyRepository;
-        this.harvestService = aHarvestService;
-        this.fieldService = aFieldService;
-    }
 
     public List<Survey> readAll() {
         return List.copyOf(surveyRepository.findAll());

@@ -8,19 +8,15 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class FarmerService implements ICRUDService<Farmer> {
 
     private final FarmerRepository farmerRepository;
-
-    @Autowired
-    public FarmerService(FarmerRepository aFarmerRepository) {
-        this.farmerRepository = aFarmerRepository;
-    }
 
     @Override
     public List<Farmer> readAll() {

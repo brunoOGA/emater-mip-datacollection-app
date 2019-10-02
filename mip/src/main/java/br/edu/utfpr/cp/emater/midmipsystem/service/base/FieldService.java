@@ -16,25 +16,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class FieldService implements ICRUDService<Field> {
 
     private final FieldRepository fieldRepository;
     private final CityService cityService;
     private final FarmerService farmerService;
     private final SupervisorService supervisorService;
-
-    @Autowired
-    public FieldService(FieldRepository aFieldRepository, CityService aCityService, FarmerService aFarmerService, SupervisorService aSupervisorService) {
-        this.fieldRepository = aFieldRepository;
-        this.cityService = aCityService;
-        this.farmerService = aFarmerService;
-        this.supervisorService = aSupervisorService;
-    }
 
     @Override
     public List<Field> readAll() {

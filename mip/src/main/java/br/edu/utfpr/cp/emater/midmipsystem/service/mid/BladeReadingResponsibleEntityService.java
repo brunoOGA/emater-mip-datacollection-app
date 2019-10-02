@@ -11,23 +11,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class BladeReadingResponsibleEntityService implements ICRUDService<BladeReadingResponsibleEntity> {
 
     private final BladeReadingResponsibleEntityRepository bladeEntityRepository;
     private final CityService cityService;
-
-    @Autowired
-    public BladeReadingResponsibleEntityService(BladeReadingResponsibleEntityRepository aBladeEntityRepository,
-            CityService aCityService) {
-
-        this.bladeEntityRepository = aBladeEntityRepository;
-        this.cityService = aCityService;
-    }
 
     @Override
     public List<BladeReadingResponsibleEntity> readAll() {

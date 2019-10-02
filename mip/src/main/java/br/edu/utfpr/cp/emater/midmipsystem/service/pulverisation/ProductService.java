@@ -10,23 +10,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepos
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ProductService implements ICRUDService<Product> {
 
     private final ProductRepository productRepository;
     private final TargetService targetService;
-
-    @Autowired
-    public ProductService(ProductRepository aProductRepository,
-            TargetService aTargetService) {
-
-        this.productRepository = aProductRepository;
-        this.targetService = aTargetService;
-    }
 
     @Override
     public List<Product> readAll() {

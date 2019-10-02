@@ -9,19 +9,15 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class PestService implements ICRUDService<Pest> {
 
     private final PestRepository pestRepository;
-
-    @Autowired
-    public PestService(PestRepository aPestRepository) {
-        this.pestRepository = aPestRepository;
-    }
 
     @Override
     public List<Pest> readAll() {

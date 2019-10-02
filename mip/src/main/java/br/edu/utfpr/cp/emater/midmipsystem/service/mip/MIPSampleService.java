@@ -16,11 +16,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class MIPSampleService {
 
     private final MIPSampleRepository mipSampleRepository;
@@ -28,20 +29,6 @@ public class MIPSampleService {
     private final PestService pestService;
     private final PestDiseaseService pestDiseaseService;
     private final PestNaturalPredatorService pestNaturalPredatorService;
-
-    @Autowired
-    public MIPSampleService(MIPSampleRepository aMIPSampleRepository,
-            SurveyService aSurveyService,
-            PestService aPestService,
-            PestDiseaseService aPestDiseaseService,
-            PestNaturalPredatorService aPestNaturalPredatorService) {
-
-        this.mipSampleRepository = aMIPSampleRepository;
-        this.surveyService = aSurveyService;
-        this.pestService = aPestService;
-        this.pestDiseaseService = aPestDiseaseService;
-        this.pestNaturalPredatorService = aPestNaturalPredatorService;
-    }
 
     public List<MIPSample> readAll() {
         return List.copyOf(mipSampleRepository.findAll());
