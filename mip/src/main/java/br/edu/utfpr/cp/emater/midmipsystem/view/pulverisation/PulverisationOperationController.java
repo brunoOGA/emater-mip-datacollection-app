@@ -17,12 +17,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component(value = "pulverisationOperationController")
 @ViewScoped
+@RequiredArgsConstructor
 public class PulverisationOperationController extends PulverisationOperation {
 
     private final PulverisationOperationService pulverisationOperationService;
@@ -54,12 +55,6 @@ public class PulverisationOperationController extends PulverisationOperation {
     @Setter
     @Getter
     private double productDose;
-
-    @Autowired
-    public PulverisationOperationController(PulverisationOperationService aPulverisationOperationService) {
-        this.pulverisationOperationService = aPulverisationOperationService;
-
-    }
 
     public List<Survey> readAllSurveysUniqueEntries() {
         return pulverisationOperationService.readAllSurveysUniqueEntries();

@@ -16,12 +16,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.validation.constraints.Size;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @ViewScoped
+@RequiredArgsConstructor
 public class SurveyController extends Survey {
 
     private final SurveyService surveyService;
@@ -94,11 +95,6 @@ public class SurveyController extends Survey {
     @Getter
     @Setter
     private Date harvestDate;
-
-    @Autowired
-    public SurveyController(SurveyService aSurveyService) {
-        this.surveyService = aSurveyService;
-    }
 
     public List<Survey> readAll() {
         return surveyService.readAll();

@@ -12,13 +12,14 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class BladeReadingResponsiblePersonController extends BladeReadingResponsibleEntity implements ICRUDController<BladeReadingResponsiblePerson> {
 
     private final BladeReadingResponsiblePersonService bladeReadingPersonService;
@@ -26,12 +27,6 @@ public class BladeReadingResponsiblePersonController extends BladeReadingRespons
     @Getter
     @Setter  
     private Long selectedEntityId;
-
-    @Autowired
-    public BladeReadingResponsiblePersonController(BladeReadingResponsiblePersonService aBladeReadingPersonService) {
-
-        this.bladeReadingPersonService = aBladeReadingPersonService;
-    }
 
     @Override
     public List<BladeReadingResponsiblePerson> readAll() {

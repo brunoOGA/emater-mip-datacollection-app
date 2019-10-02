@@ -10,20 +10,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerService;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class FarmerController extends Farmer implements ICRUDController<Farmer> {
 
-    private FarmerService farmerService;
-
-    @Autowired
-    public FarmerController(FarmerService aFarmerService) {
-        this.farmerService = aFarmerService;
-    }
+    private final FarmerService farmerService;
 
     @Override
     public List<Farmer> readAll() {

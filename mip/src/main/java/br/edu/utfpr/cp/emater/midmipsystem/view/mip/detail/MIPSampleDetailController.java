@@ -8,6 +8,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 @Component(value = "mipSampleDetailController")
 @SessionScope
+@RequiredArgsConstructor
 public class MIPSampleDetailController {
 
     private final MIPSampleService mipSampleService;
@@ -22,11 +24,6 @@ public class MIPSampleDetailController {
     @Setter
     @Getter
     private Survey currentSurvey;
-
-    @Autowired
-    public MIPSampleDetailController(MIPSampleService aMipSampleService) {
-        this.mipSampleService = aMipSampleService;
-    }
 
     public List<MIPSample> readAllMIPSampleBySurvey() {
         return mipSampleService.readAllMIPSampleBySurveyId(this.getCurrentSurvey().getId());

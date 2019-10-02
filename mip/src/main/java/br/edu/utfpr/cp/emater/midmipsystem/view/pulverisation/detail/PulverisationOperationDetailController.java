@@ -8,13 +8,14 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 @Component(value = "pulverisationDetailController")
 @SessionScope
+@RequiredArgsConstructor
 public class PulverisationOperationDetailController {
 
     private final PulverisationOperationService pulverisationService;
@@ -22,11 +23,6 @@ public class PulverisationOperationDetailController {
     @Setter
     @Getter
     private Survey currentSurvey;
-
-    @Autowired
-    public PulverisationOperationDetailController(PulverisationOperationService aPulverisationService) {
-        this.pulverisationService = aPulverisationService;
-    }
 
     public List<PulverisationOperation> readAllPulverisationOperationBySurvey() {
         return pulverisationService.readAllPulverisationOperationBySurveyId(this.getCurrentSurvey().getId());

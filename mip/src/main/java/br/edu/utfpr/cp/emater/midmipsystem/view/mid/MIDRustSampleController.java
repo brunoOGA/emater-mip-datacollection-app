@@ -19,12 +19,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component(value = "midRustSampleController")
 @ViewScoped
+@RequiredArgsConstructor
 public class MIDRustSampleController extends MIDRustSample {
 
     private final MIDRustSampleService midRustSampleService;
@@ -64,12 +65,6 @@ public class MIDRustSampleController extends MIDRustSample {
     @Setter
     @Getter
     private AsiaticRustTypesLeafInspection bladeReadingRustResultLeafInspection;
-
-    @Autowired
-    public MIDRustSampleController(MIDRustSampleService aMIDRustSampleService) {
-        this.midRustSampleService = aMIDRustSampleService;
-
-    }
 
     public List<Survey> readAllSurveysUniqueEntries() {
         return midRustSampleService.readAllSurveysUniqueEntries();

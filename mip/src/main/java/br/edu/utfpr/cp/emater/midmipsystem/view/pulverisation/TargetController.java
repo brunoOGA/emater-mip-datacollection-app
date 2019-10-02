@@ -11,20 +11,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class TargetController extends Target implements ICRUDController<Target> {
 
     private final TargetService targetService;
-
-    @Autowired
-    public TargetController(TargetService aTargetService) {
-        this.targetService = aTargetService;
-    }
 
     @Override
     public List<Target> readAll() {

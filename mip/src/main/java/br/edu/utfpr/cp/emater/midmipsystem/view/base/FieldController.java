@@ -11,23 +11,23 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 // Note that there are issues to resolve regarding the match of supervisors and cities
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class FieldController extends Field implements ICRUDController<Field> {
 
-    private FieldService fieldService;
+    private final FieldService fieldService;
 
     @Getter
     @Setter
@@ -40,11 +40,6 @@ public class FieldController extends Field implements ICRUDController<Field> {
     @Getter
     @Setter
     private Long selectedFarmerId;
-
-    @Autowired
-    public FieldController(FieldService aFieldService) {
-        this.fieldService = aFieldService;
-    }
 
     @Override
     public List<Field> readAll() {

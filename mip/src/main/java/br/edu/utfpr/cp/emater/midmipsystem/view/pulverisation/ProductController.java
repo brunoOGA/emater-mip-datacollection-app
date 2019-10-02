@@ -15,13 +15,14 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
+@RequiredArgsConstructor
 public class ProductController extends Product implements ICRUDController<Product> {
 
     private final ProductService productService;
@@ -29,11 +30,6 @@ public class ProductController extends Product implements ICRUDController<Produc
     @Getter
     @Setter
     private Long targetId;
-
-    @Autowired
-    public ProductController(ProductService aProductService) {
-        this.productService = aProductService;
-    }
 
     @Override
     public List<Product> readAll() {
