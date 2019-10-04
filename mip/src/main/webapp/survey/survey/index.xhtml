@@ -80,12 +80,14 @@
                         </p:column>
 
                         <p:column visible="false" headerText="Data Inst. Coletor" filterBy="#{aSurvey.collectorInstallationDate}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.collectorInstallationDate}" />
+                            <h:outputText value="#{aSurvey.collectorInstallationDate}" >
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Data da Semeadura" filterBy="#{aSurvey.sowedDate}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.sowedDate}" >
-                                <f:convertDateTime type="date" pattern="dd-MM-yyyy" />
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"  />
                             </h:outputText>
                         </p:column>
 
