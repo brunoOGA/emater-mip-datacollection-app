@@ -81,7 +81,7 @@
                     </p:column>
 
                     <p:column headerText="Custo Total da Operação (sc/ha)">
-                        <h:outputText value="#{aPulverisation.totalOperationCostQty}" >
+                        <h:outputText value="#{aPulverisation.totalOperationCostCurrency / aPulverisation.soyaPrice}" >
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
                     </p:column>
@@ -127,7 +127,7 @@
                             </p:column>
 
                             <p:column headerText="Custo Produto (sc/ha)">
-                                <h:outputText value="#{anOccurrence.productCostQty}" >
+                                <h:outputText value="#{anOccurrence.productCostCurrency / aPulverisation.soyaPrice}" >
                                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                                 </h:outputText>
                             </p:column>

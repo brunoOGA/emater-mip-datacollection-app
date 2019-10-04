@@ -93,7 +93,9 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
     public double getSoyaPrice() {
         if (this.getSurvey() != null) {
-            return this.getSurvey().getPulverisationData().getSoyaPrice();
+            if (this.getSurvey().getPulverisationData() != null) {
+                return this.getSurvey().getPulverisationData().getSoyaPrice();
+            }
         }
 
         return 0;
@@ -101,7 +103,9 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
     public double getApplicationCostCurrency() {
         if (this.getSurvey() != null) {
-            return this.getSurvey().getPulverisationData().getApplicationCostCurrency();
+            if (this.getSurvey().getPulverisationData() != null) {
+                return this.getSurvey().getPulverisationData().getApplicationCostCurrency();
+            }
         }
 
         return 0;
@@ -109,7 +113,9 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
     public double getApplicationCostQty() {
         if (this.getSurvey() != null) {
-            return this.getSurvey().getPulverisationData().getApplicationCostQty();
+            if (this.getSurvey().getPulverisationData() != null) {
+                return this.getSurvey().getPulverisationData().getApplicationCostQty();
+            }
         }
 
         return 0;
@@ -124,17 +130,6 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
             }
         }
 
-        return 0;
-    }
-
-    public double getTotalOperationCostQty() {
-        if (this.getOperationOccurrences() != null) {
-            if (this.getOperationOccurrences().size() != 0) {
-                var totalCostQtyWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostQty()).sum();
-                return totalCostQtyWithProducts + this.getApplicationCostQty();
-            }
-        }
-        
         return 0;
     }
 }
