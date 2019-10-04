@@ -88,26 +88,44 @@ public class Field extends AuditingPersistenceEntity implements Serializable {
     }
 
     public String getCityName() {
-        return this.getCity().getName();
+        if (this.getCity() != null)
+            return this.getCity().getName();
+        
+        return null;
     }
     
     public Long getCityId(){
-        return this.getCity().getId();
+        if (this.getCity() != null)
+            return this.getCity().getId();
+        
+        return 0L;
     }
     
     public String getStateName() {
-        return this.getCity().getState().getName();
+        if (this.getCity() != null)
+            return this.getCity().getState().getName();
+        
+        return null;
     }
     
     public String getFarmerName() {
-        return this.getFarmer().getName();
+        if (this.getFarmer()!= null)
+            return this.getFarmer().getName();
+        
+        return null;
     }
     
     public Long getFarmerId() {
-        return this.getFarmer().getId();
+        if (this.getFarmer()!= null)
+            return this.getFarmer().getId();
+        
+        return 0L;
     }
     
     public List<String> getSupervisorNames() {
-        return this.getSupervisors().stream().map(Supervisor::getName).collect(Collectors.toList());
+        if (this.getSupervisors() != null)
+            return this.getSupervisors().stream().map(Supervisor::getName).collect(Collectors.toList());
+        
+        return null;
     }
 }

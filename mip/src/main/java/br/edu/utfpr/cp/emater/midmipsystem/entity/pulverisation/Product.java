@@ -69,11 +69,17 @@ public class Product extends AuditingPersistenceEntity implements Serializable {
     }
     
     public String getUnitDescription() {
-        return this.getUnit().getDescription();
+        if (this.getUnit() != null)
+            return this.getUnit().getDescription();
+        
+        return null;
     }
     
     public String getUseClassDescription() {
-        return this.getUseClass().getDescription();
+        if (this.getUseClass() != null)
+            return this.getUseClass().getDescription();
+        
+        return null;
     }
     
     public String getToxiClassDescription() {

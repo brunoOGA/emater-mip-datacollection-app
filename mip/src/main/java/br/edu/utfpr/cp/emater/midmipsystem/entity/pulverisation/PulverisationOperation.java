@@ -80,36 +80,61 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
         if (product.getUseClass() != target.getUseClass()) {
             throw new ProductUseClassDifferFromTargetException();
-            
+
         } else {
             var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).dose(productDose).target(target).build();
 
             var result = this.getOperationOccurrences().add(occurrence);
-            
+
             return result;
         }
 
     }
 
     public double getSoyaPrice() {
-        return this.getSurvey().getPulverisationData().getSoyaPrice();
+        if (this.getSurvey() != null) {
+            return this.getSurvey().getPulverisationData().getSoyaPrice();
+        }
+
+        return 0;
     }
 
     public double getApplicationCostCurrency() {
-        return this.getSurvey().getPulverisationData().getApplicationCostCurrency();
+        if (this.getSurvey() != null) {
+            return this.getSurvey().getPulverisationData().getApplicationCostCurrency();
+        }
+
+        return 0;
     }
 
     public double getApplicationCostQty() {
-        return this.getSurvey().getPulverisationData().getApplicationCostQty();
+        if (this.getSurvey() != null) {
+            return this.getSurvey().getPulverisationData().getApplicationCostQty();
+        }
+
+        return 0;
     }
 
     public double getTotalOperationCostCurrency() {
-        var totalCostWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostCurrency()).sum();
-        return totalCostWithProducts + this.getApplicationCostCurrency();
+        if (this.getOperationOccurrences() != null) {
+            if (this.getOperationOccurrences().size() != 0) {
+                var totalCostWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostCurrency()).sum();
+                return totalCostWithProducts + this.getApplicationCostCurrency();
+
+            }
+        }
+
+        return 0;
     }
 
     public double getTotalOperationCostQty() {
-        var totalCostQtyWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostQty()).sum();
-        return totalCostQtyWithProducts + this.getApplicationCostQty();
+        if (this.getOperationOccurrences() != null) {
+            if (this.getOperationOccurrences().size() != 0) {
+                var totalCostQtyWithProducts = this.getOperationOccurrences().stream().mapToDouble(occurrence -> occurrence.getProductCostQty()).sum();
+                return totalCostQtyWithProducts + this.getApplicationCostQty();
+            }
+        }
+        
+        return 0;
     }
 }

@@ -103,15 +103,24 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     }
         
     public String getCultivarName() {
-        return this.getCultivarData().getCultivarName();
+        if (this.getCultivarData() != null)
+            return this.getCultivarData().getCultivarName();
+        
+        return null;
     }
     
     public boolean isRustResistant() {
-        return this.getCultivarData().isRustResistant();
+        if (this.getCultivarData() != null)
+            return this.getCultivarData().isRustResistant();
+        
+        return false;
     }
     
     public boolean isBt() {
-        return this.getCultivarData().isBt();
+        if (this.getCultivarData() != null)
+            return this.getCultivarData().isBt();
+        
+        return false;
     }
     
     public Date getSowedDate() {
@@ -148,99 +157,171 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     }
     
     public String getLongitude() {
-        return this.getLocationData().getLongitude();
+        if (this.getLocationData() != null)
+            return this.getLocationData().getLongitude();
+        
+        return null;
     }
     
     public String getLatitude() {
-        return this.getLocationData().getLatitude();
+        if (this.getLocationData() != null)
+            return this.getLocationData().getLatitude();
+        
+        return null;
     }
     
     public double getProductivityField() {
-        return this.getProductivityData().getProductivityField();
+        if (this.getProductivityData() != null)
+            return this.getProductivityData().getProductivityField();
+        
+        return 0;
     }
     
     public double getProductivityFarmer() {
-        return this.getProductivityData().getProductivityFarmer();
+        if (this.getProductivityData() != null)
+            return this.getProductivityData().getProductivityFarmer();
+        
+        return 0;
     }
     
     public boolean isSeparatedWeight() {
-        return this.getProductivityData().isSeparatedWeight();
+        if (this.getProductivityData() != null)
+            return this.getProductivityData().isSeparatedWeight();
+        
+        return false;
     }
     
     public double getTotalArea() {
-        return this.getSizeData().getTotalArea();
+        if (this.getSizeData() != null)
+            return this.getSizeData().getTotalArea();
+        
+        return 0;
     }
     
     public double getTotalPlantedArea() {
-        return this.getSizeData().getTotalPlantedArea();
+        if (this.getSizeData() != null)
+            return this.getSizeData().getTotalPlantedArea();
+        
+        return 0;
     }
     
     public double getPlantPerMeter() {
-        return this.getSizeData().getPlantPerMeter();
+        if (this.getSizeData() != null)
+            return this.getSizeData().getPlantPerMeter();
+        
+        return 0;
     }
     
     public Long getFieldId() {
-        return this.getField().getId();
+        if (this.getField() != null)
+            return this.getField().getId();
+        
+        return null;
     }
     
     public String getFieldName() {
-        return this.getField().getName();
+        if (this.getField() != null)
+            return this.getField().getName();
+        
+        return null;
     }
     
     public String getFieldLocation() {
-        return this.getField().getLocation();
+        if (this.getField() != null)
+            return this.getField().getLocation();
+        
+        return null;
     }
     
     public Long getFieldCityId() {
-        return this.getField().getCityId();
+        if (this.getField() != null)
+            return this.getField().getCityId();
+        
+        return null;
     }
     
     public String getFieldCityName() {
-        return this.getField().getCityName();
+        if (this.getField() != null)
+            return this.getField().getCityName();
+        
+        return null;
     }
     
     public State getFieldCityState() {
-        return this.getField().getCity().getState();
+        if (this.getField() != null)
+            return this.getField().getCity().getState();
+        
+        return null;
     }
     
     public Long getFarmerId() {
-        return this.getField().getFarmerId();
+        if (this.getField() != null)
+            return this.getField().getFarmerId();
+        
+        return null;
     }   
     
     public String getFarmerString() {
-        return this.getField().getFarmerName();
+        if (this.getField() != null)
+            return this.getField().getFarmerName();
+        
+        return null;
     }
     
     public Set<Supervisor> getFieldSupervisors() {
-        return this.getField().getSupervisors();
+        if (this.getField() != null)
+            return this.getField().getSupervisors();
+        
+        return null;
     }
     
     public Long getHarvestId() {
-        return this.getHarvest().getId();
+        if (this.getHarvest() != null)
+            return this.getHarvest().getId();
+        
+        return null;
     }
     
     public String getHarvestName() {
-        return this.getHarvest().getName();
+        if (this.getHarvest() != null)
+            return this.getHarvest().getName();
+        
+        return null;
     }
     
     public Date getHarvestBeginDate() {
-        return this.getHarvest().getBegin();
+        if (this.getHarvest() != null)
+            return this.getHarvest().getBegin();
+        
+        return null;
     }
     
     public Date getHarvestEndDate() {
-        return this.getHarvest().getEnd();
+        if (this.getHarvest() != null)
+            return this.getHarvest().getEnd();
+        
+        return null; 
     }
     
     public String getFieldSupervisorNames() {
-        return this.getField().getSupervisorNames().toString();
+        if (this.getField() != null)
+            return this.getField().getSupervisorNames().toString();
+        
+        return null;
     }
     
     public boolean isSporeCollectorPresent() {
-        return this.getMidData().isSporeCollectorPresent();
+        if (this.getMidData() != null)
+            return this.getMidData().isSporeCollectorPresent();
+        
+        return false;
     }
     
     public Date getCollectorInstallationDate() {
-        return this.getMidData().getCollectorInstallationDate();
+        if (this.getMidData() != null)
+            return this.getMidData().getCollectorInstallationDate();
+        
+        return null;
     }
     
     public double getSoyaPrice() {

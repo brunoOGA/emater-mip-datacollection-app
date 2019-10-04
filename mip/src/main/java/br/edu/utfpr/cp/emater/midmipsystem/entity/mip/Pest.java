@@ -57,6 +57,9 @@ public class Pest extends AuditingPersistenceEntity implements Serializable {
     }
 
     public String getPestSizeName() {
-        return this.getPestSize().getName();
+        if (this.getPestSize() != null)
+            return this.getPestSize().getName();
+        
+        return null;
     }
 }

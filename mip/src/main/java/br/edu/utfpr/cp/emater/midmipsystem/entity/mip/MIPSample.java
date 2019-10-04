@@ -101,26 +101,44 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
     }    
 
     public String getHarvestName() {
-        return this.getSurvey().getHarvestName();
+        if (this.getSurvey() != null)
+            return this.getSurvey().getHarvestName();
+        
+        return null;
     }
 
     public String getFarmerName() {
-        return this.getSurvey().getFarmerString();
+        if (this.getSurvey() != null)
+            return this.getSurvey().getFarmerString();
+        
+        return null;
     }
 
     public String getFieldName() {
-        return this.getSurvey().getFieldName();
+        if (this.getSurvey() != null)
+            return this.getSurvey().getFieldName();
+        
+        return null;
     }
 
     public String getCityName() {
-        return this.getSurvey().getFieldCityName();
+        if (this.getSurvey() != null)
+            return this.getSurvey().getFieldCityName();
+        
+        return null;
     }
 
     public String getSupervisorNames() {
-        return this.getSurvey().getField().getSupervisorNames().toString();
+        if (this.getSurvey() != null)
+            return this.getSurvey().getField().getSupervisorNames().toString();
+        
+        return null;
     }
 
     public String getCultivarName() {
-        return this.getSurvey().getCultivarName();
+        if (this.getSurvey() != null)
+            return this.getSurvey().getCultivarName();
+        
+        return null;
     }
 }
