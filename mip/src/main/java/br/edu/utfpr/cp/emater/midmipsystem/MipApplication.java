@@ -69,6 +69,7 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
@@ -563,7 +564,7 @@ class CLR implements CommandLineRunner {
                                 .city(cityRepository.findAll().get(0))
                                 .email("gabrielcosta@utfpr.edu.br")
                                 .fullName("Gabriel Costa Silva")
-                                .password("supersecret")
+                                .password(new BCryptPasswordEncoder().encode("supersecret"))
                                 .region(regionRepository.findAll().get(0))
                                 .roles(Stream.of(role).collect(Collectors.toList()))
                         .build()
