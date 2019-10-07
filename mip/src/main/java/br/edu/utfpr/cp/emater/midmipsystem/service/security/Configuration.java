@@ -1,4 +1,4 @@
-package br.edu.utfpr.cp.emater.midmipsystem.security;
+package br.edu.utfpr.cp.emater.midmipsystem.service.security;
 
 import java.io.Serializable;
 import org.springframework.context.annotation.Bean;
