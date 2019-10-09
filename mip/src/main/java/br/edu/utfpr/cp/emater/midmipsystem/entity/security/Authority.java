@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Role implements Serializable {
+public class Authority implements Serializable {
     
     @Id @GeneratedValue
     private Long id;
@@ -25,9 +25,6 @@ public class Role implements Serializable {
     @Size (min = 3, message = "O nome precisa ter pelo menos 3 caracteres")
     private String name;
     
-    @ManyToMany (mappedBy = "roles")
+    @ManyToMany (mappedBy = "authorities")
     private List<User> users;
-    
-    @ManyToMany
-    private List<Privilege> privileges;
 }

@@ -5,6 +5,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -40,7 +41,7 @@ public class User implements Serializable {
     @Size (min = 3, max = 20, message = "O nome de usuário deve ter entre 3 e 20 caracteres")
     private String username;
     
-    @Size (min = 5, message = "A senha deve ser maior que 5 caracteres")
+    @Size (min = 3, message = "A senha deve ser maior que 3 caracteres")
     private String password;
     
     @ManyToOne
@@ -49,6 +50,15 @@ public class User implements Serializable {
     @ManyToOne
     private City city;
     
-    @ManyToMany
-    private List<Role> roles;
+    private boolean accountNonExpired;
+    
+    private boolean accountNonLocked;
+    
+    private boolean credentialsNonExpired;
+    
+    private boolean enabled;
+    
+    @ManyToMany (fetch = FetchType.EAGER)
+    private List<Authority> authorities;
+
 }

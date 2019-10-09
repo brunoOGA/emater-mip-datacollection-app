@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.security;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,13 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 @RequiredArgsConstructor
 @Getter
 public class MIPUserPrincipal implements UserDetails {
-    
+
     private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return user.getAuthorities().stream().map(authority -> new SimpleGrantedAuthority(authority.getName().toString())).collect(Collectors.toList());
-        return null;
+        return user.getAuthorities().stream().map(currentAuthority -> new SimpleGrantedAuthority(currentAuthority.getName())).collect(Collectors.toList());
     }
 
     @Override
@@ -31,22 +31,22 @@ public class MIPUserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return user.isAccountNonExpired();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.isAccountNonLocked();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return user.isCredentialsNonExpired();
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isEnabled();
     }
-    
+
 }

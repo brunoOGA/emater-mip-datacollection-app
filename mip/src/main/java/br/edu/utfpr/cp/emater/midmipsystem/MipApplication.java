@@ -28,9 +28,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.ProductUnit;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Privilege;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.PrivilegeType;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Role;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.User;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -60,8 +58,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepositor
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.security.PrivilegeRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.security.RoleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.security.UserRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.security.SystemAuditorAware;
 import java.util.stream.Collectors;
@@ -70,23 +66,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.security.AuthorityRepository;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @EnableWebSecurity
 public class MipApplication {
-
+    
     public static void main(String[] args) {
         SpringApplication.run(MipApplication.class, args);
     }
-
+    
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(new Locale("pt", "BR"));
         return slr;
     }
-
+    
     @Bean
     AuditorAware<String> auditorProvider() {
         return new SystemAuditorAware();
@@ -96,35 +93,34 @@ public class MipApplication {
 @Component
 @RequiredArgsConstructor
 class CLR implements CommandLineRunner {
-
+    
     private final MacroRegionRepository macroRegionRepository;
     private final RegionRepository regionRepository;
     private final CityRepository cityRepository;
     private final FarmerRepository farmerRepository;
     private final SupervisorRepository supervisorRepository;
     private final FieldRepository fieldRepository;
-
+    
     private final HarvestRepository harvestRepository;
     private final SurveyRepository surveyRepository;
-
+    
     private final PestRepository pestRepository;
     private final PestDiseaseRepository pestDiseaseRepository;
     private final PestNaturalPredatorRepository pestNaturalPredatorRepository;
-
+    
     private final MIPSampleRepository mipSampleRepository;
-
+    
     private final MIDRustSampleRepository midRustRepository;
     private final BladeReadingResponsibleEntityRepository bladeEntityRepository;
     private final BladeReadingResponsiblePersonRepository bladePersonRepository;
-
+    
     private final TargetRepository targetRepository;
     private final ProductRepository productRepository;
     private final PulverisationOperationRepository pulverisationRepository;
-
+    
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PrivilegeRepository privilegeRepository;
-
+    private final AuthorityRepository authorityRepository;
+    
     @Override
     public void run(String... args) throws Exception {
 
@@ -552,23 +548,27 @@ class CLR implements CommandLineRunner {
 //        pulverisationRepository.save(pulverisationOp2Survey2);
 
         Stream.of(
-                Privilege.builder().name("Ler macro-região").type(PrivilegeType.READ).urlAllowed("/base/macro-region/").build(),
-                Privilege.builder().name("Ler região").type(PrivilegeType.READ).urlAllowed("/base/region/").build()
-        ).forEach(privilegeRepository::save);
-
-        var role = roleRepository.save(Role.builder().name("Ler").privileges(privilegeRepository.findAll()).build());
+                Authority.builder().name("READ_MACRO_REGION").build(),
+                Authority.builder().name("READ_REGION").build(),
+                Authority.builder().name("READ_SUPERVISOR").build()
+        ).forEach(authorityRepository::save);
         
         userRepository.save(
-                        User.builder()
-                                .username("gabrielcosta")
-                                .city(cityRepository.findAll().get(0))
-                                .email("gabrielcosta@utfpr.edu.br")
-                                .fullName("Gabriel Costa Silva")
-                                .password(new BCryptPasswordEncoder().encode("supersecret"))
-                                .region(regionRepository.findAll().get(0))
-                                .roles(Stream.of(role).collect(Collectors.toList()))
+                User.builder()
+                        .accountNonExpired(true)
+                        .accountNonLocked(true)
+                        .authorities(authorityRepository.findAll())
+                        .city(cityRepository.findAll().get(0))
+                        .credentialsNonExpired(true)
+                        .email("tecnico@emater.gov.pr")
+                        .enabled(true)
+                        .fullName("Tecnico")
+                        .password(new BCryptPasswordEncoder().encode("567"))
+                        .region(regionRepository.findAll().get(0))
+                        .username("tecnico")
                         .build()
         );
-    }
 
+    }
+    
 }
