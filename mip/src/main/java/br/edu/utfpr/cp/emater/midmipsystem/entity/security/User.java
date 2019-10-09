@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -25,10 +26,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
+@Entity (name = "MIPUSER")
 public class User implements Serializable {
     
-    @Id @GeneratedValue
+    @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Size (min = 5, message = "O nome completo deve ser maior que 5 caracteres")
@@ -38,7 +39,7 @@ public class User implements Serializable {
     @EqualsAndHashCode.Include
     private String email;
     
-    @Size (min = 3, max = 20, message = "O nome de usuário deve ter entre 3 e 20 caracteres")
+    @Size (min = 3, max = 30, message = "O nome de usuário deve ter entre 3 e 20 caracteres")
     private String username;
     
     @Size (min = 3, message = "A senha deve ser maior que 3 caracteres")
