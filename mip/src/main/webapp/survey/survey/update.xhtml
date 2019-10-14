@@ -67,11 +67,11 @@
                         <p:panel header="Dados da Área">
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Área da Unidade (ha)"></p:outputLabel>
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.totalArea}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Área Total Cultivada"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Área Total Cultivada (ha)"></p:outputLabel>
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.totalPlantedArea}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
@@ -79,11 +79,11 @@
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.plantPerMeter}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Latitude"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Latitude (usar formato UTM)"></p:outputLabel>
                                 <p:inputText value="#{surveyUpdateController.latitude}" ></p:inputText>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Longitude"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Longitude (usar formato UTM)"></p:outputLabel>
                                 <p:inputText value="#{surveyUpdateController.longitude}" ></p:inputText>
                                 <p:message for="@previous" ></p:message>
 
@@ -127,11 +127,11 @@
 
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                <p:outputLabel for="@next" value="Produtividade da Unidade (UO/UR)"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Produtividade da Unidade (sc/alq)"></p:outputLabel>
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.productivityField}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Produtividade da Área total do Produtor"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Produtividade da Área total do Produtor (sc/alq)"></p:outputLabel>
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.productivityFarmer}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 

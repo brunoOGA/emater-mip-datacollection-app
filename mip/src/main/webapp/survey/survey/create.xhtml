@@ -106,11 +106,11 @@
                         <p:panel header="Passo 4/6: Dados da Área">
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Área da Unidade (ha)"></p:outputLabel>
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalArea}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Área Total Cultivada"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Área Total Cultivada (ha)"></p:outputLabel>
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalPlantedArea}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
@@ -118,11 +118,11 @@
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.plantPerMeter}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Latitude"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Latitude (usar formato UTM)"></p:outputLabel>
                                 <p:inputText value="#{surveyController.latitude}" ></p:inputText>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Longitude"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Longitude (usar formato UTM)"></p:outputLabel>
                                 <p:inputText value="#{surveyController.longitude}" ></p:inputText>
                                 <p:message for="@previous" ></p:message>
 
@@ -147,26 +147,6 @@
                         </p:panel>
                     </p:tab>
 
-
-                    <!--                        <p:tab id="productivity" title="Produtividade">
-                                                <p:panel header="Passo 5/6: Dados da Produtividade">
-                    
-                                                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                    
-                                                        <p:outputLabel for="@next" value="Produtividade da Unidade (UO/UR)"></p:outputLabel>
-                                                        <p:inputText value="#{surveyController.productivityField}" ></p:inputText>
-                                                        <p:message for="@previous" ></p:message>
-                    
-                                                        <p:outputLabel for="@next" value="Produtividade da Área total do Produtor"></p:outputLabel>
-                                                        <p:inputText value="#{surveyController.productivityFarmer}" ></p:inputText>
-                                                        <p:message for="@previous" ></p:message>
-                    
-                                                        <p:selectBooleanCheckbox value="#{surveyController.separatedWeight}" itemLabel="Pesou em Separado?"/>
-                                                    </p:panelGrid>   
-                    
-                                                </p:panel>
-                                            </p:tab>-->
-
                     <p:tab title="Datas">
                         <p:panel header="Passo 6/6: Datas">
                             <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
@@ -182,12 +162,6 @@
                                     <p:datePicker inline="true"  value="#{surveyController.emergenceDate}" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>
-
-<!--                                <p:panelGrid columns="1">
-                                    <p:outputLabel for="@next" value="Data da Colheita"></p:outputLabel>
-                                    <p:datePicker inline="true" value="#{surveyController.harvestDate}" ></p:datePicker>
-                                    <p:message for="@previous" ></p:message>
-                                </p:panelGrid>-->
 
                             </p:panelGrid>   
 
