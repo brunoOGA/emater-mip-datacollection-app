@@ -134,10 +134,12 @@
                         <p:panel header="Passo 5/6: Dados do Coletor de Esporos">
 
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                <p:selectBooleanCheckbox value="#{surveyController.sporeCollectorPresent}" itemLabel="Tem coletor de esporos instalado?"/>
+                                <p:selectBooleanCheckbox value="#{surveyController.sporeCollectorPresent}" itemLabel="Tem coletor de esporos instalado?">
+                                    <p:ajax update="installationDatePanel" listener="#{surveyController.showInstallationDatePanel()}" />
+                                </p:selectBooleanCheckbox>
                             </p:panelGrid>                            
                             
-                            <p:panelGrid columns="1">
+                            <p:panelGrid id="installationDatePanel" columns="1" styleClass="#{surveyController.statusInstallationDatePanel}">
                                 <p:outputLabel for="@next" value="Data da instalação do coletor"></p:outputLabel>
                                 <p:datePicker inline="true" value="#{surveyController.collectorInstallationDate}" ></p:datePicker>
                                 <p:message for="@previous" ></p:message>

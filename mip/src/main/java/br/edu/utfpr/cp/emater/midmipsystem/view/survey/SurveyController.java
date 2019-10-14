@@ -95,6 +95,10 @@ public class SurveyController extends Survey {
     @Getter
     @Setter
     private Date harvestDate;
+    
+    @Getter
+    @Setter
+    private String statusInstallationDatePanel = "hidden-sm hidden-md hidden-lg hidden-xs";
 
     public List<Survey> readAll() {
         return surveyService.readAll();
@@ -215,6 +219,14 @@ public class SurveyController extends Survey {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alteração não pode ser iniciada porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
+    }
+    
+    public void showInstallationDatePanel() {
+        if (this.getStatusInstallationDatePanel().equals("hidden-sm hidden-md hidden-lg hidden-xs"))
+            this.setStatusInstallationDatePanel("");
+        
+        else
+            this.setStatusInstallationDatePanel("hidden-sm hidden-md hidden-lg hidden-xs");
     }
 
 }
