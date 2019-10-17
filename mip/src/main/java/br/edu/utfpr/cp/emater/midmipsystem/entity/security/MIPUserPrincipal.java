@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 public class MIPUserPrincipal implements UserDetails {
 
-    private final User user;
-
+    private final MIPUser user;
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getAuthorities().stream().map(currentAuthority -> new SimpleGrantedAuthority(currentAuthority.getName())).collect(Collectors.toList());

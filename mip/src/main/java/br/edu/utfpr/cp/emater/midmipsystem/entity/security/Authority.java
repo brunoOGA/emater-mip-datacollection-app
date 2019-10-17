@@ -26,5 +26,5 @@ public class Authority implements Serializable {
     private String name;
     
     @ManyToMany (mappedBy = "authorities")
-    private List<User> users;
+    private List<MIPUser> users;
 }

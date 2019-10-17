@@ -1,14 +1,15 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.security;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
 import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
-public class SystemAuditorAware implements AuditorAware<String> {
-
-  public Optional<String> getCurrentAuditor() {
+public class SystemAuditorAware implements AuditorAware<MIPUser> {
+    
+  public Optional<MIPUser> getCurrentAuditor() {
 
      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -16,6 +17,6 @@ public class SystemAuditorAware implements AuditorAware<String> {
       return Optional.empty();
     }
 
-    return Optional.of(((UserDetails) authentication.getPrincipal()).getUsername());
+      return Optional.of(((MIPUserPrincipal) authentication.getPrincipal()).getUser());
   }
 }
