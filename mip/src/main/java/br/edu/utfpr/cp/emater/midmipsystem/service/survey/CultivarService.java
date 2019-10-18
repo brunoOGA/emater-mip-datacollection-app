@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Cultivar;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class CultivarService implements ICRUDService<Cultivar> {
 
     private final CultivarRepository cultivarRepository;
+    private final SurveyService surveyService;
     
     public List<String> readByExcerptName(String excerpt) {
         return List.copyOf(cultivarRepository.findByNameContainingIgnoreCase(excerpt).stream().map(Cultivar::getName).collect(Collectors.toList()));
@@ -71,6 +73,15 @@ public class CultivarService implements ICRUDService<Cultivar> {
         var existentCultivar = cultivarRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
         
         try {
+            if (surveyService
+                    .readAll()
+                    .stream()
+                    .map(currentSurvey -> currentSurvey.getCultivarData().getCultivarName())
+                    .anyMatch(name -> name.equalsIgnoreCase(existentCultivar.getName()))
+                ) 
+                    throw new DataIntegrityViolationException("Entity in use!");
+            
+            
             cultivarRepository.delete(existentCultivar);
             
         } catch (DataIntegrityViolationException cve) {
