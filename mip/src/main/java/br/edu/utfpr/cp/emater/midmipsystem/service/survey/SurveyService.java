@@ -24,6 +24,7 @@ public class SurveyService {
     private final SurveyRepository surveyRepository;
     private final HarvestService harvestService;
     private final FieldService fieldService;
+    private final CultivarService cultivarService;
 
     public List<Survey> readAll() {
         return List.copyOf(surveyRepository.findAll());
@@ -140,5 +141,9 @@ public class SurveyService {
             throw new AnyPersistenceException();
         }
         
+    }
+    
+    public List<String> searchCultivar (String excerpt){
+        return cultivarService.readByExcerptName(excerpt);
     }
 }

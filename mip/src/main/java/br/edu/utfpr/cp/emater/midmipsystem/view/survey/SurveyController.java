@@ -9,6 +9,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -227,6 +228,10 @@ public class SurveyController extends Survey {
         
         else
             this.setStatusInstallationDatePanel("hidden-sm hidden-md hidden-lg hidden-xs");
+    }
+    
+    public List<String> searchCultivar(String excerpt) {
+        return surveyService.searchCultivar(excerpt);
     }
 
 }

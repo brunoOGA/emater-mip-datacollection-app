@@ -8,15 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 import lombok.Builder;
+import lombok.Data;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Data
 public class Cultivar extends AuditingPersistenceEntity implements Serializable {
 
     @Id

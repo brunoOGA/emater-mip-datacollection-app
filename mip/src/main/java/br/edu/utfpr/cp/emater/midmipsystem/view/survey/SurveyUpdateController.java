@@ -5,6 +5,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.Date;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.validation.constraints.Size;
@@ -141,5 +142,9 @@ public class SurveyUpdateController {
             return "index.xhtml";
         }
 
+    }
+    
+    public List<String> searchCultivar(String excerpt) {
+        return surveyService.searchCultivar(excerpt);
     }
 }

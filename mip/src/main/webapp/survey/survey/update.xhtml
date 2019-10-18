@@ -52,7 +52,7 @@
 
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
                                 <p:outputLabel for="@next" value="Nome"></p:outputLabel>
-                                <p:inputText value="#{surveyUpdateController.cultivarName}" ></p:inputText>
+                                <p:autoComplete dropdown="true" value="#{surveyUpdateController.cultivarName}" completeMethod="#{surveyUpdateController.searchCultivar}" />
                                 <p:message for="@previous" ></p:message>
 
                                 <p:selectBooleanCheckbox value="#{surveyUpdateController.bt}" itemLabel="É BT?"/>
