@@ -129,10 +129,10 @@
                                 </p:panelGrid>
 
                                 <p:panelGrid columns="1" >
-                                    <p:outputLabel for="@next" value="Produto" />
+                                    <p:outputLabel for="@next" value="Produto (Unidade)" />
                                     <p:selectOneMenu id="productList" required="true" requiredMessage="Um produto deve ser selecionado"  value="#{pulverisationOperationController.productId}" filter="true" filterMatchMode="contains">
                                         <f:selectItem noSelectionOption="true" itemLabel="Escolha um Produto" itemValue="" />
-                                        <f:selectItems value="#{pulverisationOperationController.productOptions}" var="aProduct" itemLabel="#{aProduct.name}" itemValue="#{aProduct.id}"/>
+                                        <f:selectItems value="#{pulverisationOperationController.productOptions}" var="aProduct" itemLabel="#{aProduct.name} (#{aProduct.unit})" itemValue="#{aProduct.id}"/>
                                     </p:selectOneMenu>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>
