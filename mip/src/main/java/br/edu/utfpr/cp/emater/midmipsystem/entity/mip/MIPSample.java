@@ -35,7 +35,6 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
     @Temporal(TemporalType.DATE)
     private Date sampleDate;
 
-    private int daysAfterEmergence;
     private int defoliation;
 
     @Enumerated(EnumType.STRING)
@@ -65,7 +64,6 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
         var instance = new MIPSample();
         instance.setId(id);
         instance.setSampleDate(sampleDate);
-        instance.setDaysAfterEmergence(daysAfterEmergence);
         instance.setDefoliation(defoliation);
         instance.setGrowthPhase(growthPhase);
         instance.setSurvey(survey);

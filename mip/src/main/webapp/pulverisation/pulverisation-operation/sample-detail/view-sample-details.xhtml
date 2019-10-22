@@ -45,7 +45,7 @@
                     </p:column>
 
                     <p:column headerText="Dias Após Emergência">
-                        <h:outputText value="#{aPulverisation.daysAfterEmergence}" />
+                        <h:outputText value="#{pulverisationDetailController.calculateDaysAfterEmergence(aPulverisation.sampleDate)}" />
                     </p:column>
 
                     <p:column headerText="Estádio da Cultura">

@@ -41,8 +41,6 @@ public class PulverisationOperationService {
             throw new EntityAlreadyExistsException();
         }
 
-        anOperation.setDaysAfterEmergence(this.calculateDaysAfterEmergence(anOperation.getSurvey().getEmergenceDate(), anOperation.getSampleDate()));
-
         try {
             pulverisationOperationRepository.save(anOperation);
 
@@ -51,15 +49,6 @@ public class PulverisationOperationService {
             throw new AnyPersistenceException();
 
         }
-    }
-
-    private int calculateDaysAfterEmergence(Date emergenceDate, Date sampleDate) {
-
-        long diffInMillies = Math.abs(sampleDate.getTime() - emergenceDate.getTime());
-
-        var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
-        return (int) (result + 1);
     }
 
     public PulverisationOperation readById(Long anId) throws EntityNotFoundException {

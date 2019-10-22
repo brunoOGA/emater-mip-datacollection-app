@@ -48,8 +48,6 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
     private double caldaVolume;
 
-    private int daysAfterEmergence;
-
     @ElementCollection
     private Set<PulverisationOperationOccurrence> operationOccurrences;
 

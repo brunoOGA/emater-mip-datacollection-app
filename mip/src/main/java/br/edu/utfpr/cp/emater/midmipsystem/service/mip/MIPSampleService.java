@@ -13,9 +13,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -50,7 +48,6 @@ public class MIPSampleService {
         var theSurvey = surveyService.readById(aSample.getSurvey().getId());
 
         aSample.setSurvey(theSurvey);
-        aSample.setDaysAfterEmergence(this.calculateDaysAfterEmergence(theSurvey.getEmergenceDate(), aSample.getSampleDate()));
 
         try {
             mipSampleRepository.save(aSample);
@@ -60,15 +57,6 @@ public class MIPSampleService {
 
         }
 
-    }
-
-    private int calculateDaysAfterEmergence(Date emergenceDate, Date sampleDate) {
-
-        long diffInMillies = Math.abs(sampleDate.getTime() - emergenceDate.getTime());
-
-        var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
-        return (int) (result + 1);
     }
 
     public MIPSample readById(Long anId) throws EntityNotFoundException {

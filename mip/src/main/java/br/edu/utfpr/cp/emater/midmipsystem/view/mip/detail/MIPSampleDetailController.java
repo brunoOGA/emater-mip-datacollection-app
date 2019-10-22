@@ -4,7 +4,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
@@ -40,5 +42,18 @@ public class MIPSampleDetailController {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
+    }
+    
+    public int calculateDaysAfterEmergence(Date sampleDate) {
+        
+        var emergenceDate = currentSurvey.getEmergenceDate() != null ? currentSurvey.getEmergenceDate() : null;
+        if (emergenceDate == null)
+            return 0;
+
+        long diffInMillies = Math.abs(sampleDate.getTime() - emergenceDate.getTime());
+
+        var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        return (int) (result + 1);
     }
 }
