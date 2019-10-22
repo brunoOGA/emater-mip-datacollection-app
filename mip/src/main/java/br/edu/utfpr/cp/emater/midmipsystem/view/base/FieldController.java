@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -155,6 +156,10 @@ public class FieldController extends Field implements ICRUDController<Field> {
         try {
             fieldService.delete(anId);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência excluída!"));
+            return "index.xhtml";
+
+        } catch (AccessDeniedException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser excluída porque o usuário não está autorizado!"));
             return "index.xhtml";
 
         } catch (EntityNotFoundException ex) {

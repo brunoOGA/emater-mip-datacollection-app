@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.CropData;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -75,6 +78,13 @@ public class SurveyService {
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 
         var existentHarvest = surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+
+        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        var createdByName = existentHarvest.getCreatedBy() != null ? existentHarvest.getCreatedBy().getUsername() : "none";
+
+        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+        }
 
         try {
             surveyRepository.delete(existentHarvest);
@@ -148,13 +158,13 @@ public class SurveyService {
             if (updatedSurvey.getLongitude() != null) {
                 currentSurvey.getLocationData().setLongitude(updatedSurvey.getLongitude());
             }
-            
+
         } else {
             currentSurvey.setLocationData(
                     LocationData.builder()
                             .latitude(updatedSurvey.getLatitude())
                             .longitude(updatedSurvey.getLongitude())
-                    .build()
+                            .build()
             );
         }
 

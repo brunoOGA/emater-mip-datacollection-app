@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -10,6 +11,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -62,6 +65,12 @@ public class FarmerService implements ICRUDService<Farmer> {
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
         
         var existentFarmer = farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        
+        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
+        
+        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
+            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
         
         try {
             farmerRepository.delete(existentFarmer);

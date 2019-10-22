@@ -4,6 +4,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
@@ -17,12 +18,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class PulverisationOperationService {
-    
+
     private final PulverisationOperationRepository pulverisationOperationRepository;
     private final TargetService targetService;
     private final ProductService productService;
@@ -37,7 +40,7 @@ public class PulverisationOperationService {
         if (pulverisationOperationRepository.findAll().stream().anyMatch(current -> current.equals(anOperation))) {
             throw new EntityAlreadyExistsException();
         }
-        
+
         anOperation.setDaysAfterEmergence(this.calculateDaysAfterEmergence(anOperation.getSurvey().getEmergenceDate(), anOperation.getSampleDate()));
 
         try {
@@ -49,13 +52,13 @@ public class PulverisationOperationService {
 
         }
     }
-    
+
     private int calculateDaysAfterEmergence(Date emergenceDate, Date sampleDate) {
 
         long diffInMillies = Math.abs(sampleDate.getTime() - emergenceDate.getTime());
-        
+
         var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        
+
         return (int) (result + 1);
     }
 
@@ -64,8 +67,15 @@ public class PulverisationOperationService {
     }
 
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-        
+
         var existentOperation = pulverisationOperationRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+
+        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        var createdByName = existentOperation.getCreatedBy() != null ? existentOperation.getCreatedBy().getUsername() : "none";
+
+        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+        }
 
         try {
             pulverisationOperationRepository.delete(existentOperation);
