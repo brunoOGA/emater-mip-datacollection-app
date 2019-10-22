@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Size;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Authority implements Serializable {
     
-    @Id @GeneratedValue
+    @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
  
     @Size (min = 3, message = "O nome precisa ter pelo menos 3 caracteres")
