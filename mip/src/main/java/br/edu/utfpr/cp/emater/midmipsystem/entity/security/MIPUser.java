@@ -40,6 +40,7 @@ public class MIPUser implements Serializable {
     private String email;
     
     @Size (min = 3, max = 30, message = "O nome de usuário deve ter entre 3 e 20 caracteres")
+    @EqualsAndHashCode.Include
     private String username;
     
     @Size (min = 3, message = "A senha deve ser maior que 3 caracteres")
@@ -61,5 +62,21 @@ public class MIPUser implements Serializable {
     
     @ManyToMany (fetch = FetchType.EAGER)
     private List<Authority> authorities;
+    
+    public String getRegionName() {
+        if (this.getRegion() != null)
+            return this.getRegion().getName();
+        
+        else
+            return null;
+    }
+    
+    public String getCityName() {
+        if (this.getCity() != null)
+            return this.getCity().getName();
+        
+        else
+            return null;
+    }
 
 }

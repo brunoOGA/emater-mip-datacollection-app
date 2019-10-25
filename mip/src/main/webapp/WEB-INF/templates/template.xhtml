@@ -237,7 +237,25 @@
                 </ul>
             </li>      
 
-
+            <sec:authorize access="hasAuthority('SYSTEM')">
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fw fa-user-secret"></i>
+                        <span>Usuários</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <p:link outcome="/security/mip-user/index.xhtml" title="Gerenciamento de Usuários do Sistema">
+                                <i class="fa fw fa-user-secret"></i>
+                                <span>Gerenciamento de Usuários</span>
+                            </p:link>
+                        </li>  
+                    </ul>
+                </li>                    
+            </sec:authorize>
 
         </ul>
     </ui:define>
