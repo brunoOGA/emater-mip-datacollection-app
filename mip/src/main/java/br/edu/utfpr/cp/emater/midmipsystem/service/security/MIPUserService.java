@@ -18,8 +18,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.security.MIPUserRepository;
 import java.util.ArrayList;
+import java.util.Optional;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +48,8 @@ public class MIPUserService implements ICRUDService<MIPUser> {
         }
 
         try {
+            aMIPUser.setPassword(new BCryptPasswordEncoder().encode(aMIPUser.getPassword()));
+            
             mipUserRepository.save(aMIPUser);
 
         } catch (Exception e) {
@@ -112,5 +117,13 @@ public class MIPUserService implements ICRUDService<MIPUser> {
 
     public Authority readAuthorityByName(String aName) {
         return authorityService.readByName(aName);
+    }
+
+    public List<Authority> readAllUserTypes() {
+        return authorityService.readAll();
+    }
+
+    public Optional<Authority> readAuthorityById(Long id) {
+        return authorityService.readById (id);
     }
 }

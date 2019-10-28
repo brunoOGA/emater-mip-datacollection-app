@@ -25,6 +25,9 @@ public class Authority implements Serializable {
  
     @Size (min = 3, message = "O nome precisa ter pelo menos 3 caracteres")
     private String name;
+    
+    @Size (min = 8, message = "A descrição ter pelo menos 8 caracteres")
+    private String description;
         
     @ManyToMany (mappedBy = "authorities")
     private List<MIPUser> users;

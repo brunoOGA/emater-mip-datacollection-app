@@ -5,6 +5,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
@@ -43,11 +44,22 @@ public class MIPUserController extends MIPUser implements ICRUDController<MIPUse
     private String passwordConfirmation;
 
     @Getter
-    @Setter
-    private List<String> userTypeSelected;
+    @Setter    
+    private List<Long> selectedUserTypeIds;
+    
+    private List<Authority> convertAuthorityIDsToObjectList() throws EntityNotFoundException {
+        
+        var result = new ArrayList<Authority>();
+        
+        for (Long id: selectedUserTypeIds)
+            result.add(userService.readAuthorityById(id).orElseThrow(EntityNotFoundException::new));
+        
+        return result;
+    }
 
-    public List<String> listUserType() {
-        return List.of("Técnico", "Acesso Estadual", "Gerenciador de Usuários");
+    
+    public List<Authority> readAllUserTypes() {
+        return userService.readAllUserTypes();
     }
 
     public List<Region> readAllRegions() {
@@ -67,21 +79,6 @@ public class MIPUserController extends MIPUser implements ICRUDController<MIPUse
     public List<MIPUser> readAll() {
         return userService.readAll();
     }
-    
-    private List<Authority> getAuthorityList(List<String> userTypeSelected) {
-        
-        var result = new ArrayList<Authority>();
-        
-        for (String item : userTypeSelected) {
-            if (item.equals("Acesso Estadual"))
-                    result.add(userService.readAuthorityByName("ADMIN"));
-            
-            if (item.equals("Gerenciador de Usuários"))
-                    result.add(userService.readAuthorityByName("SYSTEM"));
-        }
-            
-        return result;
-    }
 
     @Override
     public String create() {
@@ -90,7 +87,7 @@ public class MIPUserController extends MIPUser implements ICRUDController<MIPUse
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Senha não foi confirmada corretamente!"));
             return "create.xhtml";
         }
-        
+                
         try {
             var newUser = MIPUser.builder()
                                     .accountNonExpired(!this.isAccountNonExpired())
@@ -98,29 +95,29 @@ public class MIPUserController extends MIPUser implements ICRUDController<MIPUse
                                     .city(userService.readCityById(this.getSelectedCityId()))
                                     .credentialsNonExpired(!this.isCredentialsNonExpired())
                                     .email(this.getEmail())
-                                    .enabled(!this.isEnabled())
+                                    .enabled(this.isEnabled())
                                     .fullName(this.getFullName())
                                     .password(this.getPassword())
                                     .region(userService.readRegionById(this.getSelectedRegionId()))
                                     .username(this.getUsername())
-                                    .authorities(this.getAuthorityList(this.getUserTypeSelected()))
+                                    .authorities(this.convertAuthorityIDsToObjectList())
                                  .build();
                     
-//            userService.create(newUser);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência criada com sucesso!"));
+            userService.create(newUser);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Usuário criado com sucesso!"));
             return "index.xhtml";
             
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma unidade de referência com esse nome, nessa cidade para esse produtor!"));
-//            return "create.xhtml";
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um usuário com esse login/e-mail!"));
+            return "create.xhtml";
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser criada porque não foram encontradas as referências para cidade, produtor ou responsável técnico na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Usuário não pode ser criado porque não foram encontradas as referências para cidade, região ou tipo de usuário na base de dados!"));
             return "index.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
         }
     }
 

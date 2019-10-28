@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,8 +36,8 @@ public class MIPUser implements Serializable {
     @Size (min = 5, message = "O nome completo deve ser maior que 5 caracteres")
     private String fullName;
     
-    @Email (message = "Deve ser informado um e-mail válido")
     @EqualsAndHashCode.Include
+    @Email (message = "Deve ser informado um e-mail válido")
     private String email;
     
     @Size (min = 3, max = 30, message = "O nome de usuário deve ter entre 3 e 20 caracteres")

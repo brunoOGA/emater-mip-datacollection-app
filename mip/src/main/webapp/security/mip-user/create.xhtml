@@ -48,11 +48,11 @@
                     <p:message for="@previous" ></p:message>
 
                     <p:outputLabel for="@next" value="E-mail"></p:outputLabel>
-                    <p:inputText value="#{mipUserController.email}" ></p:inputText>
+                    <p:inputText required="true" requiredMessage="Deve ser informado um e-mail válido" value="#{mipUserController.email}" ></p:inputText>
                     <p:message for="@previous" ></p:message>
 
                     <p:outputLabel for="@next" value="Região" />                        
-                    <p:selectOneMenu value="#{mipUserController.selectedRegionId}" filter="true" filterMatchMode="contains">
+                    <p:selectOneMenu required="true" requiredMessage="Uma região deve ser selecionada!" value="#{mipUserController.selectedRegionId}" filter="true" filterMatchMode="contains">
                         <p:ajax listener="#{mipUserController.onSelectRegionChange}" update="city" />
                         <f:selectItem itemLabel="Selecione uma Região" itemValue="" />
                         <f:selectItems value="#{mipUserController.readAllRegions()}" var="aRegion" itemLabel="#{aRegion.name}" itemValue="#{aRegion.id}"/>
@@ -60,7 +60,7 @@
                     <p:message for="@previous" ></p:message>
 
                     <p:outputLabel for="@next" value="Município" />                        
-                    <p:selectOneMenu id="city" value="#{mipUserController.selectedCityId}" filter="true" filterMatchMode="contains">
+                    <p:selectOneMenu required="true" requiredMessage="Um município deve ser selecionado!" id="city" value="#{mipUserController.selectedCityId}" filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="Selecione um Município" itemValue="" />
                         <f:selectItems value="#{mipUserController.allCitiesAvailableToSelectedRegion}" var="aCity" itemLabel="#{aCity.name}" itemValue="#{aCity.id}"></f:selectItems>
                     </p:selectOneMenu>
@@ -85,8 +85,8 @@
                     <p:selectBooleanCheckbox value="#{mipUserController.enabled}" itemLabel="Conta Ativa?"></p:selectBooleanCheckbox>
 
                     <p:outputLabel for="@next" value="Tipo de Usuário" />
-                    <p:selectManyMenu required="true" requiredMessage="Um tipo de usuário deve ser selecionado" showCheckbox="true" filter="true" filterMatchMode="contains" value="#{mipUserController.userTypeSelected}">
-                        <f:selectItems value="#{mipUserController.listUserType()}" />
+                    <p:selectManyMenu required="true" requiredMessage="Um tipo de usuário deve ser selecionado" showCheckbox="true" filter="true" filterMatchMode="contains" value="#{mipUserController.selectedUserTypeIds}">
+                        <f:selectItems value="#{mipUserController.readAllUserTypes()}" var="aUserType" itemLabel="#{aUserType.description}" itemValue="#{aUserType.id}" />
                     </p:selectManyMenu>
                     <p:message for="@previous" ></p:message>
 
