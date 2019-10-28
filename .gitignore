@@ -4,3 +4,4 @@ mip/target/
 /**/.project
 /**/_config.yml
 /**/.vscode
+mip/src/main/resources/data.sql
