@@ -45,11 +45,10 @@ public class PulverisationOperationDetailController {
     
     public int calculateDaysAfterEmergence(Date sampleDate) {
         
-        var emergenceDate = currentSurvey.getEmergenceDate() != null ? currentSurvey.getEmergenceDate() : null;
-        if (emergenceDate == null)
+        if (currentSurvey.getEmergenceDate() == null)
             return 0;
-
-        long diffInMillies = (sampleDate.getTime() - emergenceDate.getTime());
+        
+        long diffInMillies = (sampleDate.getTime() - currentSurvey.getEmergenceDate().getTime());
 
         if (diffInMillies > 0) {
             var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
