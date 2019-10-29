@@ -10,20 +10,21 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.service.security.MIPUserService;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 @Component(value = "mipUserController")
-@ViewScoped
+@SessionScope
 @RequiredArgsConstructor
-public class MIPUserController extends MIPUser implements ICRUDController<MIPUser> {
+public class MIPUserController extends MIPUser implements ICRUDController<MIPUser>, Serializable {
 
     private final MIPUserService userService;
 
@@ -53,6 +54,15 @@ public class MIPUserController extends MIPUser implements ICRUDController<MIPUse
         
         for (Long id: selectedUserTypeIds)
             result.add(userService.readAuthorityById(id).orElseThrow(EntityNotFoundException::new));
+        
+        return result;
+    }
+    
+    private List<Long> convertObjectListToAuthorityIDs(List<Authority> authorities) {
+        var result = new ArrayList<Long>();
+        
+        for (Authority currentAuthority : authorities)
+            result.add(currentAuthority.getId());
         
         return result;
     }
@@ -121,63 +131,80 @@ public class MIPUserController extends MIPUser implements ICRUDController<MIPUse
         }
     }
 
-//    @Override
-//    public String prepareUpdate(Long anId) {
-//
-//        try {
-//            Field existentField = userService.readById(anId);
-//            this.setId(existentField.getId());
-//            this.setName(existentField.getName());
-//            this.setLocation(existentField.getLocation());
-//            this.setSelectedCityId(existentField.getCityId());
-//            this.setSelectedFarmerId(existentField.getFarmerId());
-//            this.setSelectedSupervisorIds(existentField.getSupervisors().stream().map(Supervisor::getId).collect(Collectors.toList()));
-//
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser alterado porque não foi encontrado na base de dados!"));
-//            return "index.xhtml";
-//        }
-//    }
-//
-//    @Override
-//    public String update() {
-//
-//        try {
-//            var updatedField = Field.builder()
-//                    .id(this.getId())
-//                    .name(this.getName())
-//                    .location(this.getLocation())
-//                    .city(this.userService.readCityById(this.getSelectedCityId()))
-//                    .farmer(this.userService.readFarmerById(this.getSelectedFarmerId()))
-//                    .supervisors(userService.readSupervisorsByIds(this.getSelectedSupervisorIds()))
-//                    .build();
-//
-//            userService.update(updatedField);
-//
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência alterada"));
-//            return "index.xhtml";
-//
-//        } catch (SupervisorNotAllowedInCity ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Um ou mais responsáveis técnicos selecionados não atendem a cidade selecionada para essa UR!"));
-//            return "update.xhtml";
-//
-//        } catch (EntityAlreadyExistsException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma unidade de referência com esse nome, nessa cidade para esse produtor!"));
-//            return "update.xhtml";
-//
-//        } catch (EntityNotFoundException ex) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser alterada porque não foi encontrada na base de dados!"));
-//            return "update.xhtml";
-//
-//        } catch (AnyPersistenceException e) {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-//            return "index.xhtml";
-//        }
-//
-//    }
-//
+    @Override
+    public String prepareUpdate(Long anId) {
+
+        try {
+            
+            var currentUser = userService.readById(anId);
+                        
+            this.setAccountNonExpired(!currentUser.isAccountNonExpired());
+            this.setAccountNonLocked(!currentUser.isAccountNonLocked());
+            this.setCredentialsNonExpired(!currentUser.isCredentialsNonExpired());
+            this.setEnabled(currentUser.isEnabled());
+            
+            this.setEmail(currentUser.getEmail());
+            this.setFullName(currentUser.getFullName());
+            this.setUsername(currentUser.getUsername());
+            this.setId(currentUser.getId());
+            
+//            this.setSelectedRegionId(currentUser.getRegionId());
+//            this.setSelectedRegionId(currentUser.getCityId());
+//            this.setSelectedUserTypeIds(this.convertObjectListToAuthorityIDs(currentUser.getAuthorities()));
+            
+            return "/security/mip-user/update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Usuário não pode ser alterado porque não foi encontrado na base de dados!"));
+            return "index.xhtml";
+        }
+    }
+
+    @Override
+    public String update() {
+
+        if (!this.getPassword().equals(this.getPasswordConfirmation())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Senha não foi confirmada corretamente!"));
+            return "index.xhtml?faces-redirect=true";
+        }
+                
+        try {
+            var currentUser = userService.readById(this.getId());
+            
+            currentUser.setAccountNonExpired(!this.isAccountNonExpired());
+            currentUser.setAccountNonLocked(!this.isAccountNonLocked());
+            currentUser.setCredentialsNonExpired(!this.isCredentialsNonExpired());
+            currentUser.setEnabled(this.isEnabled());
+            
+            currentUser.setAuthorities(this.convertAuthorityIDsToObjectList());
+            currentUser.setCity(userService.readCityById(this.getSelectedCityId()));
+            currentUser.setRegion(userService.readRegionById(this.getSelectedRegionId()));
+            
+            currentUser.setEmail(this.getEmail());
+            currentUser.setFullName(this.getFullName());
+            currentUser.setPassword(this.getPassword());
+            currentUser.setUsername(this.getUsername());
+            
+            userService.update(currentUser);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Usuário alterado com sucesso!"));
+            return "index.xhtml";
+            
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um usuário com esse login/e-mail!"));
+            return "create.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Usuário não pode ser alterado porque não foram encontradas as referências para cidade, região ou tipo de usuário na base de dados!"));
+            return "index.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+
+    }
+
     public String delete(Long anId) {
 
         try {
@@ -197,16 +224,6 @@ public class MIPUserController extends MIPUser implements ICRUDController<MIPUse
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
             return "index.xhtml";
         }
-    }
-
-    @Override
-    public String prepareUpdate(Long anId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

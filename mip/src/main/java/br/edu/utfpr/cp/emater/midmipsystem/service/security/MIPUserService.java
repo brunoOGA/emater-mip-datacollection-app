@@ -60,22 +60,28 @@ public class MIPUserService implements ICRUDService<MIPUser> {
     public void update(MIPUser aMIPUser) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 
         var existentEntity = mipUserRepository.findById(aMIPUser.getId()).orElseThrow(EntityNotFoundException::new);
+        
+        var allUsersWithoutExistentUser = new ArrayList<MIPUser>(mipUserRepository.findAll());
+        allUsersWithoutExistentUser.remove(existentEntity);
 
-        if (mipUserRepository.findAll().stream().anyMatch(currentUser -> currentUser.equals(aMIPUser)))
+        if (allUsersWithoutExistentUser.stream().anyMatch(currentUser -> currentUser.equals(aMIPUser))) {
             throw new EntityAlreadyExistsException();
+        }
                 
         try {
             existentEntity.setAccountNonExpired(aMIPUser.isAccountNonExpired());
             existentEntity.setAccountNonLocked(aMIPUser.isAccountNonLocked());
             existentEntity.setAuthorities(aMIPUser.getAuthorities());
-            existentEntity.setCity(cityService.readById(aMIPUser.getCity().getId()));
+            existentEntity.setCity(cityService.readById(aMIPUser.getCityId()));
             existentEntity.setCredentialsNonExpired(aMIPUser.isCredentialsNonExpired());
             existentEntity.setEmail(aMIPUser.getEmail());
             existentEntity.setEnabled(aMIPUser.isEnabled());
             existentEntity.setFullName(aMIPUser.getFullName());
             existentEntity.setPassword(aMIPUser.getPassword());
-            existentEntity.setRegion(regionService.readById(aMIPUser.getRegion().getId()));
+            existentEntity.setRegion(regionService.readById(aMIPUser.getRegionId()));
             existentEntity.setUsername(aMIPUser.getUsername());
+            
+            existentEntity.setPassword(new BCryptPasswordEncoder().encode(existentEntity.getPassword()));
             
             mipUserRepository.saveAndFlush(existentEntity);
 

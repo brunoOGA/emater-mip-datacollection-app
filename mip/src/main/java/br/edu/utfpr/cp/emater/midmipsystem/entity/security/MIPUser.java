@@ -79,5 +79,21 @@ public class MIPUser implements Serializable {
         else
             return null;
     }
+    
+    public Long getRegionId() {
+        if (this.getRegion() != null)
+            return this.getRegion().getId();
+        
+        else
+            return null;
+    }
 
+    public Long getCityId() {
+        
+        if (this.getCity() != null)
+            return this.getCity().getId();
+        
+        else
+            return null;
+    }
 }
