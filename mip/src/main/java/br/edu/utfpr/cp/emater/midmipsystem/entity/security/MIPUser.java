@@ -59,7 +59,7 @@ public class MIPUser implements Serializable {
     
     private boolean credentialsNonExpired;
     
-    private boolean enabled;
+    private boolean enabled = true;
     
     @ManyToMany (fetch = FetchType.EAGER)
     private List<Authority> authorities;
