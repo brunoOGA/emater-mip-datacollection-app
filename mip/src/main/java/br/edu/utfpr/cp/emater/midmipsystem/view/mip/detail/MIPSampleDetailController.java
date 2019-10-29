@@ -43,17 +43,24 @@ public class MIPSampleDetailController {
             return "index.xhtml";
         }
     }
-    
+
     public int calculateDaysAfterEmergence(Date sampleDate) {
-        
+
         var emergenceDate = currentSurvey.getEmergenceDate() != null ? currentSurvey.getEmergenceDate() : null;
-        if (emergenceDate == null)
+
+        if (emergenceDate == null) {
+            return 0;
+        }
+
+        long diffInMillies = (sampleDate.getTime() - emergenceDate.getTime());
+
+        if (diffInMillies > 0) {
+            var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+            return (int) (result + 1);
+            
+        } else
             return 0;
 
-        long diffInMillies = Math.abs(sampleDate.getTime() - emergenceDate.getTime());
-
-        var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
-        return (int) (result + 1);
     }
 }

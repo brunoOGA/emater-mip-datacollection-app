@@ -49,10 +49,14 @@ public class PulverisationOperationDetailController {
         if (emergenceDate == null)
             return 0;
 
-        long diffInMillies = Math.abs(sampleDate.getTime() - emergenceDate.getTime());
+        long diffInMillies = (sampleDate.getTime() - emergenceDate.getTime());
 
-        var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        if (diffInMillies > 0) {
+            var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
-        return (int) (result + 1);
+            return (int) (result + 1);
+            
+        } else
+            return 0;
     }
 }
