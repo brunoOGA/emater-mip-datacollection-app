@@ -1,22 +1,18 @@
+package br.edu.utfpr.cp.emater.midmipsystem.view.charts;
 
-package br.edu.utfpr.cp.emater.midmipsystem.entity;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.BarChartSeries;
-//import org.primefaces.model.chart.BubbleChartModel;
-//import org.primefaces.model.chart.BubbleChartSeries;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
@@ -30,10 +26,14 @@ import org.primefaces.model.chart.MeterGaugeChartModel;
 import org.primefaces.model.chart.OhlcChartModel;
 import org.primefaces.model.chart.OhlcChartSeries;
 import org.primefaces.model.chart.PieChartModel;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
-@ManagedBean
-public class ChartView implements Serializable {
- 
+@Component
+@RequestScope
+@Getter
+public class PestMonitoring {
+
     private LineChartModel lineModel1;
     private LineChartModel lineModel2;
     private LineChartModel zoomModel;
@@ -74,7 +74,7 @@ public class ChartView implements Serializable {
         createMultiAxisModel();
         createDateModel();
     }
- 
+
     public void itemSelect(ItemSelectEvent event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item selected",
                 "Item Index: " + event.getItemIndex() + ", Series Index:" + event.getSeriesIndex());
