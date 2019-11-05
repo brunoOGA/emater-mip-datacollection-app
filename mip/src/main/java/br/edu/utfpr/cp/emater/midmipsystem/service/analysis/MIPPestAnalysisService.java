@@ -1,4 +1,4 @@
-package br.edu.utfpr.cp.emater.midmipsystem.view.charts;
+package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
@@ -8,9 +8,12 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.HarvestService;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -20,58 +23,93 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.stereotype.Service;
 
-@Component
-@RequestScope
+@Service
 @RequiredArgsConstructor
-public class PestMonitoring {
+public class MIPPestAnalysisService {
 
     private final PestService pestService;
     private final HarvestService harvestService;
     private final MIPSampleService mipSampleService;
 
     public LineChartModel createCaterpillarFluctuationChart() throws EntityNotFoundException {
+
         var result = new LineChartModel();
 
-        result.setTitle("Flutuação de Lagartas");
-        result.setLegendPosition("e");
-        result.setShowPointLabels(true);
+        var pestNames = List.of("Anticarsia", "Diabrotica");
+        var pestNameAndPestsMap = new HashMap<String, List<Pest>>();
 
-        Axis xAxis = result.getAxis(AxisType.X);
-        xAxis.setLabel("Dias Após Emergência");
-        xAxis.setTickInterval("5");
-        xAxis.setMin(0);
-        xAxis.setMax(30);
-
-        Axis yAxis = result.getAxis(AxisType.Y);
-        yAxis.setLabel("No. Insetos/metro");
-        yAxis.setTickInterval("1");
-        yAxis.setMin(0);
-        yAxis.setMax(5);
-
-        var pest1 = pestService.readByScientificNameStartsWith("Anticarsia").orElseThrow();
-        var pest2 = pestService.readByScientificNameStartsWith("Diabrotica").orElseThrow();
+        pestNames.forEach(currentPestName
+                -> pestNameAndPestsMap
+                        .put(currentPestName,
+                                pestService.readByScientificNameStartsWith(currentPestName)
+                                        .orElse(new ArrayList<Pest>()))
+        );
 
         var currentHarvest = harvestService.readAll().get(0);
 
         var allMIPSamplesForCurrentHarvest = mipSampleService.readAll().stream()
                 .filter(sample -> sample.getSurvey().getHarvest().equals(currentHarvest))
                 .collect(Collectors.toList());
-        
-        result.addSeries(getSerie(allMIPSamplesForCurrentHarvest, pest1));
-        result.addSeries(getSerie(allMIPSamplesForCurrentHarvest, pest2));
-        
-        return result;
 
+        pestNameAndPestsMap.keySet().forEach(currentPestName
+                -> {
+            result.addSeries(getSerie(allMIPSamplesForCurrentHarvest, pestNameAndPestsMap.get(currentPestName)));
+        });
+
+        var daes = new HashSet<Integer>();
+        var occurrences = new HashSet<Double>();
+
+        result.getSeries().forEach(serie -> {
+            serie.getData().forEach((key, value) -> {
+                daes.add((int) key);
+                occurrences.add((double) value);
+            });
+        });
+
+        setChartInfo(result, daes, occurrences);
+
+        return result;
+    }
+
+    private void setChartInfo(LineChartModel lineChartModel, Set<Integer> daes, Set<Double> occurrences) {
+        lineChartModel.setTitle("Flutuação de Lagartas");
+        lineChartModel.setLegendPosition("e");
+        lineChartModel.setShowPointLabels(true);
+
+        Axis xAxis = lineChartModel.getAxis(AxisType.X);
+        xAxis.setLabel("Dias Após Emergência");
+        xAxis.setTickInterval("5");
+        xAxis.setMin(0);
+        xAxis.setMax(Collections.max(daes) + 5);
+
+        Axis yAxis = lineChartModel.getAxis(AxisType.Y);
+        yAxis.setLabel("No. Insetos/metro");
+        yAxis.setTickInterval("1");
+        yAxis.setMin(0);
+        yAxis.setMax(Collections.max(occurrences) + 1);
     }
 
     private LineChartSeries getSerie(List<MIPSample> allMIPSamplesForCurrentHarvest, List<Pest> pest1) {
 
         var result = new LineChartSeries();
 
-        var seriesValues = new HashMap<Integer, Double>();
+        var daeOccurrenceCountValues = this.getDAEOccurrenceCountValues(allMIPSamplesForCurrentHarvest, pest1);
+
+        pest1.forEach(e -> {
+            result.setLabel(e.getScientificName());
+
+            daeOccurrenceCountValues.keySet().forEach(s -> result.set(s, daeOccurrenceCountValues.get(s)));
+
+        });
+
+        return result;
+    }
+
+    private Map<Integer, Double> getDAEOccurrenceCountValues(List<MIPSample> allMIPSamplesForCurrentHarvest, List<Pest> pest1) {
+
+        var result = new HashMap<Integer, Double>();
 
         allMIPSamplesForCurrentHarvest.stream().forEach(currentSample -> {
 
@@ -93,14 +131,7 @@ public class PestMonitoring {
                 occurrenceCount = resultOfContPest.get();
             }
 
-            seriesValues.put(dae, occurrenceCount);
-
-        });
-        
-        pest1.forEach(e -> {
-            result.setLabel(e.getScientificName());
-
-            seriesValues.keySet().forEach(s -> result.set(s, seriesValues.get(s)));
+            result.put(dae, occurrenceCount);
 
         });
 
