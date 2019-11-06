@@ -7,6 +7,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FarmerRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 public class FarmerService implements ICRUDService<Farmer> {
 
     private final FarmerRepository farmerRepository;
+    
+    private final FieldRepository fieldRepository;
 
     @Override
     public List<Farmer> readAll() {
@@ -66,11 +69,14 @@ public class FarmerService implements ICRUDService<Farmer> {
         
         var existentFarmer = farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
         
-        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
+//        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+//        var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
         
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+//        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
+//            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+//        
+//        if (fieldRepository.findByFarmer(existentFarmer).isPresent())
+//            throw new EntityInUseException();
         
         try {
             farmerRepository.delete(existentFarmer);

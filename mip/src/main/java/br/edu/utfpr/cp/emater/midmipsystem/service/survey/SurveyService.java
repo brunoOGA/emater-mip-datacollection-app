@@ -12,6 +12,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,10 @@ public class SurveyService {
     private final HarvestService harvestService;
     private final FieldService fieldService;
     private final CultivarService cultivarService;
+    
+    private final MIPSampleRepository mipSampleRepository;
+    private final MIDRustSampleRepository midRustSampleRepository;
+    private final PulverisationOperationRepository pulverisationOperationRepository;
 
     public List<Survey> readAll() {
         return List.copyOf(surveyRepository.findAll());
@@ -77,17 +84,26 @@ public class SurveyService {
 
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 
-        var existentHarvest = surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+        var existentSurvey = surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        var createdByName = existentHarvest.getCreatedBy() != null ? existentHarvest.getCreatedBy().getUsername() : "none";
+        var createdByName = existentSurvey.getCreatedBy() != null ? existentSurvey.getCreatedBy().getUsername() : "none";
 
         if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
             throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
         }
+        
+        if (mipSampleRepository.findBySurvey(existentSurvey).isPresent())
+            throw  new EntityInUseException();
+        
+        if (midRustSampleRepository.findBySurvey(existentSurvey).isPresent())
+            throw  new EntityInUseException();
+        
+        if (pulverisationOperationRepository.findBySurvey(existentSurvey).isPresent())
+            throw new EntityInUseException();
 
         try {
-            surveyRepository.delete(existentHarvest);
+            surveyRepository.delete(existentSurvey);
 
         } catch (DataIntegrityViolationException cve) {
             throw new EntityInUseException();

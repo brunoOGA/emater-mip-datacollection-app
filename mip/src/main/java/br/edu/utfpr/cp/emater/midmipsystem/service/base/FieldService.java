@@ -11,6 +11,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.ICRUDService;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,6 +32,8 @@ public class FieldService implements ICRUDService<Field> {
     private final CityService cityService;
     private final FarmerService farmerService;
     private final SupervisorService supervisorService;
+    
+    private final SurveyRepository surveyRepository;
 
     @Override
     public List<Field> readAll() {
@@ -146,6 +149,9 @@ public class FieldService implements ICRUDService<Field> {
         
         if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
             throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+        
+        if (surveyRepository.findByField(existentField).isPresent())
+            throw new EntityInUseException();
 
         try {
             fieldRepository.delete(existentField);
