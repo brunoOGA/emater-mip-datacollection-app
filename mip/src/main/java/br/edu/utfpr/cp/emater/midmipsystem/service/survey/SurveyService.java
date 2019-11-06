@@ -12,9 +12,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +31,6 @@ public class SurveyService {
     private final FieldService fieldService;
     private final CultivarService cultivarService;
     
-    private final MIPSampleRepository mipSampleRepository;
-    private final MIDRustSampleRepository midRustSampleRepository;
-    private final PulverisationOperationRepository pulverisationOperationRepository;
-
     public List<Survey> readAll() {
         return List.copyOf(surveyRepository.findAll());
     }
@@ -93,15 +86,6 @@ public class SurveyService {
             throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
         }
         
-        if (mipSampleRepository.findBySurvey(existentSurvey).isPresent())
-            throw  new EntityInUseException();
-        
-        if (midRustSampleRepository.findBySurvey(existentSurvey).isPresent())
-            throw  new EntityInUseException();
-        
-        if (pulverisationOperationRepository.findBySurvey(existentSurvey).isPresent())
-            throw new EntityInUseException();
-
         try {
             surveyRepository.delete(existentSurvey);
 

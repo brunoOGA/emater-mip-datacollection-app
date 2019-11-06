@@ -69,15 +69,12 @@ public class FarmerService implements ICRUDService<Farmer> {
         
         var existentFarmer = farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
         
-//        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-//        var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
+        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
         
-//        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
-//            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-//        
-//        if (fieldRepository.findByFarmer(existentFarmer).isPresent())
-//            throw new EntityInUseException();
-        
+        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
+            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+                
         try {
             farmerRepository.delete(existentFarmer);
             
