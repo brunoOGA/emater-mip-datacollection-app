@@ -34,6 +34,13 @@ public class MIPPestAnalysisService {
     private final MIPSampleService mipSampleService;
 
     public LineChartModel createCaterpillarFluctuationChart() throws EntityNotFoundException {
+        
+        var pests = pestService.readByScientificNameStartsWith("Anticarsia").orElse(new ArrayList<Pest>());
+        System.out.println(pests.size());
+        var theOccurrences = mipSampleService.readById(163L).getDAEAndPestOccurrenceByPestSet(new HashSet<>(pests));
+        
+        theOccurrences.get().forEach((i, d) -> System.out.println ("DAE: " + i + ", Occ: " + d));
+        
 
         var result = new LineChartModel();
 
