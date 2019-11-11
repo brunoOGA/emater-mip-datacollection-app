@@ -1,23 +1,12 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.survey.HarvestService;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.primefaces.model.chart.Axis;
@@ -34,7 +23,7 @@ public class MIPPestAnalysisService {
 
     public LineChartModel createCaterpillarFluctuationChart() throws Exception {
 
-        var targetPests = List.of(mipSampleService.readPestById(1L).get(), mipSampleService.readPestById(2L).get());
+        var targetPests = List.of(mipSampleService.readPestById(1L).get(), mipSampleService.readPestById(23L).get());
         var targetMIPSamples = mipSampleService.readAll()
                 .stream()
                 .filter(sample -> sample.getHarvestId().isPresent())
@@ -72,15 +61,15 @@ public class MIPPestAnalysisService {
         xAxis.setTickInterval("5");
         xAxis.setMin(0);
 //        xAxis.setMax(Collections.max(daes) + 5);
-        xAxis.setMax(30);
+        xAxis.setMax(40);
 
         Axis yAxis = lineChartModel.getAxis(AxisType.Y);
         yAxis.setLabel("No. Insetos/metro");
-        yAxis.setTickInterval("1.5");
+        yAxis.setTickInterval("0.5");
         yAxis.setMin(0);
 //        yAxis.setMax(Collections.max(occurrences) + 1);
-        yAxis.setTickFormat("%'.0f");
-        yAxis.setMax(10);
+        yAxis.setTickFormat("%#.2f");
+        yAxis.setMax(3);
     }
 
     private LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence) {
