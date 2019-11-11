@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.primefaces.model.chart.Axis;
@@ -29,54 +30,35 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MIPPestAnalysisService {
 
-    private final PestService pestService;
-    private final HarvestService harvestService;
     private final MIPSampleService mipSampleService;
 
-    public LineChartModel createCaterpillarFluctuationChart() throws EntityNotFoundException {
-        
-        var pests = pestService.readByScientificNameStartsWith("Anticarsia").orElse(new ArrayList<Pest>());
-        System.out.println(pests.size());
-        var theOccurrences = mipSampleService.readById(163L).getDAEAndPestOccurrenceByPestSet(new HashSet<>(pests));
-        
-        theOccurrences.get().forEach((i, d) -> System.out.println ("DAE: " + i + ", Occ: " + d));
-        
+    public LineChartModel createCaterpillarFluctuationChart() throws Exception {
+
+        var targetPests = List.of(mipSampleService.readPestById(1L).get(), mipSampleService.readPestById(2L).get());
+        var targetMIPSamples = mipSampleService.readAll()
+                .stream()
+                .filter(sample -> sample.getHarvestId().isPresent())
+                .filter(sample -> sample.getHarvestId().get().equals(1L))
+                .collect(Collectors.toList());
 
         var result = new LineChartModel();
 
-        var pestNames = List.of("Anticarsia", "Diabrotica");
-        var pestNameAndPestsMap = new HashMap<String, List<Pest>>();
+        for (Pest currentTargetPest : targetPests) {
 
-        pestNames.forEach(currentPestName
-                -> pestNameAndPestsMap
-                        .put(currentPestName,
-                                pestService.readByScientificNameStartsWith(currentPestName)
-                                        .orElse(new ArrayList<Pest>()))
-        );
+            var mapFound = new HashMap<Integer, Double>();
 
-        var currentHarvest = harvestService.readAll().get(0);
+            for (MIPSample currentSample : targetMIPSamples) {
+                var sampleFound = currentSample.getDAEAndPestOccurrenceByPest(currentTargetPest);
 
-        var allMIPSamplesForCurrentHarvest = mipSampleService.readAll().stream()
-                .filter(sample -> sample.getSurvey().getHarvest().equals(currentHarvest))
-                .collect(Collectors.toList());
+                if (sampleFound.isPresent()) {
+                    mapFound.putAll(sampleFound.get());
+                }
+            }
 
-        pestNameAndPestsMap.keySet().forEach(currentPestName
-                -> {
-            result.addSeries(getSerie(allMIPSamplesForCurrentHarvest, pestNameAndPestsMap.get(currentPestName)));
-        });
+            result.addSeries(this.getSerie(currentTargetPest, mapFound));
+        }
 
-        var daes = new HashSet<Integer>();
-        var occurrences = new HashSet<Double>();
-
-        result.getSeries().forEach(serie -> {
-            serie.getData().forEach((key, value) -> {
-                daes.add((int) key);
-                occurrences.add((double) value);
-            });
-        });
-
-        setChartInfo(result, daes, occurrences);
-
+        setChartInfo(result, null, null);
         return result;
     }
 
@@ -89,131 +71,28 @@ public class MIPPestAnalysisService {
         xAxis.setLabel("Dias Após Emergência");
         xAxis.setTickInterval("5");
         xAxis.setMin(0);
-        xAxis.setMax(Collections.max(daes) + 5);
+//        xAxis.setMax(Collections.max(daes) + 5);
+        xAxis.setMax(30);
 
         Axis yAxis = lineChartModel.getAxis(AxisType.Y);
         yAxis.setLabel("No. Insetos/metro");
-        yAxis.setTickInterval("1");
+        yAxis.setTickInterval("1.5");
         yAxis.setMin(0);
-        yAxis.setMax(Collections.max(occurrences) + 1);
+//        yAxis.setMax(Collections.max(occurrences) + 1);
+        yAxis.setTickFormat("%'.0f");
+        yAxis.setMax(10);
     }
 
-    private LineChartSeries getSerie(List<MIPSample> allMIPSamplesForCurrentHarvest, List<Pest> pest1) {
+    private LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence) {
 
         var result = new LineChartSeries();
 
-        var daeOccurrenceCountValues = this.getDAEOccurrenceCountValues(allMIPSamplesForCurrentHarvest, pest1);
+        result.setLabel(String.format("%s (%s)", aPest.getScientificName(), aPest.getPestSize().getName()));
 
-        pest1.forEach(e -> {
-            result.setLabel(e.getScientificName());
-
-            daeOccurrenceCountValues.keySet().forEach(s -> result.set(s, daeOccurrenceCountValues.get(s)));
-
+        aMappingDAEOccurrence.keySet().forEach(item -> {
+            result.set(item, aMappingDAEOccurrence.get(item));
         });
 
         return result;
     }
-
-    private Map<Integer, Double> getDAEOccurrenceCountValues(List<MIPSample> allMIPSamplesForCurrentHarvest, List<Pest> pest1) {
-
-        var result = new HashMap<Integer, Double>();
-
-        allMIPSamplesForCurrentHarvest.stream().forEach(currentSample -> {
-
-            var emergence = this.getEmergenceDate(currentSample);
-            var sample = this.getSampleDate(currentSample);
-
-            int dae = 0;
-
-            if (emergence.isPresent()) {
-                if (sample.isPresent()) {
-                    dae = this.calculateDaysAfterEmergence(emergence.get(), sample.get());
-                }
-            }
-
-            double occurrenceCount = 0;
-            var resultOfContPest = countPest(currentSample, pest1);
-
-            if (resultOfContPest.isPresent()) {
-                occurrenceCount = resultOfContPest.get();
-            }
-
-            result.put(dae, occurrenceCount);
-
-        });
-
-        return result;
-    }
-
-    private Optional<Double> countPest(MIPSample aMIPSample, List<Pest> targetPests) {
-        if (aMIPSample.getMipSamplePestOccurrence() == null) {
-            return Optional.empty();
-        } else {
-            var pestOccurrences = getPestOccurrencesForSpecificPest(aMIPSample.getMipSamplePestOccurrence(), targetPests);
-
-            if (pestOccurrences.isPresent()) {
-                return Optional.of(pestOccurrences.get().stream().mapToDouble(MIPSamplePestOccurrence::getValue).sum());
-            } else {
-                return Optional.empty();
-            }
-        }
-
-    }
-
-    private Optional<List<MIPSamplePestOccurrence>> getPestOccurrencesForSpecificPest(Set<MIPSamplePestOccurrence> pestOccurrences, List<Pest> targetPests) {
-
-        var result = new ArrayList<MIPSamplePestOccurrence>();
-
-        for (MIPSamplePestOccurrence currentOccurrence : pestOccurrences) {
-            for (Pest pestTarget : targetPests) {
-                if (currentOccurrence.getPest().equals(pestTarget)) {
-                    result.add(currentOccurrence);
-                }
-            }
-        }
-
-        if (result.size() == 0) {
-            return Optional.empty();
-        } else {
-            return Optional.of(result);
-        }
-
-    }
-
-    private Optional<Date> getEmergenceDate(MIPSample aMIPSample) {
-        if (aMIPSample.getSurvey() == null) {
-            return Optional.empty();
-
-        } else {
-            if (aMIPSample.getSurvey().getEmergenceDate() != null) {
-                return Optional.of(aMIPSample.getSurvey().getEmergenceDate());
-
-            } else {
-                return Optional.empty();
-            }
-        }
-    }
-
-    private Optional<Date> getSampleDate(MIPSample aMIPSample) {
-        if (aMIPSample.getSampleDate() != null) {
-            return Optional.of(aMIPSample.getSampleDate());
-        } else {
-            return Optional.empty();
-        }
-    }
-
-    private int calculateDaysAfterEmergence(Date emergence, Date sample) {
-
-        long diffInMillies = (sample.getTime() - emergence.getTime());
-
-        if (diffInMillies > 0) {
-            var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
-            return (int) (result + 1);
-
-        } else {
-            return 0;
-        }
-    }
-
 }

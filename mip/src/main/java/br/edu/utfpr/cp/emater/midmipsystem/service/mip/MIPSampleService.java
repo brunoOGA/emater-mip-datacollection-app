@@ -14,6 +14,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -104,5 +105,17 @@ public class MIPSampleService {
 
     public List<MIPSample> readAllMIPSampleBySurveyId(Long aSurveyId) {
         return List.copyOf(mipSampleRepository.findAll().stream().filter(sample -> sample.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
+    }
+    
+    public Optional<Pest> readPestById (Long aPestId) {
+        if (aPestId == null)
+            return Optional.empty();
+        
+        try {
+            return Optional.of(pestService.readById(aPestId));
+            
+        } catch (EntityNotFoundException e) {
+            return Optional.empty();
+        }
     }
 }

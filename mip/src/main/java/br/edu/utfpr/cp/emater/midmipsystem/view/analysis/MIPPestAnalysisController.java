@@ -14,7 +14,7 @@ public class MIPPestAnalysisController {
 
     private final MIPPestAnalysisService analysisService;
 
-    public LineChartModel createCaterpillarFluctuationChart() throws EntityNotFoundException {
+    public LineChartModel createCaterpillarFluctuationChart() throws Exception {
         return analysisService.createCaterpillarFluctuationChart();
     }
 }

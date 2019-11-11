@@ -109,6 +109,16 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
 
         return null;
     }
+    
+    public Optional<Long> getHarvestId() {
+        if (this.getSurvey() == null)
+            return Optional.empty();
+        
+        if (this.getSurvey().getHarvest() == null)
+            return Optional.empty();
+        
+        return Optional.of(this.getSurvey().getHarvest().getId());
+    }
 
     public String getFarmerName() {
         if (this.getSurvey() != null) {
@@ -208,25 +218,27 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
     }
 
     public Optional<Map<Integer, Double>> getDAEAndPestOccurrenceByPestSet(Set<Pest> pests) {
-        
-        if (pests == null)
+
+        if (pests == null) {
             return Optional.empty();
-        
-        if (pests.size() == 0)
+        }
+
+        if (pests.size() == 0) {
             return Optional.empty();
-        
+        }
+
         var result = new HashMap<Integer, Double>();
-        
+
         pests.stream()
                 .map(currentPest -> this.getDAEAndPestOccurrenceByPest(currentPest))
                 .filter(currentOptionalOccurrence -> currentOptionalOccurrence.isPresent())
                 .forEach(currentOptionalOccurrence -> result.putAll(currentOptionalOccurrence.get()));
-        
-        if (result.isEmpty())
+
+        if (result.isEmpty()) {
             return Optional.empty();
-        
-        else
+        } else {
             return Optional.of(result);
+        }
     }
 
 }
