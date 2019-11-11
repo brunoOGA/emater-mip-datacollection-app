@@ -23,13 +23,19 @@ public class MIPPestAnalysisService {
 
     public LineChartModel createCaterpillarFluctuationChart() throws Exception {
 
-        var targetPests = List.of(mipSampleService.readPestById(1L).get(), mipSampleService.readPestById(23L).get());
-        var targetMIPSamples = mipSampleService.readAll()
-                .stream()
-                .filter(sample -> sample.getHarvestId().isPresent())
-                .filter(sample -> sample.getHarvestId().get().equals(1L))
-                .collect(Collectors.toList());
+        var targetPests = this.getPests();
 
+        var targetMIPSamples = this.getSamples();
+
+        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
+
+        setChartInfo(result, null, null);
+        
+        return result;
+    }
+    
+    private LineChartModel getLinearChartModel(List<Pest> targetPests, List<MIPSample> targetMIPSamples) {
+        
         var result = new LineChartModel();
 
         for (Pest currentTargetPest : targetPests) {
@@ -46,9 +52,28 @@ public class MIPPestAnalysisService {
 
             result.addSeries(this.getSerie(currentTargetPest, mapFound));
         }
-
-        setChartInfo(result, null, null);
+        
         return result;
+    }
+    
+    private List<MIPSample> getSamples () {
+        return mipSampleService.readAll()
+                .stream()
+                .filter(sample -> sample.getHarvestId().isPresent())
+                .filter(sample -> sample.getHarvestId().get().equals(1L))
+                .collect(Collectors.toList());
+    }
+
+    private List<Pest> getPests() {
+        return List.of(
+                mipSampleService.readPestById(1L).get(),
+                mipSampleService.readPestById(2L).get(),
+                mipSampleService.readPestById(3L).get(),
+                mipSampleService.readPestById(4L).get(),
+                mipSampleService.readPestById(5L).get(),
+                mipSampleService.readPestById(6L).get(),
+                mipSampleService.readPestById(7L).get(),
+                mipSampleService.readPestById(8L).get());
     }
 
     private void setChartInfo(LineChartModel lineChartModel, Set<Integer> daes, Set<Double> occurrences) {
@@ -76,7 +101,7 @@ public class MIPPestAnalysisService {
 
         var result = new LineChartSeries();
 
-        result.setLabel(String.format("%s (%s)", aPest.getScientificName(), aPest.getPestSize().getName()));
+        result.setLabel(String.format("%s (%s)", aPest.getScientificName().length() == 0 ? aPest.getUsualName() : aPest.getScientificName(), aPest.getPestSize().getName()));
 
         aMappingDAEOccurrence.keySet().forEach(item -> {
             result.set(item, aMappingDAEOccurrence.get(item));
