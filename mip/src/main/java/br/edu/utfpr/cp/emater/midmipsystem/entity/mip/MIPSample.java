@@ -241,4 +241,15 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
         }
     }
 
+    public Optional<Long> getFieldId() {
+        
+        if (this.getSurvey() == null)
+            return Optional.empty();
+        
+        if (this.getSurvey().getField() == null)
+            return Optional.empty();
+        
+        return Optional.of(this.getSurvey().getField().getId());
+    }
+
 }

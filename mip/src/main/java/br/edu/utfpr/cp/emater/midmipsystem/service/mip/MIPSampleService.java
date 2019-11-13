@@ -1,5 +1,9 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.mip;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
@@ -13,6 +17,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +40,8 @@ public class MIPSampleService {
     private final PestService pestService;
     private final PestDiseaseService pestDiseaseService;
     private final PestNaturalPredatorService pestNaturalPredatorService;
+    private final RegionService regionService;
+    private final MacroRegionService macroRegionService;
 
     public List<MIPSample> readAll() {
         return List.copyOf(mipSampleRepository.findAll());
@@ -117,5 +128,21 @@ public class MIPSampleService {
         } catch (EntityNotFoundException e) {
             return Optional.empty();
         }
+    }
+
+    public List<Region> readAllRegionsFor(Long aMacroRegionId) {
+        return regionService.readAll().stream().filter(currentRegion -> currentRegion.getMacroRegionId().equals(aMacroRegionId)).collect(Collectors.toList());
+    }
+
+    public List<MacroRegion> readAllMacroRegions() {
+        return macroRegionService.readAll();
+    }
+
+    public List<City> readAllCitiesByRegionId(Long aRegionId) throws EntityNotFoundException {
+        return new ArrayList<City>(regionService.readById(aRegionId).getCities());
+    }
+
+    public List<Field> readAllFieldsByCityId(Long aCityId) {
+        return surveyService.readAllFields().stream().distinct().filter(field -> field.getCityId().equals(aCityId)).collect(Collectors.toList());
     }
 }

@@ -1,12 +1,19 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.primefaces.model.chart.Axis;
@@ -21,21 +28,21 @@ public class MIPPestAnalysisService {
 
     private final MIPSampleService mipSampleService;
 
-    public LineChartModel createCaterpillarFluctuationChart() throws Exception {
+    public LineChartModel getPestFluctuationChart() {
 
         var targetPests = this.getPests();
 
-        var targetMIPSamples = this.getSamples();
-
+        List<MIPSample> targetMIPSamples = this.getSamples();
+              
         var result = this.getLinearChartModel(targetPests, targetMIPSamples);
 
         setChartInfo(result, null, null);
-        
+
         return result;
     }
-    
+
     private LineChartModel getLinearChartModel(List<Pest> targetPests, List<MIPSample> targetMIPSamples) {
-        
+
         var result = new LineChartModel();
 
         for (Pest currentTargetPest : targetPests) {
@@ -52,18 +59,18 @@ public class MIPPestAnalysisService {
 
             result.addSeries(this.getSerie(currentTargetPest, mapFound));
         }
-        
+
         return result;
     }
-    
-    private List<MIPSample> getSamples () {
+
+    private List<MIPSample> getSamples() {
         return mipSampleService.readAll()
                 .stream()
                 .filter(sample -> sample.getHarvestId().isPresent())
                 .filter(sample -> sample.getHarvestId().get().equals(1L))
                 .collect(Collectors.toList());
     }
-
+    
     private List<Pest> getPests() {
         return List.of(
                 mipSampleService.readPestById(1L).get(),
@@ -77,7 +84,7 @@ public class MIPPestAnalysisService {
     }
 
     private void setChartInfo(LineChartModel lineChartModel, Set<Integer> daes, Set<Double> occurrences) {
-        lineChartModel.setTitle("Flutuação de Lagartas");
+//        lineChartModel.setTitle("Flutuação de Lagartas");
         lineChartModel.setLegendPosition("e");
         lineChartModel.setShowPointLabels(true);
 
@@ -106,6 +113,51 @@ public class MIPPestAnalysisService {
         aMappingDAEOccurrence.keySet().forEach(item -> {
             result.set(item, aMappingDAEOccurrence.get(item));
         });
+
+        return result;
+    }
+
+    public List<Region> getRegionsAvailableFor(Long selectedMacroRegionId) {
+        return this.mipSampleService.readAllRegionsFor (selectedMacroRegionId);
+    }
+
+    public List<MacroRegion> readAllMacroRegions() {
+        return this.mipSampleService.readAllMacroRegions();
+    }
+
+    public List<City> getCitiesAvailableFor(Long aRegionId)  {
+        try {
+            return this.mipSampleService.readAllCitiesByRegionId(aRegionId);
+            
+        } catch (EntityNotFoundException ex) {
+            return null;
+        }
+    }
+
+    public List<Field> getURsAvailableFor(Long aCityId) {
+        return this.mipSampleService.readAllFieldsByCityId (aCityId);
+    }
+
+    public LineChartModel getPestFluctuationChartForUR(Long selectedURId) {
+        
+        List<MIPSample> samples = this.getSamples().stream()
+                .filter(currentSample -> currentSample.getFieldId().isPresent())
+                .filter(currentSample -> currentSample.getFieldId().get().equals(selectedURId))
+                .collect(Collectors.toList());
+        
+        List<MIPSample> targetMIPSamples =  null;
+        
+        if (samples == null || samples.size() == 0)
+            targetMIPSamples = this.getSamples();
+        
+        else
+            targetMIPSamples = samples;
+        
+        var targetPests = this.getPests();
+
+        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
+
+        setChartInfo(result, null, null);
 
         return result;
     }

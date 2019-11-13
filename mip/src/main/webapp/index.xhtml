@@ -2,7 +2,8 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
         Painel de Controle
@@ -18,11 +19,80 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Flutuação de Lagartas</h3>
+                        <h3 class="box-title">Selecione a opção para visualizar os gráficos</h3>
+                    </div>
+
+                    <div class="box-body" style="display: block;">
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <h:form>
+                                    <div class="col-md-12">
+                                        <p:outputLabel for="@next" value="Macrorregião" />
+                                        <p:selectOneMenu value="#{dashboardController.selectedMacroRegionId}"  filter="true" filterMatchMode="contains">
+                                            <p:ajax listener="#{dashboardController.onMacroRegionSelectionChangeEvent()}" update="regionSelectComponent citySelectComponent urSelectComponent" />
+                                            <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{dashboardController.getMacroRegionsAvailable()}" var="macroRegion" itemLabel="#{macroRegion.name}" itemValue="#{macroRegion.id}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="@previous" ></p:message>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <p:outputLabel for="@next" value="Região" />
+                                        <p:selectOneMenu id="regionSelectComponent" value="#{dashboardController.selectedRegionId}" filter="true" filterMatchMode="contains" >
+                                            <p:ajax listener="#{dashboardController.onRegionSelectionChangeEvent()}" update="citySelectComponent urSelectComponent" />
+                                            <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{dashboardController.regionsAvailable}" var="region" itemLabel="#{region.name}" itemValue="#{region.id}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="@previous" ></p:message>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <p:outputLabel for="@next" value="Município" />
+                                        <p:selectOneMenu id="citySelectComponent" value="#{dashboardController.selectedCityId}" filter="true" filterMatchMode="contains" >
+                                            <p:ajax listener="#{dashboardController.onCitySelectionChangeEvent()}" update="urSelectComponent" />
+                                            <f:selectItem itemLabel="Todos" itemValue="${null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{dashboardController.citiesAvailable}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="@previous" ></p:message>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <p:outputLabel for="@next" value="UR" />
+                                        <p:selectOneMenu id="urSelectComponent" value="#{dashboardController.selectedURId}" filter="true" filterMatchMode="contains">
+                                            <p:ajax listener="#{dashboardController.updateCharts()}" update="pestFluctuationChart" />
+                                            <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{dashboardController.URsAvailable}" var="ur" itemLabel="#{ur.name}" itemValue="#{ur.id}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="@previous" ></p:message>
+                                    </div>
+
+                                </h:form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Evolução da Flutuação de Pragas</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
+
                             <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                         </div>
                     </div>
@@ -30,46 +100,28 @@
                     <div class="box-body" style="display: block;">
                         <div class="row">
 
-                            <p:tabView style="margin-left: 5px; margin-right: 5px">
-                                <p:tab title="Consolidado Região">
-                                    
-                                    <p:chart type="line" model="#{mipPestAnalysisController.createCaterpillarFluctuationChart()}" />
-                                    
-                                </p:tab>
-                                <p:tab title="UR x">
-                                    <h:panelGrid columns="2" cellpadding="10">
+                            <div class="col-md-12">
+                                <p class="text-center">
+                                    <strong>Período: 1 Nov, 2017 - 30 Jan, 2018</strong>
+                                </p>
 
-                                        <h:outputText value="Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
-                                                      In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
-                                                      killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows."/>
-                                    </h:panelGrid>
-                                </p:tab>
-                                <p:tab title="UR y" closable="true">
-                                    <h:panelGrid columns="2" cellpadding="10">
+                                <div>
+                                    <p:chart id="pestFluctuationChart" type="line" model="#{dashboardController.pestFluctuationChart}" responsive="true" ></p:chart>
+                                </div>
 
-                                        <h:outputText value="After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family.
-                                                      Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate."/>
-                                    </h:panelGrid>
-                                </p:tab>
-                            </p:tabView>
+                            </div>
 
                         </div>
-                    </div>
 
-                    <div class="box-footer" style="display: block;">
-                        <div class="row">
-
-                        </div>
                     </div>
 
                 </div>
 
             </div>
+
         </div>
 
 
     </ui:define>
-
-
 
 </ui:composition>
