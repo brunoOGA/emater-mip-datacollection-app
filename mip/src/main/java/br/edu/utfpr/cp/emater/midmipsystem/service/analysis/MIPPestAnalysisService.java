@@ -10,12 +10,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.primefaces.model.chart.Axis;
@@ -35,7 +32,7 @@ public class MIPPestAnalysisService {
         var targetPests = this.getPests();
 
         List<MIPSample> targetMIPSamples = this.getSamples();
-              
+
         var result = this.getLinearChartModel(targetPests, targetMIPSamples);
 
         setChartInfo(result, null, null);
@@ -72,7 +69,7 @@ public class MIPPestAnalysisService {
                 .filter(sample -> sample.getHarvestId().get().equals(1L))
                 .collect(Collectors.toList());
     }
-    
+
     private List<Pest> getPests() {
         return List.of(
                 mipSampleService.readPestById(1L).get(),
@@ -120,41 +117,41 @@ public class MIPPestAnalysisService {
     }
 
     public List<Region> getRegionsAvailableFor(Long selectedMacroRegionId) {
-        return this.mipSampleService.readAllRegionsFor (selectedMacroRegionId);
+        return this.mipSampleService.readAllRegionsFor(selectedMacroRegionId);
     }
 
     public List<MacroRegion> readAllMacroRegions() {
         return this.mipSampleService.readAllMacroRegions();
     }
 
-    public List<City> getCitiesAvailableFor(Long aRegionId)  {
+    public List<City> getCitiesAvailableFor(Long aRegionId) {
         try {
             return this.mipSampleService.readAllCitiesByRegionId(aRegionId);
-            
+
         } catch (EntityNotFoundException ex) {
             return null;
         }
     }
 
     public List<Field> getURsAvailableFor(Long aCityId) {
-        return this.mipSampleService.readAllFieldsByCityId (aCityId);
+        return this.mipSampleService.readAllFieldsByCityId(aCityId);
     }
 
     public LineChartModel getPestFluctuationChartForUR(Long selectedURId) {
-        
+
         List<MIPSample> samples = this.getSamples().stream()
                 .filter(currentSample -> currentSample.getFieldId().isPresent())
                 .filter(currentSample -> currentSample.getFieldId().get().equals(selectedURId))
                 .collect(Collectors.toList());
-        
-        List<MIPSample> targetMIPSamples =  null;
-        
-        if (samples == null || samples.size() == 0)
+
+        List<MIPSample> targetMIPSamples = null;
+
+        if (samples == null || samples.size() == 0) {
             targetMIPSamples = this.getSamples();
-        
-        else
+        } else {
             targetMIPSamples = samples;
-        
+        }
+
         var targetPests = this.getPests();
 
         var result = this.getLinearChartModel(targetPests, targetMIPSamples);
@@ -165,24 +162,91 @@ public class MIPPestAnalysisService {
     }
 
     public LineChartModel getPestFluctuationChartForMacroRegion(Long aMacroRegionId) {
-        
-        var cityList = new ArrayList<City>();
-        List<MIPSample> samples = new ArrayList<>();
-                
-        for (Region currentRegion: mipSampleService.readAllRegionsFor(aMacroRegionId)) {
-            for (City currentCity: currentRegion.getCities())
-                cityList.add(currentCity);
+
+        var citiesInTheMacroRegion = new ArrayList<City>();
+
+        for (Region currentRegion : mipSampleService.readAllRegionsFor(aMacroRegionId)) {
+            for (City currentCity : currentRegion.getCities()) {
+                citiesInTheMacroRegion.add(currentCity);
+            }
         }
-        
-        
-        List<MIPSample> targetMIPSamples =  null;
-        
-        if (samples == null || samples.size() == 0)
+
+        List<MIPSample> samples = new ArrayList<>();
+        for (City currentCity : citiesInTheMacroRegion) {
+            samples.addAll(this.getSamples().stream()
+                    .filter(currentSample -> currentSample.getCity().isPresent())
+                    .filter(currentSample -> currentSample.getCity().get().equals(currentCity))
+                    .collect(Collectors.toList())
+            );
+        }
+
+        List<MIPSample> targetMIPSamples = null;
+
+        if (samples == null || samples.size() == 0) {
             targetMIPSamples = this.getSamples();
-        
-        else
+        } else {
             targetMIPSamples = samples;
-        
+        }
+
+        var targetPests = this.getPests();
+
+        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
+
+        setChartInfo(result, null, null);
+
+        return result;
+    }
+
+    public LineChartModel getPestFluctuationChartForRegion(Long aRegionId) throws EntityNotFoundException {
+
+        var citiesInTheRegion = mipSampleService.readAllCitiesByRegionId(aRegionId);
+
+        List<MIPSample> samples = new ArrayList<>();
+
+        for (City currentCity : citiesInTheRegion) {
+            samples.addAll(this.getSamples().stream()
+                    .filter(currentSample -> currentSample.getCity().isPresent())
+                    .filter(currentSample -> currentSample.getCity().get().equals(currentCity))
+                    .collect(Collectors.toList())
+            );
+        }
+
+        List<MIPSample> targetMIPSamples = null;
+
+        if (samples == null || samples.size() == 0) {
+            targetMIPSamples = this.getSamples();
+            
+        } else {
+            targetMIPSamples = samples;
+        }
+
+        var targetPests = this.getPests();
+
+        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
+
+        setChartInfo(result, null, null);
+
+        return result;
+    }
+
+    public LineChartModel getPestFluctuationChartForCity(Long aCityId) {
+
+        List<MIPSample> samples = new ArrayList<>();
+
+        this.getSamples().stream()
+                .filter(currentSample -> currentSample.getCity().isPresent())
+                .filter(currentSample -> currentSample.getCity().get().getId().equals(aCityId))
+                .collect(Collectors.toList());
+
+        List<MIPSample> targetMIPSamples = null;
+
+        if (samples == null || samples.size() == 0) {
+            targetMIPSamples = this.getSamples();
+            
+        } else {
+            targetMIPSamples = samples;
+        }
+
         var targetPests = this.getPests();
 
         var result = this.getLinearChartModel(targetPests, targetMIPSamples);

@@ -61,7 +61,7 @@
                                     <div class="col-md-12">
                                         <p:outputLabel for="@next" value="UR" />
                                         <p:selectOneMenu id="urSelectComponent" value="#{dashboardController.selectedURId}" filter="true" filterMatchMode="contains">
-                                            <p:ajax listener="#{dashboardController.updateCharts()}" update="pestFluctuationChart" />
+                                            <p:ajax listener="#{dashboardController.onURSelectionChangeEvent()}" update="pestFluctuationChart" />
                                             <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{dashboardController.URsAvailable}" var="ur" itemLabel="#{ur.name}" itemValue="#{ur.id}" />
                                         </p:selectOneMenu>
@@ -102,7 +102,7 @@
 
                             <div class="col-md-12">
                                 <p class="text-center">
-                                    <strong>Período: 1 Nov, 2017 - 30 Jan, 2018</strong>
+                                    <strong></strong>
                                 </p>
 
                                 <div>
