@@ -8,7 +8,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -144,6 +146,34 @@ public class MIPPestAnalysisService {
                 .filter(currentSample -> currentSample.getFieldId().isPresent())
                 .filter(currentSample -> currentSample.getFieldId().get().equals(selectedURId))
                 .collect(Collectors.toList());
+        
+        List<MIPSample> targetMIPSamples =  null;
+        
+        if (samples == null || samples.size() == 0)
+            targetMIPSamples = this.getSamples();
+        
+        else
+            targetMIPSamples = samples;
+        
+        var targetPests = this.getPests();
+
+        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
+
+        setChartInfo(result, null, null);
+
+        return result;
+    }
+
+    public LineChartModel getPestFluctuationChartForMacroRegion(Long aMacroRegionId) {
+        
+        var cityList = new ArrayList<City>();
+        List<MIPSample> samples = new ArrayList<>();
+                
+        for (Region currentRegion: mipSampleService.readAllRegionsFor(aMacroRegionId)) {
+            for (City currentCity: currentRegion.getCities())
+                cityList.add(currentCity);
+        }
+        
         
         List<MIPSample> targetMIPSamples =  null;
         

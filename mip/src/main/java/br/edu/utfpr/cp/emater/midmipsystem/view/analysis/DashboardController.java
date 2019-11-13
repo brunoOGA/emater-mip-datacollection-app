@@ -7,6 +7,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPPestAnalysisService;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,12 @@ public class DashboardController implements Serializable{
     
     @Getter
     @Setter
-    private LineChartModel pestFluctuationChart = new LineChartModel();
+    private LineChartModel pestFluctuationChart;
+    
+    @PostConstruct // Check whether this is a source for bugs
+    public void init() {
+        pestFluctuationChart = analysisService.getPestFluctuationChart();
+    }
     
     public List<MacroRegion> getMacroRegionsAvailable() {
         return analysisService.readAllMacroRegions();
@@ -60,8 +66,10 @@ public class DashboardController implements Serializable{
     
     public void onMacroRegionSelectionChangeEvent() {
         
-        if (this.getSelectedMacroRegionId() != null)
+        if (this.getSelectedMacroRegionId() != null) {
+            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForMacroRegion(selectedMacroRegionId));
             regionsAvailable = analysisService.getRegionsAvailableFor (this.getSelectedMacroRegionId());
+        }
     }
     
     public void onRegionSelectionChangeEvent() {

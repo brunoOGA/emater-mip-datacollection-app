@@ -31,7 +31,7 @@
                                     <div class="col-md-12">
                                         <p:outputLabel for="@next" value="Macrorregião" />
                                         <p:selectOneMenu value="#{dashboardController.selectedMacroRegionId}"  filter="true" filterMatchMode="contains">
-                                            <p:ajax listener="#{dashboardController.onMacroRegionSelectionChangeEvent()}" update="regionSelectComponent citySelectComponent urSelectComponent" />
+                                            <p:ajax listener="#{dashboardController.onMacroRegionSelectionChangeEvent()}" update="regionSelectComponent pestFluctuationChart" />
                                             <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{dashboardController.getMacroRegionsAvailable()}" var="macroRegion" itemLabel="#{macroRegion.name}" itemValue="#{macroRegion.id}" />
                                         </p:selectOneMenu>
@@ -41,7 +41,7 @@
                                     <div class="col-md-12">
                                         <p:outputLabel for="@next" value="Região" />
                                         <p:selectOneMenu id="regionSelectComponent" value="#{dashboardController.selectedRegionId}" filter="true" filterMatchMode="contains" >
-                                            <p:ajax listener="#{dashboardController.onRegionSelectionChangeEvent()}" update="citySelectComponent urSelectComponent" />
+                                            <p:ajax listener="#{dashboardController.onRegionSelectionChangeEvent()}" update="citySelectComponent pestFluctuationChart" />
                                             <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{dashboardController.regionsAvailable}" var="region" itemLabel="#{region.name}" itemValue="#{region.id}" />
                                         </p:selectOneMenu>
@@ -51,7 +51,7 @@
                                     <div class="col-md-12">
                                         <p:outputLabel for="@next" value="Município" />
                                         <p:selectOneMenu id="citySelectComponent" value="#{dashboardController.selectedCityId}" filter="true" filterMatchMode="contains" >
-                                            <p:ajax listener="#{dashboardController.onCitySelectionChangeEvent()}" update="urSelectComponent" />
+                                            <p:ajax listener="#{dashboardController.onCitySelectionChangeEvent()}" update="urSelectComponent pestFluctuationChart" />
                                             <f:selectItem itemLabel="Todos" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{dashboardController.citiesAvailable}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}" />
                                         </p:selectOneMenu>
