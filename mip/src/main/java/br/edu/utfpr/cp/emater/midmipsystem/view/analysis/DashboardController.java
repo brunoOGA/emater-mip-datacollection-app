@@ -63,7 +63,9 @@ public class DashboardController implements Serializable {
     @PostConstruct
     public void init() {
         this.setTitle("Dados Estaduais");
-        pestFluctuationChart = analysisService.getPestFluctuationChart();
+//        pestFluctuationChart = analysisService.getPestFluctuationChart();
+        pestFluctuationChart = analysisService.pestOccurrenceLineChart();
+
     }
 
     public List<MacroRegion> getMacroRegionsAvailable() {

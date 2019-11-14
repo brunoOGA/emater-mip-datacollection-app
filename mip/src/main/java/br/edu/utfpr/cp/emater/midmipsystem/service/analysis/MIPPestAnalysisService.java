@@ -27,6 +27,84 @@ public class MIPPestAnalysisService {
 
     private final MIPSampleService mipSampleService;
 
+    public LineChartModel pestOccurrenceLineChart() {
+        var samples = this.getSamples();
+        var pests = this.getPests();
+        var pestAndDAEAndOccurrences = getDAEAndOccurrences(pests, samples);
+        var chartSeries = getChartSeries(pestAndDAEAndOccurrences);
+
+        var chartModel = new LineChartModel();
+        chartSeries.forEach(chartModel::addSeries);
+        this.setLineChartInfo(chartModel, pestAndDAEAndOccurrences);
+
+        return chartModel;
+    }
+
+    private void setLineChartInfo(LineChartModel aChartModel, Map<Pest, Map<Integer, Double>> pestsDAEsAndOccurrences) {
+        aChartModel.setLegendPosition("e");
+        aChartModel.setShowPointLabels(true);
+
+        Axis xAxis = aChartModel.getAxis(AxisType.X);
+        xAxis.setLabel("Dias Após Emergência");
+        xAxis.setTickInterval("10");
+        xAxis.setMin(this.getMinDAE(pestsDAEsAndOccurrences));
+        xAxis.setMax(this.getMaxDAE(pestsDAEsAndOccurrences) + 5);
+        xAxis.setMax(40);
+
+        Axis yAxis = aChartModel.getAxis(AxisType.Y);
+        yAxis.setLabel("No. Insetos/metro");
+        yAxis.setTickInterval("0.5");
+        yAxis.setMin(0);
+        yAxis.setMax(5);
+        yAxis.setTickFormat("%#.2f");
+        yAxis.setMax(3);
+
+    }
+    
+    private int getMinDAE (Map<Pest, Map<Integer, Double>> pestsDAEsAndOccurrences) {
+        return pestsDAEsAndOccurrences.keySet().stream().flatMap(currentPest -> pestsDAEsAndOccurrences.get(currentPest).keySet().stream()).reduce(Integer::min).get();
+    }
+    
+    private int getMaxDAE (Map<Pest, Map<Integer, Double>> pestsDAEsAndOccurrences) {
+        return pestsDAEsAndOccurrences.keySet().stream().flatMap(currentPest -> pestsDAEsAndOccurrences.get(currentPest).keySet().stream()).reduce(Integer::max).get();
+    }
+        
+    private List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
+
+        var result = new ArrayList<LineChartSeries>();
+
+        occurrencesGrouppedByPest.keySet().stream().forEach(currentPest -> {
+            var currentSerie = new LineChartSeries(currentPest.getDescription());
+
+            occurrencesGrouppedByPest.get(currentPest).keySet().forEach(currentDAE -> {
+                currentSerie.set(currentDAE, occurrencesGrouppedByPest.get(currentPest).get(currentDAE));
+            });
+
+            result.add(currentSerie);
+
+        });
+
+        return result;
+    }
+
+    private Map<Pest, Map<Integer, Double>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
+
+        var result = new HashMap<Pest, Map<Integer, Double>>();
+
+        pests.forEach(currentPest -> {
+
+            var preResult = new HashMap<Integer, Double>();
+
+            samples.forEach(currentSample
+                    -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).ifPresent(preResult::putAll)
+            );
+
+            result.put(currentPest, preResult);
+        });
+
+        return result;
+    }
+
     public LineChartModel getPestFluctuationChart() {
 
         var targetPests = this.getPests();
@@ -63,11 +141,7 @@ public class MIPPestAnalysisService {
     }
 
     private List<MIPSample> getSamples() {
-        return mipSampleService.readAll()
-                .stream()
-                .filter(sample -> sample.getHarvestId().isPresent())
-                .filter(sample -> sample.getHarvestId().get().equals(1L))
-                .collect(Collectors.toList());
+        return mipSampleService.readAll();
     }
 
     private List<Pest> getPests() {
@@ -215,7 +289,7 @@ public class MIPPestAnalysisService {
 
         if (samples == null || samples.size() == 0) {
             targetMIPSamples = this.getSamples();
-            
+
         } else {
             targetMIPSamples = samples;
         }
@@ -242,7 +316,7 @@ public class MIPPestAnalysisService {
 
         if (samples == null || samples.size() == 0) {
             targetMIPSamples = this.getSamples();
-            
+
         } else {
             targetMIPSamples = samples;
         }

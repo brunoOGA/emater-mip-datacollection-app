@@ -62,4 +62,15 @@ public class Pest extends AuditingPersistenceEntity implements Serializable {
         
         return null;
     }
+
+    public String getDescription() {
+        
+        if (this.getScientificName() == null)
+            return String.format("%s (%s)", this.getUsualName(), this.getPestSizeName());
+        
+        if (this.getScientificName().length() == 0)
+            return String.format("%s (%s)", this.getUsualName(), this.getPestSizeName());
+        
+        return String.format("%s (%s)", this.getScientificName(), this.getPestSizeName());
+    }
 }
