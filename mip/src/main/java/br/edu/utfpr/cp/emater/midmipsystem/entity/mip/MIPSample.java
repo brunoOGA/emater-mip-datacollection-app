@@ -198,6 +198,22 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
                 .filter(currentOccurrence -> currentOccurrence.getPest().equals(aPest))
                 .findFirst();
     }
+    
+    public double getOccurrenceValueByPest(Pest aPest) {
+        
+        if (aPest == null)
+            return 0.0;
+        
+        var occurrence = this.getOccurrenceByPest(aPest);
+        
+        if (occurrence.isEmpty())
+            return 0.0;
+        
+        if (occurrence.isPresent())
+            return occurrence.get().getValue();
+                    
+        return 0.0;
+    }
 
     public Optional<Map<Integer, Double>> getDAEAndPestOccurrenceByPest(Pest aPest) {
 
@@ -216,30 +232,6 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
         occurrenceByPest.ifPresent(occurrence -> result.put(this.getDAE(), occurrence.getValue()));
 
         return Optional.of(result);
-    }
-
-    public Optional<Map<Integer, Double>> getDAEAndPestOccurrenceByPestSet(Set<Pest> pests) {
-
-        if (pests == null) {
-            return Optional.empty();
-        }
-
-        if (pests.size() == 0) {
-            return Optional.empty();
-        }
-
-        var result = new HashMap<Integer, Double>();
-
-        pests.stream()
-                .map(currentPest -> this.getDAEAndPestOccurrenceByPest(currentPest))
-                .filter(currentOptionalOccurrence -> currentOptionalOccurrence.isPresent())
-                .forEach(currentOptionalOccurrence -> result.putAll(currentOptionalOccurrence.get()));
-
-        if (result.isEmpty()) {
-            return Optional.empty();
-        } else {
-            return Optional.of(result);
-        }
     }
 
     public Optional<Long> getFieldId() {
