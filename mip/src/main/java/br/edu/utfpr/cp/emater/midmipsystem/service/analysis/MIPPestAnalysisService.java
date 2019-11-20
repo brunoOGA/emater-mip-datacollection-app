@@ -30,9 +30,14 @@ public class MIPPestAnalysisService {
 
     public LineChartModel pestOccurrenceLineChart() {
         var samples = this.getSamples();
+        
         var pests = this.getPests();
+        
         var pestAndDAEAndOccurrences = getDAEAndOccurrences(pests, samples);
-        var chartSeries = getChartSeries(pestAndDAEAndOccurrences);
+        
+        var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
+        
+        var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
 
         var chartModel = new LineChartModel();
         chartSeries.forEach(chartModel::addSeries);
@@ -61,20 +66,42 @@ public class MIPPestAnalysisService {
 
     }
 
-    private List<LineChartSeries> getChartSeries(Map<Pest, List<DAEAndOccurrence>> occurrencesGrouppedByPest) {
+    private List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
 
         var result = new ArrayList<LineChartSeries>();
 
         occurrencesGrouppedByPest.keySet().stream().forEach(currentPest -> {
-            
+
             var currentSerie = new LineChartSeries(currentPest.getDescription());
 
-            occurrencesGrouppedByPest.get(currentPest).forEach(currentDAEAndOccurrence -> {
-                currentSerie.set(currentDAEAndOccurrence.getDae(), currentDAEAndOccurrence.getOccurrence());
+            var currentPestOccurrence = occurrencesGrouppedByPest.get(currentPest);
+            
+            currentPestOccurrence.keySet().forEach(currentDAE -> {
+                currentSerie.set(currentDAE, currentPestOccurrence.get(currentDAE));
             });
 
             result.add(currentSerie);
 
+        });
+
+        return result;
+    }
+
+    private Map<Pest, Map<Integer, Double>> consolidateDAEAndOccurrences(Map<Pest, List<DAEAndOccurrence>> occurrences) {
+
+        var result = new HashMap<Pest, Map<Integer, Double>>();
+
+        occurrences.keySet().forEach(currentOccurrence -> {
+            
+            result.put(currentOccurrence,
+                        occurrences.get(currentOccurrence).stream()
+                                .collect(
+                                        Collectors.groupingBy(
+                                                DAEAndOccurrence::getDae, 
+                                                Collectors.averagingDouble(DAEAndOccurrence::getOccurrence)
+                                        )
+                         )
+            );
         });
 
         return result;
@@ -96,8 +123,6 @@ public class MIPPestAnalysisService {
         return result;
     }
 
-
-    
     private List<MIPSample> getSamples() {
         return mipSampleService.readAll();
     }
