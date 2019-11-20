@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.analysis.DAEAndOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -110,14 +111,16 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
 
         return null;
     }
-    
+
     public Optional<Long> getHarvestId() {
-        if (this.getSurvey() == null)
+        if (this.getSurvey() == null) {
             return Optional.empty();
-        
-        if (this.getSurvey().getHarvest() == null)
+        }
+
+        if (this.getSurvey().getHarvest() == null) {
             return Optional.empty();
-        
+        }
+
         return Optional.of(this.getSurvey().getHarvest().getId());
     }
 
@@ -198,24 +201,27 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
                 .filter(currentOccurrence -> currentOccurrence.getPest().equals(aPest))
                 .findFirst();
     }
-    
+
     public double getOccurrenceValueByPest(Pest aPest) {
-        
-        if (aPest == null)
+
+        if (aPest == null) {
             return 0.0;
-        
+        }
+
         var occurrence = this.getOccurrenceByPest(aPest);
-        
-        if (occurrence.isEmpty())
+
+        if (occurrence.isEmpty()) {
             return 0.0;
-        
-        if (occurrence.isPresent())
+        }
+
+        if (occurrence.isPresent()) {
             return occurrence.get().getValue();
-                    
+        }
+
         return 0.0;
     }
 
-    public Optional<Map<Integer, Double>> getDAEAndPestOccurrenceByPest(Pest aPest) {
+    public Optional<DAEAndOccurrence> getDAEAndPestOccurrenceByPest(Pest aPest) {
 
         if (aPest == null) {
             return Optional.empty();
@@ -223,39 +229,40 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
 
         var occurrenceByPest = this.getOccurrenceByPest(aPest);
 
-        if (occurrenceByPest.isEmpty()) {
-            return Optional.empty();
+        if (occurrenceByPest.isPresent()) {
+            return Optional.of(DAEAndOccurrence.builder().dae(this.getDAE()).occurrence(occurrenceByPest.get().getValue()).build());
         }
 
-        var result = new HashMap<Integer, Double>();
-
-        occurrenceByPest.ifPresent(occurrence -> result.put(this.getDAE(), occurrence.getValue()));
-
-        return Optional.of(result);
+        return Optional.empty();
     }
 
     public Optional<Long> getFieldId() {
-        
-        if (this.getSurvey() == null)
+
+        if (this.getSurvey() == null) {
             return Optional.empty();
-        
-        if (this.getSurvey().getField() == null)
+        }
+
+        if (this.getSurvey().getField() == null) {
             return Optional.empty();
-        
+        }
+
         return Optional.of(this.getSurvey().getField().getId());
     }
 
     public Optional<City> getCity() {
-        
-        if (this.getSurvey() == null)
+
+        if (this.getSurvey() == null) {
             return Optional.empty();
-        
-        if (this.getSurvey().getField() == null)
+        }
+
+        if (this.getSurvey().getField() == null) {
             return Optional.empty();
-        
-        if (this.getSurvey().getField().getCity() == null)
+        }
+
+        if (this.getSurvey().getField().getCity() == null) {
             return Optional.empty();
-        
+        }
+
         return Optional.of(this.getSurvey().getField().getCity());
     }
 

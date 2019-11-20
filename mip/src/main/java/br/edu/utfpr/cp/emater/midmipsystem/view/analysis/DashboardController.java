@@ -74,57 +74,57 @@ public class DashboardController implements Serializable {
 
     public void onMacroRegionSelectionChangeEvent() {
 
-        if (this.getSelectedMacroRegionId() != null) {
-            this.setTitle("Dados da Macrorregião Selecionada");
-            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForMacroRegion(selectedMacroRegionId));
-            regionsAvailable = analysisService.getRegionsAvailableFor(this.getSelectedMacroRegionId());
-        
-        } else {
-            this.setTitle("Dados Estaduais");
-            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
-        }
+//        if (this.getSelectedMacroRegionId() != null) {
+//            this.setTitle("Dados da Macrorregião Selecionada");
+//            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForMacroRegion(selectedMacroRegionId));
+//            regionsAvailable = analysisService.getRegionsAvailableFor(this.getSelectedMacroRegionId());
+//        
+//        } else {
+//            this.setTitle("Dados Estaduais");
+//            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
+//        }
     }
 
     public void onRegionSelectionChangeEvent() {
         
-        if (this.getSelectedRegionId() != null) {
-            this.setTitle("Dados da Região Selecionada");
-            citiesAvailable = analysisService.getCitiesAvailableFor(this.getSelectedRegionId());
-
-            try {
-                this.setPestFluctuationChart(analysisService.getPestFluctuationChartForRegion(selectedRegionId));
-            
-            } catch (EntityNotFoundException ex) {
-                this.setPestFluctuationChart(new LineChartModel());
-            }
-            
-        } else {
-            this.setTitle("Dados Estaduais");
-            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
-        }
+//        if (this.getSelectedRegionId() != null) {
+//            this.setTitle("Dados da Região Selecionada");
+//            citiesAvailable = analysisService.getCitiesAvailableFor(this.getSelectedRegionId());
+//
+//            try {
+//                this.setPestFluctuationChart(analysisService.getPestFluctuationChartForRegion(selectedRegionId));
+//            
+//            } catch (EntityNotFoundException ex) {
+//                this.setPestFluctuationChart(new LineChartModel());
+//            }
+//            
+//        } else {
+//            this.setTitle("Dados Estaduais");
+//            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
+//        }
             
     }
 
     public void onCitySelectionChangeEvent() {
-        if (this.getSelectedCityId() != null) {
-            this.setTitle("Dados do Município Selecionado");
-            URsAvailable = analysisService.getURsAvailableFor(this.getSelectedCityId());
-            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForCity(this.getSelectedCityId()));
-        } else {
-            this.setTitle("Dados Estaduais");
-            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
-        }
+//        if (this.getSelectedCityId() != null) {
+//            this.setTitle("Dados do Município Selecionado");
+//            URsAvailable = analysisService.getURsAvailableFor(this.getSelectedCityId());
+//            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForCity(this.getSelectedCityId()));
+//        } else {
+//            this.setTitle("Dados Estaduais");
+//            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
+//        }
     }
 
     public void onURSelectionChangeEvent() {
-        if (this.getSelectedURId() != null) {
-            this.setTitle("Dados da UR Selecionada"); 
-            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForUR(this.getSelectedURId()));
-        
-        } else {
-            this.setTitle("Dados Estaduais");
-            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
-        }
+//        if (this.getSelectedURId() != null) {
+//            this.setTitle("Dados da UR Selecionada"); 
+//            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForUR(this.getSelectedURId()));
+//        
+//        } else {
+//            this.setTitle("Dados Estaduais");
+//            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
+//        }
     }
 
 }

@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.analysis.DAEAndOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
@@ -40,16 +41,15 @@ public class MIPPestAnalysisService {
         return chartModel;
     }
 
-    private void setLineChartInfo(LineChartModel aChartModel, Map<Pest, Map<Integer, Double>> pestsDAEsAndOccurrences) {
+    private void setLineChartInfo(LineChartModel aChartModel, Map<Pest, List<DAEAndOccurrence>> pestsDAEsAndOccurrences) {
         aChartModel.setLegendPosition("e");
         aChartModel.setShowPointLabels(true);
 
         Axis xAxis = aChartModel.getAxis(AxisType.X);
         xAxis.setLabel("Dias Após Emergência");
         xAxis.setTickInterval("10");
-        xAxis.setMin(this.getMinDAE(pestsDAEsAndOccurrences));
-        xAxis.setMax(this.getMaxDAE(pestsDAEsAndOccurrences) + 5);
-        xAxis.setMax(40);
+        xAxis.setMin(0);
+        xAxis.setMax(60);
 
         Axis yAxis = aChartModel.getAxis(AxisType.Y);
         yAxis.setLabel("No. Insetos/metro");
@@ -60,24 +60,17 @@ public class MIPPestAnalysisService {
         yAxis.setMax(3);
 
     }
-    
-    private int getMinDAE (Map<Pest, Map<Integer, Double>> pestsDAEsAndOccurrences) {
-        return pestsDAEsAndOccurrences.keySet().stream().flatMap(currentPest -> pestsDAEsAndOccurrences.get(currentPest).keySet().stream()).reduce(Integer::min).get();
-    }
-    
-    private int getMaxDAE (Map<Pest, Map<Integer, Double>> pestsDAEsAndOccurrences) {
-        return pestsDAEsAndOccurrences.keySet().stream().flatMap(currentPest -> pestsDAEsAndOccurrences.get(currentPest).keySet().stream()).reduce(Integer::max).get();
-    }
-        
-    private List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
+
+    private List<LineChartSeries> getChartSeries(Map<Pest, List<DAEAndOccurrence>> occurrencesGrouppedByPest) {
 
         var result = new ArrayList<LineChartSeries>();
 
         occurrencesGrouppedByPest.keySet().stream().forEach(currentPest -> {
+            
             var currentSerie = new LineChartSeries(currentPest.getDescription());
 
-            occurrencesGrouppedByPest.get(currentPest).keySet().forEach(currentDAE -> {
-                currentSerie.set(currentDAE, occurrencesGrouppedByPest.get(currentPest).get(currentDAE));
+            occurrencesGrouppedByPest.get(currentPest).forEach(currentDAEAndOccurrence -> {
+                currentSerie.set(currentDAEAndOccurrence.getDae(), currentDAEAndOccurrence.getOccurrence());
             });
 
             result.add(currentSerie);
@@ -87,59 +80,24 @@ public class MIPPestAnalysisService {
         return result;
     }
 
-    private Map<Pest, Map<Integer, Double>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
+    private Map<Pest, List<DAEAndOccurrence>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
 
-        var result = new HashMap<Pest, Map<Integer, Double>>();
+        var result = new HashMap<Pest, List<DAEAndOccurrence>>();
 
-        pests.forEach(currentPest -> {
-
-            var preResult = new HashMap<Integer, Double>();
-
-            samples.forEach(currentSample
-                    -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).ifPresent(preResult::putAll)
-            );
-
-            result.put(currentPest, preResult);
-        });
+        pests.forEach(currentPest
+                -> result.put(currentPest,
+                        samples.stream()
+                                .filter(currentSample -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).isPresent())
+                                .map(currentSample -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).get())
+                                .collect(Collectors.toList())
+                )
+        );
 
         return result;
     }
 
-    public LineChartModel getPestFluctuationChart() {
 
-        var targetPests = this.getPests();
-
-        List<MIPSample> targetMIPSamples = this.getSamples();
-
-        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
-
-        setChartInfo(result, null, null);
-
-        return result;
-    }
-
-    private LineChartModel getLinearChartModel(List<Pest> targetPests, List<MIPSample> targetMIPSamples) {
-
-        var result = new LineChartModel();
-
-        for (Pest currentTargetPest : targetPests) {
-
-            var mapFound = new HashMap<Integer, Double>();
-
-            for (MIPSample currentSample : targetMIPSamples) {
-                var sampleFound = currentSample.getDAEAndPestOccurrenceByPest(currentTargetPest);
-
-                if (sampleFound.isPresent()) {
-                    mapFound.putAll(sampleFound.get());
-                }
-            }
-
-            result.addSeries(this.getSerie(currentTargetPest, mapFound));
-        }
-
-        return result;
-    }
-
+    
     private List<MIPSample> getSamples() {
         return mipSampleService.readAll();
     }
@@ -209,124 +167,5 @@ public class MIPPestAnalysisService {
 
     public List<Field> getURsAvailableFor(Long aCityId) {
         return this.mipSampleService.readAllFieldsByCityId(aCityId);
-    }
-
-    public LineChartModel getPestFluctuationChartForUR(Long selectedURId) {
-
-        List<MIPSample> samples = this.getSamples().stream()
-                .filter(currentSample -> currentSample.getFieldId().isPresent())
-                .filter(currentSample -> currentSample.getFieldId().get().equals(selectedURId))
-                .collect(Collectors.toList());
-
-        List<MIPSample> targetMIPSamples = null;
-
-        if (samples == null || samples.size() == 0) {
-            targetMIPSamples = this.getSamples();
-        } else {
-            targetMIPSamples = samples;
-        }
-
-        var targetPests = this.getPests();
-
-        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
-
-        setChartInfo(result, null, null);
-
-        return result;
-    }
-
-    public LineChartModel getPestFluctuationChartForMacroRegion(Long aMacroRegionId) {
-
-        var citiesInTheMacroRegion = new ArrayList<City>();
-
-        for (Region currentRegion : mipSampleService.readAllRegionsFor(aMacroRegionId)) {
-            for (City currentCity : currentRegion.getCities()) {
-                citiesInTheMacroRegion.add(currentCity);
-            }
-        }
-
-        List<MIPSample> samples = new ArrayList<>();
-        for (City currentCity : citiesInTheMacroRegion) {
-            samples.addAll(this.getSamples().stream()
-                    .filter(currentSample -> currentSample.getCity().isPresent())
-                    .filter(currentSample -> currentSample.getCity().get().equals(currentCity))
-                    .collect(Collectors.toList())
-            );
-        }
-
-        List<MIPSample> targetMIPSamples = null;
-
-        if (samples == null || samples.size() == 0) {
-            targetMIPSamples = this.getSamples();
-        } else {
-            targetMIPSamples = samples;
-        }
-
-        var targetPests = this.getPests();
-
-        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
-
-        setChartInfo(result, null, null);
-
-        return result;
-    }
-
-    public LineChartModel getPestFluctuationChartForRegion(Long aRegionId) throws EntityNotFoundException {
-
-        var citiesInTheRegion = mipSampleService.readAllCitiesByRegionId(aRegionId);
-
-        List<MIPSample> samples = new ArrayList<>();
-
-        for (City currentCity : citiesInTheRegion) {
-            samples.addAll(this.getSamples().stream()
-                    .filter(currentSample -> currentSample.getCity().isPresent())
-                    .filter(currentSample -> currentSample.getCity().get().equals(currentCity))
-                    .collect(Collectors.toList())
-            );
-        }
-
-        List<MIPSample> targetMIPSamples = null;
-
-        if (samples == null || samples.size() == 0) {
-            targetMIPSamples = this.getSamples();
-
-        } else {
-            targetMIPSamples = samples;
-        }
-
-        var targetPests = this.getPests();
-
-        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
-
-        setChartInfo(result, null, null);
-
-        return result;
-    }
-
-    public LineChartModel getPestFluctuationChartForCity(Long aCityId) {
-
-        List<MIPSample> samples = new ArrayList<>();
-
-        this.getSamples().stream()
-                .filter(currentSample -> currentSample.getCity().isPresent())
-                .filter(currentSample -> currentSample.getCity().get().getId().equals(aCityId))
-                .collect(Collectors.toList());
-
-        List<MIPSample> targetMIPSamples = null;
-
-        if (samples == null || samples.size() == 0) {
-            targetMIPSamples = this.getSamples();
-
-        } else {
-            targetMIPSamples = samples;
-        }
-
-        var targetPests = this.getPests();
-
-        var result = this.getLinearChartModel(targetPests, targetMIPSamples);
-
-        setChartInfo(result, null, null);
-
-        return result;
     }
 }
