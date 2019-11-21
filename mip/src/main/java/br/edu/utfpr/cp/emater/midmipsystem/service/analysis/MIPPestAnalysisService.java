@@ -30,40 +30,36 @@ public class MIPPestAnalysisService {
 
     public LineChartModel pestOccurrenceLineChart() {
         var samples = this.getSamples();
-        
+
         var pests = this.getPests();
-        
+
         var pestAndDAEAndOccurrences = getDAEAndOccurrences(pests, samples);
-        
+
         var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
-        
+
         var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
 
         var chartModel = new LineChartModel();
         chartSeries.forEach(chartModel::addSeries);
-        this.setLineChartInfo(chartModel, pestAndDAEAndOccurrences);
+        this.setLineChartInfo(chartModel);
 
         return chartModel;
     }
 
-    private void setLineChartInfo(LineChartModel aChartModel, Map<Pest, List<DAEAndOccurrence>> pestsDAEsAndOccurrences) {
-        aChartModel.setLegendPosition("e");
+    private void setLineChartInfo(LineChartModel aChartModel) {
+        
+        aChartModel.setLegendPosition("nw");
+        
         aChartModel.setShowPointLabels(true);
+        aChartModel.setZoom(true);
+        aChartModel.setAnimate(true);
 
         Axis xAxis = aChartModel.getAxis(AxisType.X);
         xAxis.setLabel("Dias Após Emergência");
-        xAxis.setTickInterval("10");
-        xAxis.setMin(0);
-        xAxis.setMax(60);
 
         Axis yAxis = aChartModel.getAxis(AxisType.Y);
         yAxis.setLabel("No. Insetos/metro");
-        yAxis.setTickInterval("0.5");
-        yAxis.setMin(0);
-        yAxis.setMax(5);
         yAxis.setTickFormat("%#.2f");
-        yAxis.setMax(3);
-
     }
 
     private List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
@@ -75,7 +71,7 @@ public class MIPPestAnalysisService {
             var currentSerie = new LineChartSeries(currentPest.getDescription());
 
             var currentPestOccurrence = occurrencesGrouppedByPest.get(currentPest);
-            
+
             currentPestOccurrence.keySet().forEach(currentDAE -> {
                 currentSerie.set(currentDAE, currentPestOccurrence.get(currentDAE));
             });
@@ -92,15 +88,15 @@ public class MIPPestAnalysisService {
         var result = new HashMap<Pest, Map<Integer, Double>>();
 
         occurrences.keySet().forEach(currentOccurrence -> {
-            
+
             result.put(currentOccurrence,
-                        occurrences.get(currentOccurrence).stream()
-                                .collect(
-                                        Collectors.groupingBy(
-                                                DAEAndOccurrence::getDae, 
-                                                Collectors.averagingDouble(DAEAndOccurrence::getOccurrence)
-                                        )
-                         )
+                    occurrences.get(currentOccurrence).stream()
+                            .collect(
+                                    Collectors.groupingBy(
+                                            DAEAndOccurrence::getDae,
+                                            Collectors.averagingDouble(DAEAndOccurrence::getOccurrence)
+                                    )
+                            )
             );
         });
 
