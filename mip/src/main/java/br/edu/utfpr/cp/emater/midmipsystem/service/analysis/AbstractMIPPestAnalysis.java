@@ -13,22 +13,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
-public class MIPPestAnalysisService {
+public abstract class AbstractMIPPestAnalysis {
 
+    @Getter (AccessLevel.PROTECTED)
     private final MIPSampleService mipSampleService;
 
-    public LineChartModel pestOccurrenceLineChart() {
+    public LineChartModel getPestLineChart() {
         var samples = this.getSamples();
 
         var pests = this.getPests();
@@ -46,6 +46,8 @@ public class MIPPestAnalysisService {
         return chartModel;
     }
 
+    protected abstract List<Pest> getPests();
+    
     private void setLineChartInfo(LineChartModel aChartModel) {
         
         aChartModel.setLegendPosition("nw");
@@ -123,38 +125,6 @@ public class MIPPestAnalysisService {
         return mipSampleService.readAll();
     }
 
-    private List<Pest> getPests() {
-        return List.of(
-                mipSampleService.readPestById(1L).get(),
-                mipSampleService.readPestById(2L).get(),
-                mipSampleService.readPestById(3L).get(),
-                mipSampleService.readPestById(4L).get(),
-                mipSampleService.readPestById(5L).get(),
-                mipSampleService.readPestById(6L).get(),
-                mipSampleService.readPestById(7L).get(),
-                mipSampleService.readPestById(8L).get());
-    }
-
-    private void setChartInfo(LineChartModel lineChartModel, Set<Integer> daes, Set<Double> occurrences) {
-//        lineChartModel.setTitle("Flutuação de Lagartas");
-        lineChartModel.setLegendPosition("e");
-        lineChartModel.setShowPointLabels(true);
-
-        Axis xAxis = lineChartModel.getAxis(AxisType.X);
-        xAxis.setLabel("Dias Após Emergência");
-        xAxis.setTickInterval("5");
-        xAxis.setMin(0);
-//        xAxis.setMax(Collections.max(daes) + 5);
-        xAxis.setMax(40);
-
-        Axis yAxis = lineChartModel.getAxis(AxisType.Y);
-        yAxis.setLabel("No. Insetos/metro");
-        yAxis.setTickInterval("0.5");
-        yAxis.setMin(0);
-//        yAxis.setMax(Collections.max(occurrences) + 1);
-        yAxis.setTickFormat("%#.2f");
-        yAxis.setMax(3);
-    }
 
     private LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence) {
 

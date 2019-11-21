@@ -5,7 +5,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPPestAnalysisService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPBedBugAnalysisService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPCaterpillarAnalysisService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,7 +23,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DashboardController implements Serializable {
 
-    private final MIPPestAnalysisService analysisService;
+    private final MIPCaterpillarAnalysisService caterpillarService;
+    private final MIPBedBugAnalysisService bedBugService;
 
     @Getter
     @Setter
@@ -54,7 +56,11 @@ public class DashboardController implements Serializable {
 
     @Getter
     @Setter
-    private LineChartModel pestFluctuationChart;
+    private LineChartModel caterpillarFluctuationChart;
+    
+    @Getter
+    @Setter
+    private LineChartModel bedBugFluctuationChart;
     
     @Getter
     @Setter
@@ -63,13 +69,13 @@ public class DashboardController implements Serializable {
     @PostConstruct
     public void init() {
         this.setTitle("Dados Estaduais");
-//        pestFluctuationChart = analysisService.getPestFluctuationChart();
-        pestFluctuationChart = analysisService.pestOccurrenceLineChart();
+        caterpillarFluctuationChart = caterpillarService.getPestLineChart();
+        bedBugFluctuationChart = bedBugService.getPestLineChart();
 
     }
 
     public List<MacroRegion> getMacroRegionsAvailable() {
-        return analysisService.readAllMacroRegions();
+        return caterpillarService.readAllMacroRegions();
     }
 
     public void onMacroRegionSelectionChangeEvent() {
