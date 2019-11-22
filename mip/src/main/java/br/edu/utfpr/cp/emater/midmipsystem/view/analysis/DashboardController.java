@@ -4,7 +4,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPBedBugAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPCaterpillarAnalysisService;
 import java.io.Serializable;
@@ -14,7 +13,6 @@ import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.primefaces.component.linechart.LineChart;
 import org.primefaces.model.chart.LineChartModel;
 import org.springframework.stereotype.Component;
 
@@ -65,72 +63,99 @@ public class DashboardController implements Serializable {
     @Getter
     @Setter
     private String title;
-
+    
+    @Getter
+    @Setter
+    private List<MacroRegion> macroRegionsAvailable;
+    
     @PostConstruct
     public void init() {
         this.setTitle("Dados Estaduais");
+        
         caterpillarFluctuationChart = caterpillarService.getPestLineChart();
         bedBugFluctuationChart = bedBugService.getPestLineChart();
-
+        
+        macroRegionsAvailable = caterpillarService.readAllMacroRegionsWithSurvey();
     }
-
-    public List<MacroRegion> getMacroRegionsAvailable() {
-        return caterpillarService.readAllMacroRegions();
-    }
-
+    
     public void onMacroRegionSelectionChangeEvent() {
 
-//        if (this.getSelectedMacroRegionId() != null) {
-//            this.setTitle("Dados da Macrorregião Selecionada");
-//            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForMacroRegion(selectedMacroRegionId));
-//            regionsAvailable = analysisService.getRegionsAvailableFor(this.getSelectedMacroRegionId());
-//        
-//        } else {
-//            this.setTitle("Dados Estaduais");
-//            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
-//        }
+        if (this.getSelectedMacroRegionId() != null) {
+            this.setTitle("Dados da Macrorregião Selecionada");
+            
+            var MIPSampleData = caterpillarService.getMIPSamplesByMacroRegionId(this.getSelectedMacroRegionId());
+            
+            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getPestLineChart(MIPSampleData));
+            
+            regionsAvailable = caterpillarService.getRegionsAvailableFor(this.getSelectedMacroRegionId());
+        
+        } else {
+            this.setTitle("Dados Estaduais");
+            
+            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart());
+            this.setBedBugFluctuationChart(bedBugService.getPestLineChart());
+        }
     }
 
     public void onRegionSelectionChangeEvent() {
         
-//        if (this.getSelectedRegionId() != null) {
-//            this.setTitle("Dados da Região Selecionada");
-//            citiesAvailable = analysisService.getCitiesAvailableFor(this.getSelectedRegionId());
-//
-//            try {
-//                this.setPestFluctuationChart(analysisService.getPestFluctuationChartForRegion(selectedRegionId));
-//            
-//            } catch (EntityNotFoundException ex) {
-//                this.setPestFluctuationChart(new LineChartModel());
-//            }
-//            
-//        } else {
-//            this.setTitle("Dados Estaduais");
-//            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
-//        }
+        if (this.getSelectedRegionId() != null) {
+            
+            this.setTitle("Dados da Região Selecionada");
+            
+            var MIPSampleData = caterpillarService.getMIPSamplesByRegionId(this.getSelectedRegionId());
+            
+            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getPestLineChart(MIPSampleData));
+            
+            citiesAvailable = caterpillarService.getCitiesAvailableFor(this.getSelectedRegionId());
+            
+        } else {
+            this.setTitle("Dados Estaduais");
+            
+            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart());
+            this.setBedBugFluctuationChart(bedBugService.getPestLineChart());
+        }
             
     }
 
     public void onCitySelectionChangeEvent() {
-//        if (this.getSelectedCityId() != null) {
-//            this.setTitle("Dados do Município Selecionado");
-//            URsAvailable = analysisService.getURsAvailableFor(this.getSelectedCityId());
-//            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForCity(this.getSelectedCityId()));
-//        } else {
-//            this.setTitle("Dados Estaduais");
-//            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
-//        }
+        
+        if (this.getSelectedCityId() != null) {
+            
+            this.setTitle("Dados do Município Selecionado");
+            
+            var MIPSampleData = caterpillarService.getMIPSamplesByCityId(this.getSelectedCityId());
+            
+            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getPestLineChart(MIPSampleData));
+            
+            URsAvailable = caterpillarService.getURsAvailableFor(this.getSelectedCityId());
+            
+        } else {
+            this.setTitle("Dados Estaduais");
+            
+            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart());
+            this.setBedBugFluctuationChart(bedBugService.getPestLineChart());
+        }
     }
 
     public void onURSelectionChangeEvent() {
-//        if (this.getSelectedURId() != null) {
-//            this.setTitle("Dados da UR Selecionada"); 
-//            this.setPestFluctuationChart(analysisService.getPestFluctuationChartForUR(this.getSelectedURId()));
-//        
-//        } else {
-//            this.setTitle("Dados Estaduais");
-//            this.setPestFluctuationChart(analysisService.getPestFluctuationChart());
-//        }
+        
+        if (this.getSelectedURId() != null) {
+            
+            var MIPSampleData = caterpillarService.getMIPSamplesByURId(this.getSelectedURId());
+            
+            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getPestLineChart(MIPSampleData));
+        
+        } else {
+            this.setTitle("Dados Estaduais");
+            
+            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart());
+            this.setBedBugFluctuationChart(bedBugService.getPestLineChart());
+        }
     }
 
 }

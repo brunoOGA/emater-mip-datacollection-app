@@ -1,6 +1,5 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.analysis.DAEAndOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
@@ -25,8 +24,24 @@ import org.primefaces.model.chart.LineChartSeries;
 @RequiredArgsConstructor
 public abstract class AbstractMIPPestAnalysis {
 
-    @Getter (AccessLevel.PROTECTED)
+    @Getter(AccessLevel.PROTECTED)
     private final MIPSampleService mipSampleService;
+
+    public LineChartModel getPestLineChart(List<MIPSample> MIPSampleData) {
+        var pests = this.getPests();
+
+        var pestAndDAEAndOccurrences = getDAEAndOccurrences(pests, MIPSampleData);
+
+        var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
+
+        var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
+
+        var chartModel = new LineChartModel();
+        chartSeries.forEach(chartModel::addSeries);
+        this.setLineChartInfo(chartModel);
+
+        return chartModel;
+    }
 
     public LineChartModel getPestLineChart() {
         var samples = this.getSamples();
@@ -47,11 +62,11 @@ public abstract class AbstractMIPPestAnalysis {
     }
 
     protected abstract List<Pest> getPests();
-    
+
     private void setLineChartInfo(LineChartModel aChartModel) {
-        
+
         aChartModel.setLegendPosition("nw");
-        
+
         aChartModel.setShowPointLabels(true);
         aChartModel.setZoom(true);
         aChartModel.setAnimate(true);
@@ -85,7 +100,7 @@ public abstract class AbstractMIPPestAnalysis {
         return result;
     }
 
-    private Map<Pest, Map<Integer, Double>> consolidateDAEAndOccurrences(Map<Pest, List<DAEAndOccurrence>> occurrences) {
+    private Map<Pest, Map<Integer, Double>> consolidateDAEAndOccurrences(Map<Pest, List<DAEAndOccurrenceDTO>> occurrences) {
 
         var result = new HashMap<Pest, Map<Integer, Double>>();
 
@@ -95,8 +110,8 @@ public abstract class AbstractMIPPestAnalysis {
                     occurrences.get(currentOccurrence).stream()
                             .collect(
                                     Collectors.groupingBy(
-                                            DAEAndOccurrence::getDae,
-                                            Collectors.averagingDouble(DAEAndOccurrence::getOccurrence)
+                                            DAEAndOccurrenceDTO::getDae,
+                                            Collectors.averagingDouble(DAEAndOccurrenceDTO::getOccurrence)
                                     )
                             )
             );
@@ -105,9 +120,9 @@ public abstract class AbstractMIPPestAnalysis {
         return result;
     }
 
-    private Map<Pest, List<DAEAndOccurrence>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
+    private Map<Pest, List<DAEAndOccurrenceDTO>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
 
-        var result = new HashMap<Pest, List<DAEAndOccurrence>>();
+        var result = new HashMap<Pest, List<DAEAndOccurrenceDTO>>();
 
         pests.forEach(currentPest
                 -> result.put(currentPest,
@@ -120,11 +135,6 @@ public abstract class AbstractMIPPestAnalysis {
 
         return result;
     }
-
-    private List<MIPSample> getSamples() {
-        return mipSampleService.readAll();
-    }
-
 
     private LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence) {
 
@@ -143,8 +153,8 @@ public abstract class AbstractMIPPestAnalysis {
         return this.mipSampleService.readAllRegionsFor(selectedMacroRegionId);
     }
 
-    public List<MacroRegion> readAllMacroRegions() {
-        return this.mipSampleService.readAllMacroRegions();
+    public List<MacroRegion> readAllMacroRegionsWithSurvey() {
+        return this.mipSampleService.readAllMacroRegionsWithSurvey();
     }
 
     public List<City> getCitiesAvailableFor(Long aRegionId) {
@@ -158,5 +168,25 @@ public abstract class AbstractMIPPestAnalysis {
 
     public List<Field> getURsAvailableFor(Long aCityId) {
         return this.mipSampleService.readAllFieldsByCityId(aCityId);
+    }
+
+    public List<MIPSample> getSamples() {
+        return mipSampleService.readAll();
+    }
+
+    public List<MIPSample> getMIPSamplesByMacroRegionId(Long aMacroRegionId) {
+        return mipSampleService.readByMacroRegionId(aMacroRegionId);
+    }
+    
+    public List<MIPSample> getMIPSamplesByRegionId(Long aRegionId) {
+        return mipSampleService.readByRegionId(aRegionId);
+    }
+    
+    public List<MIPSample> getMIPSamplesByCityId(Long aCityId) {
+        return mipSampleService.readByCityId(aCityId);
+    }
+    
+    public List<MIPSample> getMIPSamplesByURId(Long anURId) {
+        return mipSampleService.readByURId(anURId);
     }
 }

@@ -1,6 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.analysis.DAEAndOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -221,7 +221,7 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
         return 0.0;
     }
 
-    public Optional<DAEAndOccurrence> getDAEAndPestOccurrenceByPest(Pest aPest) {
+    public Optional<DAEAndOccurrenceDTO> getDAEAndPestOccurrenceByPest(Pest aPest) {
 
         if (aPest == null) {
             return Optional.empty();
@@ -230,7 +230,7 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
         var occurrenceByPest = this.getOccurrenceByPest(aPest);
 
         if (occurrenceByPest.isPresent()) {
-            return Optional.of(DAEAndOccurrence.builder().dae(this.getDAE()).occurrence(occurrenceByPest.get().getValue()).build());
+            return Optional.of(DAEAndOccurrenceDTO.builder().dae(this.getDAE()).occurrence(occurrenceByPest.get().getValue()).build());
         }
 
         return Optional.empty();

@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 import java.io.Serializable;
+import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
@@ -73,5 +74,16 @@ public class Supervisor extends Person implements Serializable {
             return this.getRegion().getCities().toString();
         
         return null;
+    }
+    
+    public Optional<MacroRegion> getMacroRegion() {
+        
+        if (this.getRegion() == null)
+            return Optional.empty();
+        
+        if (this.getRegion().getMacroRegion() == null)
+            return Optional.empty();
+        
+        return Optional.of(this.getRegion().getMacroRegion());
     }
 }

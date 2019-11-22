@@ -1,17 +1,17 @@
-package br.edu.utfpr.cp.emater.midmipsystem.entity.analysis;
+package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class DAEAndOccurrence {
+public class DAEAndOccurrenceDTO {
     
     private int dae;
     private double occurrence;
     
     @Builder
-    public static DAEAndOccurrence create (int dae, double occurrence) {
-        var result = new DAEAndOccurrence();
+    public static DAEAndOccurrenceDTO create (int dae, double occurrence) {
+        var result = new DAEAndOccurrenceDTO();
         
         result.dae = dae;
         result.occurrence = occurrence;

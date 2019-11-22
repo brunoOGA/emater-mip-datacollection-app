@@ -145,4 +145,45 @@ public class MIPSampleService {
     public List<Field> readAllFieldsByCityId(Long aCityId) {
         return surveyService.readAllFields().stream().distinct().filter(field -> field.getCityId().equals(aCityId)).collect(Collectors.toList());
     }
+
+    public List<MacroRegion> readAllMacroRegionsWithSurvey() {
+        return this.readAllSurveysUniqueEntries().stream()
+                    .map(Survey::getMacroRegion)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .distinct()
+                    .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByMacroRegionId(Long aMacroRegionId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getMacroRegion().isPresent())
+                .filter(currentSample -> currentSample.getSurvey().getMacroRegion().get().getId().equals(aMacroRegionId))
+                .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByRegionId(Long aRegionId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getRegion().isPresent())
+                .filter(currentSample -> currentSample.getSurvey().getRegion().get().getId().equals(aRegionId))
+                .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByCityId(Long aCityId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getCity().isPresent())
+                .filter(currentSample -> currentSample.getSurvey().getCity().get().getId().equals(aCityId))
+                .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByURId(Long anURId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getField() != null)
+                .filter(currentSample -> currentSample.getSurvey().getField().getId().equals(anURId))
+                .collect(Collectors.toList());
+    }
 }
