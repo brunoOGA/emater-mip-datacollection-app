@@ -22,48 +22,12 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
 @RequiredArgsConstructor
-public abstract class AbstractMIPPestAnalysis {
+public abstract class AbstractMIPSampleAnalysis {
 
     @Getter(AccessLevel.PROTECTED)
     private final MIPSampleService mipSampleService;
 
-    public LineChartModel getPestLineChart(List<MIPSample> MIPSampleData) {
-        var pests = this.getPests();
-
-        var pestAndDAEAndOccurrences = getDAEAndOccurrences(pests, MIPSampleData);
-
-        var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
-
-        var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
-
-        var chartModel = new LineChartModel();
-        chartSeries.forEach(chartModel::addSeries);
-        this.setLineChartInfo(chartModel);
-
-        return chartModel;
-    }
-
-    public LineChartModel getPestLineChart() {
-        var samples = this.getSamples();
-
-        var pests = this.getPests();
-
-        var pestAndDAEAndOccurrences = getDAEAndOccurrences(pests, samples);
-
-        var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
-
-        var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
-
-        var chartModel = new LineChartModel();
-        chartSeries.forEach(chartModel::addSeries);
-        this.setLineChartInfo(chartModel);
-
-        return chartModel;
-    }
-
-    protected abstract List<Pest> getPests();
-
-    private void setLineChartInfo(LineChartModel aChartModel) {
+    void setLineChartInfo(LineChartModel aChartModel) {
 
         aChartModel.setLegendPosition("nw");
 
@@ -79,7 +43,7 @@ public abstract class AbstractMIPPestAnalysis {
         yAxis.setTickFormat("%#.2f");
     }
 
-    private List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
+    List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
 
         var result = new ArrayList<LineChartSeries>();
 
@@ -100,7 +64,7 @@ public abstract class AbstractMIPPestAnalysis {
         return result;
     }
 
-    private Map<Pest, Map<Integer, Double>> consolidateDAEAndOccurrences(Map<Pest, List<DAEAndOccurrenceDTO>> occurrences) {
+    Map<Pest, Map<Integer, Double>> consolidateDAEAndOccurrences(Map<Pest, List<DAEAndOccurrenceDTO>> occurrences) {
 
         var result = new HashMap<Pest, Map<Integer, Double>>();
 
@@ -120,7 +84,7 @@ public abstract class AbstractMIPPestAnalysis {
         return result;
     }
 
-    private Map<Pest, List<DAEAndOccurrenceDTO>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
+    Map<Pest, List<DAEAndOccurrenceDTO>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
 
         var result = new HashMap<Pest, List<DAEAndOccurrenceDTO>>();
 
@@ -136,7 +100,7 @@ public abstract class AbstractMIPPestAnalysis {
         return result;
     }
 
-    private LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence) {
+    LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence) {
 
         var result = new LineChartSeries();
 

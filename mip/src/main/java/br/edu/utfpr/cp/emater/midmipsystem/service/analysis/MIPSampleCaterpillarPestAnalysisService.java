@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MIPCaterpillarAnalysisService extends AbstractMIPPestAnalysis {
+public class MIPSampleCaterpillarPestAnalysisService extends AbstractMIPSamplePestAnalysis {
 
-    public MIPCaterpillarAnalysisService(MIPSampleService mipSampleService) {
+    public MIPSampleCaterpillarPestAnalysisService(MIPSampleService mipSampleService) {
         super(mipSampleService);
     }
 

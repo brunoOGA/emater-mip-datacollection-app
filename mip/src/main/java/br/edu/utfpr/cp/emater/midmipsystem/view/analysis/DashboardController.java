@@ -4,8 +4,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPBedBugAnalysisService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPCaterpillarAnalysisService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleBedBugPestAnalysisService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleCaterpillarPestAnalysisService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -21,8 +21,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DashboardController implements Serializable {
 
-    private final MIPCaterpillarAnalysisService caterpillarService;
-    private final MIPBedBugAnalysisService bedBugService;
+    private final MIPSampleCaterpillarPestAnalysisService caterpillarService;
+    private final MIPSampleBedBugPestAnalysisService bedBugService;
 
     @Getter
     @Setter
