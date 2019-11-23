@@ -6,6 +6,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleBedBugPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleCaterpillarPestAnalysisService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleDefoliationAnalysisService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -23,6 +24,7 @@ public class DashboardController implements Serializable {
 
     private final MIPSampleCaterpillarPestAnalysisService caterpillarService;
     private final MIPSampleBedBugPestAnalysisService bedBugService;
+    private final MIPSampleDefoliationAnalysisService defoliationService;
 
     @Getter
     @Setter
@@ -62,6 +64,10 @@ public class DashboardController implements Serializable {
     
     @Getter
     @Setter
+    private LineChartModel defoliationChart;
+    
+    @Getter
+    @Setter
     private String title;
     
     @Getter
@@ -74,6 +80,7 @@ public class DashboardController implements Serializable {
         
         caterpillarFluctuationChart = caterpillarService.getChart();
         bedBugFluctuationChart = bedBugService.getChart();
+        defoliationChart = defoliationService.getChart();
         
         macroRegionsAvailable = caterpillarService.readAllMacroRegionsWithSurvey();
     }

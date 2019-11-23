@@ -108,7 +108,7 @@
                                 <div>
                                     <p:chart id="pestFluctuationChart" type="line" model="#{dashboardController.caterpillarFluctuationChart}" responsive="true" ></p:chart>
                                 </div>
-                                                                
+
                             </div>
 
                         </div>
@@ -142,11 +142,11 @@
                                 <p class="text-center">
                                     <strong></strong>
                                 </p>
-                                
+
                                 <div>
                                     <p:chart id="pestFluctuationChart2" type="line" model="#{dashboardController.bedBugFluctuationChart}" responsive="true" ></p:chart>
                                 </div>
-                                
+
                             </div>
 
                         </div>
@@ -158,6 +158,46 @@
             </div>
 
         </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Evolução da Desfolha</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" style="display: block;">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <p class="text-center">
+                                    <strong></strong>
+                                </p>
+
+                                <div>
+                                    <p:chart id="defoliationChart" type="line" model="#{dashboardController.defoliationChart}" responsive="true" ></p:chart>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
 
     </ui:define>
 

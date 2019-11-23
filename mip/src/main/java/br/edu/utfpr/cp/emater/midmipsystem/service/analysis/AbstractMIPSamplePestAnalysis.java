@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
@@ -108,6 +110,22 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
         });
 
         return result;
+    }
+
+    void setLineChartInfo(LineChartModel aChartModel) {
+
+        aChartModel.setLegendPosition("nw");
+
+        aChartModel.setShowPointLabels(true);
+        aChartModel.setZoom(true);
+        aChartModel.setAnimate(true);
+
+        Axis xAxis = aChartModel.getAxis(AxisType.X);
+        xAxis.setLabel("Dias Após Emergência");
+
+        Axis yAxis = aChartModel.getAxis(AxisType.Y);
+        yAxis.setLabel("No. Insetos/metro");
+        yAxis.setTickFormat("%#.2f");
     }
 
 }

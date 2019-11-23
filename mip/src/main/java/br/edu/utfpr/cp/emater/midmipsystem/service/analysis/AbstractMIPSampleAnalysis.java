@@ -31,23 +31,6 @@ public abstract class AbstractMIPSampleAnalysis {
 
     public abstract LineChartModel getChart(List<MIPSample> MIPSampleData);
 
-    void setLineChartInfo(LineChartModel aChartModel) {
-
-        aChartModel.setLegendPosition("nw");
-
-        aChartModel.setShowPointLabels(true);
-        aChartModel.setZoom(true);
-        aChartModel.setAnimate(true);
-
-        Axis xAxis = aChartModel.getAxis(AxisType.X);
-        xAxis.setLabel("Dias Após Emergência");
-
-        Axis yAxis = aChartModel.getAxis(AxisType.Y);
-        yAxis.setLabel("No. Insetos/metro");
-        yAxis.setTickFormat("%#.2f");
-    }
-
-
     LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence
     ) {
 
