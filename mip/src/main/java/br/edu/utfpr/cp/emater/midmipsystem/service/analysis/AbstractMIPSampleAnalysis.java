@@ -27,6 +27,10 @@ public abstract class AbstractMIPSampleAnalysis {
     @Getter(AccessLevel.PROTECTED)
     private final MIPSampleService mipSampleService;
 
+    public abstract LineChartModel getChart();
+
+    public abstract LineChartModel getChart(List<MIPSample> MIPSampleData);
+
     void setLineChartInfo(LineChartModel aChartModel) {
 
         aChartModel.setLegendPosition("nw");
@@ -43,64 +47,9 @@ public abstract class AbstractMIPSampleAnalysis {
         yAxis.setTickFormat("%#.2f");
     }
 
-    List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
 
-        var result = new ArrayList<LineChartSeries>();
-
-        occurrencesGrouppedByPest.keySet().stream().forEach(currentPest -> {
-
-            var currentSerie = new LineChartSeries(currentPest.getDescription());
-
-            var currentPestOccurrence = occurrencesGrouppedByPest.get(currentPest);
-
-            currentPestOccurrence.keySet().forEach(currentDAE -> {
-                currentSerie.set(currentDAE, currentPestOccurrence.get(currentDAE));
-            });
-
-            result.add(currentSerie);
-
-        });
-
-        return result;
-    }
-
-    Map<Pest, Map<Integer, Double>> consolidateDAEAndOccurrences(Map<Pest, List<DAEAndOccurrenceDTO>> occurrences) {
-
-        var result = new HashMap<Pest, Map<Integer, Double>>();
-
-        occurrences.keySet().forEach(currentOccurrence -> {
-
-            result.put(currentOccurrence,
-                    occurrences.get(currentOccurrence).stream()
-                            .collect(
-                                    Collectors.groupingBy(
-                                            DAEAndOccurrenceDTO::getDae,
-                                            Collectors.averagingDouble(DAEAndOccurrenceDTO::getOccurrence)
-                                    )
-                            )
-            );
-        });
-
-        return result;
-    }
-
-    Map<Pest, List<DAEAndOccurrenceDTO>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
-
-        var result = new HashMap<Pest, List<DAEAndOccurrenceDTO>>();
-
-        pests.forEach(currentPest
-                -> result.put(currentPest,
-                        samples.stream()
-                                .filter(currentSample -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).isPresent())
-                                .map(currentSample -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).get())
-                                .collect(Collectors.toList())
-                )
-        );
-
-        return result;
-    }
-
-    LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence) {
+    LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence
+    ) {
 
         var result = new LineChartSeries();
 
@@ -141,15 +90,15 @@ public abstract class AbstractMIPSampleAnalysis {
     public List<MIPSample> getMIPSamplesByMacroRegionId(Long aMacroRegionId) {
         return mipSampleService.readByMacroRegionId(aMacroRegionId);
     }
-    
+
     public List<MIPSample> getMIPSamplesByRegionId(Long aRegionId) {
         return mipSampleService.readByRegionId(aRegionId);
     }
-    
+
     public List<MIPSample> getMIPSamplesByCityId(Long aCityId) {
         return mipSampleService.readByCityId(aCityId);
     }
-    
+
     public List<MIPSample> getMIPSamplesByURId(Long anURId) {
         return mipSampleService.readByURId(anURId);
     }

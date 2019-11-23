@@ -3,9 +3,13 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.primefaces.model.chart.LineChartModel;
-
+import org.primefaces.model.chart.LineChartSeries;
 
 public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAnalysis {
 
@@ -13,7 +17,7 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
         super(mipSampleService);
     }
 
-    public LineChartModel getPestLineChart(List<MIPSample> MIPSampleData) {
+    public LineChartModel getChart(List<MIPSample> MIPSampleData) {
         var pests = this.getPests();
 
         var pestAndDAEAndOccurrences = getDAEAndOccurrences(pests, MIPSampleData);
@@ -29,7 +33,7 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
         return chartModel;
     }
 
-    public LineChartModel getPestLineChart() {
+    public LineChartModel getChart() {
         var samples = this.getSamples();
 
         var pests = this.getPests();
@@ -48,5 +52,62 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
     }
 
     protected abstract List<Pest> getPests();
+
+    Map<Pest, List<DAEAndOccurrenceDTO>> getDAEAndOccurrences(List<Pest> pests, List<MIPSample> samples) {
+
+        var result = new HashMap<Pest, List<DAEAndOccurrenceDTO>>();
+
+        pests.forEach(currentPest
+                -> result.put(currentPest,
+                        samples.stream()
+                                .filter(currentSample -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).isPresent())
+                                .map(currentSample -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).get())
+                                .collect(Collectors.toList())
+                )
+        );
+
+        return result;
+    }
+
+    Map<Pest, Map<Integer, Double>> consolidateDAEAndOccurrences(Map<Pest, List<DAEAndOccurrenceDTO>> occurrences) {
+
+        var result = new HashMap<Pest, Map<Integer, Double>>();
+
+        occurrences.keySet().forEach(currentOccurrence -> {
+
+            result.put(currentOccurrence,
+                    occurrences.get(currentOccurrence).stream()
+                            .collect(
+                                    Collectors.groupingBy(
+                                            DAEAndOccurrenceDTO::getDae,
+                                            Collectors.averagingDouble(DAEAndOccurrenceDTO::getOccurrence)
+                                    )
+                            )
+            );
+        });
+
+        return result;
+    }
+
+    List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
+
+        var result = new ArrayList<LineChartSeries>();
+
+        occurrencesGrouppedByPest.keySet().stream().forEach(currentPest -> {
+
+            var currentSerie = new LineChartSeries(currentPest.getDescription());
+
+            var currentPestOccurrence = occurrencesGrouppedByPest.get(currentPest);
+
+            currentPestOccurrence.keySet().forEach(currentDAE -> {
+                currentSerie.set(currentDAE, currentPestOccurrence.get(currentDAE));
+            });
+
+            result.add(currentSerie);
+
+        });
+
+        return result;
+    }
 
 }

@@ -72,8 +72,8 @@ public class DashboardController implements Serializable {
     public void init() {
         this.setTitle("Dados Estaduais");
         
-        caterpillarFluctuationChart = caterpillarService.getPestLineChart();
-        bedBugFluctuationChart = bedBugService.getPestLineChart();
+        caterpillarFluctuationChart = caterpillarService.getChart();
+        bedBugFluctuationChart = bedBugService.getChart();
         
         macroRegionsAvailable = caterpillarService.readAllMacroRegionsWithSurvey();
     }
@@ -85,16 +85,16 @@ public class DashboardController implements Serializable {
             
             var MIPSampleData = caterpillarService.getMIPSamplesByMacroRegionId(this.getSelectedMacroRegionId());
             
-            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart(MIPSampleData));
-            this.setBedBugFluctuationChart(bedBugService.getPestLineChart(MIPSampleData));
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             
             regionsAvailable = caterpillarService.getRegionsAvailableFor(this.getSelectedMacroRegionId());
         
         } else {
             this.setTitle("Dados Estaduais");
             
-            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart());
-            this.setBedBugFluctuationChart(bedBugService.getPestLineChart());
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart());
+            this.setBedBugFluctuationChart(bedBugService.getChart());
         }
     }
 
@@ -106,16 +106,16 @@ public class DashboardController implements Serializable {
             
             var MIPSampleData = caterpillarService.getMIPSamplesByRegionId(this.getSelectedRegionId());
             
-            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart(MIPSampleData));
-            this.setBedBugFluctuationChart(bedBugService.getPestLineChart(MIPSampleData));
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             
             citiesAvailable = caterpillarService.getCitiesAvailableFor(this.getSelectedRegionId());
             
         } else {
             this.setTitle("Dados Estaduais");
             
-            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart());
-            this.setBedBugFluctuationChart(bedBugService.getPestLineChart());
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart());
+            this.setBedBugFluctuationChart(bedBugService.getChart());
         }
             
     }
@@ -128,16 +128,16 @@ public class DashboardController implements Serializable {
             
             var MIPSampleData = caterpillarService.getMIPSamplesByCityId(this.getSelectedCityId());
             
-            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart(MIPSampleData));
-            this.setBedBugFluctuationChart(bedBugService.getPestLineChart(MIPSampleData));
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             
             URsAvailable = caterpillarService.getURsAvailableFor(this.getSelectedCityId());
             
         } else {
             this.setTitle("Dados Estaduais");
             
-            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart());
-            this.setBedBugFluctuationChart(bedBugService.getPestLineChart());
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart());
+            this.setBedBugFluctuationChart(bedBugService.getChart());
         }
     }
 
@@ -147,14 +147,14 @@ public class DashboardController implements Serializable {
             
             var MIPSampleData = caterpillarService.getMIPSamplesByURId(this.getSelectedURId());
             
-            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart(MIPSampleData));
-            this.setBedBugFluctuationChart(bedBugService.getPestLineChart(MIPSampleData));
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
         
         } else {
             this.setTitle("Dados Estaduais");
             
-            this.setCaterpillarFluctuationChart(caterpillarService.getPestLineChart());
-            this.setBedBugFluctuationChart(bedBugService.getPestLineChart());
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart());
+            this.setBedBugFluctuationChart(bedBugService.getChart());
         }
     }
 
