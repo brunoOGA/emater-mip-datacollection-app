@@ -2,6 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,7 +45,20 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
 
     @Override
     public LineChartModel getChart(List<MIPSample> MIPSampleData) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        var DAEAndDefoliation = this.getDAEAndDefoliation(MIPSampleData);
+
+        var DAEAndOccurrencesMap = consolidateDAEAndOccurrences(DAEAndDefoliation);
+
+        var chartSeries = this.getChartSerie(DAEAndOccurrencesMap);
+
+        var chartModel = new LineChartModel();
+
+        chartModel.addSeries(chartSeries);
+
+        this.setLineChartInfo(chartModel);
+
+        return chartModel;
     }
 
     List<DAEAndOccurrenceDTO> getDAEAndDefoliation(List<MIPSample> samples) {
@@ -58,13 +72,26 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
 
     Map<Integer, Double> consolidateDAEAndOccurrences(List<DAEAndOccurrenceDTO> occurrences) {
 
-        var result = occurrences.stream()
+//        var result = occurrences.stream()
+//                .collect(
+//                        Collectors.groupingBy(
+//                                DAEAndOccurrenceDTO::getDae,
+//                                Collectors.averagingDouble(DAEAndOccurrenceDTO::getOccurrence)
+//                        )
+//                );
+        Comparator<DAEAndOccurrenceDTO> daeAndOccurrencesComparator = Comparator.comparingInt(DAEAndOccurrenceDTO::getDae);
+
+        var sortedAndGrouppedOccurrences = occurrences.stream()
+                .sorted(daeAndOccurrencesComparator)
                 .collect(
                         Collectors.groupingBy(
-                                DAEAndOccurrenceDTO::getDae,
+                                DAEAndOccurrenceDTO::getDae, 
                                 Collectors.averagingDouble(DAEAndOccurrenceDTO::getOccurrence)
                         )
                 );
+        
+        // Need to sum the occurrence for each day
+        var result = sortedAndGrouppedOccurrences;
 
         return result;
     }
