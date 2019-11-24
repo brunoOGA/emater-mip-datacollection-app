@@ -5,6 +5,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -72,13 +73,6 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
 
     Map<Integer, Double> consolidateDAEAndOccurrences(List<DAEAndOccurrenceDTO> occurrences) {
 
-//        var result = occurrences.stream()
-//                .collect(
-//                        Collectors.groupingBy(
-//                                DAEAndOccurrenceDTO::getDae,
-//                                Collectors.averagingDouble(DAEAndOccurrenceDTO::getOccurrence)
-//                        )
-//                );
         Comparator<DAEAndOccurrenceDTO> daeAndOccurrencesComparator = Comparator.comparingInt(DAEAndOccurrenceDTO::getDae);
 
         var sortedAndGrouppedOccurrences = occurrences.stream()
@@ -90,8 +84,14 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
                         )
                 );
         
-        // Need to sum the occurrence for each day
-        var result = sortedAndGrouppedOccurrences;
+        
+        var result = new TreeMap <Integer, Double>();
+        double accumulator = 0.0;
+        
+        for (int currentDAE: sortedAndGrouppedOccurrences.keySet()) {
+            accumulator += sortedAndGrouppedOccurrences.get(currentDAE);
+            result.put(currentDAE, accumulator);
+        }
 
         return result;
     }
