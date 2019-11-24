@@ -7,6 +7,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleBedBugPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleCaterpillarPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleDefoliationAnalysisService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSamplePredatorAnalysisService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,6 +26,7 @@ public class DashboardController implements Serializable {
     private final MIPSampleCaterpillarPestAnalysisService caterpillarService;
     private final MIPSampleBedBugPestAnalysisService bedBugService;
     private final MIPSampleDefoliationAnalysisService defoliationService;
+    private final MIPSamplePredatorAnalysisService predatorService;
 
     @Getter
     @Setter
@@ -68,6 +70,10 @@ public class DashboardController implements Serializable {
     
     @Getter
     @Setter
+    private LineChartModel predatorChart;
+    
+    @Getter
+    @Setter
     private String title;
     
     @Getter
@@ -81,6 +87,7 @@ public class DashboardController implements Serializable {
         caterpillarFluctuationChart = caterpillarService.getChart();
         bedBugFluctuationChart = bedBugService.getChart();
         defoliationChart = defoliationService.getChart();
+        predatorChart = predatorService.getChart();
         
         macroRegionsAvailable = caterpillarService.readAllMacroRegionsWithSurvey();
     }
@@ -95,6 +102,7 @@ public class DashboardController implements Serializable {
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
+            this.setPredatorChart(predatorService.getChart(MIPSampleData));
             
             regionsAvailable = caterpillarService.getRegionsAvailableFor(this.getSelectedMacroRegionId());
         
@@ -104,6 +112,7 @@ public class DashboardController implements Serializable {
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());
+            this.setPredatorChart(predatorService.getChart());
         }
     }
 
@@ -118,6 +127,7 @@ public class DashboardController implements Serializable {
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
+            this.setPredatorChart(predatorService.getChart(MIPSampleData));
             
             citiesAvailable = caterpillarService.getCitiesAvailableFor(this.getSelectedRegionId());
             
@@ -127,6 +137,7 @@ public class DashboardController implements Serializable {
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());
+            this.setPredatorChart(predatorService.getChart());
         }
             
     }
@@ -142,6 +153,7 @@ public class DashboardController implements Serializable {
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
+            this.setPredatorChart(predatorService.getChart(MIPSampleData));
             
             URsAvailable = caterpillarService.getURsAvailableFor(this.getSelectedCityId());
             
@@ -151,6 +163,7 @@ public class DashboardController implements Serializable {
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());
+            this.setPredatorChart(predatorService.getChart());
         }
     }
 
@@ -163,6 +176,7 @@ public class DashboardController implements Serializable {
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
+            this.setPredatorChart(predatorService.getChart(MIPSampleData));
         
         } else {
             this.setTitle("Dados Estaduais");
@@ -170,6 +184,7 @@ public class DashboardController implements Serializable {
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());
+            this.setPredatorChart(predatorService.getChart());
         }
     }
 

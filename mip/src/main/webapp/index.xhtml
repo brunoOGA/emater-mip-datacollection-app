@@ -31,7 +31,7 @@
                                     <div class="col-md-3">
                                         <p:outputLabel for="@next" value="Macrorregião" />
                                         <p:selectOneMenu value="#{dashboardController.selectedMacroRegionId}"  filter="true" filterMatchMode="contains">
-                                            <p:ajax listener="#{dashboardController.onMacroRegionSelectionChangeEvent()}" update="regionSelectComponent caterpillarFluctuationChart bedBugFluctuationChart defoliationChart" />
+                                            <p:ajax listener="#{dashboardController.onMacroRegionSelectionChangeEvent()}" update="regionSelectComponent caterpillarFluctuationChart bedBugFluctuationChart defoliationChart predatorChart" />
                                             <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{dashboardController.macroRegionsAvailable}" var="macroRegion" itemLabel="#{macroRegion.name}" itemValue="#{macroRegion.id}" />
                                         </p:selectOneMenu>
@@ -41,7 +41,7 @@
                                     <div class="col-md-3">
                                         <p:outputLabel for="@next" value="Região" />
                                         <p:selectOneMenu id="regionSelectComponent" value="#{dashboardController.selectedRegionId}" filter="true" filterMatchMode="contains" >
-                                            <p:ajax listener="#{dashboardController.onRegionSelectionChangeEvent()}" update="citySelectComponent caterpillarFluctuationChart bedBugFluctuationChart defoliationChart" />
+                                            <p:ajax listener="#{dashboardController.onRegionSelectionChangeEvent()}" update="citySelectComponent caterpillarFluctuationChart bedBugFluctuationChart defoliationChart predatorChart" />
                                             <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{dashboardController.regionsAvailable}" var="region" itemLabel="#{region.name}" itemValue="#{region.id}" />
                                         </p:selectOneMenu>
@@ -51,7 +51,7 @@
                                     <div class="col-md-3">
                                         <p:outputLabel for="@next" value="Município" />
                                         <p:selectOneMenu id="citySelectComponent" value="#{dashboardController.selectedCityId}" filter="true" filterMatchMode="contains" >
-                                            <p:ajax listener="#{dashboardController.onCitySelectionChangeEvent()}" update="urSelectComponent caterpillarFluctuationChart bedBugFluctuationChart defoliationChart" />
+                                            <p:ajax listener="#{dashboardController.onCitySelectionChangeEvent()}" update="urSelectComponent caterpillarFluctuationChart bedBugFluctuationChart defoliationChart predatorChart" />
                                             <f:selectItem itemLabel="Todos" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{dashboardController.citiesAvailable}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}" />
                                         </p:selectOneMenu>
@@ -61,7 +61,7 @@
                                     <div class="col-md-3">
                                         <p:outputLabel for="@next" value="UR" />
                                         <p:selectOneMenu id="urSelectComponent" value="#{dashboardController.selectedURId}" filter="true" filterMatchMode="contains">
-                                            <p:ajax listener="#{dashboardController.onURSelectionChangeEvent()}" update="caterpillarFluctuationChart bedBugFluctuationChart defoliationChart" />
+                                            <p:ajax listener="#{dashboardController.onURSelectionChangeEvent()}" update="caterpillarFluctuationChart bedBugFluctuationChart defoliationChart predatorChart" />
                                             <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{dashboardController.URsAvailable}" var="ur" itemLabel="#{ur.name}" itemValue="#{ur.id}" />
                                         </p:selectOneMenu>
@@ -158,6 +158,46 @@
             </div>
 
         </div>
+
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Evolução da Flutuação de Inimigos Naturais</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" style="display: block;">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <p class="text-center">
+                                    <strong></strong>
+                                </p>
+
+                                <div>
+                                    <p:chart id="predatorChart" type="line" model="#{dashboardController.predatorChart}" responsive="true" ></p:chart>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
 
 
         <div class="row">

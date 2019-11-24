@@ -202,6 +202,18 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
                 .findFirst();
     }
 
+    public Optional<MIPSampleNaturalPredatorOccurrence> getOccurrenceByPredator(PestNaturalPredator aPredator) {
+
+        if (aPredator == null) {
+            return Optional.empty();
+        }
+
+        return this.getMipSampleNaturalPredatorOccurrence()
+                .stream()
+                .filter(currentOccurrence -> currentOccurrence.getPestNaturalPredator().equals(aPredator))
+                .findAny();
+    }
+
     public double getOccurrenceValueByPest(Pest aPest) {
 
         if (aPest == null) {
@@ -219,6 +231,39 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
         }
 
         return 0.0;
+    }
+
+    public double getOccurrenceValueByPredator(PestNaturalPredator aPredator) {
+        if (aPredator == null) {
+            return 0.0;
+        }
+
+        var occurrence = this.getOccurrenceByPredator(aPredator);
+
+        if (occurrence.isEmpty()) {
+            return 0.0;
+        }
+
+        if (occurrence.isPresent()) {
+            return occurrence.get().getValue();
+        }
+        
+        return 0.0;
+    }
+    
+    public Optional<DAEAndOccurrenceDTO> getDAEAndPredatorOccurrenceByPredator(PestNaturalPredator aPredator) {
+        
+        if (aPredator == null) {
+            return Optional.empty();
+        }
+        
+        var occurrenceByPredator = this.getOccurrenceByPredator(aPredator);
+        
+        if (occurrenceByPredator.isPresent()) {
+            return Optional.of(DAEAndOccurrenceDTO.builder().dae(this.getDAE()).occurrence(occurrenceByPredator.get().getValue()).build());
+        }
+        
+        return Optional.empty();
     }
 
     public Optional<DAEAndOccurrenceDTO> getDAEAndPestOccurrenceByPest(Pest aPest) {

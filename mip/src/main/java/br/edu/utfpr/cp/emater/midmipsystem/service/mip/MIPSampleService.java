@@ -129,6 +129,19 @@ public class MIPSampleService {
             return Optional.empty();
         }
     }
+    
+    public Optional<PestNaturalPredator> readPredatorById (Long aPredatorId) {
+        if (aPredatorId == null) {
+            return Optional.empty();
+        }
+        
+        try {
+            return Optional.of(pestNaturalPredatorService.readById(aPredatorId));
+            
+        } catch (EntityNotFoundException e) {
+            return Optional.empty();
+        }
+    }
 
     public List<Region> readAllRegionsFor(Long aMacroRegionId) {
         return regionService.readAll().stream().filter(currentRegion -> currentRegion.getMacroRegionId().equals(aMacroRegionId)).collect(Collectors.toList());
