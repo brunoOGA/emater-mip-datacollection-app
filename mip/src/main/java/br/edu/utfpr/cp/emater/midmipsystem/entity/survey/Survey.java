@@ -1,11 +1,15 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -355,6 +359,41 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         }
 
         return 0;
+    }
+
+    public Optional<MacroRegion> getMacroRegion() {
+
+        if (this.getField() == null) {
+            return Optional.empty();
+        }
+
+        if (this.getField().getMacroRegion().isPresent())
+            return this.getField().getMacroRegion();
+                
+        return Optional.empty();
+    }
+    
+    public Optional<Region> getRegion() {
+
+        if (this.getField() == null) {
+            return Optional.empty();
+        }
+
+        if (this.getField().getRegion().isPresent())
+            return this.getField().getRegion();
+                
+        return Optional.empty();
+    }
+
+    public Optional<City> getCity() {
+        
+        if (this.getField() == null)
+            return Optional.empty();
+        
+        if (this.getField().getCity() != null)
+            return Optional.of(this.getField().getCity());
+        
+        return Optional.empty();
     }
 
 }

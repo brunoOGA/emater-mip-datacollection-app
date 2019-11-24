@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.Entity;
@@ -127,5 +128,27 @@ public class Field extends AuditingPersistenceEntity implements Serializable {
             return this.getSupervisors().stream().map(Supervisor::getName).collect(Collectors.toList());
         
         return null;
+    }
+    
+    public Optional<MacroRegion> getMacroRegion() {
+        
+        var supervisorOptional = this.getSupervisors().stream().findAny();
+        
+        if (supervisorOptional.isPresent())
+            return supervisorOptional.get().getMacroRegion();
+        
+        else
+            return Optional.empty();
+    }
+
+    public Optional<Region> getRegion() {
+        
+        var supervisorOptional = this.getSupervisors().stream().findAny();
+        
+        if (supervisorOptional.isPresent())
+            return Optional.of(supervisorOptional.get().getRegion());
+        
+        else
+            return Optional.empty();
     }
 }

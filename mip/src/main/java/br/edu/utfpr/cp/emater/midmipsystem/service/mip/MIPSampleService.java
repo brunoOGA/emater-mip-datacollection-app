@@ -1,5 +1,9 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.mip;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
@@ -13,7 +17,13 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,6 +40,8 @@ public class MIPSampleService {
     private final PestService pestService;
     private final PestDiseaseService pestDiseaseService;
     private final PestNaturalPredatorService pestNaturalPredatorService;
+    private final RegionService regionService;
+    private final MacroRegionService macroRegionService;
 
     public List<MIPSample> readAll() {
         return List.copyOf(mipSampleRepository.findAll());
@@ -104,5 +116,87 @@ public class MIPSampleService {
 
     public List<MIPSample> readAllMIPSampleBySurveyId(Long aSurveyId) {
         return List.copyOf(mipSampleRepository.findAll().stream().filter(sample -> sample.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
+    }
+    
+    public Optional<Pest> readPestById (Long aPestId) {
+        if (aPestId == null)
+            return Optional.empty();
+        
+        try {
+            return Optional.of(pestService.readById(aPestId));
+            
+        } catch (EntityNotFoundException e) {
+            return Optional.empty();
+        }
+    }
+    
+    public Optional<PestNaturalPredator> readPredatorById (Long aPredatorId) {
+        if (aPredatorId == null) {
+            return Optional.empty();
+        }
+        
+        try {
+            return Optional.of(pestNaturalPredatorService.readById(aPredatorId));
+            
+        } catch (EntityNotFoundException e) {
+            return Optional.empty();
+        }
+    }
+
+    public List<Region> readAllRegionsFor(Long aMacroRegionId) {
+        return regionService.readAll().stream().filter(currentRegion -> currentRegion.getMacroRegionId().equals(aMacroRegionId)).collect(Collectors.toList());
+    }
+
+    public List<MacroRegion> readAllMacroRegions() {
+        return macroRegionService.readAll();
+    }
+
+    public List<City> readAllCitiesByRegionId(Long aRegionId) throws EntityNotFoundException {
+        return new ArrayList<City>(regionService.readById(aRegionId).getCities());
+    }
+
+    public List<Field> readAllFieldsByCityId(Long aCityId) {
+        return surveyService.readAllFields().stream().distinct().filter(field -> field.getCityId().equals(aCityId)).collect(Collectors.toList());
+    }
+
+    public List<MacroRegion> readAllMacroRegionsWithSurvey() {
+        return this.readAllSurveysUniqueEntries().stream()
+                    .map(Survey::getMacroRegion)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .distinct()
+                    .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByMacroRegionId(Long aMacroRegionId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getMacroRegion().isPresent())
+                .filter(currentSample -> currentSample.getSurvey().getMacroRegion().get().getId().equals(aMacroRegionId))
+                .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByRegionId(Long aRegionId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getRegion().isPresent())
+                .filter(currentSample -> currentSample.getSurvey().getRegion().get().getId().equals(aRegionId))
+                .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByCityId(Long aCityId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getCity().isPresent())
+                .filter(currentSample -> currentSample.getSurvey().getCity().get().getId().equals(aCityId))
+                .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByURId(Long anURId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getField() != null)
+                .filter(currentSample -> currentSample.getSurvey().getField().getId().equals(anURId))
+                .collect(Collectors.toList());
     }
 }

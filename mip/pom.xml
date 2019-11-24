@@ -5,7 +5,7 @@
 
     <groupId>br.edu.utfpr.cp.emater</groupId>
     <artifactId>midmipsystem</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <name>midmipsystem</name>
