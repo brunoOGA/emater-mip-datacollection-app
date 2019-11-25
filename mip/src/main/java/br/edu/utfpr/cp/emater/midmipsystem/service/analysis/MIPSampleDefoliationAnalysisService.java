@@ -22,7 +22,7 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
 
     @Override
     public LineChartModel getChart() {
-        var samples = this.getSamples();
+        var samples = this.readSamples();
 
         // To collect DAEAndDefoliation
         var DAEAndDefoliation = this.getDAEAndDefoliation(samples);

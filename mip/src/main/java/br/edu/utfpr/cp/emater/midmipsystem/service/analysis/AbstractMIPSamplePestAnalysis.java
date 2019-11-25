@@ -36,7 +36,7 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
     }
 
     public LineChartModel getChart() {
-        var samples = this.getSamples();
+        var samples = this.readSamples();
 
         var pests = this.getPests();
 

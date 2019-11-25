@@ -97,14 +97,14 @@ public class DashboardController implements Serializable {
         if (this.getSelectedMacroRegionId() != null) {
             this.setTitle("Dados da Macrorregião Selecionada");
             
-            var MIPSampleData = caterpillarService.getMIPSamplesByMacroRegionId(this.getSelectedMacroRegionId());
+            var MIPSampleData = caterpillarService.readMIPSamplesByMacroRegionId(this.getSelectedMacroRegionId());
             
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
             this.setPredatorChart(predatorService.getChart(MIPSampleData));
             
-            regionsAvailable = caterpillarService.getRegionsAvailableFor(this.getSelectedMacroRegionId());
+            regionsAvailable = caterpillarService.readRegionsAvailableByMacroRegionId(this.getSelectedMacroRegionId());
         
         } else {
             this.setTitle("Dados Estaduais");
@@ -122,14 +122,14 @@ public class DashboardController implements Serializable {
             
             this.setTitle("Dados da Região Selecionada");
             
-            var MIPSampleData = caterpillarService.getMIPSamplesByRegionId(this.getSelectedRegionId());
+            var MIPSampleData = caterpillarService.readMIPSamplesByRegionId(this.getSelectedRegionId());
             
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
             this.setPredatorChart(predatorService.getChart(MIPSampleData));
             
-            citiesAvailable = caterpillarService.getCitiesAvailableFor(this.getSelectedRegionId());
+            citiesAvailable = caterpillarService.readCitiesAvailableByRegionId(this.getSelectedRegionId());
             
         } else {
             this.setTitle("Dados Estaduais");
@@ -148,14 +148,14 @@ public class DashboardController implements Serializable {
             
             this.setTitle("Dados do Município Selecionado");
             
-            var MIPSampleData = caterpillarService.getMIPSamplesByCityId(this.getSelectedCityId());
+            var MIPSampleData = caterpillarService.readMIPSamplesByCityId(this.getSelectedCityId());
             
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
             this.setPredatorChart(predatorService.getChart(MIPSampleData));
             
-            URsAvailable = caterpillarService.getURsAvailableFor(this.getSelectedCityId());
+            URsAvailable = caterpillarService.readURsAvailableByCityId(this.getSelectedCityId());
             
         } else {
             this.setTitle("Dados Estaduais");
@@ -171,7 +171,7 @@ public class DashboardController implements Serializable {
         
         if (this.getSelectedURId() != null) {
             
-            var MIPSampleData = caterpillarService.getMIPSamplesByURId(this.getSelectedURId());
+            var MIPSampleData = caterpillarService.readMIPSamplesByURId(this.getSelectedURId());
             
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));

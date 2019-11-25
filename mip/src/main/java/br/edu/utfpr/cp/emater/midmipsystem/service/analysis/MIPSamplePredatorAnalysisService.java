@@ -41,7 +41,7 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
     }
 
     public LineChartModel getChart() {
-        var samples = this.getSamples();
+        var samples = this.readSamples();
 
         var predators = this.getPredators();
 
