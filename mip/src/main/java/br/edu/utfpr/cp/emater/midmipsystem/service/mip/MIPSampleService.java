@@ -9,6 +9,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestDisease;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
@@ -21,9 +22,12 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -42,6 +46,9 @@ public class MIPSampleService {
     private final PestNaturalPredatorService pestNaturalPredatorService;
     private final RegionService regionService;
     private final MacroRegionService macroRegionService;
+    private final SupervisorService supervisorService;
+    private final CityService cityService;
+    private final FieldService fieldService;
 
     public List<MIPSample> readAll() {
         return List.copyOf(mipSampleRepository.findAll());
@@ -198,5 +205,73 @@ public class MIPSampleService {
                 .filter(currentMIPSample -> currentMIPSample.getSurvey().getField() != null)
                 .filter(currentSample -> currentSample.getSurvey().getField().getId().equals(anURId))
                 .collect(Collectors.toList());
+    }
+
+    public List<MIPSample> readByMIPUser(MIPUser aMIPUser) {
+        
+        var supervisorRetrieved = supervisorService.readByEmail(aMIPUser.getEmail());
+        
+        if (supervisorRetrieved.isEmpty())
+            return new ArrayList<MIPSample>();
+        
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getField() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getField().getSupervisors() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getField().getSupervisors().contains(supervisorRetrieved.get()))
+                .collect(Collectors.toList());
+    }
+
+    public Optional<MacroRegion> readyByMacroRegionId(Long aMacroRegionId) {
+        
+        if (aMacroRegionId == null)
+            return Optional.empty();
+        
+        try {
+            return Optional.of(macroRegionService.readById(aMacroRegionId));
+            
+        } catch (EntityNotFoundException ex) {
+            return Optional.empty();
+            
+        }
+    }
+
+    public Optional<Region> readyRegionById(Long aRegionId) {
+        
+        if (aRegionId == null)
+            return Optional.empty();
+        
+        try {
+            return Optional.of(regionService.readById(aRegionId));
+            
+        } catch (EntityNotFoundException ex) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<City> readyCityById(Long aCityId) {
+        
+        if (aCityId == null)
+            return Optional.empty();
+        
+        try {
+            return Optional.of(cityService.readById(aCityId));
+            
+        } catch (EntityNotFoundException ex) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Field> readFieldById(Long aFieldId) {
+        
+        if (aFieldId == null)
+            return Optional.empty();
+        
+        try {
+            return Optional.of(fieldService.readById(aFieldId));
+            
+        } catch (EntityNotFoundException ex) {
+            return Optional.empty();
+        }
     }
 }

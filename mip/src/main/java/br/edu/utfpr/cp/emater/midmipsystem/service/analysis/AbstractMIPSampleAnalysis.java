@@ -5,9 +5,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -63,4 +65,25 @@ public abstract class AbstractMIPSampleAnalysis {
     public List<MIPSample> readMIPSamplesByURId(Long anURId) {
         return mipSampleService.readByURId(anURId);
     }
+
+    public List<MIPSample> readMIPSamplesByMIPUser(MIPUser aMIPUser) {
+        return mipSampleService.readByMIPUser(aMIPUser);
+    }
+
+    public Optional<MacroRegion> readMacroRegionById(Long aMacroRegionId) {
+        return mipSampleService.readyByMacroRegionId(aMacroRegionId);
+    }
+
+    public Optional<Region> readRegionById(Long aRegionId) {
+        return mipSampleService.readyRegionById(aRegionId);
+    }
+
+    public Optional<City> readCityById(Long aCityId) {
+        return mipSampleService.readyCityById(aCityId);
+    }
+
+    public Optional<Field> readFieldById(Long aFieldId) {
+        return mipSampleService.readFieldById(aFieldId);
+    }
+
 }
