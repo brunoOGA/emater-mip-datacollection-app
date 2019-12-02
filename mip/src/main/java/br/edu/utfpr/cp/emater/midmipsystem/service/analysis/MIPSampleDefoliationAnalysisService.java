@@ -75,7 +75,7 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
 
         Comparator<DAEAndOccurrenceDTO> daeAndOccurrencesComparator = Comparator.comparingInt(DAEAndOccurrenceDTO::getDae);
 
-        var sortedAndGrouppedOccurrences = occurrences.stream()
+        var result = occurrences.stream()
                 .sorted(daeAndOccurrencesComparator)
                 .collect(
                         Collectors.groupingBy(
@@ -85,14 +85,6 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
                 );
         
         
-        var result = new TreeMap <Integer, Double>();
-        double accumulator = 0.0;
-        
-        for (int currentDAE: sortedAndGrouppedOccurrences.keySet()) {
-            accumulator += sortedAndGrouppedOccurrences.get(currentDAE);
-            result.put(currentDAE, accumulator);
-        }
-
         return result;
     }
 
