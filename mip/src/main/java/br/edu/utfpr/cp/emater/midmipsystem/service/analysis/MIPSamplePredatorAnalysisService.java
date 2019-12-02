@@ -1,7 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import org.springframework.stereotype.Service;
@@ -118,16 +118,19 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
     void setLineChartInfo(LineChartModel aChartModel) {
 
         aChartModel.setLegendPosition("nw");
+        aChartModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
 
         aChartModel.setZoom(true);
         aChartModel.setAnimate(true);
 
         Axis xAxis = aChartModel.getAxis(AxisType.X);
         xAxis.setLabel("Dias Após Emergência");
+        xAxis.setMin(0);
 
         Axis yAxis = aChartModel.getAxis(AxisType.Y);
         yAxis.setLabel("No. Insetos/metro");
         yAxis.setTickFormat("%#.2f");
+        yAxis.setMin(0);
     }
 
     protected List<PestNaturalPredator> getPredators() {
