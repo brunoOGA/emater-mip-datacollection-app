@@ -116,7 +116,6 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
 
         aChartModel.setLegendPosition("nw");
 
-        aChartModel.setShowPointLabels(true);
         aChartModel.setZoom(true);
         aChartModel.setAnimate(true);
 

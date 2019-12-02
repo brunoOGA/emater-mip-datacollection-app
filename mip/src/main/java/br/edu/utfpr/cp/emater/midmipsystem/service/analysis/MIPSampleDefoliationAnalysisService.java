@@ -111,7 +111,6 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
 
         aChartModel.setLegendPosition("nw");
 
-        aChartModel.setShowPointLabels(true);
         aChartModel.setZoom(true);
         aChartModel.setAnimate(true);
 

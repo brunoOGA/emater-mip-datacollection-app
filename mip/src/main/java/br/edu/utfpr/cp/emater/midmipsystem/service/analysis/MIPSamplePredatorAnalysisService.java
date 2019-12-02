@@ -119,7 +119,6 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
 
         aChartModel.setLegendPosition("nw");
 
-        aChartModel.setShowPointLabels(true);
         aChartModel.setZoom(true);
         aChartModel.setAnimate(true);
 
