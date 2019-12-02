@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
 
     @Override
     public LineChartModel getChart() {
-        var samples = this.getSamples();
+        var samples = this.readSamples();
 
         // To collect DAEAndDefoliation
         var DAEAndDefoliation = this.getDAEAndDefoliation(samples);
@@ -75,7 +76,7 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
 
         Comparator<DAEAndOccurrenceDTO> daeAndOccurrencesComparator = Comparator.comparingInt(DAEAndOccurrenceDTO::getDae);
 
-        var sortedAndGrouppedOccurrences = occurrences.stream()
+        var result = occurrences.stream()
                 .sorted(daeAndOccurrencesComparator)
                 .collect(
                         Collectors.groupingBy(
@@ -85,14 +86,6 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
                 );
         
         
-        var result = new TreeMap <Integer, Double>();
-        double accumulator = 0.0;
-        
-        for (int currentDAE: sortedAndGrouppedOccurrences.keySet()) {
-            accumulator += sortedAndGrouppedOccurrences.get(currentDAE);
-            result.put(currentDAE, accumulator);
-        }
-
         return result;
     }
 
@@ -110,16 +103,18 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
     void setLineChartInfo(LineChartModel aChartModel) {
 
         aChartModel.setLegendPosition("nw");
+        aChartModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
 
-        aChartModel.setShowPointLabels(true);
         aChartModel.setZoom(true);
         aChartModel.setAnimate(true);
 
         Axis xAxis = aChartModel.getAxis(AxisType.X);
         xAxis.setLabel("Dias Após Emergência");
+        xAxis.setMin(0);
 
         Axis yAxis = aChartModel.getAxis(AxisType.Y);
         yAxis.setLabel("(%) Desfolha");
+        yAxis.setMin(0);
     }
 
 }

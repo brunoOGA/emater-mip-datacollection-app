@@ -4,6 +4,8 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleBedBugPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleCaterpillarPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleDefoliationAnalysisService;
@@ -16,6 +18,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.primefaces.model.chart.LineChartModel;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component("dashboardController")
@@ -59,56 +62,73 @@ public class DashboardController implements Serializable {
     @Getter
     @Setter
     private LineChartModel caterpillarFluctuationChart;
-    
+
     @Getter
     @Setter
     private LineChartModel bedBugFluctuationChart;
-    
+
     @Getter
     @Setter
     private LineChartModel defoliationChart;
-    
+
     @Getter
     @Setter
     private LineChartModel predatorChart;
-    
+
     @Getter
     @Setter
     private String title;
-    
+
     @Getter
     @Setter
     private List<MacroRegion> macroRegionsAvailable;
-    
+
     @PostConstruct
     public void init() {
-        this.setTitle("Dados Estaduais");
-        
-        caterpillarFluctuationChart = caterpillarService.getChart();
-        bedBugFluctuationChart = bedBugService.getChart();
-        defoliationChart = defoliationService.getChart();
-        predatorChart = predatorService.getChart();
-        
-        macroRegionsAvailable = caterpillarService.readAllMacroRegionsWithSurvey();
-    }
-    
-    public void onMacroRegionSelectionChangeEvent() {
 
-        if (this.getSelectedMacroRegionId() != null) {
-            this.setTitle("Dados da Macrorregião Selecionada");
-            
-            var MIPSampleData = caterpillarService.getMIPSamplesByMacroRegionId(this.getSelectedMacroRegionId());
-            
+        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        if (loggedUser.getAuthorities().stream().mapToLong(Authority::getId).anyMatch(id -> id == 1)) {
+            this.setTitle("Dados Estaduais");
+
+            caterpillarFluctuationChart = caterpillarService.getChart();
+            bedBugFluctuationChart = bedBugService.getChart();
+            defoliationChart = defoliationService.getChart();
+            predatorChart = predatorService.getChart();
+
+        } else {
+            var MIPSampleData = caterpillarService.readMIPSamplesByMIPUser(loggedUser);
+
+            this.setTitle(String.format("Dados das Propriedades Gerenciadas por %s", loggedUser.getFullName()));
+
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
             this.setPredatorChart(predatorService.getChart(MIPSampleData));
-            
-            regionsAvailable = caterpillarService.getRegionsAvailableFor(this.getSelectedMacroRegionId());
-        
+        }
+
+        macroRegionsAvailable = caterpillarService.readAllMacroRegionsWithSurvey();
+    }
+
+    public void onMacroRegionSelectionChangeEvent() {
+
+        if (this.getSelectedMacroRegionId() != null) {
+
+            var macroRegion = caterpillarService.readMacroRegionById(this.getSelectedMacroRegionId());
+
+            this.setTitle(String.format("Dados da Macrorregião %s", macroRegion.map(MacroRegion::getName).orElse("Selecionada")));
+
+            var MIPSampleData = caterpillarService.readMIPSamplesByMacroRegionId(this.getSelectedMacroRegionId());
+
+            this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
+            this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
+            this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
+            this.setPredatorChart(predatorService.getChart(MIPSampleData));
+
+            regionsAvailable = caterpillarService.readRegionsAvailableByMacroRegionId(this.getSelectedMacroRegionId());
+
         } else {
-            this.setTitle("Dados Estaduais");
-            
+
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());
@@ -117,49 +137,51 @@ public class DashboardController implements Serializable {
     }
 
     public void onRegionSelectionChangeEvent() {
-        
+
         if (this.getSelectedRegionId() != null) {
-            
-            this.setTitle("Dados da Região Selecionada");
-            
-            var MIPSampleData = caterpillarService.getMIPSamplesByRegionId(this.getSelectedRegionId());
-            
+
+            var region = caterpillarService.readRegionById(this.getSelectedRegionId());
+
+            this.setTitle(String.format("Dados da Região %s", region.map(Region::getName).orElse("Selecionada")));
+
+            var MIPSampleData = caterpillarService.readMIPSamplesByRegionId(this.getSelectedRegionId());
+
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
             this.setPredatorChart(predatorService.getChart(MIPSampleData));
-            
-            citiesAvailable = caterpillarService.getCitiesAvailableFor(this.getSelectedRegionId());
-            
+
+            citiesAvailable = caterpillarService.readCitiesAvailableByRegionId(this.getSelectedRegionId());
+
         } else {
-            this.setTitle("Dados Estaduais");
-            
+
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());
             this.setPredatorChart(predatorService.getChart());
         }
-            
+
     }
 
     public void onCitySelectionChangeEvent() {
-        
+
         if (this.getSelectedCityId() != null) {
-            
-            this.setTitle("Dados do Município Selecionado");
-            
-            var MIPSampleData = caterpillarService.getMIPSamplesByCityId(this.getSelectedCityId());
-            
+
+            var city = caterpillarService.readCityById(this.getSelectedCityId());
+
+            this.setTitle(String.format("Dados do Município %s", city.map(City::getName).orElse("Selecionado")));
+
+            var MIPSampleData = caterpillarService.readMIPSamplesByCityId(this.getSelectedCityId());
+
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
             this.setPredatorChart(predatorService.getChart(MIPSampleData));
-            
-            URsAvailable = caterpillarService.getURsAvailableFor(this.getSelectedCityId());
-            
+
+            URsAvailable = caterpillarService.readURsAvailableByCityId(this.getSelectedCityId());
+
         } else {
-            this.setTitle("Dados Estaduais");
-            
+
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());
@@ -168,19 +190,22 @@ public class DashboardController implements Serializable {
     }
 
     public void onURSelectionChangeEvent() {
-        
+
         if (this.getSelectedURId() != null) {
-            
-            var MIPSampleData = caterpillarService.getMIPSamplesByURId(this.getSelectedURId());
-            
+
+            var ur = caterpillarService.readFieldById(this.getSelectedURId());
+
+            this.setTitle(String.format("Dados da UR %s", ur.map(Field::getName).orElse("Selecionada")));
+
+            var MIPSampleData = caterpillarService.readMIPSamplesByURId(this.getSelectedURId());
+
             this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
             this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
             this.setDefoliationChart(defoliationService.getChart(MIPSampleData));
             this.setPredatorChart(predatorService.getChart(MIPSampleData));
-        
+
         } else {
-            this.setTitle("Dados Estaduais");
-            
+
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());

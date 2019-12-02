@@ -5,21 +5,15 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
 
 @RequiredArgsConstructor
 public abstract class AbstractMIPSampleAnalysis {
@@ -31,21 +25,7 @@ public abstract class AbstractMIPSampleAnalysis {
 
     public abstract LineChartModel getChart(List<MIPSample> MIPSampleData);
 
-    LineChartSeries getSerie(Pest aPest, Map<Integer, Double> aMappingDAEOccurrence
-    ) {
-
-        var result = new LineChartSeries();
-
-        result.setLabel(String.format("%s (%s)", aPest.getScientificName().length() == 0 ? aPest.getUsualName() : aPest.getScientificName(), aPest.getPestSize().getName()));
-
-        aMappingDAEOccurrence.keySet().forEach(item -> {
-            result.set(item, aMappingDAEOccurrence.get(item));
-        });
-
-        return result;
-    }
-
-    public List<Region> getRegionsAvailableFor(Long selectedMacroRegionId) {
+    public List<Region> readRegionsAvailableByMacroRegionId(Long selectedMacroRegionId) {
         return this.mipSampleService.readAllRegionsFor(selectedMacroRegionId);
     }
 
@@ -53,7 +33,7 @@ public abstract class AbstractMIPSampleAnalysis {
         return this.mipSampleService.readAllMacroRegionsWithSurvey();
     }
 
-    public List<City> getCitiesAvailableFor(Long aRegionId) {
+    public List<City> readCitiesAvailableByRegionId(Long aRegionId) {
         try {
             return this.mipSampleService.readAllCitiesByRegionId(aRegionId);
 
@@ -62,27 +42,48 @@ public abstract class AbstractMIPSampleAnalysis {
         }
     }
 
-    public List<Field> getURsAvailableFor(Long aCityId) {
+    public List<Field> readURsAvailableByCityId(Long aCityId) {
         return this.mipSampleService.readAllFieldsByCityId(aCityId);
     }
 
-    public List<MIPSample> getSamples() {
+    public List<MIPSample> readSamples() {
         return mipSampleService.readAll();
     }
 
-    public List<MIPSample> getMIPSamplesByMacroRegionId(Long aMacroRegionId) {
+    public List<MIPSample> readMIPSamplesByMacroRegionId(Long aMacroRegionId) {
         return mipSampleService.readByMacroRegionId(aMacroRegionId);
     }
 
-    public List<MIPSample> getMIPSamplesByRegionId(Long aRegionId) {
+    public List<MIPSample> readMIPSamplesByRegionId(Long aRegionId) {
         return mipSampleService.readByRegionId(aRegionId);
     }
 
-    public List<MIPSample> getMIPSamplesByCityId(Long aCityId) {
+    public List<MIPSample> readMIPSamplesByCityId(Long aCityId) {
         return mipSampleService.readByCityId(aCityId);
     }
 
-    public List<MIPSample> getMIPSamplesByURId(Long anURId) {
+    public List<MIPSample> readMIPSamplesByURId(Long anURId) {
         return mipSampleService.readByURId(anURId);
     }
+
+    public List<MIPSample> readMIPSamplesByMIPUser(MIPUser aMIPUser) {
+        return mipSampleService.readByMIPUser(aMIPUser);
+    }
+
+    public Optional<MacroRegion> readMacroRegionById(Long aMacroRegionId) {
+        return mipSampleService.readyByMacroRegionId(aMacroRegionId);
+    }
+
+    public Optional<Region> readRegionById(Long aRegionId) {
+        return mipSampleService.readyRegionById(aRegionId);
+    }
+
+    public Optional<City> readCityById(Long aCityId) {
+        return mipSampleService.readyCityById(aCityId);
+    }
+
+    public Optional<Field> readFieldById(Long aFieldId) {
+        return mipSampleService.readFieldById(aFieldId);
+    }
+
 }

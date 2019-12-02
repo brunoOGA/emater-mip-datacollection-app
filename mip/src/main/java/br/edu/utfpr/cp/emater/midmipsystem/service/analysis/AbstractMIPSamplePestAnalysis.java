@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
@@ -36,7 +37,7 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
     }
 
     public LineChartModel getChart() {
-        var samples = this.getSamples();
+        var samples = this.readSamples();
 
         var pests = this.getPests();
 
@@ -115,17 +116,19 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
     void setLineChartInfo(LineChartModel aChartModel) {
 
         aChartModel.setLegendPosition("nw");
+        aChartModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
 
-        aChartModel.setShowPointLabels(true);
         aChartModel.setZoom(true);
         aChartModel.setAnimate(true);
 
         Axis xAxis = aChartModel.getAxis(AxisType.X);
         xAxis.setLabel("Dias Após Emergência");
+        xAxis.setMin(0);
 
         Axis yAxis = aChartModel.getAxis(AxisType.Y);
         yAxis.setLabel("No. Insetos/metro");
         yAxis.setTickFormat("%#.2f");
+        yAxis.setMin(0);
     }
 
 }
