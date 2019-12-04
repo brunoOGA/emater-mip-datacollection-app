@@ -3,7 +3,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/template.xhtml"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:hf="http://highfaces.org">
 
     <ui:define name="title">
         Painel de Controle
@@ -106,7 +107,7 @@
                                 </p>
 
                                 <div>
-                                    <p:chart id="caterpillarFluctuationChart" type="line" model="#{dashboardController.caterpillarFluctuationChart}" responsive="true" ></p:chart>
+                                    <hf:chart id="caterpillarFluctuationChart" type="line" value="#{dashboardController.caterpillarFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro"></hf:chart>
                                 </div>
 
                             </div>
@@ -144,7 +145,7 @@
                                 </p>
 
                                 <div>
-                                    <p:chart id="bedBugFluctuationChart" type="line" model="#{dashboardController.bedBugFluctuationChart}" responsive="true" ></p:chart>
+                                    <hf:chart id="bedBugFluctuationChart" type="line" value="#{dashboardController.bedBugFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro"></hf:chart>
                                 </div>
 
                             </div>
@@ -159,7 +160,7 @@
 
         </div>
 
-        
+
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-danger">
@@ -183,7 +184,7 @@
                                 </p>
 
                                 <div>
-                                    <p:chart id="predatorChart" type="line" model="#{dashboardController.predatorChart}" responsive="true" ></p:chart>
+                                    <hf:chart id="predatorChart" type="line" value="#{dashboardController.predatorChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro"></hf:chart>
                                 </div>
 
                             </div>
@@ -223,7 +224,7 @@
                                 </p>
 
                                 <div>
-                                    <p:chart id="defoliationChart" type="line" model="#{dashboardController.defoliationChart}" responsive="true" ></p:chart>
+                                    <hf:chart id="defoliationChart" type="line" value="#{dashboardController.defoliationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="(%) de Desfolha"></hf:chart>
                                 </div>
 
                             </div>

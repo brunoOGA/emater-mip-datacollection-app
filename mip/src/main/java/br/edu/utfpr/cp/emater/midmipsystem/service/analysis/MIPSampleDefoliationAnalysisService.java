@@ -2,17 +2,15 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.LegendPlacement;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
+;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalysis {
@@ -21,8 +19,7 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
         super(mipSampleService);
     }
 
-    @Override
-    public LineChartModel getChart() {
+    public List<DAEAndOccurrenceDTO> getChart() {
         var samples = this.readSamples();
 
         // To collect DAEAndDefoliation
@@ -31,36 +28,16 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
         // To generate map consolidating duplicated entries
         var DAEAndOccurrencesMap = consolidateDAEAndOccurrences(DAEAndDefoliation);
 
-        // To create chart series by using the consolidated map
-        var chartSeries = this.getChartSerie(DAEAndOccurrencesMap);
-
-        var chartModel = new LineChartModel();
-
-        // To add series to the chart
-        chartModel.addSeries(chartSeries);
-
-        // To set chart additional information
-        this.setLineChartInfo(chartModel);
-
-        return chartModel;
+        return this.convertDefoliationIntoChartFormat(DAEAndOccurrencesMap);
     }
 
-    @Override
-    public LineChartModel getChart(List<MIPSample> MIPSampleData) {
+    public List<DAEAndOccurrenceDTO> getChart(List<MIPSample> MIPSampleData) {
 
         var DAEAndDefoliation = this.getDAEAndDefoliation(MIPSampleData);
 
         var DAEAndOccurrencesMap = consolidateDAEAndOccurrences(DAEAndDefoliation);
 
-        var chartSeries = this.getChartSerie(DAEAndOccurrencesMap);
-
-        var chartModel = new LineChartModel();
-
-        chartModel.addSeries(chartSeries);
-
-        this.setLineChartInfo(chartModel);
-
-        return chartModel;
+        return this.convertDefoliationIntoChartFormat(DAEAndOccurrencesMap);
     }
 
     List<DAEAndOccurrenceDTO> getDAEAndDefoliation(List<MIPSample> samples) {
@@ -80,41 +57,25 @@ public class MIPSampleDefoliationAnalysisService extends AbstractMIPSampleAnalys
                 .sorted(daeAndOccurrencesComparator)
                 .collect(
                         Collectors.groupingBy(
-                                DAEAndOccurrenceDTO::getDae, 
+                                DAEAndOccurrenceDTO::getDae,
                                 Collectors.averagingDouble(DAEAndOccurrenceDTO::getOccurrence)
                         )
                 );
-        
-        
+
         return result;
     }
 
-    LineChartSeries getChartSerie(Map<Integer, Double> occurrencesGroupped) {
+    public List<DAEAndOccurrenceDTO> convertDefoliationIntoChartFormat(Map<Integer, Double> map) {
 
-        var result = new LineChartSeries("Desfolha");
+        var result = new ArrayList<DAEAndOccurrenceDTO>();
 
-        occurrencesGroupped.keySet().forEach(currentDAE -> {
-            result.set(currentDAE, occurrencesGroupped.get(currentDAE));
+        map.forEach((dae, occurrence) -> {
+            result.add(DAEAndOccurrenceDTO.builder().dae(dae).occurrence(occurrence).build());
         });
+        
+        Comparator<DAEAndOccurrenceDTO> daeAndOccurrencesComparator = Comparator.comparingInt(DAEAndOccurrenceDTO::getDae);
 
-        return result;
-    }
-
-    void setLineChartInfo(LineChartModel aChartModel) {
-
-        aChartModel.setLegendPosition("nw");
-        aChartModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
-
-        aChartModel.setZoom(true);
-        aChartModel.setAnimate(true);
-
-        Axis xAxis = aChartModel.getAxis(AxisType.X);
-        xAxis.setLabel("Dias Após Emergência");
-        xAxis.setMin(0);
-
-        Axis yAxis = aChartModel.getAxis(AxisType.Y);
-        yAxis.setLabel("(%) Desfolha");
-        yAxis.setMin(0);
+        return result.stream().sorted(daeAndOccurrencesComparator).collect(Collectors.toList());
     }
 
 }

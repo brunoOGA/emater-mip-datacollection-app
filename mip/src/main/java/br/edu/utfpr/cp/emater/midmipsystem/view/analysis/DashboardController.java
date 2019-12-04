@@ -6,18 +6,19 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleBedBugPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleCaterpillarPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleDefoliationAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSamplePredatorAnalysisService;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.primefaces.model.chart.LineChartModel;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -61,19 +62,19 @@ public class DashboardController implements Serializable {
 
     @Getter
     @Setter
-    private LineChartModel caterpillarFluctuationChart;
+    private Map<String, List<DAEAndOccurrenceDTO>> caterpillarFluctuationChart;
+    
+    @Getter
+    @Setter
+    private Map<String, List<DAEAndOccurrenceDTO>> bedBugFluctuationChart;
 
     @Getter
     @Setter
-    private LineChartModel bedBugFluctuationChart;
+    private List<DAEAndOccurrenceDTO> defoliationChart;
 
     @Getter
     @Setter
-    private LineChartModel defoliationChart;
-
-    @Getter
-    @Setter
-    private LineChartModel predatorChart;
+    private Map<String, List<DAEAndOccurrenceDTO>> predatorChart;
 
     @Getter
     @Setter
@@ -82,7 +83,7 @@ public class DashboardController implements Serializable {
     @Getter
     @Setter
     private List<MacroRegion> macroRegionsAvailable;
-
+    
     @PostConstruct
     public void init() {
 

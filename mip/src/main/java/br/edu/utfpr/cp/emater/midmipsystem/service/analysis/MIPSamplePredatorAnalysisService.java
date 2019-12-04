@@ -4,15 +4,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.LegendPlacement;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +18,7 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
         super(mipSampleService);
     }
 
-    public LineChartModel getChart(List<MIPSample> MIPSampleData) {
+    public Map<String, List<DAEAndOccurrenceDTO>> getChart(List<MIPSample> MIPSampleData) {
 
         var predators = this.getPredators();
 
@@ -30,17 +26,10 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
 
         var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
 
-        var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
-
-        var chartModel = new LineChartModel();
-        chartSeries.forEach(chartModel::addSeries);
-        this.setLineChartInfo(chartModel);
-
-        return chartModel;
-
+        return this.convertPredatorIntoChartFormat(pestAndDAEAndOccurrencesMap);
     }
 
-    public LineChartModel getChart() {
+    public Map<String, List<DAEAndOccurrenceDTO>> getChart() {
         var samples = this.readSamples();
 
         var predators = this.getPredators();
@@ -49,13 +38,7 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
 
         var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
 
-        var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
-
-        var chartModel = new LineChartModel();
-        chartSeries.forEach(chartModel::addSeries);
-        this.setLineChartInfo(chartModel);
-
-        return chartModel;
+        return this.convertPredatorIntoChartFormat(pestAndDAEAndOccurrencesMap);
     }
 
     Map<PestNaturalPredator, List<DAEAndOccurrenceDTO>> getDAEAndOccurrences(List<PestNaturalPredator> predators, List<MIPSample> samples) {
@@ -94,45 +77,6 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
         return result;
     }
 
-    List<LineChartSeries> getChartSeries(Map<PestNaturalPredator, Map<Integer, Double>> occurrencesGrouppedByPest) {
-
-        var result = new ArrayList<LineChartSeries>();
-
-        occurrencesGrouppedByPest.keySet().stream().forEach(currentPredator -> {
-
-            var currentSerie = new LineChartSeries(currentPredator.getDescription());
-
-            var currentPestOccurrence = occurrencesGrouppedByPest.get(currentPredator);
-
-            currentPestOccurrence.keySet().forEach(currentDAE -> {
-                currentSerie.set(currentDAE, currentPestOccurrence.get(currentDAE));
-            });
-
-            result.add(currentSerie);
-
-        });
-
-        return result;
-    }
-
-    void setLineChartInfo(LineChartModel aChartModel) {
-
-        aChartModel.setLegendPosition("nw");
-        aChartModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
-
-        aChartModel.setZoom(true);
-        aChartModel.setAnimate(true);
-
-        Axis xAxis = aChartModel.getAxis(AxisType.X);
-        xAxis.setLabel("Dias Após Emergência");
-        xAxis.setMin(0);
-
-        Axis yAxis = aChartModel.getAxis(AxisType.Y);
-        yAxis.setLabel("No. Insetos/metro");
-        yAxis.setTickFormat("%#.2f");
-        yAxis.setMin(0);
-    }
-
     protected List<PestNaturalPredator> getPredators() {
         return List.of(
                 this.getMipSampleService().readPredatorById(1L).get(),
@@ -148,6 +92,26 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
                 this.getMipSampleService().readPredatorById(11L).get(),
                 this.getMipSampleService().readPredatorById(12L).get());
 
+    }
+
+    public Map<String, List<DAEAndOccurrenceDTO>> convertPredatorIntoChartFormat(Map<PestNaturalPredator, Map<Integer, Double>> input) {
+
+        var result = new HashMap<String, List<DAEAndOccurrenceDTO>>();
+
+        input.forEach((pest, map) -> {
+
+            var dataset = new ArrayList<DAEAndOccurrenceDTO>();
+
+            map.forEach((dae, occurrence) -> {
+                dataset.add(DAEAndOccurrenceDTO.builder().dae(dae).occurrence(occurrence).build());
+            });
+            
+            Comparator<DAEAndOccurrenceDTO> daeAndOccurrencesComparator = Comparator.comparingInt(DAEAndOccurrenceDTO::getDae);
+
+            result.put(pest.getDescription(), dataset.stream().sorted(daeAndOccurrencesComparator).collect(Collectors.toList()));
+        });
+
+        return result;
     }
 
 }

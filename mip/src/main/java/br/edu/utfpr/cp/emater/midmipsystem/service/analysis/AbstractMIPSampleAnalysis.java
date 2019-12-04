@@ -13,17 +13,12 @@ import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.primefaces.model.chart.LineChartModel;
 
 @RequiredArgsConstructor
 public abstract class AbstractMIPSampleAnalysis {
 
     @Getter(AccessLevel.PROTECTED)
     private final MIPSampleService mipSampleService;
-
-    public abstract LineChartModel getChart();
-
-    public abstract LineChartModel getChart(List<MIPSample> MIPSampleData);
 
     public List<Region> readRegionsAvailableByMacroRegionId(Long selectedMacroRegionId) {
         return this.mipSampleService.readAllRegionsFor(selectedMacroRegionId);

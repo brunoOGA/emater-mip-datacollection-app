@@ -4,15 +4,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.LegendPlacement;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
 
 public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAnalysis {
 
@@ -20,23 +16,19 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
         super(mipSampleService);
     }
 
-    public LineChartModel getChart(List<MIPSample> MIPSampleData) {
+    public Map<String, List<DAEAndOccurrenceDTO>> getChart(List<MIPSample> MIPSampleData) {
+
         var pests = this.getPests();
 
         var pestAndDAEAndOccurrences = getDAEAndOccurrences(pests, MIPSampleData);
 
         var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
 
-        var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
-
-        var chartModel = new LineChartModel();
-        chartSeries.forEach(chartModel::addSeries);
-        this.setLineChartInfo(chartModel);
-
-        return chartModel;
+        return this.convertIntoChartFormat(pestAndDAEAndOccurrencesMap);
     }
 
-    public LineChartModel getChart() {
+    public Map<String, List<DAEAndOccurrenceDTO>> getChart() {
+
         var samples = this.readSamples();
 
         var pests = this.getPests();
@@ -45,13 +37,7 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
 
         var pestAndDAEAndOccurrencesMap = consolidateDAEAndOccurrences(pestAndDAEAndOccurrences);
 
-        var chartSeries = getChartSeries(pestAndDAEAndOccurrencesMap);
-
-        var chartModel = new LineChartModel();
-        chartSeries.forEach(chartModel::addSeries);
-        this.setLineChartInfo(chartModel);
-
-        return chartModel;
+        return this.convertIntoChartFormat(pestAndDAEAndOccurrencesMap);
     }
 
     protected abstract List<Pest> getPests();
@@ -92,43 +78,23 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
         return result;
     }
 
-    List<LineChartSeries> getChartSeries(Map<Pest, Map<Integer, Double>> occurrencesGrouppedByPest) {
+    public Map<String, List<DAEAndOccurrenceDTO>> convertIntoChartFormat(Map<Pest, Map<Integer, Double>> input) {
 
-        var result = new ArrayList<LineChartSeries>();
+        var result = new HashMap<String, List<DAEAndOccurrenceDTO>>();
 
-        occurrencesGrouppedByPest.keySet().stream().forEach(currentPest -> {
+        input.forEach((pest, map) -> {
 
-            var currentSerie = new LineChartSeries(currentPest.getDescription());
+            var dataset = new ArrayList<DAEAndOccurrenceDTO>();
 
-            var currentPestOccurrence = occurrencesGrouppedByPest.get(currentPest);
-
-            currentPestOccurrence.keySet().forEach(currentDAE -> {
-                currentSerie.set(currentDAE, currentPestOccurrence.get(currentDAE));
+            map.forEach((dae, occurrence) -> {
+                dataset.add(DAEAndOccurrenceDTO.builder().dae(dae).occurrence(occurrence).build());
             });
 
-            result.add(currentSerie);
-
+            Comparator<DAEAndOccurrenceDTO> daeAndOccurrencesComparator = Comparator.comparingInt(DAEAndOccurrenceDTO::getDae);
+            
+            result.put(pest.getDescription(), dataset.stream().sorted(daeAndOccurrencesComparator).collect(Collectors.toList()));
         });
 
         return result;
     }
-
-    void setLineChartInfo(LineChartModel aChartModel) {
-
-        aChartModel.setLegendPosition("nw");
-        aChartModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
-
-        aChartModel.setZoom(true);
-        aChartModel.setAnimate(true);
-
-        Axis xAxis = aChartModel.getAxis(AxisType.X);
-        xAxis.setLabel("Dias Após Emergência");
-        xAxis.setMin(0);
-
-        Axis yAxis = aChartModel.getAxis(AxisType.Y);
-        yAxis.setLabel("No. Insetos/metro");
-        yAxis.setTickFormat("%#.2f");
-        yAxis.setMin(0);
-    }
-
 }
