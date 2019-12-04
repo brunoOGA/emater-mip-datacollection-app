@@ -94,7 +94,7 @@ public abstract class AbstractMIPSamplePestAnalysis extends AbstractMIPSampleAna
             
             result.put(pest.getDescription(), dataset.stream().sorted(daeAndOccurrencesComparator).collect(Collectors.toList()));
         });
-
+        
         return result;
     }
 }

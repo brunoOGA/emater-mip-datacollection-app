@@ -130,6 +130,8 @@ public class DashboardController implements Serializable {
 
         } else {
 
+            this.setTitle("Dados Estaduais");
+            
             this.setCaterpillarFluctuationChart(caterpillarService.getChart());
             this.setBedBugFluctuationChart(bedBugService.getChart());
             this.setDefoliationChart(defoliationService.getChart());
