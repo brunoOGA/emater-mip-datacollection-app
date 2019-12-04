@@ -134,21 +134,13 @@ public class Field extends AuditingPersistenceEntity implements Serializable {
         
         var supervisorOptional = this.getSupervisors().stream().findAny();
         
-        if (supervisorOptional.isPresent())
-            return supervisorOptional.get().getMacroRegion();
-        
-        else
-            return Optional.empty();
+        return supervisorOptional.flatMap(Supervisor::getMacroRegion).or(Optional::empty);
     }
 
     public Optional<Region> getRegion() {
         
         var supervisorOptional = this.getSupervisors().stream().findAny();
         
-        if (supervisorOptional.isPresent())
-            return Optional.of(supervisorOptional.get().getRegion());
-        
-        else
-            return Optional.empty();
+        return supervisorOptional.map(Supervisor::getRegion).or(Optional::empty);        
     }
 }

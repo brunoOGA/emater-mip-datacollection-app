@@ -6,9 +6,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +14,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -114,15 +111,8 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
     }
 
     public Optional<Long> getHarvestId() {
-        if (this.getSurvey() == null) {
-            return Optional.empty();
-        }
-
-        if (this.getSurvey().getHarvest() == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(this.getSurvey().getHarvest().getId());
+        
+        return Optional.ofNullable(this.getSurvey().getHarvest().getId());        
     }
 
     public String getFarmerName() {
@@ -193,63 +183,30 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
 
     public Optional<MIPSamplePestOccurrence> getOccurrenceByPest(Pest aPest) {
 
-        if (aPest == null) {
-            return Optional.empty();
-        }
-
         return this.getMipSamplePestOccurrence()
                 .stream()
                 .filter(currentOccurrence -> currentOccurrence.getPest().equals(aPest))
-                .findFirst();
+                .findFirst()
+                .or(Optional::empty);
     }
 
     public Optional<MIPSampleNaturalPredatorOccurrence> getOccurrenceByPredator(PestNaturalPredator aPredator) {
 
-        if (aPredator == null) {
-            return Optional.empty();
-        }
-
         return this.getMipSampleNaturalPredatorOccurrence()
                 .stream()
                 .filter(currentOccurrence -> currentOccurrence.getPestNaturalPredator().equals(aPredator))
-                .findAny();
+                .findAny()
+                .or(Optional::empty);
     }
 
     public double getOccurrenceValueByPest(Pest aPest) {
-
-        if (aPest == null) {
-            return 0.0;
-        }
-
-        var occurrence = this.getOccurrenceByPest(aPest);
-
-        if (occurrence.isEmpty()) {
-            return 0.0;
-        }
-
-        if (occurrence.isPresent()) {
-            return occurrence.get().getValue();
-        }
-
-        return 0.0;
+        
+        return this.getOccurrenceByPest(aPest).map(MIPSamplePestOccurrence::getValue).orElseGet(() -> 0.0);
     }
 
     public double getOccurrenceValueByPredator(PestNaturalPredator aPredator) {
-        if (aPredator == null) {
-            return 0.0;
-        }
 
-        var occurrence = this.getOccurrenceByPredator(aPredator);
-
-        if (occurrence.isEmpty()) {
-            return 0.0;
-        }
-
-        if (occurrence.isPresent()) {
-            return occurrence.get().getValue();
-        }
-        
-        return 0.0;
+        return this.getOccurrenceByPredator(aPredator).map(MIPSampleNaturalPredatorOccurrence::getValue).orElseGet(() -> 0.0);
     }
     
     public Optional<DAEAndOccurrenceDTO> getDAEAndPredatorOccurrenceByPredator(PestNaturalPredator aPredator) {
@@ -284,32 +241,12 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
 
     public Optional<Long> getFieldId() {
 
-        if (this.getSurvey() == null) {
-            return Optional.empty();
-        }
-
-        if (this.getSurvey().getField() == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(this.getSurvey().getField().getId());
+        return Optional.ofNullable(this.getSurvey().getField().getId());
     }
 
     public Optional<City> getCity() {
 
-        if (this.getSurvey() == null) {
-            return Optional.empty();
-        }
-
-        if (this.getSurvey().getField() == null) {
-            return Optional.empty();
-        }
-
-        if (this.getSurvey().getField().getCity() == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(this.getSurvey().getField().getCity());
+        return Optional.ofNullable(this.getSurvey().getField().getCity());
     }
 
 }

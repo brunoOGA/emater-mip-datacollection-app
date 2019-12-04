@@ -101,9 +101,6 @@ public class SupervisorService implements ICRUDService<Supervisor> {
 
     public Optional<Supervisor> readByEmail(@Email String anEmail) {
         
-        if (anEmail == null)
-            return Optional.empty();
-        
         return supervisorRepository.findByEmail(anEmail);
     }
 }

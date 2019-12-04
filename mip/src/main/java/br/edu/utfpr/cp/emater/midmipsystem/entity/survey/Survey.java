@@ -363,37 +363,17 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
 
     public Optional<MacroRegion> getMacroRegion() {
 
-        if (this.getField() == null) {
-            return Optional.empty();
-        }
-
-        if (this.getField().getMacroRegion().isPresent())
-            return this.getField().getMacroRegion();
-                
-        return Optional.empty();
+        return this.getField().getMacroRegion();
     }
-    
+
     public Optional<Region> getRegion() {
 
-        if (this.getField() == null) {
-            return Optional.empty();
-        }
-
-        if (this.getField().getRegion().isPresent())
-            return this.getField().getRegion();
-                
-        return Optional.empty();
+        return this.getField().getRegion();
     }
 
     public Optional<City> getCity() {
-        
-        if (this.getField() == null)
-            return Optional.empty();
-        
-        if (this.getField().getCity() != null)
-            return Optional.of(this.getField().getCity());
-        
-        return Optional.empty();
+
+        return Optional.ofNullable(this.getField().getCity());
     }
 
 }

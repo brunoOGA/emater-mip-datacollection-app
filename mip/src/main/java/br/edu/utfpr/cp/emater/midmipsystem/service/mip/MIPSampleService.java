@@ -151,7 +151,11 @@ public class MIPSampleService {
     }
 
     public List<Region> readAllRegionsFor(Long aMacroRegionId) {
-        return regionService.readAll().stream().filter(currentRegion -> currentRegion.getMacroRegionId().equals(aMacroRegionId)).collect(Collectors.toList());
+        return regionService
+                .readAll()
+                .stream()
+                .filter(currentRegion -> currentRegion.getMacroRegionId().equals(aMacroRegionId))
+                .collect(Collectors.toList());
     }
 
     public List<MacroRegion> readAllMacroRegions() {
