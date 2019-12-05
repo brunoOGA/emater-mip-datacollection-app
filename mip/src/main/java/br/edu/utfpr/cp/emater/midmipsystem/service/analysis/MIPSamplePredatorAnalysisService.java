@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.ArrayList;
@@ -98,14 +99,29 @@ public class MIPSamplePredatorAnalysisService extends AbstractMIPSampleAnalysis 
 
         var result = new HashMap<String, List<DAEAndOccurrenceDTO>>();
 
+        int greatestDAE = 0;
+
+        for (PestNaturalPredator currentPest : input.keySet()) {
+
+            var currentMap = input.get(currentPest);
+
+            for (Integer currentDAE : currentMap.keySet()) {
+                if (currentDAE > greatestDAE) {
+                    greatestDAE = currentDAE;
+                }
+            }
+        }
+
+        final int maximumDAE = (int) greatestDAE + 3;
+
         input.forEach((pest, map) -> {
 
             var dataset = new ArrayList<DAEAndOccurrenceDTO>();
 
-            map.forEach((dae, occurrence) -> {
-                dataset.add(DAEAndOccurrenceDTO.builder().dae(dae).occurrence(occurrence).build());
-            });
-            
+            for (int i = 0; i < maximumDAE; i++) {
+                dataset.add(DAEAndOccurrenceDTO.builder().dae(i).occurrence(map.getOrDefault(i, 0.0)).build());
+            }
+
             Comparator<DAEAndOccurrenceDTO> daeAndOccurrencesComparator = Comparator.comparingInt(DAEAndOccurrenceDTO::getDae);
 
             result.put(pest.getDescription(), dataset.stream().sorted(daeAndOccurrencesComparator).collect(Collectors.toList()));

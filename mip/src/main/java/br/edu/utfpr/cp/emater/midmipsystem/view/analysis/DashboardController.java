@@ -14,11 +14,14 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSamplePredatorAna
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.primefaces.model.charts.line.LineChartModel;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -86,7 +89,7 @@ public class DashboardController implements Serializable {
     
     @PostConstruct
     public void init() {
-
+        
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
         if (loggedUser.getAuthorities().stream().mapToLong(Authority::getId).anyMatch(id -> id == 1)) {
@@ -215,5 +218,5 @@ public class DashboardController implements Serializable {
             this.setPredatorChart(predatorService.getChart());
         }
     }
-
+    
 }
