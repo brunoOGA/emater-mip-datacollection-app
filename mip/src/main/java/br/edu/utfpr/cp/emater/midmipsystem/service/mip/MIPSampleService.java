@@ -173,8 +173,7 @@ public class MIPSampleService {
     public List<MacroRegion> readAllMacroRegionsWithSurvey() {
         return this.readAllSurveysUniqueEntries().stream()
                     .map(Survey::getMacroRegion)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
+                    .flatMap(Optional::stream)
                     .distinct()
                     .collect(Collectors.toList());
     }

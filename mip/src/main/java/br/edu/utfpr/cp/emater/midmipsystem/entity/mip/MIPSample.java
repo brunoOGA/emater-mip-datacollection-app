@@ -186,7 +186,7 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
         return this.getMipSamplePestOccurrence()
                 .stream()
                 .filter(currentOccurrence -> currentOccurrence.getPest().equals(aPest))
-                .findFirst()
+                .findAny()
                 .or(Optional::empty);
     }
 
@@ -201,12 +201,12 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
 
     public double getOccurrenceValueByPest(Pest aPest) {
         
-        return this.getOccurrenceByPest(aPest).map(MIPSamplePestOccurrence::getValue).orElseGet(() -> 0.0);
+        return this.getOccurrenceByPest(aPest).map(MIPSamplePestOccurrence::getValue).orElse(0.0);
     }
 
     public double getOccurrenceValueByPredator(PestNaturalPredator aPredator) {
 
-        return this.getOccurrenceByPredator(aPredator).map(MIPSampleNaturalPredatorOccurrence::getValue).orElseGet(() -> 0.0);
+        return this.getOccurrenceByPredator(aPredator).map(MIPSampleNaturalPredatorOccurrence::getValue).orElse(0.0);
     }
     
     public Optional<DAEAndOccurrenceDTO> getDAEAndPredatorOccurrenceByPredator(PestNaturalPredator aPredator) {
