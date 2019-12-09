@@ -84,4 +84,8 @@ public class MIDRustSampleService {
     public List<BladeReadingResponsiblePerson> readAllBladeResponsiblePersons() {
         return bladeResponsiblePersonService.readAll();
     }
+
+    public List<MIDRustSample> readBySurvey(Survey aSurvey) {
+        return midRustSampleRepository.findBySurvey(aSurvey);
+    }
 }

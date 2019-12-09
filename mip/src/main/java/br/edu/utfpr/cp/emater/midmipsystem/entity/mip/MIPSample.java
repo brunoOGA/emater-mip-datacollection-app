@@ -248,5 +248,9 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
 
         return Optional.ofNullable(this.getSurvey().getField().getCity());
     }
+    
+    public Optional<Date> getSampleDateAsOptional() {
+        return Optional.ofNullable(this.sampleDate);
+    }
 
 }

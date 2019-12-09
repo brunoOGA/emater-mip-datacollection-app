@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.CropData;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
@@ -15,7 +16,10 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
@@ -190,5 +194,9 @@ public class SurveyService {
 
     public List<String> searchCultivar(String excerpt) {
         return cultivarService.readByExcerptName(excerpt);
+    }
+
+    public List<Survey> readByRegion(Region aRegion) {
+        return surveyRepository.findByRegionId(aRegion.getId());
     }
 }

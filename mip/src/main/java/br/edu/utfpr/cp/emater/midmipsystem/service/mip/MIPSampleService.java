@@ -125,6 +125,10 @@ public class MIPSampleService {
         return List.copyOf(mipSampleRepository.findAll().stream().filter(sample -> sample.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
     }
     
+    public List<MIPSample> readBySurvey(Survey aSurvey) {
+        return mipSampleRepository.findBySurvey(aSurvey);
+    }
+    
     public Optional<Pest> readPestById (Long aPestId) {
         if (aPestId == null)
             return Optional.empty();

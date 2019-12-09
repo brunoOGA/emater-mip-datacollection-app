@@ -4,9 +4,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Optional;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,24 +35,46 @@ public class MIDRustSample extends AuditingPersistenceEntity implements Serializ
 
     @EqualsAndHashCode.Include
     @Temporal(TemporalType.DATE)
-    @NotNull (message = "A data da coleta precisa ser informada!")
+    @NotNull(message = "A data da coleta precisa ser informada!")
     private Date sampleDate;
-    
+
     @Embedded
     private MIDSampleSporeCollectorOccurrence sporeCollectorOccurrence;
-    
+
     @Embedded
     private MIDSampleLeafInspectionOccurrence leafInspectionOccurrence;
-    
+
     @Builder
-    public static MIDRustSample create (Long id,
-                                                  Survey  survey,
-                                                  Date sampleDate) {
+    public static MIDRustSample create(Long id,
+            Survey survey,
+            Date sampleDate) {
         var instance = new MIDRustSample();
         instance.setId(id);
         instance.setSurvey(survey);
         instance.setSampleDate(sampleDate);
-        
+
         return instance;
+    }
+
+    public Optional<Date> getSampleDateAsOptional() {
+        return Optional.ofNullable(this.sampleDate);
+    }
+
+    public boolean isSporePresent() {
+
+        var collectorOccurrenceAsOptional = Optional.ofNullable(this.sporeCollectorOccurrence.getBladeReadingRustResultCollector());
+        var leafOccurrenceAsOptional = Optional.ofNullable(this.leafInspectionOccurrence.getBladeReadingRustResultLeafInspection());
+
+        var collectorResult = collectorOccurrenceAsOptional
+                .filter(currentOccurrence -> currentOccurrence.equals(AsiaticRustTypesSporeCollector.SEM_ESPOROS_FERRUGEM))
+                .map(currentOccurrence -> true)
+                .orElse(false);
+        
+        var leafResult = leafOccurrenceAsOptional
+                .filter(currentOccurrence -> currentOccurrence.equals(AsiaticRustTypesLeafInspection.SEM_FERRUGEM_COM_SINAIS_OUTRAS_DOENCAS))
+                .map(currentOccurrent -> true)
+                .orElse(false);
+
+        return collectorResult | leafResult;
     }
 }
