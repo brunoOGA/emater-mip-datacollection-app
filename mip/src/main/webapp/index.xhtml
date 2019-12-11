@@ -4,7 +4,9 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/template.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:hf="http://highfaces.org">
+                xmlns:hf="http://highfaces.org"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="title">
         Painel de Controle
@@ -50,8 +52,10 @@
                                         </p:column>         
 
 
-                                        <p:column headerText="Data de Emergência" filterBy="#{anEntry.emergenceDate}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.emergenceDate}" />
+                                        <p:column headerText="Data da Emergência" filterBy="#{anEntry.emergenceDate}" filterMatchMode="contains" >
+                                            <h:outputText value="#{anEntry.emergenceDate}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>
                                         </p:column>         
 
                                         <p:column headerText="No. Amostras MIP" filterBy="#{anEntry.quantitySamplesMIP}" filterMatchMode="contains" >
@@ -59,15 +63,19 @@
                                         </p:column>         
 
                                         <p:column headerText="Data da 1a. Amostra" filterBy="#{anEntry.dateFirstSampleMIP}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.dateFirstSampleMIP}" />
+                                            <h:outputText value="#{anEntry.dateFirstSampleMIP}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>                                                
                                         </p:column>         
 
                                         <p:column headerText="Data da última. Amostra" filterBy="#{anEntry.dateLastSampleMIP}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.dateFirstSampleMIP}" />
+                                            <h:outputText value="#{anEntry.dateLastSampleMIP}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>
                                         </p:column>         
 
                                         <p:column headerText="No. Aplicações" filterBy="#{anEntry.quantityApplicationsMIP}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.dateFirstSampleMIP}" />
+                                            <h:outputText value="#{anEntry.quantityApplicationsMIP}" />
                                         </p:column>         
 
                                         <p:column headerText="No. Amostras MID" filterBy="#{anEntry.quantitySamplesMID}" filterMatchMode="contains" >
@@ -79,11 +87,15 @@
                                         </p:column>         
 
                                         <p:column headerText="Data da 1a. Amostra" filterBy="#{anEntry.dateFirstSampleMID}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.dateFirstSampleMID}" />
+                                            <h:outputText value="#{anEntry.dateFirstSampleMID}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>
                                         </p:column>         
 
                                         <p:column headerText="Data da última. Amostra" filterBy="#{anEntry.dateLastSampleMID}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.dateLastSampleMID}" />
+                                            <h:outputText value="#{anEntry.dateLastSampleMID}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>
                                         </p:column>         
 
                                         <p:column headerText="No. Aplicações" filterBy="#{anEntry.quantityApplicationsMID}" filterMatchMode="contains" >
