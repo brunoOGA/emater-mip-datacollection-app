@@ -11,6 +11,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleBedBugPestA
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleCaterpillarPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleDefoliationAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSamplePredatorAnalysisService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.SummaryBoardDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.SummaryBoardService;
 import java.io.Serializable;
 import java.util.List;
@@ -89,12 +90,16 @@ public class DashboardController implements Serializable {
     @Setter
     private List<MacroRegion> macroRegionsAvailable;
     
+    @Getter
+    @Setter
+    private List<SummaryBoardDTO> summaryBoardData;
+    
     @PostConstruct
     public void init() {
         
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         
-        summaryBoardService.getSummaryBoardData(loggedUser.getRegion());
+        this.setSummaryBoardData(summaryBoardService.getSummaryBoardData(loggedUser.getRegion()));
 
         if (loggedUser.getAuthorities().stream().mapToLong(Authority::getId).anyMatch(id -> id == 1)) {
             this.setTitle("Dados Estaduais");
