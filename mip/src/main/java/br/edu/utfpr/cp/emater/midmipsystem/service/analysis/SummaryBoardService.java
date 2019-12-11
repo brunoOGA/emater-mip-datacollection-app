@@ -65,13 +65,18 @@ public class SummaryBoardService {
                             .name(currentSurvey.getFieldName())
                             .cityName(currentSurvey.getCity().map(City::getName).get())
                             .emergenceDate(currentSurvey.getEmergenceDate())
+                            
                             .quantitySamplesMIP(samplesMIP.size())
                             .dateFirstSampleMIP(minDateSampleMIP)
                             .dateLastSampleMIP(maxDateSampleMIP)
-                            .quantityApplicationsMID(samplesMID.size())
-//                            .sporePresentMID()
+                            .quantityApplicationsMIP(0)
+                            
+                            .quantitySamplesMID(samplesMID.size())
+                            .sporePresentMID(samplesMID.stream().map(MIDRustSample::isSporePresent).anyMatch(currentResult -> currentResult == true))
                             .dateFirstSampleMID(minDateSampleMID)
                             .dateLastSampleMID(maxDateSampleMID)
+                            .quantityApplicationsMID(0)
+                            
                             .build()
             );
         });

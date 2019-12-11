@@ -62,8 +62,9 @@ public class MIDRustSample extends AuditingPersistenceEntity implements Serializ
 
     public boolean isSporePresent() {
 
-        var collectorOccurrenceAsOptional = Optional.ofNullable(this.sporeCollectorOccurrence.getBladeReadingRustResultCollector());
-        var leafOccurrenceAsOptional = Optional.ofNullable(this.leafInspectionOccurrence.getBladeReadingRustResultLeafInspection());
+        var collectorOccurrenceAsOptional = Optional.ofNullable(this.sporeCollectorOccurrence).map(currentOccurrence -> currentOccurrence.getBladeReadingRustResultCollector());
+        
+        var leafOccurrenceAsOptional = Optional.ofNullable(this.leafInspectionOccurrence).map(currentOccurrence -> currentOccurrence.getBladeReadingRustResultLeafInspection());
 
         var collectorResult = collectorOccurrenceAsOptional
                 .filter(currentOccurrence -> currentOccurrence.equals(AsiaticRustTypesSporeCollector.SEM_ESPOROS_FERRUGEM))
@@ -75,6 +76,6 @@ public class MIDRustSample extends AuditingPersistenceEntity implements Serializ
                 .map(currentOccurrent -> true)
                 .orElse(false);
 
-        return collectorResult | leafResult;
+        return collectorResult || leafResult;
     }
 }
