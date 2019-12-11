@@ -46,35 +46,59 @@ public class PulverisationOperationOccurrence implements Serializable {
     }
 
     public double getProductCostCurrency() {
-        if (this.getProductPrice() != 0) 
-            if (this.getDose() != 0)
+        if (this.getProductPrice() != 0) {
+            if (this.getDose() != 0) {
                 return this.getProductPrice() * this.getDose();
-        
+            }
+        }
+
         return 0;
     }
-    
+
     public double getProductCostQty() {
         return 0;
     }
 
     public String getTargetCategoryDescription() {
-        if (this.getTarget() != null)
+        if (this.getTarget() != null) {
             return this.getTarget().getUseClass().getDescription();
-        
+        }
+
         return null;
     }
 
     public String getTargetDescription() {
-        if (this.getTarget() != null)
+        if (this.getTarget() != null) {
             return this.getTarget().getDescription();
-        
+        }
+
         return null;
     }
 
     public String getProductFormattedName() {
-        if (this.getProduct() != null)
+        if (this.getProduct() != null) {
             return String.format("%s - %.2f (%s)", this.getProduct().getName(), this.getDose(), this.getProduct().getUnit().getDescription());
-        
+        }
+
         return null;
+    }
+
+    public boolean isTargetMIP() {
+
+        if (this.getTarget().isInseticidaUseClass()) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isTargetMID() {
+        if (this.getTarget().isFungicidaUseClass()) {
+            return true;
+
+        } else {
+            return false;
+        }
     }
 }

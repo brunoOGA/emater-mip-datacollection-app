@@ -101,4 +101,8 @@ public class PulverisationOperationService {
     public Target readTargetById(Long targetId) throws EntityNotFoundException {
         return targetService.readById(targetId);
     }
+
+    public List<PulverisationOperation> readBySurvey(Survey aSurvey) {
+        return this.pulverisationOperationRepository.findBySurvey(aSurvey);
+    }
 }

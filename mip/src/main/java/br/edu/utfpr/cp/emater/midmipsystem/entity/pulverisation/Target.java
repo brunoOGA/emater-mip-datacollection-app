@@ -20,7 +20,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode (onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Target extends AuditingPersistenceEntity implements Serializable {
 
     @Id
@@ -47,6 +47,26 @@ public class Target extends AuditingPersistenceEntity implements Serializable {
         instance.setUseClass(useClass);
 
         return instance;
+    }
+
+    public boolean isInseticidaUseClass() {
+
+        if (this.useClass.equals(UseClass.INSETICIDA)) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isFungicidaUseClass() {
+
+        if (this.useClass.equals(UseClass.FUNGICIDA)) {
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
 }

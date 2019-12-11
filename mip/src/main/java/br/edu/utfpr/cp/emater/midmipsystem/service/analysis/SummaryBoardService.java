@@ -4,8 +4,10 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,6 +25,7 @@ public class SummaryBoardService {
     private final SurveyService surveyService;
     private final MIPSampleService mipSampleService;
     private final MIDRustSampleService midSampleService;
+    private final PulverisationOperationService pulverisationService;
 
     public List<SummaryBoardDTO> getSummaryBoardData(Region aLoggedUserRegion) {
 
@@ -58,6 +61,9 @@ public class SummaryBoardService {
                     .flatMap(currentSample -> currentSample.getSampleDateAsOptional().stream())
                     .mapToLong(Date::getTime)
                     .sorted().max().orElse(0));
+            
+            // To retrieve Pulvarisation samples for the specified survey
+            var pulverisationOperation = pulverisationService.readBySurvey(currentSurvey);
 
             // To extract data
             result.add(
@@ -69,13 +75,13 @@ public class SummaryBoardService {
                             .quantitySamplesMIP(samplesMIP.size())
                             .dateFirstSampleMIP(minDateSampleMIP)
                             .dateLastSampleMIP(maxDateSampleMIP)
-                            .quantityApplicationsMIP(0)
+                            .quantityApplicationsMIP(pulverisationOperation.stream().filter(currentPulverisation -> currentPulverisation.isTargetMIP() == true).collect(Collectors.toList()).size())
                             
                             .quantitySamplesMID(samplesMID.size())
                             .sporePresentMID(samplesMID.stream().map(MIDRustSample::isSporePresent).anyMatch(currentResult -> currentResult == true))
                             .dateFirstSampleMID(minDateSampleMID)
                             .dateLastSampleMID(maxDateSampleMID)
-                            .quantityApplicationsMID(0)
+                            .quantityApplicationsMID(pulverisationOperation.stream().filter(currentPulverisation -> currentPulverisation.isTargetMID() == true).collect(Collectors.toList()).size())
                             
                             .build()
             );

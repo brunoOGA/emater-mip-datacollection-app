@@ -130,4 +130,18 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
 
         return 0;
     }
+    
+    public boolean isTargetMIP() {
+        
+        return this.operationOccurrences.stream()
+                .map(currentOccurrence -> currentOccurrence.isTargetMIP())
+                .anyMatch(currentOccurrence -> currentOccurrence == true);
+    } 
+    
+    public boolean isTargetMID() {
+        
+        return this.operationOccurrences.stream()
+                .map(currrentOccurrence -> currrentOccurrence.isTargetMID())
+                .anyMatch(currentOccurrence -> currentOccurrence == true);
+    }
 }
