@@ -74,16 +74,20 @@
                                             </h:outputText>
                                         </p:column>         
 
-                                        <p:column headerText="No. Aplicações" filterBy="#{anEntry.quantityApplicationsMIP}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.quantityApplicationsMIP}" />
+                                        <p:column headerText="No. Aplicações (Inseticida Total)" filterBy="#{anEntry.quantityApplicationsInseticidaMIP}" filterMatchMode="contains" >
+                                            <h:outputText value="#{anEntry.quantityApplicationsInseticidaMIP}" />
                                         </p:column>         
 
+                                        <p:column headerText="No. Aplicações (Inseticida Biológico Apenas)" filterBy="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" filterMatchMode="contains" >
+                                            <h:outputText value="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" />
+                                        </p:column>         
+                                        
                                         <p:column headerText="No. Amostras MID" filterBy="#{anEntry.quantitySamplesMID}" filterMatchMode="contains" >
                                             <h:outputText value="#{anEntry.quantitySamplesMID}" />
                                         </p:column>         
 
                                         <p:column headerText="Presença Esporos" filterBy="#{anEntry.sporePresentMID}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.sporePresentMID}" />
+                                            <h:outputText value="#{anEntry.sporePresentMID  ? 'Sim' : 'Não' }" />
                                         </p:column>         
 
                                         <p:column headerText="Data da 1a. Amostra" filterBy="#{anEntry.dateFirstSampleMID}" filterMatchMode="contains" >
@@ -98,7 +102,7 @@
                                             </h:outputText>
                                         </p:column>         
 
-                                        <p:column headerText="No. Aplicações" filterBy="#{anEntry.quantityApplicationsMID}" filterMatchMode="contains" >
+                                        <p:column headerText="No. Aplicações (Fungicida)" filterBy="#{anEntry.quantityApplicationsMID}" filterMatchMode="contains" >
                                             <h:outputText value="#{anEntry.quantityApplicationsMID}" />
                                         </p:column>      
 

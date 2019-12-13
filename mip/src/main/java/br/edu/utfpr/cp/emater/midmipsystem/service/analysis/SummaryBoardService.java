@@ -75,7 +75,8 @@ public class SummaryBoardService {
                             .quantitySamplesMIP(samplesMIP.size())
                             .dateFirstSampleMIP(minDateSampleMIP)
                             .dateLastSampleMIP(maxDateSampleMIP)
-                            .quantityApplicationsMIP(pulverisationOperation.stream().filter(currentPulverisation -> currentPulverisation.isTargetMIP() == true).collect(Collectors.toList()).size())
+                            .quantityApplicationsInseticidaMIP(pulverisationOperation.stream().filter(currentPulverisation -> currentPulverisation.isTargetMIP() == true).collect(Collectors.toList()).size())
+                            .quantityApplicationsInseticidaBiologicoMIP(pulverisationOperation.stream().filter(currentPulverisation -> currentPulverisation.isInseticidaBiologico() == true).collect(Collectors.toList()).size())
                             
                             .quantitySamplesMID(samplesMID.size())
                             .sporePresentMID(samplesMID.stream().map(MIDRustSample::isSporePresent).anyMatch(currentResult -> currentResult == true))

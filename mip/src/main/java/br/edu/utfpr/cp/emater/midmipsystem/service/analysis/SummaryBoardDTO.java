@@ -16,7 +16,8 @@ public class SummaryBoardDTO {
     private final int quantitySamplesMIP;
     private final Date dateFirstSampleMIP;
     private final Date dateLastSampleMIP;
-    private final int quantityApplicationsMIP;
+    private final int quantityApplicationsInseticidaMIP;
+    private final int quantityApplicationsInseticidaBiologicoMIP;
     private final int quantitySamplesMID;
     private final boolean sporePresentMID;
     private final Date dateFirstSampleMID;

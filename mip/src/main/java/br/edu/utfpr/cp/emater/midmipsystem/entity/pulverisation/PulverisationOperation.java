@@ -138,6 +138,12 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
                 .anyMatch(currentOccurrence -> currentOccurrence == true);
     } 
     
+    public boolean isInseticidaBiologico() {
+        return this.operationOccurrences.stream()
+                .map(currentOccurrence -> currentOccurrence.isInseticidaBiologico())
+                .anyMatch(currentOccurrence -> currentOccurrence == true);
+    }
+    
     public boolean isTargetMID() {
         
         return this.operationOccurrences.stream()

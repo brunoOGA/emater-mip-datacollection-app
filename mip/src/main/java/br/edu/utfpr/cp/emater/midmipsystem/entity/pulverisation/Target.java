@@ -59,6 +59,16 @@ public class Target extends AuditingPersistenceEntity implements Serializable {
         }
     }
 
+    public boolean isInseticidaBiologicoUseClass() {
+
+        if (this.useClass.equals(UseClass.INCETICIDA_BIOLOGICO)) {
+            return true;
+            
+        } else {
+            return false;
+        }
+    }
+
     public boolean isFungicidaUseClass() {
 
         if (this.useClass.equals(UseClass.FUNGICIDA)) {

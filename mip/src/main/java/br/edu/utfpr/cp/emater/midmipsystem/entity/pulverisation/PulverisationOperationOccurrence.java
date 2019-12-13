@@ -88,6 +88,18 @@ public class PulverisationOperationOccurrence implements Serializable {
         if (this.getTarget().isInseticidaUseClass()) {
             return true;
 
+        } else if (this.getTarget().isInseticidaBiologicoUseClass()) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isInseticidaBiologico() {
+        if (this.getTarget().isInseticidaBiologicoUseClass()) {
+            return true;
+            
         } else {
             return false;
         }
