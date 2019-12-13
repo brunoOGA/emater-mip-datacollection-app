@@ -3,17 +3,13 @@ package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,28 +35,36 @@ public class SummaryBoardService {
             // To retrieve MIPSamples for the specified survey
             var samplesMIP = mipSampleService.readBySurvey(currentSurvey);
 
-            var minDateSampleMIP = new Date(samplesMIP.stream()
+            var minDateSampleMIPValue = samplesMIP.stream()
                     .flatMap(currentSample -> currentSample.getSampleDateAsOptional().stream())
                     .mapToLong(Date::getTime)
-                    .sorted().min().orElse(0));
+                    .sorted().min().orElse(0);
+            
+            var minDateSampleMIP = minDateSampleMIPValue == 0 ? null : new Date(minDateSampleMIPValue);
 
-            var maxDateSampleMIP = new Date(samplesMIP.stream()
+            var maxDateSampleMIPValue = samplesMIP.stream()
                     .flatMap(currentSample -> currentSample.getSampleDateAsOptional().stream())
                     .mapToLong(Date::getTime)
-                    .sorted().max().orElse(0));
+                    .sorted().max().orElse(0);
+            
+            var maxDateSampleMIP = maxDateSampleMIPValue == 0 ? null : new Date(maxDateSampleMIPValue);
 
             // To retrieve MIDSamples for the specified survey
             var samplesMID = midSampleService.readBySurvey(currentSurvey);
 
-            var minDateSampleMID = new Date(samplesMID.stream()
+            var minDateSampleMIDValue = samplesMID.stream()
                     .flatMap(currentSample -> currentSample.getSampleDateAsOptional().stream())
                     .mapToLong(Date::getTime)
-                    .sorted().min().orElse(0));
+                    .sorted().min().orElse(0);
+            
+            var minDateSampleMID = minDateSampleMIDValue == 0 ? null :  new Date(minDateSampleMIDValue);
 
-            var maxDateSampleMID = new Date(samplesMID.stream()
+            var maxDateSampleMIDValue = samplesMID.stream()
                     .flatMap(currentSample -> currentSample.getSampleDateAsOptional().stream())
                     .mapToLong(Date::getTime)
-                    .sorted().max().orElse(0));
+                    .sorted().max().orElse(0);
+            
+            var maxDateSampleMID = maxDateSampleMIDValue == 0 ? null : new Date(maxDateSampleMIDValue);
             
             // To retrieve Pulvarisation samples for the specified survey
             var pulverisationOperation = pulverisationService.readBySurvey(currentSurvey);
