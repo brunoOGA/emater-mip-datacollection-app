@@ -127,9 +127,9 @@
                                         <p:column>
                                             <h:outputText value="#{anEntry.quantityApplicationsMID}" />
                                         </p:column>
-                                        
+
                                         <f:facet name="footer">
-                                            #{fn:length(dashboardController.summaryBoardData)} Ocorrências foram encontradas.
+                                            #{fn:length(dashboardController.summaryBoardData)} URs com coletas MIP/MID foram encontradas.
                                         </f:facet>
 
                                     </p:dataTable>   
@@ -141,6 +141,96 @@
 
                     </div>
 
+                    <div class="box-footer" style="display: block;">
+                        <div class="row">
+
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.quantitySamplesMIP}</h5>
+                                    <span class="description-text">N. Amostras MIP</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>-->
+                                    <h5 class="description-header">0/0/0</h5>
+                                    <span class="description-text">1. Amostra MIP</span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>-->
+                                    <h5 class="description-header">0/0/0</h5>
+                                    <span class="description-text">Última Amostra MIP</span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block">
+                                    <!--<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.quantityApplicationsInseticidaMIP}</h5>
+                                    <span class="description-text">N. Aplicações MIP</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="box-footer" style="display: block;">
+                        <div class="row">
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.quantitySamplesMID}</h5>
+                                    <span class="description-text">N. Amostras MID</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block">
+                                    <!--<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.sporePresentMID ? 'Sim' : 'Não'}</h5>
+                                    <span class="description-text">Presença de Esporos na Região</span>
+                                </div>
+                            </div>
+                                                        
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>-->
+                                    <h5 class="description-header">0/0/0</h5>
+                                    <span class="description-text">1. Amostra MID</span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>-->
+                                    <h5 class="description-header">0/0/0</h5>
+                                    <span class="description-text">Última Amostra MID</span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block">
+                                    <!--<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.quantityApplicationsMID}</h5>
+                                    <span class="description-text">N. Aplicações MID</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
                 </div>
 
             </div>

@@ -95,13 +95,27 @@ public class DashboardController implements Serializable {
     @Setter
     private String currentRegionName;
     
+    @Getter
+    @Setter
+    private SummaryBoardDTO summaryBoardRegion;
+    
     @PostConstruct
     public void init() {
         
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         
-        this.setSummaryBoardData(summaryBoardService.getSummaryBoardData(loggedUser.getRegion()));
+        var summaryBoard = summaryBoardService.getSummaryBoardData(loggedUser.getRegion());
+        
+        this.setSummaryBoardData(summaryBoard);
         this.setCurrentRegionName(loggedUser.getRegionName());
+        this.setSummaryBoardRegion(SummaryBoardDTO.builder()
+                                            .quantitySamplesMIP(summaryBoard.stream().mapToInt(SummaryBoardDTO::getQuantitySamplesMIP).sum())
+                                            .quantityApplicationsInseticidaMIP(summaryBoard.stream().mapToInt(SummaryBoardDTO::getQuantityApplicationsInseticidaMIP).sum())
+                                            .quantitySamplesMID(summaryBoard.stream().mapToInt(SummaryBoardDTO::getQuantitySamplesMID).sum())
+                                            .quantityApplicationsMID(summaryBoard.stream().mapToInt(SummaryBoardDTO::getQuantityApplicationsMID).sum())
+                                            .sporePresentMID(summaryBoard.stream().anyMatch(currentItem -> currentItem.isSporePresentMID() == true))
+                                            .build());
+        
 
         if (loggedUser.getAuthorities().stream().mapToLong(Authority::getId).anyMatch(id -> id == 1)) {
             this.setTitle("Dados Estaduais");
