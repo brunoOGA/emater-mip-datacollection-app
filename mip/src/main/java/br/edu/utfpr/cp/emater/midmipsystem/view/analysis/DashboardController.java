@@ -16,14 +16,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.SummaryBoardService;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.primefaces.model.charts.line.LineChartModel;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -94,12 +91,17 @@ public class DashboardController implements Serializable {
     @Setter
     private List<SummaryBoardDTO> summaryBoardData;
     
+    @Getter
+    @Setter
+    private String currentRegionName;
+    
     @PostConstruct
     public void init() {
         
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         
         this.setSummaryBoardData(summaryBoardService.getSummaryBoardData(loggedUser.getRegion()));
+        this.setCurrentRegionName(loggedUser.getRegionName());
 
         if (loggedUser.getAuthorities().stream().mapToLong(Authority::getId).anyMatch(id -> id == 1)) {
             this.setTitle("Dados Estaduais");

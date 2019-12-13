@@ -22,7 +22,7 @@
             <div class="col-md-12">
                 <div class="box box-solid box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Quadro Resumo</h3>
+                        <h3 class="box-title">Quadro Resumo - Região #{dashboardController.currentRegionName} </h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -43,69 +43,91 @@
                                 <div>
                                     <p:dataTable paginatorPosition="bottom" id="summaryBoard" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" var="anEntry" value="#{dashboardController.summaryBoardData}" >
 
-                                        <p:column headerText="Nome" filterBy="#{anEntry.name}" filterMatchMode="contains" >
+                                        <p:columnGroup type="header">
+                                            <p:row>
+                                                <p:column colspan="3" headerText="Unidades de Referência" />
+                                                <p:column colspan="5" headerText="Amostras MIP" />
+                                                <p:column colspan="5" headerText="Amostras MID" />
+                                            </p:row>
+                                            <p:row>
+                                                <p:column headerText="UR" sortBy="#{anEntry.name}" filterBy="#{anEntry.name}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="Município" sortBy="#{anEntry.cityName}" filterBy="#{anEntry.cityName}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="Emergência" sortBy="#{anEntry.emergenceDate}" filterBy="#{anEntry.emergenceDate}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="No. Amostras" sortBy="#{anEntry.quantitySamplesMIP}" filterBy="#{anEntry.quantitySamplesMIP}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="1a. Amostra" sortBy="#{anEntry.dateFirstSampleMIP}" filterBy="#{anEntry.dateFirstSampleMIP}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="Última. Amostra" sortBy="#{anEntry.dateLastSampleMIP}" filterBy="#{anEntry.dateLastSampleMIP}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="No. Aplicações (Total)" sortBy="#{anEntry.quantityApplicationsInseticidaMIP}" filterBy="#{anEntry.quantityApplicationsInseticidaMIP}" filterMatchMode="contains" ></p:column>                                                
+                                                <p:column headerText="No. Aplicações (Biológico Apenas)" sortBy="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" filterBy="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" filterMatchMode="contains" ></p:column>                                                
+                                                <p:column headerText="No. Amostras" sortBy="#{anEntry.quantitySamplesMID}" filterBy="#{anEntry.quantitySamplesMID}" filterMatchMode="contains" ></p:column>                                                
+                                                <p:column headerText="Presença Esporos" sortBy="#{anEntry.sporePresentMID}" filterBy="#{anEntry.sporePresentMID}" filterMatchMode="contains" ></p:column>                                                
+                                                <p:column headerText="1a. Amostra" sortBy="#{anEntry.dateFirstSampleMID}" filterBy="#{anEntry.dateFirstSampleMID}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="Última. Amostra" sortBy="#{anEntry.dateLastSampleMID}" filterBy="#{anEntry.dateLastSampleMID}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="No. Aplicações (Fungicida)" sortBy="#{anEntry.quantityApplicationsMID}" filterBy="#{anEntry.quantityApplicationsMID}" filterMatchMode="contains" ></p:column>
+                                            </p:row>
+                                        </p:columnGroup>
+
+                                        <p:column>
                                             <h:outputText value="#{anEntry.name}" />
-                                        </p:column>         
+                                        </p:column>
 
-                                        <p:column headerText="Município" filterBy="#{anEntry.cityName}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.cityName}" />
-                                        </p:column>         
+                                        </p:column>
 
-
-                                        <p:column headerText="Data da Emergência" filterBy="#{anEntry.emergenceDate}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.emergenceDate}" >
                                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                                            </h:outputText>
-                                        </p:column>         
+                                            </h:outputText>                                            
+                                        </p:column>
 
-                                        <p:column headerText="No. Amostras MIP" filterBy="#{anEntry.quantitySamplesMIP}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.quantitySamplesMIP}" />
-                                        </p:column>         
+                                        </p:column>
 
-                                        <p:column headerText="Data da 1a. Amostra" filterBy="#{anEntry.dateFirstSampleMIP}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.dateFirstSampleMIP}" >
                                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                                             </h:outputText>                                                
-                                        </p:column>         
+                                        </p:column>
 
-                                        <p:column headerText="Data da última. Amostra" filterBy="#{anEntry.dateLastSampleMIP}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.dateLastSampleMIP}" >
                                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                                            </h:outputText>
-                                        </p:column>         
+                                            </h:outputText>                                            
+                                        </p:column>
 
-                                        <p:column headerText="No. Aplicações (Inseticida Total)" filterBy="#{anEntry.quantityApplicationsInseticidaMIP}" filterMatchMode="contains" >
-                                            <h:outputText value="#{anEntry.quantityApplicationsInseticidaMIP}" />
-                                        </p:column>         
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.quantityApplicationsInseticidaMIP}" /> 
+                                        </p:column>
 
-                                        <p:column headerText="No. Aplicações (Inseticida Biológico Apenas)" filterBy="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" />
-                                        </p:column>         
-                                        
-                                        <p:column headerText="No. Amostras MID" filterBy="#{anEntry.quantitySamplesMID}" filterMatchMode="contains" >
+                                        </p:column>
+
+                                        <p:column>
                                             <h:outputText value="#{anEntry.quantitySamplesMID}" />
-                                        </p:column>         
+                                        </p:column>
 
-                                        <p:column headerText="Presença Esporos" filterBy="#{anEntry.sporePresentMID}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.sporePresentMID  ? 'Sim' : 'Não' }" />
-                                        </p:column>         
+                                        </p:column>
 
-                                        <p:column headerText="Data da 1a. Amostra" filterBy="#{anEntry.dateFirstSampleMID}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.dateFirstSampleMID}" >
                                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                                            </h:outputText>
-                                        </p:column>         
+                                            </h:outputText>                                            
+                                        </p:column>
 
-                                        <p:column headerText="Data da última. Amostra" filterBy="#{anEntry.dateLastSampleMID}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.dateLastSampleMID}" >
                                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                                             </h:outputText>
-                                        </p:column>         
+                                        </p:column>
 
-                                        <p:column headerText="No. Aplicações (Fungicida)" filterBy="#{anEntry.quantityApplicationsMID}" filterMatchMode="contains" >
+                                        <p:column>
                                             <h:outputText value="#{anEntry.quantityApplicationsMID}" />
-                                        </p:column>      
-
+                                        </p:column>
+                                        
                                         <f:facet name="footer">
                                             #{fn:length(dashboardController.summaryBoardData)} Ocorrências foram encontradas.
                                         </f:facet>
