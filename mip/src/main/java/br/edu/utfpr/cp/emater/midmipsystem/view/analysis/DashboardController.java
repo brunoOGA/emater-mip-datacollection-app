@@ -109,45 +109,7 @@ public class DashboardController implements Serializable {
         
         this.setSummaryBoardData(summaryBoard);
         this.setCurrentRegionName(loggedUser.getRegionName());
-        
-        var minMIPLong = summaryBoard.stream()
-                    .filter(currentItem -> currentItem.getDateFirstSampleMIP() != null)
-                    .mapToLong(currentItem -> currentItem.getDateFirstSampleMIP().getTime())
-                    .min();
-        
-        var maxMIPLong = summaryBoard.stream()
-                    .filter(currentItem -> currentItem.getDateLastSampleMIP() != null)
-                    .mapToLong(currentItem -> currentItem.getDateLastSampleMIP().getTime())
-                    .max();
-        
-        var minMIDLong = summaryBoard.stream()
-                    .filter(currentItem -> currentItem.getDateFirstSampleMID() != null)
-                    .mapToLong(currentItem -> currentItem.getDateFirstSampleMID().getTime())
-                    .min();
-        
-        var maxMIDLong = summaryBoard.stream()
-                    .filter(currentItem -> currentItem.getDateLastSampleMID() != null)
-                    .mapToLong(currentItem -> currentItem.getDateLastSampleMID().getTime())
-                    .max();
-        
-        var minMIPDate = minMIPLong.isPresent() ? new Date(minMIPLong.getAsLong()) : null;
-        var maxMIPDate = maxMIPLong.isPresent() ? new Date(maxMIPLong.getAsLong()) : null;
-        var minMIDDate = minMIDLong.isPresent() ? new Date(minMIDLong.getAsLong()) : null;
-        var maxMIDDate = maxMIDLong.isPresent() ? new Date(maxMIDLong.getAsLong()) : null;
-        
-        this.setSummaryBoardRegion(SummaryBoardDTO.builder()
-                                            .quantitySamplesMIP(summaryBoard.stream().mapToInt(SummaryBoardDTO::getQuantitySamplesMIP).sum())
-                                            .quantityApplicationsInseticidaMIP(summaryBoard.stream().mapToInt(SummaryBoardDTO::getQuantityApplicationsInseticidaMIP).sum())
-                                            .dateFirstSampleMIP(minMIPDate)
-                                            .dateLastSampleMIP(maxMIPDate)
-                
-                                            .quantitySamplesMID(summaryBoard.stream().mapToInt(SummaryBoardDTO::getQuantitySamplesMID).sum())
-                                            .quantityApplicationsMID(summaryBoard.stream().mapToInt(SummaryBoardDTO::getQuantityApplicationsMID).sum())
-                                            .sporePresentMID(summaryBoard.stream().anyMatch(currentItem -> currentItem.isSporePresentMID() == true))
-                                            .dateFirstSampleMID(minMIDDate)
-                                            .dateLastSampleMID(maxMIDDate)
-                
-                                            .build());
+        this.setSummaryBoardRegion(summaryBoardService.getSummaryBoardRegionSummary(summaryBoard));
         
 
         if (loggedUser.getAuthorities().stream().mapToLong(Authority::getId).anyMatch(id -> id == 1)) {
