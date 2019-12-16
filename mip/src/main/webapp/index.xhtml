@@ -155,7 +155,11 @@
                             <div class="col-sm-3 col-xs-6">
                                 <div class="description-block border-right">
                                     <!--<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>-->
-                                    <h5 class="description-header">0/0/0</h5>
+                                    <h5 class="description-header">
+                                        <h:outputText value="#{dashboardController.summaryBoardRegion.dateFirstSampleMIP}" >
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>                  
+                                    </h5>
                                     <span class="description-text">1. Amostra MIP</span>
                                 </div>
 
@@ -164,7 +168,12 @@
                             <div class="col-sm-3 col-xs-6">
                                 <div class="description-block border-right">
                                     <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>-->
-                                    <h5 class="description-header">0/0/0</h5>
+                                    <h5 class="description-header">
+                                        <h:outputText value="#{dashboardController.summaryBoardRegion.dateLastSampleMIP}" >
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>                  
+                                    </h5>
+
                                     <span class="description-text">Última Amostra MIP</span>
                                 </div>
 
@@ -181,7 +190,7 @@
                         </div>
 
                     </div>
-                    
+
                     <div class="box-footer" style="display: block;">
                         <div class="row">
 
@@ -200,11 +209,16 @@
                                     <span class="description-text">Presença de Esporos na Região</span>
                                 </div>
                             </div>
-                                                        
+
                             <div class="col-sm-2 col-xs-4">
                                 <div class="description-block border-right">
                                     <!--<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>-->
-                                    <h5 class="description-header">0/0/0</h5>
+                                    <h5 class="description-header">
+                                        <h:outputText value="#{dashboardController.summaryBoardRegion.dateFirstSampleMID}" >
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>                  
+                                    </h5>
+
                                     <span class="description-text">1. Amostra MID</span>
                                 </div>
 
@@ -213,7 +227,12 @@
                             <div class="col-sm-2 col-xs-4">
                                 <div class="description-block border-right">
                                     <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>-->
-                                    <h5 class="description-header">0/0/0</h5>
+                                    <h5 class="description-header">
+                                        <h:outputText value="#{dashboardController.summaryBoardRegion.dateLastSampleMID}" >
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>                  
+                                    </h5>
+
                                     <span class="description-text">Última Amostra MID</span>
                                 </div>
 
@@ -230,7 +249,7 @@
                         </div>
 
                     </div>
-                    
+
                 </div>
 
             </div>
