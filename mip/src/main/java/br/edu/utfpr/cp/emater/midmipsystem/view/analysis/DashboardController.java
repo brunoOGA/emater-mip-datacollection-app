@@ -8,6 +8,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.Authority;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.AnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleBedBugPestAnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.MIPSampleCaterpillarPestAnalysisService;
@@ -17,7 +18,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.SummaryBoardDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.SummaryBoardService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.MIPNaturalPredatorChartGeneratorService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.MIPPestChartGeneratorService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -38,10 +38,10 @@ public class DashboardController implements Serializable {
     private final MIPSampleBedBugPestAnalysisService bedBugService;
     private final MIPSampleDefoliationAnalysisService defoliationService;
     private final MIPSamplePredatorAnalysisService predatorService;
+    
     private final SummaryBoardService summaryBoardService;
-    
-    private final MIPSampleService mipSampleService;
-    
+    private final AnalysisService analysisService;
+        
     @Getter
     @Setter
     private Long selectedMacroRegionId;
@@ -105,63 +105,10 @@ public class DashboardController implements Serializable {
     @Getter
     @Setter
     private SummaryBoardDTO summaryBoardRegion;
-    
-    @Getter
-    @Setter
-    private List<Pest> caterpillarTargetList;
-    
-    @Getter
-    @Setter
-    private List<Pest> bedBugTargetList;
-    
-    @Getter
-    @Setter
-    private List<PestNaturalPredator> predatorTargetList;
-    
-    private void setTargetLists() {
-        
-        this.setCaterpillarTargetList(List.of(
-                this.mipSampleService.readPestById(1L).get(),
-                this.mipSampleService.readPestById(2L).get(),
-                this.mipSampleService.readPestById(3L).get(),
-                this.mipSampleService.readPestById(4L).get(),
-                this.mipSampleService.readPestById(5L).get(),
-                this.mipSampleService.readPestById(6L).get(),
-                this.mipSampleService.readPestById(7L).get(),
-                this.mipSampleService.readPestById(8L).get()));
-        
-        this.setBedBugTargetList(List.of(
-                this.mipSampleService.readPestById(9L).get(),
-                this.mipSampleService.readPestById(10L).get(),
-                this.mipSampleService.readPestById(11L).get(),
-                this.mipSampleService.readPestById(12L).get(),
-                this.mipSampleService.readPestById(13L).get(),
-                this.mipSampleService.readPestById(14L).get(),
-                this.mipSampleService.readPestById(15L).get(),
-                this.mipSampleService.readPestById(16L).get(),
-                this.mipSampleService.readPestById(17L).get(),
-                this.mipSampleService.readPestById(18L).get()));
-        
-        this.setPredatorTargetList(List.of(
-                this.mipSampleService.readPredatorById(1L).get(),
-                this.mipSampleService.readPredatorById(2L).get(),
-                this.mipSampleService.readPredatorById(3L).get(),
-                this.mipSampleService.readPredatorById(4L).get(),
-                this.mipSampleService.readPredatorById(5L).get(),
-                this.mipSampleService.readPredatorById(6L).get(),
-                this.mipSampleService.readPredatorById(7L).get(),
-                this.mipSampleService.readPredatorById(8L).get(),
-                this.mipSampleService.readPredatorById(9L).get(),
-                this.mipSampleService.readPredatorById(10L).get(),
-                this.mipSampleService.readPredatorById(11L).get(),
-                this.mipSampleService.readPredatorById(12L).get()));
-    }
-    
+   
     @PostConstruct
     public void init() {
-        
-        this.setTargetLists();
-        
+      
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         
         var summaryBoard = summaryBoardService.getSummaryBoardData(loggedUser.getRegion());
@@ -183,13 +130,9 @@ public class DashboardController implements Serializable {
             
             this.setTitle(String.format("Dados das Propriedades Gerenciadas por %s", loggedUser.getFullName()));
             
-            var caterpillarChartData = new MIPPestChartGeneratorService().of(MIPSampleData, this.getCaterpillarTargetList());
-            var bedBugChartData = new MIPPestChartGeneratorService().of(MIPSampleData, this.getBedBugTargetList());
-            var predatorChartData = new MIPNaturalPredatorChartGeneratorService().of(MIPSampleData, this.getPredatorTargetList());
-            
-            this.setCaterpillarFluctuationChart(caterpillarChartData);
-            this.setBedBugFluctuationChart(bedBugChartData);
-            this.setPredatorChart(predatorChartData);
+            this.setCaterpillarFluctuationChart(this.analysisService.getCaterpillarChart(MIPSampleData));
+            this.setBedBugFluctuationChart(this.analysisService.getBedBugChart(MIPSampleData));
+            this.setPredatorChart(this.analysisService.getNaturalPredatorChart(MIPSampleData));
             
 //            this.setCaterpillarFluctuationChart(caterpillarService.getChart(MIPSampleData));
 //            this.setBedBugFluctuationChart(bedBugService.getChart(MIPSampleData));
