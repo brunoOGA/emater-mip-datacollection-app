@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUserPrincipal;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.CropData;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.*;
@@ -30,7 +31,7 @@ public class SurveyService {
     private final HarvestService harvestService;
     private final FieldService fieldService;
     private final CultivarService cultivarService;
-    
+
     public List<Survey> readAll() {
         return List.copyOf(surveyRepository.findAll());
     }
@@ -82,10 +83,12 @@ public class SurveyService {
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         var createdByName = existentSurvey.getCreatedBy() != null ? existentSurvey.getCreatedBy().getUsername() : "none";
 
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+            }
         }
-        
+
         try {
             surveyRepository.delete(existentSurvey);
 
@@ -190,5 +193,9 @@ public class SurveyService {
 
     public List<String> searchCultivar(String excerpt) {
         return cultivarService.readByExcerptName(excerpt);
+    }
+
+    public List<Survey> readByRegion(Region aRegion) {
+        return surveyRepository.findByRegionId(aRegion.getId());
     }
 }

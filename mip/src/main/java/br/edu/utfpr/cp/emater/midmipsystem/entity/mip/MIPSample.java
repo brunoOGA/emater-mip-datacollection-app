@@ -1,6 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -247,6 +247,10 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
     public Optional<City> getCity() {
 
         return Optional.ofNullable(this.getSurvey().getField().getCity());
+    }
+    
+    public Optional<Date> getSampleDateAsOptional() {
+        return Optional.ofNullable(this.sampleDate);
     }
 
 }

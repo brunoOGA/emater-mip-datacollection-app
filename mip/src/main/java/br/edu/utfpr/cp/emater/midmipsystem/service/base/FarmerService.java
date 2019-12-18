@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class FarmerService implements ICRUDService<Farmer> {
 
     private final FarmerRepository farmerRepository;
-    
+
     private final FieldRepository fieldRepository;
 
     @Override
@@ -52,12 +52,13 @@ public class FarmerService implements ICRUDService<Farmer> {
 
         var existentFarmer = farmerRepository.findById(aFarmer.getId()).orElseThrow(EntityNotFoundException::new);
 
-        if (farmerRepository.findAll().stream().anyMatch(currentFarmer -> currentFarmer.equals(aFarmer)))
+        if (farmerRepository.findAll().stream().anyMatch(currentFarmer -> currentFarmer.equals(aFarmer))) {
             throw new EntityAlreadyExistsException();
-                
+        }
+
         try {
             existentFarmer.setName(aFarmer.getName());
-            
+
             farmerRepository.saveAndFlush(existentFarmer);
 
         } catch (Exception e) {
@@ -66,21 +67,24 @@ public class FarmerService implements ICRUDService<Farmer> {
     }
 
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
-        
+
         var existentFarmer = farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-        
-        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
-        
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-                
+
+        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+            }
+        }
+
         try {
             farmerRepository.delete(existentFarmer);
-            
+
         } catch (DataIntegrityViolationException cve) {
             throw new EntityInUseException();
-            
+
         } catch (Exception e) {
             throw new AnyPersistenceException();
         }

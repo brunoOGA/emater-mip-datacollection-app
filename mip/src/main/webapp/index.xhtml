@@ -4,7 +4,9 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/template.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:hf="http://highfaces.org">
+                xmlns:hf="http://highfaces.org"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="title">
         Painel de Controle
@@ -16,9 +18,247 @@
 
         <p:spacer height="15px"/>
 
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="box box-solid box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Quadro Resumo - Região #{dashboardController.currentRegionName} </h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" style="display: block;">
+                        <div class="row">
+
+                            <div class="col-md-12" >
+                                <p class="text-center">
+                                    <strong></strong>
+                                </p>
+
+                                <div>
+                                    <p:dataTable paginatorPosition="bottom" id="summaryBoard" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" var="anEntry" value="#{dashboardController.summaryBoardData}" >
+
+                                        <p:columnGroup type="header">
+                                            <p:row>
+                                                <p:column colspan="3" headerText="Unidades de Referência" />
+                                                <p:column colspan="5" headerText="Amostras MIP" />
+                                                <p:column colspan="5" headerText="Amostras MID" />
+                                            </p:row>
+                                            <p:row>
+                                                <p:column headerText="UR" sortBy="#{anEntry.name}" filterBy="#{anEntry.name}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="Município" sortBy="#{anEntry.cityName}" filterBy="#{anEntry.cityName}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="Emergência" sortBy="#{anEntry.emergenceDate}" filterBy="#{anEntry.emergenceDate}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="No. Amostras" sortBy="#{anEntry.quantitySamplesMIP}" filterBy="#{anEntry.quantitySamplesMIP}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="1a. Amostra" sortBy="#{anEntry.dateFirstSampleMIP}" filterBy="#{anEntry.dateFirstSampleMIP}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="Última. Amostra" sortBy="#{anEntry.dateLastSampleMIP}" filterBy="#{anEntry.dateLastSampleMIP}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="No. Aplicações (Total)" sortBy="#{anEntry.quantityApplicationsInseticidaMIP}" filterBy="#{anEntry.quantityApplicationsInseticidaMIP}" filterMatchMode="contains" ></p:column>                                                
+                                                <p:column headerText="No. Aplicações (Biológico Apenas)" sortBy="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" filterBy="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" filterMatchMode="contains" ></p:column>                                                
+                                                <p:column headerText="No. Amostras" sortBy="#{anEntry.quantitySamplesMID}" filterBy="#{anEntry.quantitySamplesMID}" filterMatchMode="contains" ></p:column>                                                
+                                                <p:column headerText="Presença Esporos" sortBy="#{anEntry.sporePresentMID}" filterBy="#{anEntry.sporePresentMID}" filterMatchMode="contains" ></p:column>                                                
+                                                <p:column headerText="1a. Amostra" sortBy="#{anEntry.dateFirstSampleMID}" filterBy="#{anEntry.dateFirstSampleMID}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="Última. Amostra" sortBy="#{anEntry.dateLastSampleMID}" filterBy="#{anEntry.dateLastSampleMID}" filterMatchMode="contains" ></p:column>
+                                                <p:column headerText="No. Aplicações (Fungicida)" sortBy="#{anEntry.quantityApplicationsMID}" filterBy="#{anEntry.quantityApplicationsMID}" filterMatchMode="contains" ></p:column>
+                                            </p:row>
+                                        </p:columnGroup>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.name}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.cityName}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.emergenceDate}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>                                            
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.quantitySamplesMIP}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.dateFirstSampleMIP}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>                                                
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.dateLastSampleMIP}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>                                            
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.quantityApplicationsInseticidaMIP}" /> 
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.quantityApplicationsInseticidaBiologicoMIP}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.quantitySamplesMID}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.sporePresentMID  ? 'Sim' : 'Não' }" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.dateFirstSampleMID}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>                                            
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.dateLastSampleMID}" >
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="#{anEntry.quantityApplicationsMID}" />
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            #{fn:length(dashboardController.summaryBoardData)} URs com coletas MIP/MID foram encontradas.
+                                        </f:facet>
+
+                                    </p:dataTable>   
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="box-footer" style="display: block;">
+                        <div class="row">
+
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.quantitySamplesMIP}</h5>
+                                    <span class="description-text">N. Amostras MIP</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>-->
+                                    <h5 class="description-header">
+                                        <h:outputText value="#{dashboardController.summaryBoardRegion.dateFirstSampleMIP}" >
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>                  
+                                    </h5>
+                                    <span class="description-text">1. Amostra MIP</span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>-->
+                                    <h5 class="description-header">
+                                        <h:outputText value="#{dashboardController.summaryBoardRegion.dateLastSampleMIP}" >
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>                  
+                                    </h5>
+
+                                    <span class="description-text">Última Amostra MIP</span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block">
+                                    <!--<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.quantityApplicationsInseticidaMIP}</h5>
+                                    <span class="description-text">N. Aplicações MIP</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="box-footer" style="display: block;">
+                        <div class="row">
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.quantitySamplesMID}</h5>
+                                    <span class="description-text">N. Amostras MID</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block">
+                                    <!--<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.sporePresentMID ? 'Sim' : 'Não'}</h5>
+                                    <span class="description-text">Presença de Esporos na Região</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>-->
+                                    <h5 class="description-header">
+                                        <h:outputText value="#{dashboardController.summaryBoardRegion.dateFirstSampleMID}" >
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>                  
+                                    </h5>
+
+                                    <span class="description-text">1. Amostra MID</span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block border-right">
+                                    <!--<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>-->
+                                    <h5 class="description-header">
+                                        <h:outputText value="#{dashboardController.summaryBoardRegion.dateLastSampleMID}" >
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>                  
+                                    </h5>
+
+                                    <span class="description-text">Última Amostra MID</span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2 col-xs-4">
+                                <div class="description-block">
+                                    <!--<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>-->
+                                    <h5 class="description-header">#{dashboardController.summaryBoardRegion.quantityApplicationsMID}</h5>
+                                    <span class="description-text">N. Aplicações MID</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
         <div class="row">
             <div class="col-md-12">
-                <div class="box">
+                <div class="box box-solid box-default">
                     <div class="box-header with-border">
                         <h3 class="box-title">Selecione a opção para visualizar os gráficos</h3>
                     </div>
@@ -86,7 +326,7 @@
 
         <div class="row" >
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box box-solid box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Evolução da Flutuação de Lagartas</h3>
 
@@ -124,7 +364,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-success">
+                <div class="box box-solid box-success">
                     <div class="box-header with-border">
                         <h3 class="box-title">Evolução da Flutuação de Percevejos</h3>
 
@@ -163,7 +403,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-danger">
+                <div class="box box-solid box-danger">
                     <div class="box-header with-border">
                         <h3 class="box-title">Evolução da Flutuação de Inimigos Naturais</h3>
 
@@ -203,7 +443,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-warning">
+                <div class="box box-solid box-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title">Evolução da Desfolha</h3>
 
