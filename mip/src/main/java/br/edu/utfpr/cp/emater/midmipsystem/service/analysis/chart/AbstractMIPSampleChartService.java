@@ -1,13 +1,12 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class AbstractMIPChartGeneratorService<T> {
+public abstract class AbstractMIPSampleChartService<T> {
 
     public Map<String, List<DAEAndOccurrenceDTO>> of(List<MIPSample> aSampleList, List<T> aTargetList) {
 

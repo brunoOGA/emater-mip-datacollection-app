@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
 
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
@@ -9,8 +10,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.MIPNaturalPredatorChartGeneratorService;
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.MIPPestChartGeneratorService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DefoliationChartService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.NaturalPredatorMIPSampleChartService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.PestMIPSampleChartService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.List;
 import java.util.Map;
@@ -29,18 +31,21 @@ public class AnalysisService {
     private final MIPSampleService mipSampleService;
     
     public Map<String, List<DAEAndOccurrenceDTO>> getCaterpillarChart(List<MIPSample> aSampleList) {
-        return new MIPPestChartGeneratorService().of(aSampleList, this.getCaterpillarTargetList());
+        return new PestMIPSampleChartService().of(aSampleList, this.getCaterpillarTargetList());
     }
     
     public Map<String, List<DAEAndOccurrenceDTO>> getBedBugChart(List<MIPSample> aSampleList) {
-        return new MIPPestChartGeneratorService().of(aSampleList, this.getBedBugTargetList());
+        return new PestMIPSampleChartService().of(aSampleList, this.getBedBugTargetList());
     }
     
     public Map<String, List<DAEAndOccurrenceDTO>> getNaturalPredatorChart(List<MIPSample> aSampleList) {
-        return new MIPNaturalPredatorChartGeneratorService().of(aSampleList, this.getNaturalPredatorTargetList());
+        return new NaturalPredatorMIPSampleChartService().of(aSampleList, this.getNaturalPredatorTargetList());
     } 
     
-    
+    public List<DAEAndOccurrenceDTO> getDefoliationChart(List<MIPSample> aSampleList) {
+        return new DefoliationChartService().of(aSampleList);
+    }
+
     public List<Region> readRegionsAvailableByMacroRegionId(Long selectedMacroRegionId) {
         return this.mipSampleService.readAllRegionsFor(selectedMacroRegionId);
     }

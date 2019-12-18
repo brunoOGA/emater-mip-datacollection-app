@@ -1,6 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mip;
 
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.AuditingPersistenceEntity;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;

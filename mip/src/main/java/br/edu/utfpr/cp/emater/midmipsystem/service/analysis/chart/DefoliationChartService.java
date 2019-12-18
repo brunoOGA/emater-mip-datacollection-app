@@ -1,14 +1,13 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DefoliationChartGeneratorService {
+public class DefoliationChartService {
 
     public List<DAEAndOccurrenceDTO> of(List<MIPSample> aSampleList) {
 

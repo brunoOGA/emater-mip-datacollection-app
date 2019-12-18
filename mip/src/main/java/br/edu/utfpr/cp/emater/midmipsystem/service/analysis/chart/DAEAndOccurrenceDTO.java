@@ -1,4 +1,4 @@
-package br.edu.utfpr.cp.emater.midmipsystem.service.analysis;
+package br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,8 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
-import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.DAEAndOccurrenceDTO;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -10,32 +9,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MIPNaturalPredatorChartGeneratorService extends AbstractMIPChartGeneratorService<PestNaturalPredator> {
+public class PestMIPSampleChartService extends AbstractMIPSampleChartService<Pest> {
 
     @Override
-    protected Map<PestNaturalPredator, List<DAEAndOccurrenceDTO>> retrieveData(List<MIPSample> aSampleList, List<PestNaturalPredator> aTargetList) {
-        var result = new HashMap<PestNaturalPredator, List<DAEAndOccurrenceDTO>>();
+    protected Map<Pest, List<DAEAndOccurrenceDTO>> retrieveData(List<MIPSample> aSampleList, List<Pest> aTargetList) {
 
-        aTargetList.forEach(currentPredator
-                -> result.put(currentPredator,
+        var result = new HashMap<Pest, List<DAEAndOccurrenceDTO>>();
+
+        aTargetList.forEach(currentPest
+                -> result.put(currentPest,
                         aSampleList.stream()
-                                .filter(currentSample -> currentSample.getDAEAndPredatorOccurrenceByPredator(currentPredator).isPresent())
-                                .map(currentSample -> currentSample.getDAEAndPredatorOccurrenceByPredator(currentPredator).get())
+                                .filter(currentSample -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).isPresent())
+                                .map(currentSample -> currentSample.getDAEAndPestOccurrenceByPest(currentPest).get())
                                 .collect(Collectors.toList())
                 )
         );
 
         return result;
-
     }
 
     @Override
-    protected Map<String, List<DAEAndOccurrenceDTO>> format(Map<PestNaturalPredator, Map<Integer, Double>> input) {
+    protected Map<String, List<DAEAndOccurrenceDTO>> format(Map<Pest, Map<Integer, Double>> input) {
         var result = new HashMap<String, List<DAEAndOccurrenceDTO>>();
 
         int greatestDAE = 0;
 
-        for (PestNaturalPredator currentTarget : input.keySet()) {
+        for (Pest currentTarget : input.keySet()) {
 
             var currentMap = input.get(currentTarget);
 
