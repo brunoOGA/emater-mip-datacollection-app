@@ -113,9 +113,10 @@ public class FieldService implements ICRUDService<Field> {
         if (allFieldsWithoutExistentField.stream().anyMatch(currentField -> currentField.equals(aField))) {
             throw new EntityAlreadyExistsException();
         }
-        
-        if (!isSupervisorIsAllowedInCity(aField.getSupervisors(), aField.getCityId())) 
+
+        if (!isSupervisorIsAllowedInCity(aField.getSupervisors(), aField.getCityId())) {
             throw new SupervisorNotAllowedInCity();
+        }
 
         try {
             existentField.setName(aField.getName());
@@ -140,13 +141,16 @@ public class FieldService implements ICRUDService<Field> {
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
 
         var existentField = fieldRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
-        
-        var loggedUser = ((MIPUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         var createdByName = existentField.getCreatedBy() != null ? existentField.getCreatedBy().getUsername() : "none";
-        
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName))
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-        
+
+        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+            }
+        }
+
         try {
             fieldRepository.delete(existentField);
 
@@ -161,7 +165,7 @@ public class FieldService implements ICRUDService<Field> {
     public City readCityById(Long selectedCityId) {
         try {
             return this.cityService.readById(selectedCityId);
-            
+
         } catch (EntityNotFoundException ex) {
             return this.cityService.readAll().get(0);
         }
@@ -170,7 +174,7 @@ public class FieldService implements ICRUDService<Field> {
     public Farmer readFarmerById(Long selectedFarmerId) {
         try {
             return this.farmerService.readById(selectedFarmerId);
-            
+
         } catch (EntityNotFoundException ex) {
             return this.farmerService.readAll().get(0);
         }
@@ -178,10 +182,11 @@ public class FieldService implements ICRUDService<Field> {
 
     public Set<Supervisor> readSupervisorsByIds(List<Long> selectedSupervisorIds) throws EntityNotFoundException {
         var result = new HashSet<Supervisor>();
-        
-        for (Long id: selectedSupervisorIds)
+
+        for (Long id : selectedSupervisorIds) {
             result.add(supervisorService.readById(id));
-        
+        }
+
         return result;
     }
 

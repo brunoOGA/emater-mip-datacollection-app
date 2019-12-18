@@ -26,8 +26,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -89,8 +87,10 @@ public class MIPSampleService {
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         var createdByName = existentSample.getCreatedBy() != null ? existentSample.getCreatedBy().getUsername() : "none";
 
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+            }
         }
 
         try {
@@ -124,31 +124,32 @@ public class MIPSampleService {
     public List<MIPSample> readAllMIPSampleBySurveyId(Long aSurveyId) {
         return List.copyOf(mipSampleRepository.findAll().stream().filter(sample -> sample.getSurvey().getId().equals(aSurveyId)).collect(Collectors.toList()));
     }
-    
+
     public List<MIPSample> readBySurvey(Survey aSurvey) {
         return mipSampleRepository.findBySurvey(aSurvey);
     }
-    
-    public Optional<Pest> readPestById (Long aPestId) {
-        if (aPestId == null)
+
+    public Optional<Pest> readPestById(Long aPestId) {
+        if (aPestId == null) {
             return Optional.empty();
-        
+        }
+
         try {
             return Optional.of(pestService.readById(aPestId));
-            
+
         } catch (EntityNotFoundException e) {
             return Optional.empty();
         }
     }
-    
-    public Optional<PestNaturalPredator> readPredatorById (Long aPredatorId) {
+
+    public Optional<PestNaturalPredator> readPredatorById(Long aPredatorId) {
         if (aPredatorId == null) {
             return Optional.empty();
         }
-        
+
         try {
             return Optional.of(pestNaturalPredatorService.readById(aPredatorId));
-            
+
         } catch (EntityNotFoundException e) {
             return Optional.empty();
         }
@@ -176,10 +177,10 @@ public class MIPSampleService {
 
     public List<MacroRegion> readAllMacroRegionsWithSurvey() {
         return this.readAllSurveysUniqueEntries().stream()
-                    .map(Survey::getMacroRegion)
-                    .flatMap(Optional::stream)
-                    .distinct()
-                    .collect(Collectors.toList());
+                .map(Survey::getMacroRegion)
+                .flatMap(Optional::stream)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public List<MIPSample> readByMacroRegionId(Long aMacroRegionId) {
@@ -215,12 +216,13 @@ public class MIPSampleService {
     }
 
     public List<MIPSample> readByMIPUser(MIPUser aMIPUser) {
-        
+
         var supervisorRetrieved = supervisorService.readByEmail(aMIPUser.getEmail());
-        
-        if (supervisorRetrieved.isEmpty())
+
+        if (supervisorRetrieved.isEmpty()) {
             return new ArrayList<MIPSample>();
-        
+        }
+
         return this.mipSampleRepository.findAll().stream()
                 .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
                 .filter(currentMIPSample -> currentMIPSample.getSurvey().getField() != null)
@@ -230,53 +232,57 @@ public class MIPSampleService {
     }
 
     public Optional<MacroRegion> readyByMacroRegionId(Long aMacroRegionId) {
-        
-        if (aMacroRegionId == null)
+
+        if (aMacroRegionId == null) {
             return Optional.empty();
-        
+        }
+
         try {
             return Optional.of(macroRegionService.readById(aMacroRegionId));
-            
+
         } catch (EntityNotFoundException ex) {
             return Optional.empty();
-            
+
         }
     }
 
     public Optional<Region> readyRegionById(Long aRegionId) {
-        
-        if (aRegionId == null)
+
+        if (aRegionId == null) {
             return Optional.empty();
-        
+        }
+
         try {
             return Optional.of(regionService.readById(aRegionId));
-            
+
         } catch (EntityNotFoundException ex) {
             return Optional.empty();
         }
     }
 
     public Optional<City> readyCityById(Long aCityId) {
-        
-        if (aCityId == null)
+
+        if (aCityId == null) {
             return Optional.empty();
-        
+        }
+
         try {
             return Optional.of(cityService.readById(aCityId));
-            
+
         } catch (EntityNotFoundException ex) {
             return Optional.empty();
         }
     }
 
     public Optional<Field> readFieldById(Long aFieldId) {
-        
-        if (aFieldId == null)
+
+        if (aFieldId == null) {
             return Optional.empty();
-        
+        }
+
         try {
             return Optional.of(fieldService.readById(aFieldId));
-            
+
         } catch (EntityNotFoundException ex) {
             return Optional.empty();
         }

@@ -66,8 +66,10 @@ public class MIDRustSampleService {
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         var createdByName = existentSample.getCreatedBy() != null ? existentSample.getCreatedBy().getUsername() : "none";
 
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+            }
         }
 
         try {

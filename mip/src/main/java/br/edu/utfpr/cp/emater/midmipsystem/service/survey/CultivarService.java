@@ -23,7 +23,7 @@ public class CultivarService implements ICRUDService<Cultivar> {
 //    Notice this strategy does not comply with the architectural style used 
 //    throughout this app. We should be using the surveyService instead. 
 //    However, there is a cyclical dependency here that needs to be fixed.
-    private final SurveyRepository surveyRepository;
+//    private final SurveyRepository surveyRepository;
     
     public List<String> readByExcerptName(String excerpt) {
         return List.copyOf(cultivarRepository.findByNameContainingIgnoreCase(excerpt).stream().map(Cultivar::getName).collect(Collectors.toList()));
@@ -76,14 +76,6 @@ public class CultivarService implements ICRUDService<Cultivar> {
         var existentCultivar = cultivarRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
         
         try {
-            if (surveyRepository
-                    .findAll()
-                    .stream()
-                    .map(currentSurvey -> currentSurvey.getCultivarData().getCultivarName())
-                    .anyMatch(name -> name.equalsIgnoreCase(existentCultivar.getName()))
-                ) 
-                    throw new DataIntegrityViolationException("Entity in use!");
-            
             
             cultivarRepository.delete(existentCultivar);
             

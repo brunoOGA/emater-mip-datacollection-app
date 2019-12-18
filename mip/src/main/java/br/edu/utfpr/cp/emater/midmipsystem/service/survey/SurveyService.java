@@ -16,10 +16,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
-import javax.validation.constraints.AssertTrue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
@@ -34,7 +31,7 @@ public class SurveyService {
     private final HarvestService harvestService;
     private final FieldService fieldService;
     private final CultivarService cultivarService;
-    
+
     public List<Survey> readAll() {
         return List.copyOf(surveyRepository.findAll());
     }
@@ -86,10 +83,12 @@ public class SurveyService {
         var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         var createdByName = existentSurvey.getCreatedBy() != null ? existentSurvey.getCreatedBy().getUsername() : "none";
 
-        if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-            throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+            }
         }
-        
+
         try {
             surveyRepository.delete(existentSurvey);
 
