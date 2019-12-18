@@ -57,7 +57,7 @@ public class SummaryBoardService {
                 .dateLastSampleMIP(maxMIPDate)
                 .quantitySamplesMID(aSummaryBoardList.stream().mapToInt(SummaryBoardDTO::getQuantitySamplesMID).sum())
                 .quantityApplicationsMID(aSummaryBoardList.stream().mapToInt(SummaryBoardDTO::getQuantityApplicationsMID).sum())
-                .sporePresentMID(aSummaryBoardList.stream().anyMatch(currentItem -> currentItem.isSporePresentMID() == true))
+                .sporePresentMID(aSummaryBoardList.stream().map(currentItem -> currentItem.isSporePresentMID()).anyMatch(currentItem -> currentItem.equals(true)))
                 .dateFirstSampleMID(minMIDDate)
                 .dateLastSampleMID(maxMIDDate)
                 .build();
@@ -123,7 +123,7 @@ public class SummaryBoardService {
                             .quantityApplicationsInseticidaMIP(pulverisationOperation.stream().filter(currentPulverisation -> currentPulverisation.isTargetMIP() == true).collect(Collectors.toList()).size())
                             .quantityApplicationsInseticidaBiologicoMIP(pulverisationOperation.stream().filter(currentPulverisation -> currentPulverisation.isInseticidaBiologico() == true).collect(Collectors.toList()).size())
                             .quantitySamplesMID(samplesMID.size())
-                            .sporePresentMID(samplesMID.stream().map(MIDRustSample::isSporePresent).anyMatch(currentResult -> currentResult == true))
+                            .sporePresentMID(samplesMID.stream().map(MIDRustSample::isSporePresent).anyMatch(currentResult -> currentResult.equals(true)))
                             .dateFirstSampleMID(minDateSampleMID)
                             .dateLastSampleMID(maxDateSampleMID)
                             .quantityApplicationsMID(pulverisationOperation.stream().filter(currentPulverisation -> currentPulverisation.isTargetMID() == true).collect(Collectors.toList()).size())
