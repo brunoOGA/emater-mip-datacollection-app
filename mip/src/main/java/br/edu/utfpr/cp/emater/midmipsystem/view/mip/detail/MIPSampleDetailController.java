@@ -44,6 +44,11 @@ public class MIPSampleDetailController {
         }
     }
 
+    public int calculateDAE(MIPSample aSample) {
+        return aSample.getDAE();
+    }
+
+    @Deprecated
     public int calculateDaysAfterEmergence(Date sampleDate) {
         
         if (currentSurvey.getEmergenceDate() == null)
