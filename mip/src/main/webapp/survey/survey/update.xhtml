@@ -46,7 +46,7 @@
 
                 <hr/>
                 <p:tabView>     
-                   
+
                     <p:tab title="Cultivar">
                         <p:panel header="Dados da Cultivar">
 
@@ -143,28 +143,26 @@
 
                     <p:tab title="Datas">
                         <p:panel header="Datas">
-                            <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                <p:panelGrid columns="1">
+                            <div class="row">
+                                <div class="col-md-3">
                                     <p:outputLabel for="@next" value="Data da Semeadura"></p:outputLabel>
                                     <p:datePicker inline="true" value="#{surveyUpdateController.sowedDate}" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>
-                                </p:panelGrid>
+                                </div>
 
-                                <p:panelGrid columns="1">
+                                <div class="col-md-3">
                                     <p:outputLabel for="@next" value="Data da Emergência"></p:outputLabel>
                                     <p:datePicker inline="true"  value="#{surveyUpdateController.emergenceDate}" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>
-                                </p:panelGrid>
+                                </div>
 
-                                <p:panelGrid columns="1">
+                                <div class="col-md-3">
                                     <p:outputLabel for="@next" value="Data da Colheita"></p:outputLabel>
                                     <p:datePicker inline="true" value="#{surveyUpdateController.harvestDate}" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>
-                                </p:panelGrid>
-
-                            </p:panelGrid>   
-
+                                </div>
+                            </div>
                         </p:panel>
                     </p:tab>
 
