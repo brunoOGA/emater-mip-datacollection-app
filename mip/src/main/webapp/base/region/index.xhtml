@@ -39,7 +39,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{regionController.readAll()}" var="aRegion" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15,50,100,200,500" reflow="true" rows="5" paginator="true" value="#{regionController.readAll()}" var="aRegion" >
                         <p:column headerText="Nome" filterBy="#{aRegion.name}" filterMatchMode="contains" >
                             <h:outputText value="#{aRegion.name}" />
                         </p:column>

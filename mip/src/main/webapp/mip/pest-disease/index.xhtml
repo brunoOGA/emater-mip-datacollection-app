@@ -39,7 +39,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{pestDiseaseController.readAll()}" var="aPestDisease" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15,50,100,200,500" reflow="true" rows="5" paginator="true" value="#{pestDiseaseController.readAll()}" var="aPestDisease" >
                         <p:column headerText="Nome" filterBy="#{aPestDisease.usualName}" filterMatchMode="contains" >
                             <h:outputText value="#{aPestDisease.usualName}" />
                         </p:column>                  
