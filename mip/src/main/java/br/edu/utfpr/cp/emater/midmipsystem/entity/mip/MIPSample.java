@@ -60,7 +60,6 @@ public class MIPSample extends AuditingPersistenceEntity implements Serializable
     @Builder
     public static MIPSample create(Long id,
             Date sampleDate,
-            int daysAfterEmergence,
             int defoliation,
             GrowthPhase growthPhase,
             Survey survey) {
