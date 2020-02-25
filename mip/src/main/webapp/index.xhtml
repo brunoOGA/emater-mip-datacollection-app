@@ -45,7 +45,7 @@
                                         
                                         <div style="display: flex; justify-content: flex-end; margin-bottom: 10px">
                                             <p:commandButton ajax="false" value="Exportar para Excel" icon="fa fa-fw fa-file-excel-o" styleClass="btn-success">
-                                                <p:dataExporter type="xls" target="summaryBoard" fileName="QuadroResumo" ></p:dataExporter>
+                                                <p:dataExporter type="xls" target="summaryBoard" fileName="QuadroResumo" postProcessor="#{viewUtilities.postProcessXLS}" ></p:dataExporter>
                                             </p:commandButton>
                                         </div>
 
