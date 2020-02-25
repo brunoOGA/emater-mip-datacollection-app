@@ -42,7 +42,15 @@
 
                                 <div>
                                     <h:form>
-                                        <p:dataTable widgetVar="summaryBoard" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" var="anEntry" value="#{dashboardController.summaryBoardData}" >
+                                        
+                                        <div style="display: flex; justify-content: flex-end; margin-bottom: 10px">
+                                            <p:commandButton ajax="false" value="Exportar para Excel" icon="fa fa-fw fa-file-excel-o" styleClass="btn-success">
+                                                <p:dataExporter type="xls" target="summaryBoard" fileName="QuadroResumo" postProcessor="#{viewUtilities.postProcessXLS}" ></p:dataExporter>
+                                            </p:commandButton>
+                                        </div>
+
+
+                                        <p:dataTable id="summaryBoard" widgetVar="summaryBoard" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,50,100,200,500" reflow="true" rows="5" paginator="true" var="anEntry" value="#{dashboardController.summaryBoardData}" >
 
                                             <p:columnGroup type="header">
                                                 <p:row>
@@ -143,8 +151,7 @@
                                             <f:facet name="footer">
                                                 #{fn:length(dashboardController.summaryBoardData)} URs com coletas MIP/MID foram encontradas.
                                             </f:facet>
-
-                                        </p:dataTable>   
+                                        </p:dataTable>
                                     </h:form>
                                 </div>
 

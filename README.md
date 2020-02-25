@@ -7,7 +7,6 @@ O MIP consiste na coleta amostral, por meio do uso da metodologia do pano-de-bat
 
 Contudo, a coleta e análise dos dados são realizadas de forma pouco eficiente. Os técnicos coletam os dados em papel durante inspeções semanais nas URs. Os dados coletados em papel são então tabulados em uma planilha eletrônica. Em seguida, os técnicos enviam as planilhas para os escritórios regionais da EMATER, onde as planilhas são consolidadas e então geradas as análises dos dados. Apenas após o término desse custoso processo é possível ter uma visão consolidada da ocorrência de pragas em uma região. Isso é um problema porque a demora na visualização consolidada dos dados atrasa a tomada de ações emergenciais em casos de surtos de pragas em uma região. Além disso, esse processo exige muito trabalho manual, uma vez que os dados são primeiramente coletados em papel e depois tabulados na planilha eletrônica. Por fim, o técnico não tem fácil acesso aos dados locais, regionais ou estaduais que possam auxiliá-lo na tomada de decisão. 
 
-
 ## Objetivo
 O objetivo geral deste projeto é aumentar a eficiência no processo de coleta e análise de dados da tecnologia de MIP por meio do desenvolvimento de aplicativos integrados em nuvem. 
 
@@ -16,6 +15,10 @@ Atualmente, as principais tecnologias usadas são:
 - Spring boot;
 - JPA;
 - JSF + Primefaces;
+- Amazon Corretto (JVM);
+
+# Licença
+Este aplicativo está registrado no INPI e protegido por leis de copyright, definidas em contrato entre a UTFPR, EMATER e SENAR. O código é mantido neste repositório APENAS para fins didáticos. Esteja ciente que o uso comercial deste aplicativo, ou qualquer dos seus artefatos, incluindo código-fonte, sem autorização expressa dos detentores da licença, implica em penalidades definidas em lei específica. 
 
 ## Responsáveis pelo projeto na UTFPR
 - Dr. Gabriel Costa Silva (Cornélio Procópio)
@@ -34,10 +37,9 @@ Atualmente, as principais tecnologias usadas são:
 - Lucas Barbosa da Costa, Engenharia de Computação, TCC concluído 2018/2, UTFPR - CP
 - Gabriel Grazionale, Engenharia de Software, TCC concluído 2018/2, UTFPR - CP
 - Thales Martins Ferreira, Engenharia de Computação, TCC concluído 2019/1, UTFPR - CP
+- Erik Henrique De Oliveira Zambeli, Engenharia De Software, TCC concluído 2019/2, UTFPR - CP
 
 ## Alunos atualmente participando do projeto
-- Flavio Vinicius Martins Dos Santos, Engenharia de Computação, TCC 2 em andamento, UTFPR - CP
-- Erik Henrique De Oliveira Zambeli, Engenharia De Software, TCC 2 em andamento, UTFPR - CP
 - Allan Silveira Mariano de Souza, Projeto de iniciação tecnológica, UTFPR - CP
 - Bruna Quispe Oruchi, Projeto de iniciação tecnológica, UTFPR - CP
 - Bruno Oliveira Galvão de Arruda, Projeto de iniciação tecnológica, UTFPR - CP

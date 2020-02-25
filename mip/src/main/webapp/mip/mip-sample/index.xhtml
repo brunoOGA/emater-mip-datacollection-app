@@ -27,7 +27,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15,50,100,200,500" reflow="true" rows="5" paginator="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
 
                         <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.harvestName}" />

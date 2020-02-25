@@ -5,7 +5,7 @@
 
     <groupId>br.edu.utfpr.cp.emater</groupId>
     <artifactId>midmipsystem</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <packaging>jar</packaging>
 
     <name>midmipsystem</name>
@@ -140,6 +140,13 @@
             <artifactId>commons-text</artifactId>
             <version>1.6</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+
     </dependencies>
         
     <build>

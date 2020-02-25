@@ -64,7 +64,7 @@
                     <p:tab title="Selecionar UR">
                         <p:panel header="Passo 2/6: Selecionar Unidade de Referência">
                             <p:messages />
-                            <p:dataTable paginatorPosition="bottom" value="#{surveyController.readAllFieldsOutOfCurrentSurvey()}" var="aField" selection="#{surveyController.field}" rowKey="#{aField.id}" id="urTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true"  >
+                            <p:dataTable paginatorPosition="bottom" value="#{surveyController.readAllFieldsOutOfCurrentSurvey()}" var="aField" selection="#{surveyController.field}" rowKey="#{aField.id}" id="urTable" rowsPerPageTemplate="5,10,15,50,100,200,500" reflow="true" rows="10" paginator="true"  >
                                 <p:column selectionMode="single" style="width:32px;text-align:center" />
 
                                 <p:column headerText="Identificação UR" filterBy="#{aField.name}" filterMatchMode="contains">
