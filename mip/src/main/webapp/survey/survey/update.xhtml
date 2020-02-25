@@ -144,22 +144,22 @@
                     <p:tab title="Datas">
                         <p:panel header="Datas" style="height: 500px">
 
-                            <p:panelGrid columns="2">
+                            <p:panelGrid columns="2" styleClass="ui-noborder" >
                                 <p:outputLabel for="@next" value="Data da Semeadura"></p:outputLabel>
-                                <p:panelGrid columns="1">
+                                <p:panelGrid columns="1" style="border: none">
                                     <p:datePicker id="sowedDate" showIcon="true" value="#{surveyUpdateController.sowedDate}" pattern="dd/MM/yyyy" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>                                    
                                 </p:panelGrid>
 
 
                                 <p:outputLabel for="@next" value="Data da Emergência"></p:outputLabel>
-                                <p:panelGrid columns="1">
+                                <p:panelGrid columns="1" styleClass="ui-noborder" >
                                     <p:datePicker id="emergenceDate" showIcon="true"  value="#{surveyUpdateController.emergenceDate}" pattern="dd/MM/yyyy" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>                                    
                                 </p:panelGrid>
 
                                 <p:outputLabel for="@next" value="Data da Colheita"></p:outputLabel>
-                                <p:panelGrid columns="1">
+                                <p:panelGrid columns="1" styleClass="ui-noborder" >
                                     <p:datePicker id="harvestDate" showIcon="true" value="#{surveyUpdateController.harvestDate}" pattern="dd/MM/yyyy" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>                                    
                                 </p:panelGrid>
