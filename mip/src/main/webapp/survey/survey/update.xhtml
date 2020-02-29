@@ -110,11 +110,11 @@
                         <p:panel header="Dados Econômicos ">
 
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                <p:outputLabel for="@next" value="Preço da Soja"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Preço da Soja (R$/sc)"></p:outputLabel>
                                 <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.soyaPrice}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Custo da Operação de Aplicação de Agrotóxicos"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Custo da Operação de Aplicação de Agrotóxicos (R$/sc)"></p:outputLabel>
                                 <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.applicationCostCurrency}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
                             </p:panelGrid>                            
@@ -127,11 +127,11 @@
 
                             <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
-                                <p:outputLabel for="@next" value="Produtividade da Unidade (sc/alq)"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Produtividade da Unidade (sc/ha)"></p:outputLabel>
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.productivityField}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
-                                <p:outputLabel for="@next" value="Produtividade da Área total do Produtor (sc/alq)"></p:outputLabel>
+                                <p:outputLabel for="@next" value="Produtividade da Área total do Produtor (sc/ha)"></p:outputLabel>
                                 <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.productivityFarmer}" ></p:inputNumber>
                                 <p:message for="@previous" ></p:message>
 
