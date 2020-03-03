@@ -47,6 +47,7 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
     private GrowthPhase growthPhase;
 
     private double caldaVolume;
+    private double pulverisationArea;
 
     @ElementCollection
     private Set<PulverisationOperationOccurrence> operationOccurrences;
