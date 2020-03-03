@@ -57,6 +57,14 @@ public class PulverisationOperationController extends PulverisationOperation {
     @Getter
     private double productDose;
 
+    @Setter
+    @Getter
+    private double pulverisationArea;
+
+    @Getter
+    @Setter
+    private String statusPulverisationAreaPanel = "hidden-sm hidden-md hidden-lg hidden-xs";
+
     public List<Survey> readAllSurveysUniqueEntries() {
         return pulverisationOperationService.readAllSurveysUniqueEntries();
     }
@@ -81,6 +89,9 @@ public class PulverisationOperationController extends PulverisationOperation {
                 .sampleDate(this.getSampleDate())
                 .survey(currentSurvey)
                 .build();
+
+        if (this.getPulverisationArea() != 0)
+            newOperation.setPulverisationArea(this.getPulverisationArea());
 
         newOperation.setOperationOccurrences(this.getOperationOccurrences());
 
@@ -173,5 +184,13 @@ public class PulverisationOperationController extends PulverisationOperation {
         } catch (ProductUseClassDifferFromTargetException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", e.getMessage()));
         }
+    }
+
+    public void showPulverisationAreaPanelPanel() {
+        if (this.getStatusPulverisationAreaPanel().equals("hidden-sm hidden-md hidden-lg hidden-xs"))
+            this.setStatusPulverisationAreaPanel("");
+        
+        else
+            this.setStatusPulverisationAreaPanel("hidden-sm hidden-md hidden-lg hidden-xs");
     }
 }
