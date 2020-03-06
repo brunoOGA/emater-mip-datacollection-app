@@ -164,7 +164,7 @@
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Ações" width="240">
+                        <p:column headerText="Ações" width="200">
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar anotação de campo para esta UR" position="top" />
 
@@ -176,19 +176,11 @@
 
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{surveyUpdateController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />         
-                            
-                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-info" icon="fa fa-fw fa-sign-out" onclick="PF('closeDataCollectionDialog').show()" ></p:commandButton>
-                            <p:tooltip for="@previous" value="Encerrar coleta de dados para UR" position="top" />
 
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja remover a UR '#{aSurvey.fieldName}' da pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." />
                             </p:commandButton>
                             <p:tooltip for="@previous" value="Remover UR da pesquisa" position="top" />
-
-                            <p:confirmDialog ajax="false" widgetVar="closeDataCollectionDialog" header="Confirma Encerramento de Coleta?" message="Tem certeza que deseja encerrar a coleta de dados para a UR '#{aSurvey.fieldName}' na pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." global="false" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
-                                <p:commandButton ajax="false" value="Encerrar" styleClass="ui-confirmdialog-yes btn-seconday" icon="fa fa-fw fa-sign-out" action="#{surveyController.close(aSurvey.id)}" onclick="PF('closeDataCollectionDialog').hide();" />
-                                <p:commandButton ajax="false" value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" onclick="PF('closeDataCollectionDialog').hide();"  />
-                            </p:confirmDialog>                          
 
                             <p:confirmDialog widgetVar="deleteDialog" global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
                                 <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
