@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core" 
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui" 
-                template="/WEB-INF/templates/template.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" template="/WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">
         Alterar Dados de UR na Pesquisa
@@ -16,92 +13,98 @@
 
     <ui:define name="body">
         <h:form id="form" prependId="false">
-            <p:focus context="@form"/>
-            <p:panel styleClass="box-primary card"> 
+            <p:focus context="@form" />
+            <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
-                    <p:commandButton ajax="false" value="Alterar" action="#{surveyUpdateController.update()}" 
-                                     icon="fa fa-check" styleClass="btn-warning">
+                    <p:commandButton ajax="false" value="Alterar" action="#{surveyUpdateController.update()}"
+                        icon="fa fa-check" styleClass="btn-warning">
                         <f:param name="currentSurveyId" value="#{flash['currentSurveyId']}" />
                     </p:commandButton>
 
                     <p:spacer width="5" />
 
-                    <p:commandButton ajax="false" value="Cancelar" immediate="true"
-                                     action="index?faces-redirect=true"
-                                     process="@this"
-                                     icon="fa fa-reply"/>
+                    <p:commandButton ajax="false" value="Cancelar" immediate="true" action="index?faces-redirect=true"
+                        process="@this" icon="fa fa-reply" />
                 </div>
-                <p:splitButton ajax="false" value="Alterar" action="#{surveyUpdateController.update()}" 
-                               icon="fa fa-check"
-                               styleClass="hidden-md hidden-lg btn-warning">
+                <p:splitButton ajax="false" value="Alterar" action="#{surveyUpdateController.update()}"
+                    icon="fa fa-check" styleClass="hidden-md hidden-lg btn-warning">
 
                     <f:param name="currentSurveyId" value="#{flash['currentSurveyId']}" />
 
-                    <p:separator/>
+                    <p:separator />
 
-                    <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true"
-                                process="@this" immediate="true"
-                                icon="fa fa-reply"/>
+                    <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true" process="@this"
+                        immediate="true" icon="fa fa-reply" />
                 </p:splitButton>
 
-                <hr/>
-                <p:tabView>     
+                <hr />
+                <p:tabView>
 
                     <p:tab title="Cultivar">
                         <p:panel header="Dados da Cultivar">
 
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12"
+                                styleClass="ui-panelgrid-blank ui-fluid">
                                 <p:outputLabel for="@next" value="Nome"></p:outputLabel>
-                                <p:autoComplete dropdown="true" value="#{surveyUpdateController.cultivarName}" completeMethod="#{surveyUpdateController.searchCultivar}" />
-                                <p:message for="@previous" ></p:message>
+                                <p:autoComplete dropdown="true" value="#{surveyUpdateController.cultivarName}"
+                                    completeMethod="#{surveyUpdateController.searchCultivar}" />
+                                <p:message for="@previous"></p:message>
 
-                                <p:selectBooleanCheckbox value="#{surveyUpdateController.bt}" itemLabel="É BT?"/>
+                                <p:selectBooleanCheckbox value="#{surveyUpdateController.bt}" itemLabel="É BT?" />
 
-                                <p:selectBooleanCheckbox value="#{surveyUpdateController.rustResistant}" itemLabel="Resitente à Ferrugem?"/>
-                            </p:panelGrid>                            
+                                <p:selectBooleanCheckbox value="#{surveyUpdateController.rustResistant}"
+                                    itemLabel="Resitente à Ferrugem?" />
+                            </p:panelGrid>
 
                         </p:panel>
                     </p:tab>
 
-                    <p:tab id="area" title="Área"> 
+                    <p:tab id="area" title="Área">
                         <p:panel header="Dados da Área">
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12"
+                                styleClass="ui-panelgrid-blank ui-fluid">
 
                                 <p:outputLabel for="@next" value="Área da Unidade (ha)"></p:outputLabel>
-                                <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.totalArea}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
+                                <p:inputNumber decimalSeparator="," thousandSeparator="."
+                                    value="#{surveyUpdateController.totalArea}"></p:inputNumber>
+                                <p:message for="@previous"></p:message>
 
                                 <p:outputLabel for="@next" value="Área Total Cultivada (ha)"></p:outputLabel>
-                                <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.totalPlantedArea}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
+                                <p:inputNumber decimalSeparator="," thousandSeparator="."
+                                    value="#{surveyUpdateController.totalPlantedArea}"></p:inputNumber>
+                                <p:message for="@previous"></p:message>
 
                                 <p:outputLabel for="@next" value="No. Plantas/Metro"></p:outputLabel>
-                                <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.plantPerMeter}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
+                                <p:inputNumber decimalSeparator="," thousandSeparator="."
+                                    value="#{surveyUpdateController.plantPerMeter}"></p:inputNumber>
+                                <p:message for="@previous"></p:message>
 
                                 <p:outputLabel for="@next" value="Latitude (usar formato UTM)"></p:outputLabel>
-                                <p:inputText value="#{surveyUpdateController.latitude}" ></p:inputText>
-                                <p:message for="@previous" ></p:message>
+                                <p:inputText value="#{surveyUpdateController.latitude}"></p:inputText>
+                                <p:message for="@previous"></p:message>
 
                                 <p:outputLabel for="@next" value="Longitude (usar formato UTM)"></p:outputLabel>
-                                <p:inputText value="#{surveyUpdateController.longitude}" ></p:inputText>
-                                <p:message for="@previous" ></p:message>
+                                <p:inputText value="#{surveyUpdateController.longitude}"></p:inputText>
+                                <p:message for="@previous"></p:message>
 
-                            </p:panelGrid>                                                                                
+                            </p:panelGrid>
                         </p:panel>
                     </p:tab>
 
                     <p:tab title="Coletor">
                         <p:panel header="Dados do Coletor de Esporos">
 
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                <p:selectBooleanCheckbox value="#{surveyUpdateController.sporeCollectorPresent}" itemLabel="Tem coletor de esporos instalado?"/>
-                            </p:panelGrid>                            
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12"
+                                styleClass="ui-panelgrid-blank ui-fluid">
+                                <p:selectBooleanCheckbox value="#{surveyUpdateController.sporeCollectorPresent}"
+                                    itemLabel="Tem coletor de esporos instalado?" />
+                            </p:panelGrid>
 
                             <p:panelGrid columns="1">
                                 <p:outputLabel for="@next" value="Data da instalação do coletor"></p:outputLabel>
-                                <p:datePicker inline="true" value="#{surveyUpdateController.collectorInstallationDate}" ></p:datePicker>
-                                <p:message for="@previous" ></p:message>
+                                <p:datePicker inline="true" value="#{surveyUpdateController.collectorInstallationDate}">
+                                </p:datePicker>
+                                <p:message for="@previous"></p:message>
                             </p:panelGrid>
                         </p:panel>
                     </p:tab>
@@ -109,34 +112,44 @@
                     <p:tab title="Econômicos">
                         <p:panel header="Dados Econômicos ">
 
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12"
+                                styleClass="ui-panelgrid-blank ui-fluid">
                                 <p:outputLabel for="@next" value="Preço da Soja (R$/sc)"></p:outputLabel>
-                                <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.soyaPrice}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
+                                <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator=","
+                                    thousandSeparator="." value="#{surveyUpdateController.soyaPrice}"></p:inputNumber>
+                                <p:message for="@previous"></p:message>
 
-                                <p:outputLabel for="@next" value="Custo da Operação de Aplicação de Agrotóxicos (R$/ha)"></p:outputLabel>
-                                <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.applicationCostCurrency}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
-                            </p:panelGrid>                            
+                                <p:outputLabel for="@next"
+                                    value="Custo da Operação de Aplicação de Agrotóxicos (R$/ha)"></p:outputLabel>
+                                <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator=","
+                                    thousandSeparator="." value="#{surveyUpdateController.applicationCostCurrency}">
+                                </p:inputNumber>
+                                <p:message for="@previous"></p:message>
+                            </p:panelGrid>
 
                         </p:panel>
-                    </p:tab>                    
+                    </p:tab>
 
                     <p:tab id="productivity" title="Produtividade">
                         <p:panel header="Dados da Produtividade">
 
-                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                            <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12"
+                                styleClass="ui-panelgrid-blank ui-fluid">
 
                                 <p:outputLabel for="@next" value="Produtividade da Unidade (sc/ha)"></p:outputLabel>
-                                <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.productivityField}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
+                                <p:inputNumber decimalSeparator="," thousandSeparator="."
+                                    value="#{surveyUpdateController.productivityField}"></p:inputNumber>
+                                <p:message for="@previous"></p:message>
 
-                                <p:outputLabel for="@next" value="Produtividade da Área total do Produtor (sc/ha)"></p:outputLabel>
-                                <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyUpdateController.productivityFarmer}" ></p:inputNumber>
-                                <p:message for="@previous" ></p:message>
+                                <p:outputLabel for="@next" value="Produtividade da Área total do Produtor (sc/ha)">
+                                </p:outputLabel>
+                                <p:inputNumber decimalSeparator="," thousandSeparator="."
+                                    value="#{surveyUpdateController.productivityFarmer}"></p:inputNumber>
+                                <p:message for="@previous"></p:message>
 
-                                <p:selectBooleanCheckbox value="#{surveyUpdateController.separatedWeight}" itemLabel="Pesou em Separado?"/>
-                            </p:panelGrid>   
+                                <p:selectBooleanCheckbox value="#{surveyUpdateController.separatedWeight}"
+                                    itemLabel="Pesou em Separado?" />
+                            </p:panelGrid>
 
                         </p:panel>
                     </p:tab>
@@ -144,25 +157,52 @@
                     <p:tab title="Datas">
                         <p:panel header="Datas" style="height: 500px">
 
-                            <p:panelGrid columns="2" styleClass="ui-noborder" >
+                            <p:panelGrid columns="2" styleClass="ui-noborder">
                                 <p:outputLabel for="@next" value="Data da Semeadura"></p:outputLabel>
                                 <p:panelGrid columns="1" style="border: none">
-                                    <p:datePicker id="sowedDate" showIcon="true" value="#{surveyUpdateController.sowedDate}" pattern="dd/MM/yyyy" ></p:datePicker>
-                                    <p:message for="@previous" ></p:message>                                    
+                                    <p:datePicker id="sowedDate" showIcon="true"
+                                        value="#{surveyUpdateController.sowedDate}" pattern="dd/MM/yyyy"></p:datePicker>
+                                    <p:message for="@previous"></p:message>
                                 </p:panelGrid>
 
 
                                 <p:outputLabel for="@next" value="Data da Emergência"></p:outputLabel>
-                                <p:panelGrid columns="1" styleClass="ui-noborder" >
-                                    <p:datePicker id="emergenceDate" showIcon="true"  value="#{surveyUpdateController.emergenceDate}" pattern="dd/MM/yyyy" ></p:datePicker>
-                                    <p:message for="@previous" ></p:message>                                    
+                                <p:panelGrid columns="1" styleClass="ui-noborder">
+                                    <p:datePicker id="emergenceDate" showIcon="true"
+                                        value="#{surveyUpdateController.emergenceDate}" pattern="dd/MM/yyyy">
+                                    </p:datePicker>
+                                    <p:message for="@previous"></p:message>
                                 </p:panelGrid>
 
                                 <p:outputLabel for="@next" value="Data da Colheita"></p:outputLabel>
-                                <p:panelGrid columns="1" styleClass="ui-noborder" >
-                                    <p:datePicker id="harvestDate" showIcon="true" value="#{surveyUpdateController.harvestDate}" pattern="dd/MM/yyyy" ></p:datePicker>
-                                    <p:message for="@previous" ></p:message>                                    
+                                <p:panelGrid columns="1" styleClass="ui-noborder">
+                                    <p:datePicker id="harvestDate" showIcon="true"
+                                        value="#{surveyUpdateController.harvestDate}" pattern="dd/MM/yyyy">
+                                    </p:datePicker>
+                                    <p:message for="@previous"></p:message>
                                 </p:panelGrid>
+
+                                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12"
+                                    styleClass="ui-panelgrid-blank ui-fluid">
+                                    <p:selectBooleanCheckbox itemLabel="Encerrar coleta de dados para essa UR?" styleClass="bg-danger text-danger">
+                                        <p:ajax update="closingDatePanel"
+                                            listener="#{surveyUpdateController.showClosingDatePanel()}" />
+                                    </p:selectBooleanCheckbox>
+                                    <p:tooltip for="@previous"
+                                        value="Ao informar uma data, não será mais possível inserir ou alterar qualquer informação para a UR nesta pesquisa!"
+                                        position="top" />
+                                </p:panelGrid>
+
+                                <p:panelGrid id="closingDatePanel" columns="1"
+                                    styleClass="#{surveyUpdateController.statusClosingDatePanel}">
+                                    <p:outputLabel for="@next" value="Data de Encerramento da Coleta">
+                                    </p:outputLabel>
+                                    <p:datePicker id="closingDate" showIcon="true"
+                                        value="#{surveyUpdateController.closingDate}" pattern="dd/MM/yyyy">
+                                    </p:datePicker>
+                                    <p:message for="@previous"></p:message>
+                                </p:panelGrid>
+
                             </p:panelGrid>
                         </p:panel>
                     </p:tab>
@@ -173,4 +213,3 @@
         </h:form>
     </ui:define>
 </ui:composition>
-

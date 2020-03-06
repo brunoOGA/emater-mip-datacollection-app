@@ -59,6 +59,10 @@ public class SurveyUpdateController {
     private double totalArea;
     private double totalPlantedArea;
     private double plantPerMeter;
+
+//    ---
+    private Date closingDate;
+    private String statusClosingDatePanel = "hidden-sm hidden-md hidden-lg hidden-xs";
     
     public String prepareUpdate(Long surveyId) {
 
@@ -93,6 +97,8 @@ public class SurveyUpdateController {
             this.setTotalArea(currentSurvey.getTotalArea());
             this.setTotalPlantedArea(currentSurvey.getTotalPlantedArea());
             this.setPlantPerMeter(currentSurvey.getPlantPerMeter());
+
+            this.setClosingDate(currentSurvey.getClosingDate());
 
             return "/survey/survey/update.xhtml";
 
@@ -129,6 +135,8 @@ public class SurveyUpdateController {
                                 .build();
 
         try {
+            updatedSurvey.setClosingDate(this.getClosingDate());
+
             surveyService.update(updatedSurvey);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Dados da UR alterados na pesquisa!"));
             return "index.xhtml";
@@ -146,5 +154,13 @@ public class SurveyUpdateController {
     
     public List<String> searchCultivar(String excerpt) {
         return surveyService.searchCultivar(excerpt);
+    }
+
+    public void showClosingDatePanel() {
+        if (this.getStatusClosingDatePanel().equals("hidden-sm hidden-md hidden-lg hidden-xs"))
+            this.setStatusClosingDatePanel("");
+        
+        else
+            this.setStatusClosingDatePanel("hidden-sm hidden-md hidden-lg hidden-xs");
     }
 }

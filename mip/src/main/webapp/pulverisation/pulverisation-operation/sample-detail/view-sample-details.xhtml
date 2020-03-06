@@ -91,7 +91,7 @@
                     </p:column>
 
                     <p:column headerText="Ações" width="100">
-                        <p:commandButton immediate="true" update="@form" styleClass="btn-danger"
+                        <p:commandButton  disabled="#{pulverisationDetailController.currentSurvey.closingDate != null}"  immediate="true" update="@form" styleClass="btn-danger"
                             icon="fa fa-fw fa-trash"
                             action="#{pulverisationOperationController.delete(aPulverisation.id)}">
                             <p:confirm header="Confirma Exclusão?"

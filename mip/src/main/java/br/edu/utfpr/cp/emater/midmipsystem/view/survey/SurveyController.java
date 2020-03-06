@@ -242,26 +242,4 @@ public class SurveyController extends Survey {
     public List<String> searchCultivar(String excerpt) {
         return surveyService.searchCultivar(excerpt);
     }
-
-    public String close(Long anId) {
-
-        try {
-            surveyService.close(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Coleta de dados encerrada para a UR!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Coleta de dados para a UR não pode ser encerrada porque o usuário não está autorizado!"));
-            return "index.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Coleta de dados para a UR não pode ser encerrada porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-    }
-
 }
