@@ -56,7 +56,7 @@
                             <p:commandButton ajax="false" action="#{pulverisationDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
                             <p:tooltip for="@previous" value="Visualizar operações de pulverização para esta UR" position="top" />
 
-                            <p:commandButton ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                             
                         </p:column> 
 

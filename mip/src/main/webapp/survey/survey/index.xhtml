@@ -159,29 +159,29 @@
                         </p:column>
 
                         <p:column headerText="Ações" width="240">
-                            <p:commandButton ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar anotação de campo para esta UR" position="top" />
 
-                            <p:commandButton ajax="false" styleClass="btn-success" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-success" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar monitoramento da ferrugem para esta UR" position="top" />                        
 
-                            <p:commandButton ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                             
 
-                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{surveyUpdateController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{surveyUpdateController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />         
                             
-                            <p:commandButton styleClass="btn-secondary" icon="fa fa-fw fa-sign-out" onclick="PF('closeDataCollectionDialog').show()" ></p:commandButton>
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-secondary" icon="fa fa-fw fa-sign-out" onclick="PF('closeDataCollectionDialog').show()" ></p:commandButton>
                             <p:tooltip for="@previous" value="Encerrar coleta de dados para UR" position="top" />
 
-                            <p:commandButton update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja remover a UR '#{aSurvey.fieldName}' da pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." />
                             </p:commandButton>
                             <p:tooltip for="@previous" value="Remover UR da pesquisa" position="top" />
 
-                            <p:confirmDialog widgetVar="closeDataCollectionDialog" header="Confirma Encerramento de Coleta?" message="Tem certeza que deseja encerrar a coleta de dados para a UR '#{aSurvey.fieldName}' na pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
-                                <p:commandButton value="Encerrar" styleClass="ui-confirmdialog-yes btn-seconday" icon="fa fa-fw fa-sign-out" onclick="PF('closeDataCollectionDialog').hide();" />
-                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" onclick="PF('closeDataCollectionDialog').hide();"  />
+                            <p:confirmDialog ajax="false" widgetVar="closeDataCollectionDialog" header="Confirma Encerramento de Coleta?" message="Tem certeza que deseja encerrar a coleta de dados para a UR '#{aSurvey.fieldName}' na pesquisa '#{aSurvey.harvestName}'? Essa ação NÃO pode ser desfeita." global="false" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                                <p:commandButton ajax="false" value="Encerrar" styleClass="ui-confirmdialog-yes btn-seconday" icon="fa fa-fw fa-sign-out" action="#{surveyController.close(aSurvey.id)}" onclick="PF('closeDataCollectionDialog').hide();" />
+                                <p:commandButton ajax="false" value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" onclick="PF('closeDataCollectionDialog').hide();"  />
                             </p:confirmDialog>                          
 
                             <p:confirmDialog widgetVar="deleteDialog" global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >

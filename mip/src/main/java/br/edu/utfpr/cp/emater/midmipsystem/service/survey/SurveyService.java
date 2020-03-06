@@ -15,6 +15,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -198,4 +199,28 @@ public class SurveyService {
     public List<Survey> readByRegion(Region aRegion) {
         return surveyRepository.findByRegionId(aRegion.getId());
     }
+
+    public void close(Long anId) throws EntityNotFoundException, AnyPersistenceException {
+
+        var existentSurvey = surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
+
+        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        var createdByName = existentSurvey.getCreatedBy() != null ? existentSurvey.getCreatedBy().getUsername() : "none";
+
+        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+            }
+        }
+
+        try {
+            existentSurvey.setClosingDate(new Date());
+
+            surveyRepository.saveAndFlush(existentSurvey);
+
+        } catch (Exception e) {
+            throw new AnyPersistenceException();
+        }
+    }
+
 }
