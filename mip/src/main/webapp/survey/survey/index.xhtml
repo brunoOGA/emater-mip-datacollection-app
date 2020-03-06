@@ -91,11 +91,17 @@
                             </h:outputText>
                         </p:column>
 
-
                         <p:column headerText="Data da Emergência" filterBy="#{aSurvey.emergenceDate}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.emergenceDate}"  >
                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                             </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Encerramento da Coleta" filterBy="#{aSurvey.closingDate}" filterMatchMode="contains" >
+                            <h:outputText rendered="#{aSurvey.closingDate != null}" value="#{aSurvey.closingDate}" >
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            </h:outputText>
+                            <h:outputText rendered="#{aSurvey.closingDate == null}" value="Em andamento" ></h:outputText>
                         </p:column>
 
                         <p:column visible="false" headerText="Data da Colheita" filterBy="#{aSurvey.harvestDate}" filterMatchMode="contains" >
@@ -171,7 +177,7 @@
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{surveyUpdateController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />         
                             
-                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-secondary" icon="fa fa-fw fa-sign-out" onclick="PF('closeDataCollectionDialog').show()" ></p:commandButton>
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-info" icon="fa fa-fw fa-sign-out" onclick="PF('closeDataCollectionDialog').show()" ></p:commandButton>
                             <p:tooltip for="@previous" value="Encerrar coleta de dados para UR" position="top" />
 
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >
