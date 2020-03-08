@@ -123,6 +123,22 @@ public class SurveyService {
 
         var currentSurvey = surveyRepository.findById(updatedSurvey.getId()).orElseThrow(EntityNotFoundException::new);
 
+        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        var createdByName = currentSurvey.getCreatedBy() != null ? currentSurvey.getCreatedBy().getUsername() : "none";
+
+        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+            }
+        }
+
+
+        if (currentSurvey.getClosingDate() == null) {
+            if (updatedSurvey.getClosingDate() != null) {
+                currentSurvey.setClosingDate(updatedSurvey.getClosingDate());
+            }
+        }
+
         if (currentSurvey.getCropData() != null) {
             if (updatedSurvey.getEmergenceDate() != null) {
                 currentSurvey.getCropData().setEmergenceDate(updatedSurvey.getEmergenceDate());
@@ -198,4 +214,5 @@ public class SurveyService {
     public List<Survey> readByRegion(Region aRegion) {
         return surveyRepository.findByRegionId(aRegion.getId());
     }
+
 }

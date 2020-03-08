@@ -97,6 +97,10 @@ public class SurveyController extends Survey {
     @Getter
     @Setter
     private Date harvestDate;
+
+    @Getter
+    @Setter
+    private Date closingDate;
     
     @Getter
     @Setter
@@ -238,5 +242,4 @@ public class SurveyController extends Survey {
     public List<String> searchCultivar(String excerpt) {
         return surveyService.searchCultivar(excerpt);
     }
-
 }

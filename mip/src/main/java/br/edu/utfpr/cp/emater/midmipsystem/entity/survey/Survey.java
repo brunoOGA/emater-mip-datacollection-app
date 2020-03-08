@@ -18,6 +18,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 
@@ -65,6 +67,9 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
     @EqualsAndHashCode.Include
     @NotNull(message = "Uma pesquisa deve ser referente a uma safra")
     private Harvest harvest;
+
+    @Temporal(TemporalType.DATE)
+    private Date closingDate;
 
     @Builder
     public static Survey create(Long id,

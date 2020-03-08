@@ -58,7 +58,7 @@
                             <p:commandButton ajax="false" action="#{mipSampleDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
                             <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
 
-                            <p:commandButton ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
+                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar anotação de campo para esta UR" position="top" />
                         </p:column> 
 
