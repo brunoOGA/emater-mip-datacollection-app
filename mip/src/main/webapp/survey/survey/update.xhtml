@@ -189,14 +189,16 @@
                                             listener="#{surveyUpdateController.showClosingDatePanel()}" />
                                     </p:selectBooleanCheckbox>
                                     <p:tooltip for="@previous"
-                                        value="Ao informar uma data, não será mais possível inserir ou alterar qualquer informação para a UR nesta pesquisa!"
+                                        value="Marque essa opção se quiser encerrar a coleta de dados para essa UR."
                                         position="top" />
                                 </p:panelGrid>
 
                                 <p:panelGrid id="closingDatePanel" columns="1"
                                     styleClass="#{surveyUpdateController.statusClosingDatePanel}">
-                                    <p:outputLabel for="@next" value="Data de Encerramento da Coleta">
-                                    </p:outputLabel>
+                                    <p:tooltip for="@next"
+                                        value="Atenção: ao informar uma data não será mais possível inserir ou alterar qualquer informação para essa UR nesta pesquisa!"
+                                        position="top" />
+                                    <p:outputLabel for="@next" value="Data de Encerramento da Coleta"></p:outputLabel>
                                     <p:datePicker id="closingDate" showIcon="true"
                                         value="#{surveyUpdateController.closingDate}" pattern="dd/MM/yyyy">
                                     </p:datePicker>

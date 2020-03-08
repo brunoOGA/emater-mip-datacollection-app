@@ -12,6 +12,8 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -24,53 +26,55 @@ public class SurveyUpdateController {
 
     private final SurveyService surveyService;
 
-//    ---
+    // ---
     private Long surveyId;
 
-//    ---
+    // ---
     private Date sowedDate;
     private Date emergenceDate;
     private Date harvestDate;
 
-//    ---
+    // ---
     private double productivityField;
     private double productivityFarmer;
     private boolean separatedWeight;
 
-//    ---
+    // ---
     private double soyaPrice;
     private double applicationCostCurrency;
 
-//    ---
+    // ---
     private String longitude;
     private String latitude;
 
-//    ---
+    // ---
     @Size(min = 3, max = 50, message = "A identificação da cultivar deve ter entre 3 e 50 caracteres")
     private String cultivarName;
     private boolean rustResistant;
     private boolean bt;
 
-//    ---
+    // ---
     private boolean sporeCollectorPresent;
     private Date collectorInstallationDate;
 
-//    ---
+    // ---
     private double totalArea;
     private double totalPlantedArea;
     private double plantPerMeter;
 
-//    ---
+    // ---
     private Date closingDate;
     private String statusClosingDatePanel = "hidden-sm hidden-md hidden-lg hidden-xs";
-    
+
     public String prepareUpdate(Long surveyId) {
 
         try {
             var currentSurvey = surveyService.readById(surveyId);
 
-            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
-            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName",
+                    currentSurvey.getFieldName());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName",
+                    currentSurvey.getHarvestName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", surveyId);
 
             this.setSowedDate(currentSurvey.getSowedDate());
@@ -86,7 +90,7 @@ public class SurveyUpdateController {
 
             this.setLongitude(currentSurvey.getLongitude());
             this.setLatitude(currentSurvey.getLatitude());
-            
+
             this.setCultivarName(currentSurvey.getCultivarName());
             this.setRustResistant(currentSurvey.isRustResistant());
             this.setBt(currentSurvey.isBt());
@@ -103,55 +107,53 @@ public class SurveyUpdateController {
             return "/survey/survey/update.xhtml";
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alteração não pode ser iniciada porque a UR não foi encontrada na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
+                    "Alteração não pode ser iniciada porque a UR não foi encontrada na base de dados!"));
             return "index.xhtml";
         }
     }
-    
+
     public String update() {
-        
-        var currentSurveyId = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId"));
-        
-        var updatedSurvey = Survey.builder()
-                                        .id(currentSurveyId)
-                                        .sowedDate(this.getSowedDate())
-                                        .emergenceDate(this.getEmergenceDate())
-                                        .harvestDate(this.getHarvestDate())
-                                        .productivityField(this.getProductivityField())
-                                        .productivityFarmer(this.getProductivityFarmer())
-                                        .separatedWeight(this.isSeparatedWeight())
-                                        .soyaPrice(this.getSoyaPrice())
-                                        .applicationCostCurrency(this.getApplicationCostCurrency())
-                                        .longitude(this.getLongitude())
-                                        .latitude(this.getLatitude())
-                                        .cultivarName(this.getCultivarName())
-                                        .rustResistant(this.isRustResistant())
-                                        .bt(this.isBt())
-                                        .sporeCollectorPresent(this.isSporeCollectorPresent())
-                                        .collectorInstallationDate(this.getCollectorInstallationDate())
-                                        .totalArea(this.getTotalArea())
-                                        .totalPlantedArea(this.getTotalPlantedArea())
-                                        .plantPerMeter(this.getPlantPerMeter())
-                                .build();
+
+        var currentSurveyId = Long.parseLong(
+                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId"));
+
+        var updatedSurvey = Survey.builder().id(currentSurveyId).sowedDate(this.getSowedDate())
+                .emergenceDate(this.getEmergenceDate()).harvestDate(this.getHarvestDate())
+                .productivityField(this.getProductivityField()).productivityFarmer(this.getProductivityFarmer())
+                .separatedWeight(this.isSeparatedWeight()).soyaPrice(this.getSoyaPrice())
+                .applicationCostCurrency(this.getApplicationCostCurrency()).longitude(this.getLongitude())
+                .latitude(this.getLatitude()).cultivarName(this.getCultivarName()).rustResistant(this.isRustResistant())
+                .bt(this.isBt()).sporeCollectorPresent(this.isSporeCollectorPresent())
+                .collectorInstallationDate(this.getCollectorInstallationDate()).totalArea(this.getTotalArea())
+                .totalPlantedArea(this.getTotalPlantedArea()).plantPerMeter(this.getPlantPerMeter()).build();
 
         try {
             updatedSurvey.setClosingDate(this.getClosingDate());
 
             surveyService.update(updatedSurvey);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Dados da UR alterados na pesquisa!"));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Dados da UR alterados na pesquisa!"));
+            return "index.xhtml";
+
+        } catch (AccessDeniedException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
+                    "UR não pode ser alterada porque o usuário não está autorizado!"));
             return "index.xhtml";
 
         } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Dados da UR não puderam ser alterados porque a a pesquisa não foi encontrada na base de dados!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
+                    "Dados da UR não puderam ser alterados porque a a pesquisa não foi encontrada na base de dados!"));
             return "update.xhtml";
 
         } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
             return "index.xhtml";
         }
 
     }
-    
+
     public List<String> searchCultivar(String excerpt) {
         return surveyService.searchCultivar(excerpt);
     }
@@ -159,7 +161,7 @@ public class SurveyUpdateController {
     public void showClosingDatePanel() {
         if (this.getStatusClosingDatePanel().equals("hidden-sm hidden-md hidden-lg hidden-xs"))
             this.setStatusClosingDatePanel("");
-        
+
         else
             this.setStatusClosingDatePanel("hidden-sm hidden-md hidden-lg hidden-xs");
     }
