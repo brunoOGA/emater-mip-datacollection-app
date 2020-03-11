@@ -1,0 +1,6 @@
+mip/target/
+/**/.DS_Store
+/**/.settings
+/**/.project
+/**/_config.yml
+/**/.vscode
