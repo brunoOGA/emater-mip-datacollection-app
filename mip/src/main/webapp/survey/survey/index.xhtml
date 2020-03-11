@@ -178,7 +178,7 @@
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="bg-black" icon="fa fw fa-yelp" action="#{pulverisationOperationController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar operação de pulverização para esta UR" position="top" />                             
 
-                            <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{surveyUpdateController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
+                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{surveyUpdateController.prepareUpdate(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />         
 
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{surveyController.delete(aSurvey.id)}" >

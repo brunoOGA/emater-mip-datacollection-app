@@ -195,10 +195,10 @@
 
                                 <p:panelGrid id="closingDatePanel" columns="1"
                                     styleClass="#{surveyUpdateController.statusClosingDatePanel}">
-                                    <p:tooltip for="@next"
-                                        value="Atenção: ao informar uma data não será mais possível inserir ou alterar qualquer informação para essa UR nesta pesquisa!"
-                                        position="top" />
                                     <p:outputLabel for="@next" value="Data de Encerramento da Coleta"></p:outputLabel>
+                                    <p:tooltip for="@next"
+                                        value="Atenção: ao informar uma data não será mais possível inserir dados de coleta para esta UR na pesquisa atual!"
+                                        position="top" />
                                     <p:datePicker id="closingDate" showIcon="true"
                                         value="#{surveyUpdateController.closingDate}" pattern="dd/MM/yyyy">
                                     </p:datePicker>
