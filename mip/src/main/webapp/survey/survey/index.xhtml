@@ -55,8 +55,8 @@
                             <h:outputText value="#{aSurvey.harvestName}" />
                         </p:column>
 
-                        <p:column headerText="Região" filterBy="#{aSurvey.getField().getRegion().getName()}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.getField().getRegion().getName()}" />
+                        <p:column headerText="Região" filterBy="#{aSurvey.regionName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aSurvey.regionName}" />
                         </p:column>
 
                         <p:column headerText="Município" filterBy="#{aSurvey.fieldCityName}" filterMatchMode="contains" >

@@ -381,4 +381,12 @@ public class Survey extends AuditingPersistenceEntity implements Serializable {
         return Optional.ofNullable(this.getField().getCity());
     }
 
+    public String getRegionName() {
+
+        return this.getField()
+                    .getRegion()
+                    .map(Region::getName)
+                    .orElse("Nenhuma");
+    }
+
 }
