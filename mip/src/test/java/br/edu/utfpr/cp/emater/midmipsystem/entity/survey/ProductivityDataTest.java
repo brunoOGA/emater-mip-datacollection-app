@@ -31,4 +31,25 @@ public class ProductivityDataTest {
 		assertThat(productivityData.isSeparatedWeight()).isFalse();
 	}
 	
+	@Test
+	public void setProductivityFarmer() {
+		productivityData.setProductivityFarmer(4215d);
+		assertThat(productivityData.getProductivityFarmer()).isEqualTo(4215d);
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void setInvalidProductivityFarmer() {
+		productivityData.setProductivityFarmer(-1);
+	}
+	
+	@Test
+	public void setProductivityField() {
+		productivityData.setProductivityField(4636d);
+		assertThat(productivityData.getProductivityField()).isEqualTo(4636d);
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void setInvalidProductivityField() {
+		productivityData.setProductivityFarmer(-1);
+	}
 }

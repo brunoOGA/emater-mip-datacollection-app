@@ -73,5 +73,11 @@ public class CultivarDataTest {
 		// verificação
 		assertThat(violations.toString()).contains("A identificação da cultivar deve ter entre 3 e 50 caracteres");
 	}
-
+	
+	@Test(expected = NullPointerException.class)
+	public void mustNotAcceptANullName() {
+		// execução
+		cultivarData.setCultivarName(null);
+	}
+	
 }

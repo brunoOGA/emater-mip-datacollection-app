@@ -20,7 +20,7 @@ public class HarvestTest {
 	
 	@Before
 	public void init() {
-		harvest = Harvest.builder().id(1L).name("").build();
+		harvest = Harvest.builder().name("").build();
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 	}
@@ -29,11 +29,12 @@ public class HarvestTest {
 	public void createHarvest() {
 		Date begin = new Date(117, 8, 26);
 		Date end = new Date(118, 1, 15);
+		harvest.setId(1L);
 		harvest.setBegin(begin);
 		harvest.setName("P95R51");
 		harvest.setEnd(end);
 		
-		//assertThat(harvest.getId()).isEqualTo(1L);
+		assertThat(harvest.getId()).isEqualTo(1L);
 		assertThat(harvest.getBegin()).isEqualTo(begin);
 		assertThat(harvest.getName()).isEqualTo("P95r51");
 		assertThat(harvest.getEnd()).isEqualTo(end);
@@ -79,4 +80,29 @@ public class HarvestTest {
 		// execução
 		harvest.setName(null);
 	}
+	
+	@Test
+	public void setBegin() {
+		Date begin = new Date(117, 8, 26);
+		harvest.setBegin(begin);
+		assertThat(harvest.getBegin()).isEqualTo(begin);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void setNullBegin() {
+		harvest.setBegin(null);
+	}
+	
+	@Test
+	public void setEnd() {
+		Date end = new Date(118, 1, 15);
+		harvest.setEnd(end);
+		assertThat(harvest.getEnd()).isEqualTo(end);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void setNullEnd() {
+		harvest.setBegin(null);
+	}
+	
 }

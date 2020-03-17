@@ -31,4 +31,16 @@ public class MIDDataTest {
 		assertThat(mIDData.getCollectorInstallationDate()).isNull();
 		assertThat(mIDData.isSporeCollectorPresent()).isFalse();
 	}
+	
+	@Test
+	public void setCollectorInstallationDate() {
+		Date collectorInstallationDate = new Date(117, 10, 1);
+		mIDData.setCollectorInstallationDate(collectorInstallationDate);
+		assertThat(mIDData.getCollectorInstallationDate()).isEqualTo(collectorInstallationDate);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void setNullCollectorInstallationDate() {
+		mIDData.setCollectorInstallationDate(null);
+	}
 }

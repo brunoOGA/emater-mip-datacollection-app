@@ -40,5 +40,40 @@ public class CropDataTest {
 		assertThat(cropData.getHarvestDate()).isNull();
 		assertThat(cropData.getSowedDate()).isNull();
 	}
+	
+	@Test
+	public void setSowedDate() {
+		Date sowedDate = new Date(117, 8, 26);
+		cropData.setEmergenceDate(sowedDate);
+		assertThat(cropData.getEmergenceDate()).isEqualTo(sowedDate);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void setNullSowedDate() {
+		cropData.setEmergenceDate(null);
+	}
+	
+	@Test
+	public void setEmergenceDate() {
+		Date emergenceDate = new Date(117, 9, 10);
+		cropData.setEmergenceDate(emergenceDate);
+		assertThat(cropData.getEmergenceDate()).isEqualTo(emergenceDate);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void setNullEmergenceDate() {
+		cropData.setEmergenceDate(null);
+	}
 
+	@Test
+	public void setHarvestDate() {
+		Date harvestDate = new Date(117, 1, 15);
+		cropData.setHarvestDate(harvestDate);
+		assertThat(cropData.getHarvestDate()).isEqualTo(harvestDate);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void setNullHarvestDate() {
+		cropData.setEmergenceDate(null);
+	}
 }

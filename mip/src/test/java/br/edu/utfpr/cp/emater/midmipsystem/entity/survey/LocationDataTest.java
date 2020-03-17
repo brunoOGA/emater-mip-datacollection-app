@@ -16,21 +16,53 @@ public class LocationDataTest {
 	
 	
 	@Test
-	public void  test1() {
+	public void  createLocationData() {
 		
-		locationData.setLatitude("2020");
-		locationData.setLongitude("1010");
+		locationData.setLatitude("52°48'45.68\"");
+		locationData.setLongitude("25°58'35.63\"");
 		
-		assertThat(locationData.getLatitude()).isEqualTo("2020");
-		assertThat(locationData.getLongitude()).isEqualTo("1010");
+		assertThat(locationData.getLatitude()).isEqualTo("52°48'45.68\"");
+		assertThat(locationData.getLongitude()).isEqualTo("25°58'35.63\"");
 	}
 	
 	@Test
-	public void test2() {
+	public void createLocationDataWithoutValues() {
 		assertThat(locationData.getLatitude()).isNull();
 		assertThat(locationData.getLongitude()).isNull();
 	}
+	
+	@Test
+	public void setLatitude() {
+		locationData.setLatitude("52°48'45.68\"");
+		assertThat(locationData.getLatitude()).isEqualTo("52°48'45.68\"");
+	}
 
+	@Test(expected = NullPointerException.class)
+	public void setNullLatitude() {
+		locationData.setLatitude(null);
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void setInvalidLatitude() {
+		locationData.setLatitude("");
+	}
 
+	@Test
+	public void setLongitude() {
+		locationData.setLongitude("25°58'35.63\"");
+		assertThat(locationData.getLongitude()).isEqualTo("25°58'35.63\"");
+	}
+	
+	
+	@Test(expected = NullPointerException.class)
+	public void setNullLongitude() {
+		locationData.setLongitude(null);
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void setInvalidLongitude() {
+		locationData.setLongitude("");
+	}
+	
 	
 }
