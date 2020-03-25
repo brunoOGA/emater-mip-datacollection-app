@@ -60,85 +60,84 @@ public final class ReportService {
                 .max();
     }
 
-    public ReviewReportDTO createReviewReport(Long surveyId) throws EntityNotFoundException {
+    public Optional<ReviewReportDTO> createReviewReport(Long surveyId) {
 
-        var currentSurvey = surveyService.readById(surveyId);
+        try {
+            var currentSurvey = surveyService.readById(surveyId);
 
-        var mipSamples = analysisService.readMIPSamplesByURId(surveyId);
-        var midSamples = midRustService.readAllMIPSampleBySurveyId(surveyId);
-        var pulverisationSamples = pulverisationService.readAllPulverisationOperationBySurveyId(surveyId);
+            var mipSamples = analysisService.readMIPSamplesByURId(surveyId);
+            var midSamples = midRustService.readAllMIPSampleBySurveyId(surveyId);
+            var pulverisationSamples = pulverisationService.readAllPulverisationOperationBySurveyId(surveyId);
 
-        var defoliationChartData = analysisService.getDefoliationChart(mipSamples);
-        var caterpillarChartData = analysisService.getCaterpillarChart(mipSamples);
-        var bedbugChartData = analysisService.getBedBugChart(mipSamples);
-        var naturalPredatorChartData = analysisService.getNaturalPredatorChart(mipSamples);
+            var defoliationChartData = analysisService.getDefoliationChart(mipSamples);
+            var caterpillarChartData = analysisService.getCaterpillarChart(mipSamples);
+            var bedbugChartData = analysisService.getBedBugChart(mipSamples);
+            var naturalPredatorChartData = analysisService.getNaturalPredatorChart(mipSamples);
 
-        var minMIPDate = this.getMinMIPDate(mipSamples);
-        var minMIDDate = this.getMinMIDDate(midSamples);
+            var minMIPDate = this.getMinMIPDate(mipSamples);
+            var minMIDDate = this.getMinMIDDate(midSamples);
 
-        var maxMIPDate = this.getMaxMIPDate(mipSamples);
-        var maxMIDDate = this.getMaxMIDDate(midSamples);
+            var maxMIPDate = this.getMaxMIPDate(mipSamples);
+            var maxMIDDate = this.getMaxMIDDate(midSamples);
 
-        return ReviewReportDTO.builder()
-                .cityName(currentSurvey.getCity().map(City::getName).orElse("Indefinda"))
-                .farmerName(currentSurvey.getFarmerString())
-                
-                .supervisorNames(
-                        Optional.ofNullable(
-                                currentSurvey.getField()
-                        ).map(Field::getSupervisorNames)
-                         .orElse(Stream.of("Indefinido")
-                         .collect(Collectors.toList()))
-                )
-                
-                .cultivarName(currentSurvey.getCultivarName())
-                .bt(currentSurvey.isBt())
-                .rustResistant(currentSurvey.isRustResistant())
-                .totalArea(currentSurvey.getTotalArea())
-                .sporeCollectorPresent(currentSurvey.isSporeCollectorPresent())
-                .sowedDate(currentSurvey.getSowedDate())
-                .emergenceDate(currentSurvey.getEmergenceDate())
-                .productivityField(currentSurvey.getProductivityField())
-                .productivityFarmer(currentSurvey.getProductivityFarmer())
-                .defoliationChartData(defoliationChartData)
-                .quantitySamplesMIP(mipSamples.size())
-                .dateFirstSampleMIP(minMIPDate.isPresent() ? new Date(minMIPDate.getAsLong()) : null)
-                .dateLastSampleMIP(maxMIPDate.isPresent() ? new Date(maxMIPDate.getAsLong()) : null)
-                
-                .quantityApplicationsInseticidaMIP(pulverisationSamples.stream()
-                        .flatMap(sample -> sample.getOperationOccurrences().stream())
-                        .filter(PulverisationOperationOccurrence::isTargetMIP)
-                        .count()
-                )
-                
-                .quantityApplicationsInseticidaBiologicoMIP(pulverisationSamples.stream()
-                        .flatMap(sample -> sample.getOperationOccurrences().stream())
-                        .filter(PulverisationOperationOccurrence::isInseticidaBiologico)
-                        .count()
-                )
+            return Optional.of(
+                ReviewReportDTO.builder()
+                    .cityName(currentSurvey.getCity().map(City::getName).orElse("Indefinda"))
+                    .farmerName(currentSurvey.getFarmerString())
+                    .supervisorNames(
+                            Optional.ofNullable(
+                                    currentSurvey.getField()
+                            ).map(Field::getSupervisorNames)
+                                    .orElse(Stream.of("Indefinido")
+                                            .collect(Collectors.toList()))
+                    )
+                    .cultivarName(currentSurvey.getCultivarName())
+                    .bt(currentSurvey.isBt())
+                    .rustResistant(currentSurvey.isRustResistant())
+                    .totalArea(currentSurvey.getTotalArea())
+                    .sporeCollectorPresent(currentSurvey.isSporeCollectorPresent())
+                    .sowedDate(currentSurvey.getSowedDate())
+                    .emergenceDate(currentSurvey.getEmergenceDate())
+                    .productivityField(currentSurvey.getProductivityField())
+                    .productivityFarmer(currentSurvey.getProductivityFarmer())
+                    .defoliationChartData(defoliationChartData)
+                    .quantitySamplesMIP(mipSamples.size())
+                    .dateFirstSampleMIP(minMIPDate.isPresent() ? new Date(minMIPDate.getAsLong()) : null)
+                    .dateLastSampleMIP(maxMIPDate.isPresent() ? new Date(maxMIPDate.getAsLong()) : null)
+                    .quantityApplicationsInseticidaMIP(pulverisationSamples.stream()
+                            .flatMap(sample -> sample.getOperationOccurrences().stream())
+                            .filter(PulverisationOperationOccurrence::isTargetMIP)
+                            .count()
+                    )
+                    .quantityApplicationsInseticidaBiologicoMIP(pulverisationSamples.stream()
+                            .flatMap(sample -> sample.getOperationOccurrences().stream())
+                            .filter(PulverisationOperationOccurrence::isInseticidaBiologico)
+                            .count()
+                    )
+                    .caterpillarChartData(caterpillarChartData)
+                    .bedBugChartData(bedbugChartData)
+                    .naturalPredatorChartData(naturalPredatorChartData)
+                    .quantitySamplesMID(midSamples.size())
+                    .sporePresentMID(midSamples.stream()
+                            .filter(currentSample -> currentSample.isSporePresent() == true)
+                            .count() > 0 ? true : false
+                    )
+                    .dateFirstSampleMID(minMIDDate.isPresent() ? new Date(minMIDDate.getAsLong()) : null)
+                    .dateLastSampleMID(maxMIDDate.isPresent() ? new Date(maxMIDDate.getAsLong()) : null)
+                    .quantityApplicationsMID(pulverisationSamples.stream()
+                            .flatMap(sample -> sample.getOperationOccurrences().stream())
+                            .filter(PulverisationOperationOccurrence::isTargetMID)
+                            .count()
+                    )
+                    .mipSamples(mipSamples)
+                    .midRustSamples(midSamples)
+                    .pulverisationOperationSamples(pulverisationSamples)
+                    .build()
+            );
 
-                .caterpillarChartData(caterpillarChartData)
-                .bedBugChartData(bedbugChartData)
-                .naturalPredatorChartData(naturalPredatorChartData)
-                .quantitySamplesMID(midSamples.size())
-                
-                .sporePresentMID(midSamples.stream()
-                        .filter(currentSample -> currentSample.isSporePresent() == true)
-                        .count() > 0 ? true : false
-                )
-                
-                .dateFirstSampleMID(minMIDDate.isPresent() ? new Date(minMIDDate.getAsLong()) : null)
-                .dateLastSampleMID(maxMIDDate.isPresent() ? new Date(maxMIDDate.getAsLong()) : null)
-                        
-                .quantityApplicationsMID(pulverisationSamples.stream()
-                        .flatMap(sample -> sample.getOperationOccurrences().stream())
-                        .filter(PulverisationOperationOccurrence::isTargetMID)
-                        .count()
-                )
-                        
-                .mipSamples(mipSamples)
-                .midRustSamples(midSamples)
-                .pulverisationOperationSamples(pulverisationSamples)
-            .build();
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+
     }
 }

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/template.xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:hf="http://highfaces.org">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Relatório de Conferência" />
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form>
+            <p:growl showDetail="true" life="3000"></p:growl>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Dados Gerais</h3>
+                </div>
+
+                <div class="box-body">
+                    <p:panelGrid columns="2" layout="tabular"
+                                 columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4">
+
+                        <p:outputLabel for="cityOutput" value="Município" />
+                        <p:outputLabel id="cityOutput" value="#{reviewReportController.cityName}" />
+
+                        <p:outputLabel for="farmerOutput" value="Produtor" />
+                        <p:outputLabel id="farmerOutput" value="#{reviewReportController.farmerName}" />
+
+                        <p:outputLabel for="supervisorOutput" value="Responsável Técnico" />
+                        <p:outputLabel id="supervisorOutput" value="#{reviewReportController.supervisorNames}" />
+
+                        <p:outputLabel for="cultivarOutput" value="Cultivar" />
+                        <p:outputLabel id="cultivarOutput" value="#{reviewReportController.cultivarName}" />
+
+                        <p:outputLabel for="btOutput" value="É BT?" />
+                        <p:outputLabel id="btOutput" value="#{reviewReportController.bt ? 'Sim' : 'Não'}" />
+
+                        <p:outputLabel for="rustOutput" value="É Resistente a ferrugem?" />
+                        <p:outputLabel id="rustOutput" value="#{reviewReportController.rustResistant ? 'Sim' : 'Não'}" />
+
+                        <p:outputLabel for="totalAreaOutput" value="Área Total" />
+                        <p:outputLabel id="totalAreaOutput" value="#{reviewReportController.totalArea}" />
+
+                        <p:outputLabel for="sporeCollectorOutput" value="Possui Coletor de Esporos?" />
+                        <p:outputLabel id="sporeCollectorOutput" value="#{reviewReportController.sporeCollectorPresent ? 'Sim' : 'Não'}" />
+
+                        <p:outputLabel for="sowedDateOutput" value="Data de Plantio" />
+                        <p:outputLabel id="sowedDateOutput" value="#{reviewReportController.sowedDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </p:outputLabel>
+
+                        <p:outputLabel for="emergenceDateOutput" value="Data de Emergência" />
+                        <p:outputLabel id="emergenceDateOutput" value="#{reviewReportController.emergenceDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </p:outputLabel>
+
+                        <p:outputLabel for="unitProductivityOutput" value="Produtividade da Unidade" />
+                        <p:outputLabel id="unitProductivityOutput" value="#{reviewReportController.productivityField}" />
+
+                        <p:outputLabel for="areaProductivityOutput" value="Produtividade da Área" />
+                        <p:outputLabel id="areaProductivityOutput" value="#{reviewReportController.productivityFarmer}" />
+                    </p:panelGrid>
+                </div>
+            </div>
+
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Desfolha</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">MIP</h3>
+                </div>
+
+                <div class="box-body">
+                    <p:panelGrid columns="2" layout="tabular"
+                                 columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4">
+
+                        <p:outputLabel for="quantitySamplesMIP" value="Número de amostragens" />
+                        <p:outputLabel id="quantitySamplesMIP" value="#{reviewReportController.quantitySamplesMIP}" />
+
+                        <p:outputLabel for="quantityApplicationsInseticidaMIP" value="Número de Aplicações (Total)" />
+                        <p:outputLabel id="quantityApplicationsInseticidaMIP" value="#{reviewReportController.quantityApplicationsInseticidaMIP}" />
+
+                        <p:outputLabel for="quantityApplicationsInseticidaBiologicoMIP" value="Número de Aplicações (Inseticida Biológico)" />
+                        <p:outputLabel id="quantityApplicationsInseticidaBiologicoMIP" value="#{reviewReportController.quantityApplicationsInseticidaBiologicoMIP}" />
+
+                        <p:outputLabel for="dateFirstSampleMIP" value="Data da Primeira Amostragem" />
+                        <p:outputLabel id="dateFirstSampleMIP" value="#{reviewReportController.dateFirstSampleMIP}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </p:outputLabel>
+
+                        <p:outputLabel for="dateLastSampleMIP" value="Data da Última Amostragem" />
+                        <p:outputLabel id="dateLastSampleMIP" value="#{reviewReportController.dateLastSampleMIP}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </p:outputLabel>
+                    </p:panelGrid>
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Evolução da Flutuação de Lagartas</h3>
+                        </div>
+                        <div class="box-body">
+
+
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Evolução da Flutuação de Percevejos</h3>
+                        </div>
+                        <div class="box-body">
+
+
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Evolução da Flutuação de Inimigos Naturais</h3>
+                        </div>
+                        <div class="box-body">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-secondary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">MID</h3>
+                </div>
+
+                <div class="box-body">
+                    <p:panelGrid columns="2" layout="tabular"
+                                 columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4">
+
+                        <p:outputLabel for="quantitySamplesMID" value="Número de amostragens" />
+                        <p:outputLabel id="quantitySamplesMID" value="#{reviewReportController.quantitySamplesMID}" />
+
+                        <p:outputLabel for="sporePresentMID" value="Presença de Esporos" />
+                        <p:outputLabel id="sporePresentMID" value="#{reviewReportController.sporePresentMID ? 'Sim' : 'Não'}" />
+
+                        <p:outputLabel for="quantityApplicationsMID" value="Número de Aplicações (Total)" />
+                        <p:outputLabel id="quantityApplicationsMID" value="#{reviewReportController.quantityApplicationsMID}" />
+
+                        <p:outputLabel for="dateFirstSampleMID" value="Data da Primeira Amostragem" />
+                        <p:outputLabel id="dateFirstSampleMID" value="#{reviewReportController.dateFirstSampleMID}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </p:outputLabel>
+
+                        <p:outputLabel for="dateLastSampleMID" value="Data da Última Amostragem" />
+                        <p:outputLabel id="dateLastSampleMID" value="#{reviewReportController.dateLastSampleMID}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </p:outputLabel>
+                    </p:panelGrid>
+                </div>
+            </div>
+
+
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Coletas</h3>
+                </div>
+
+                <div class="box-body">
+
+                    <div class="box box-solid box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Flutuação de Pragras</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <p:dataTable expandedRow="true"  id="sampleTable" var="aSample" value="#{reviewReportController.mipSamples}">
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+                                <p:column headerText="Data da Amostra">
+                                    <h:outputText value="#{aSample.sampleDate}" >
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Dias Após Emergência">
+                                    <h:outputText value="#{mipSampleDetailController.calculateDAE(aSample)}" />
+                                </p:column>
+
+                                <p:column headerText="(%) de Desfolha">
+                                    <h:outputText value="#{aSample.defoliation}" />
+                                </p:column>
+
+                                <p:column headerText="Estádio da Cultura">
+                                    <h:outputText value="#{aSample.growthPhase.description}" />
+                                </p:column>
+
+                                <p:rowExpansion>
+                                    <p:dataTable var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
+
+                                        <p:column headerText="Inseto Praga">
+                                            <h:outputText value="#{aPestSample.pestUsualName}" />
+                                        </p:column>
+
+                                        <p:column headerText="Tamanho">
+                                            <h:outputText value="#{aPestSample.pestSizeName}" />
+                                        </p:column>
+
+                                        <p:column headerText="Média Encontrada">
+                                            <h:outputText value="#{aPestSample.value}" >
+                                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                            </h:outputText>
+                                        </p:column>
+
+                                    </p:dataTable>  
+
+                                </p:rowExpansion>
+                            </p:dataTable> 
+                        </div>
+                    </div>
+
+                    <div class="box box-solid box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Doenças das Pragas</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <p:dataTable expandedRow="true"  var="aSample" value="#{reviewReportController.mipSamples}">
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+                                <p:column headerText="Data da Amostra">
+                                    <h:outputText value="#{aSample.sampleDate}" >
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Dias Após Emergência">
+                                    <h:outputText value="#{mipSampleDetailController.calculateDAE(aSample)}" />
+                                </p:column>
+
+                                <p:column headerText="(%) de Desfolha">
+                                    <h:outputText value="#{aSample.defoliation}" />
+                                </p:column>
+
+                                <p:column headerText="Estádio da Cultura">
+                                    <h:outputText value="#{aSample.growthPhase.description}" />
+                                </p:column>
+
+                                <p:rowExpansion>
+
+                                    <p:dataTable var="aPestDiseaseSample" value="#{aSample.mipSamplePestDiseaseOccurrence}">
+
+                                        <p:column headerText="Inseto Praga">
+                                            <h:outputText value="#{aPestDiseaseSample.pestDiseaseUsualName}" />
+                                        </p:column>
+
+                                        <p:column headerText="Média Encontrada">
+                                            <h:outputText value="#{aPestDiseaseSample.value}" >
+                                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:dataTable>  
+
+                                </p:rowExpansion>
+                            </p:dataTable> 
+                        </div>
+                    </div>
+
+                    <div class="box box-solid box-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Inimigos Naturais de Pragas</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <p:dataTable expandedRow="true" var="aSample" value="#{reviewReportController.mipSamples}">
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+                                <p:column headerText="Data da Amostra">
+                                    <h:outputText value="#{aSample.sampleDate}" >
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Dias Após Emergência">
+                                    <h:outputText value="#{mipSampleDetailController.calculateDAE(aSample)}" />
+                                </p:column>
+
+                                <p:column headerText="(%) de Desfolha">
+                                    <h:outputText value="#{aSample.defoliation}" />
+                                </p:column>
+
+                                <p:column headerText="Estádio da Cultura">
+                                    <h:outputText value="#{aSample.growthPhase.description}" />
+                                </p:column>
+
+                                <p:rowExpansion>
+
+                                    <p:dataTable var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
+
+                                        <p:column headerText="Inimigo Natural de Pragas">
+                                            <h:outputText value="#{aNaturalPredatorSample.pestNaturalPredatorUsualName}" />
+                                        </p:column>
+
+                                        <p:column headerText="Média Encontrada">
+                                            <h:outputText value="#{aNaturalPredatorSample.value}" >
+                                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:dataTable> 
+                                </p:rowExpansion>
+                            </p:dataTable>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
