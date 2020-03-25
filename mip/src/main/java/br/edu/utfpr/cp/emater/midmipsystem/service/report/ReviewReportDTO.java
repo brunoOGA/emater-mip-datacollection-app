@@ -37,8 +37,8 @@ public class ReviewReportDTO implements Serializable {
     private final int quantitySamplesMIP;
     private final Date dateFirstSampleMIP;
     private final Date dateLastSampleMIP;
-    private final int quantityApplicationsInseticidaMIP;
-    private final int quantityApplicationsInseticidaBiologicoMIP;
+    private final long quantityApplicationsInseticidaMIP;
+    private final long quantityApplicationsInseticidaBiologicoMIP;
     private final Map<String, List<DAEAndOccurrenceDTO>> caterpillarChartData;
     private final Map<String, List<DAEAndOccurrenceDTO>> bedBugChartData;
     private final Map<String, List<DAEAndOccurrenceDTO>> naturalPredatorChartData;
@@ -47,7 +47,7 @@ public class ReviewReportDTO implements Serializable {
     private final boolean sporePresentMID;
     private final Date dateFirstSampleMID;
     private final Date dateLastSampleMID;
-    private final int quantityApplicationsMID;
+    private final long quantityApplicationsMID;
 
     private final List<MIPSample> mipSamples;
     private final List<MIDRustSample> midRustSamples;
