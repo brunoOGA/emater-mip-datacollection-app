@@ -72,6 +72,8 @@
                 </div>
             </div>
 
+            <p style="page-break-before:always"></p>
+
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">Desfolha</h3>
@@ -87,6 +89,8 @@
                     </div>
                 </div>
             </div>
+
+            <p style="page-break-before:always"></p>
 
             <div class="box box-success">
                 <div class="box-header with-border">
@@ -116,6 +120,8 @@
                             <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                         </p:outputLabel>
                     </p:panelGrid>
+
+                    <p style="page-break-before:always"></p>
 
                     <div class="box">
                         <div class="box-header">
@@ -149,6 +155,9 @@
                 </div>
             </div>
 
+
+            <p style="page-break-before:always"></p>
+
             <div class="box box-secondary">
                 <div class="box-header with-border">
                     <h3 class="box-title">MID</h3>
@@ -181,6 +190,8 @@
             </div>
 
 
+            <p style="page-break-before:always"></p>
+            
             <div class="box box-danger">
                 <div class="box-header with-border">
                     <h3 class="box-title">Coletas</h3>
@@ -240,6 +251,8 @@
                         </div>
                     </div>
 
+                    <p style="page-break-before:always"></p>
+                    
                     <div class="box box-solid box-success">
                         <div class="box-header with-border">
                             <h3 class="box-title">Doenças das Pragas</h3>
@@ -287,6 +300,8 @@
                             </p:dataTable> 
                         </div>
                     </div>
+                    
+                    <p style="page-break-before:always"></p>
 
                     <div class="box box-solid box-danger">
                         <div class="box-header with-border">
@@ -334,6 +349,185 @@
                             </p:dataTable>  
                         </div>
                     </div>
+                    
+                    <p style="page-break-before:always"></p>
+
+                    <div class="box box-solid box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Monitoramento da Ferrugem</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <p:dataTable reflow="true" value="#{reviewReportController.midRustSamples}" var="aSample" >
+
+                                <p:columnGroup type="header">
+                                    <p:row>
+                                        <p:column rowspan="2" headerText="Data da Amostra" />
+                                        <p:column colspan="5" headerText="Coletor de Esporos" />
+                                        <p:column colspan="2" headerText="Inspeção Foliar" />
+                                    </p:row>
+                                    <p:row>
+                                        <p:column headerText="Lâmina Colocada na Véspera da Frente Fria" />
+                                        <p:column headerText="Profissional Responsável pela Leitura da Lâmina" />
+                                        <p:column headerText="Entidade do Responsável pela Leitura e Local" />
+                                        <p:column headerText="Data de Leitura da Lâmina" />
+                                        <p:column headerText="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
+
+                                        <p:column headerText="Estádio das Plantas" />
+                                        <p:column headerText="Resultado da Inspeção Foliar para Ferrugem Asiática" />
+
+
+                                    </p:row>
+                                </p:columnGroup>
+
+                                <p:column>
+                                    <h:outputText value="#{aSample.sampleDate}" >
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column>
+                                    <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeInstalledPreCold ? 'Sim' : 'Não'}" />
+                                </p:column>
+
+                                <p:column>
+                                    <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.name}" />
+                                </p:column>
+
+                                <p:column >
+                                    <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.entityName}" />
+                                </p:column>
+
+                                <p:column >
+                                    <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingDate}" >
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column >
+                                    <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingRustResultCollector.description}" />
+                                </p:column>
+
+                                <p:column >
+                                    <h:outputText value="#{aSample.leafInspectionOccurrence.growthPhase.description}" />
+                                </p:column>
+
+                                <p:column >
+                                    <h:outputText value="#{aSample.leafInspectionOccurrence.bladeReadingRustResultLeafInspection.description}" />
+                                </p:column>
+                            </p:dataTable>  
+                        </div>
+                    </div>
+
+                    <p style="page-break-before:always"></p>
+
+                    <div class="box box-solid box-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Operações de Pulverização</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <p:dataTable expandedRow="true" var="aPulverisation"
+                                         value="#{reviewReportController.pulverisationOperationSamples}">
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+                                <p:column headerText="Data da Operação">
+                                    <h:outputText value="#{aPulverisation.sampleDate}">
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Dias Após Emergência">
+                                    <h:outputText
+                                        value="#{aPulverisation.getDAE()}" />
+                                </p:column>
+
+                                <p:column headerText="Estádio da Cultura">
+                                    <h:outputText value="#{aPulverisation.growthPhase.description}" />
+                                </p:column>
+
+                                <p:column headerText="Volume de Calda (l/ha)">
+                                    <h:outputText value="#{aPulverisation.caldaVolume}" />
+                                </p:column>
+
+                                <p:column headerText="Pulverização Parcial">
+                                    <h:outputText value="#{aPulverisation.pulverisationArea}" rendered="#{aPulverisation.pulverisationArea != 0}" />
+                                    <h:outputText value="Não" rendered="#{aPulverisation.pulverisationArea == 0}" />
+                                </p:column>
+
+                                <p:column headerText="Preço da Soja (R$/sc)">
+                                    <h:outputText value="#{aPulverisation.soyaPrice}">
+                                        <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Custo da Aplicação (R$/ha)">
+                                    <h:outputText value="#{aPulverisation.applicationCostCurrency}">
+                                        <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Custo Total da Operação (R$/ha)">
+                                    <h:outputText value="#{aPulverisation.totalOperationCostCurrency}">
+                                        <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Custo da Aplicação (sc/ha)">
+                                    <h:outputText value="#{aPulverisation.applicationCostQty}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Custo Total da Operação (sc/ha)">
+                                    <h:outputText value="#{aPulverisation.totalOperationCostCurrency / aPulverisation.soyaPrice}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:rowExpansion>
+                                    <p:dataTable var="anOccurrence" value="#{aPulverisation.operationOccurrences}">
+
+                                        <p:column headerText="Categoria do Produto">
+                                            <h:outputText value="#{anOccurrence.targetCategoryDescription}" />
+                                        </p:column>
+
+                                        <p:column headerText="Alvo Principal/Função">
+                                            <h:outputText value="#{anOccurrence.targetDescription}" />
+                                        </p:column>
+
+                                        <p:column headerText="Nome do Produto - Dosagem (Unidade)">
+                                            <h:outputText value="#{anOccurrence.productFormattedName}" />
+                                        </p:column>
+
+                                        <p:column headerText="Preço">
+                                            <h:outputText value="#{anOccurrence.productPrice}">
+                                                <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2"
+                                                                 locale="pt_BR" />
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Custo Produto (R$/ha)">
+                                            <h:outputText value="#{anOccurrence.productCostCurrency}">
+                                                <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2"
+                                                                 locale="pt_BR" />
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Custo Produto (sc/ha)">
+                                            <h:outputText value="#{anOccurrence.productCostCurrency / aPulverisation.soyaPrice}">
+                                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                            </h:outputText>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </p:rowExpansion>
+
+                            </p:dataTable>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 

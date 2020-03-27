@@ -89,6 +89,8 @@ public class ReviewReportController implements Serializable {
         this.quantityApplicationsMID = result.getQuantityApplicationsMID();
         
         this.mipSamples = result.getMipSamples();
+        this.midRustSamples = result.getMidRustSamples();
+        this.pulverisationOperationSamples = result.getPulverisationOperationSamples();
 
     }
 
