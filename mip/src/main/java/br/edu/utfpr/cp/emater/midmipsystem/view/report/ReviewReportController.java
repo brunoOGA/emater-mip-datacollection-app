@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.report;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
@@ -13,10 +14,13 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Component
 @ViewScoped
@@ -102,7 +106,12 @@ public class ReviewReportController implements Serializable {
 
     @PostConstruct
     public void init() {
-        URsAvailable = reportService.readSurveyBySupervisorId(1L);
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session= attr.getRequest().getSession(true);
+        
+        var currentSupervisor = (Supervisor) session.getAttribute("currentSupervisor");
+        
+        URsAvailable = reportService.readSurveyBySupervisorId(currentSupervisor.getId());
     }
 
 }
