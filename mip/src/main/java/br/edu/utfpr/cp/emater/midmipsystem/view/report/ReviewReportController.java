@@ -102,6 +102,11 @@ public class ReviewReportController implements Serializable {
         this.mipSamples = result.getMipSamples();
         this.midRustSamples = result.getMidRustSamples();
         this.pulverisationOperationSamples = result.getPulverisationOperationSamples();
+        
+        this.defoliationChartData = result.getDefoliationChartData();
+        this.caterpillarChartData = result.getCaterpillarChartData();
+        this.bedBugChartData = result.getBedBugChartData();
+        this.naturalPredatorChartData = result.getNaturalPredatorChartData();
     }
 
     @PostConstruct

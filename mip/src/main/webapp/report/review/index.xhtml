@@ -18,7 +18,7 @@
 
     <ui:define name="body">
         <h:form>
-            
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-default">
@@ -34,7 +34,7 @@
                                     <div class="col-md-5">
                                         <p:outputLabel for="@next" value="UR" />
                                         <p:selectOneMenu id="urSelectComponent" value="#{reviewReportController.selectedURId}" filter="true" filterMatchMode="contains">
-                                            <p:ajax listener="#{reviewReportController.onURSelectionChangeEvent()}" update="dataSummary mipSummary midSummary mipTablePestFluctuation mipTablePestDisease mipTableNaturalEnemy midTableRust pulverisationTable" />
+                                            <p:ajax listener="#{reviewReportController.onURSelectionChangeEvent()}" update="dataSummary mipSummary midSummary mipTablePestFluctuation mipTablePestDisease mipTableNaturalEnemy midTableRust pulverisationTable defoliationChart caterpillarFluctuationChart bedBugFluctuationChart predatorChart" />
                                             <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
                                             <f:selectItems value="#{reviewReportController.URsAvailable}" var="ur" itemLabel="#{ur.fieldName} (#{ur.fieldCityName})" itemValue="#{ur.id}" />
                                         </p:selectOneMenu>
@@ -116,8 +116,8 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div>
-
+                            <div style="width: 900px">
+                                <hf:chart id="defoliationChart" type="line" value="#{reviewReportController.defoliationChartData}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="(%) de Desfolha" ></hf:chart>
                             </div>
                         </div>
                     </div>
@@ -163,28 +163,36 @@
                             <h3 class="box-title">Evolução da Flutuação de Lagartas</h3>
                         </div>
                         <div class="box-body">
-
+                            <div style="width: 900px">
+                                <hf:chart id="caterpillarFluctuationChart" type="line" value="#{reviewReportController.caterpillarChartData}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                            </div>
 
                         </div>
                     </div>
 
+                    <p style="page-break-before:always"></p>
+                    
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Evolução da Flutuação de Percevejos</h3>
                         </div>
                         <div class="box-body">
-
-
+                            <div style="width: 900px">
+                                <hf:chart id="bedBugFluctuationChart" type="line" value="#{reviewReportController.bedBugChartData}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                            </div>
                         </div>
                     </div>
+                    
+                    <p style="page-break-before:always"></p>
 
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Evolução da Flutuação de Inimigos Naturais</h3>
                         </div>
                         <div class="box-body">
-
-
+                            <div style="width: 900px">
+                                <hf:chart id="predatorChart" type="line" value="#{reviewReportController.naturalPredatorChartData}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                            </div>
                         </div>
                     </div>
                 </div>
