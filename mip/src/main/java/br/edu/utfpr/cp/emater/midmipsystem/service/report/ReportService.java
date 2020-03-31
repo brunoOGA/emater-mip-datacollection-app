@@ -5,6 +5,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperationOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.AnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleService;
@@ -139,5 +140,9 @@ public final class ReportService {
             return Optional.empty();
         }
 
+    }
+
+    public List<Survey> readSurveyBySupervisorId(Long surveyId) {
+        return surveyService.readBySupervisorId(surveyId);
     }
 }

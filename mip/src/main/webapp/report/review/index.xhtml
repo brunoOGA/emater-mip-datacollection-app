@@ -18,7 +18,40 @@
 
     <ui:define name="body">
         <h:form>
-            <p:growl showDetail="true" life="3000"></p:growl>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Selecione a UR para visualizar os dados</h3>
+                        </div>
+
+                        <div class="box-body" style="display: block;">
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+                                    <div class="col-md-5">
+                                        <p:outputLabel for="@next" value="UR" />
+                                        <p:selectOneMenu id="urSelectComponent" value="#{reviewReportController.selectedURId}" filter="true" filterMatchMode="contains">
+                                            <p:ajax listener="#{reviewReportController.onURSelectionChangeEvent()}" update="dataSummary mipSummary midSummary mipTablePestFluctuation mipTablePestDisease mipTableNaturalEnemy midTableRust pulverisationTable" />
+                                            <f:selectItem itemLabel="Todas" itemValue="${null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{reviewReportController.URsAvailable}" var="ur" itemLabel="#{ur.fieldName} (#{ur.fieldCityName})" itemValue="#{ur.id}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="@previous" ></p:message>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -26,7 +59,8 @@
                 </div>
 
                 <div class="box-body">
-                    <p:panelGrid columns="2" layout="tabular"
+                    <p:panelGrid id="dataSummary"
+                                 columns="2" layout="tabular"
                                  columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4">
 
                         <p:outputLabel for="cityOutput" value="Município" />
@@ -98,7 +132,8 @@
                 </div>
 
                 <div class="box-body">
-                    <p:panelGrid columns="2" layout="tabular"
+                    <p:panelGrid id="mipSummary"
+                                 columns="2" layout="tabular"
                                  columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4">
 
                         <p:outputLabel for="quantitySamplesMIP" value="Número de amostragens" />
@@ -164,7 +199,8 @@
                 </div>
 
                 <div class="box-body">
-                    <p:panelGrid columns="2" layout="tabular"
+                    <p:panelGrid id="midSummary"
+                                 columns="2" layout="tabular"
                                  columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4">
 
                         <p:outputLabel for="quantitySamplesMID" value="Número de amostragens" />
@@ -191,7 +227,7 @@
 
 
             <p style="page-break-before:always"></p>
-            
+
             <div class="box box-danger">
                 <div class="box-header with-border">
                     <h3 class="box-title">Coletas</h3>
@@ -205,7 +241,7 @@
                         </div>
 
                         <div class="box-body">
-                            <p:dataTable expandedRow="true"  id="sampleTable" var="aSample" value="#{reviewReportController.mipSamples}">
+                            <p:dataTable expandedRow="true"  id="mipTablePestFluctuation" var="aSample" value="#{reviewReportController.mipSamples}">
                                 <p:column style="width:16px">
                                     <p:rowToggler />
                                 </p:column>
@@ -252,14 +288,14 @@
                     </div>
 
                     <p style="page-break-before:always"></p>
-                    
+
                     <div class="box box-solid box-success">
                         <div class="box-header with-border">
                             <h3 class="box-title">Doenças das Pragas</h3>
                         </div>
 
                         <div class="box-body">
-                            <p:dataTable expandedRow="true"  var="aSample" value="#{reviewReportController.mipSamples}">
+                            <p:dataTable id="mipTablePestDisease" expandedRow="true"  var="aSample" value="#{reviewReportController.mipSamples}">
                                 <p:column style="width:16px">
                                     <p:rowToggler />
                                 </p:column>
@@ -300,7 +336,7 @@
                             </p:dataTable> 
                         </div>
                     </div>
-                    
+
                     <p style="page-break-before:always"></p>
 
                     <div class="box box-solid box-danger">
@@ -309,7 +345,7 @@
                         </div>
 
                         <div class="box-body">
-                            <p:dataTable expandedRow="true" var="aSample" value="#{reviewReportController.mipSamples}">
+                            <p:dataTable id="mipTableNaturalEnemy" expandedRow="true" var="aSample" value="#{reviewReportController.mipSamples}">
                                 <p:column style="width:16px">
                                     <p:rowToggler />
                                 </p:column>
@@ -349,7 +385,7 @@
                             </p:dataTable>  
                         </div>
                     </div>
-                    
+
                     <p style="page-break-before:always"></p>
 
                     <div class="box box-solid box-success">
@@ -358,7 +394,7 @@
                         </div>
 
                         <div class="box-body">
-                            <p:dataTable reflow="true" value="#{reviewReportController.midRustSamples}" var="aSample" >
+                            <p:dataTable id="midTableRust" reflow="true" value="#{reviewReportController.midRustSamples}" var="aSample" >
 
                                 <p:columnGroup type="header">
                                     <p:row>
@@ -427,7 +463,7 @@
                         </div>
 
                         <div class="box-body">
-                            <p:dataTable expandedRow="true" var="aPulverisation"
+                            <p:dataTable id="pulverisationTable" expandedRow="true" var="aPulverisation"
                                          value="#{reviewReportController.pulverisationOperationSamples}">
                                 <p:column style="width:16px">
                                     <p:rowToggler />

@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.report;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.service.report.ReportService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.report.ReviewReportDTO;
@@ -15,6 +16,7 @@ import javax.faces.view.ViewScoped;
 import org.springframework.stereotype.Component;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Component
 @ViewScoped
@@ -57,11 +59,16 @@ public class ReviewReportController implements Serializable {
     private List<PulverisationOperation> pulverisationOperationSamples;
 
     private final ReportService reportService;
-
-    @PostConstruct
-    public void init() {
-
-        var result = reportService.createReviewReport(158L).orElse(ReviewReportDTO.builder().build());
+    
+    @Setter
+    private Long selectedURId;
+    
+    private List<Survey> URsAvailable;
+    
+    public void onURSelectionChangeEvent() {
+        
+        var result = reportService.createReviewReport(this.selectedURId)
+                .orElse(ReviewReportDTO.builder().build());
 
         this.cityName = result.getCityName();
         this.farmerName = result.getFarmerName();
@@ -91,7 +98,11 @@ public class ReviewReportController implements Serializable {
         this.mipSamples = result.getMipSamples();
         this.midRustSamples = result.getMidRustSamples();
         this.pulverisationOperationSamples = result.getPulverisationOperationSamples();
+    }
 
+    @PostConstruct
+    public void init() {
+        URsAvailable = reportService.readSurveyBySupervisorId(1L);
     }
 
 }
