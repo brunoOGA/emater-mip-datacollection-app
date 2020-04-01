@@ -214,5 +214,9 @@ public class SurveyService {
     public List<Survey> readByRegion(Region aRegion) {
         return surveyRepository.findByRegionId(aRegion.getId());
     }
+    
+    public List<Survey> readBySupervisorId(Long aSupervisorId) {
+        return surveyRepository.findBySupervisorId(aSupervisorId);
+    }
 
 }

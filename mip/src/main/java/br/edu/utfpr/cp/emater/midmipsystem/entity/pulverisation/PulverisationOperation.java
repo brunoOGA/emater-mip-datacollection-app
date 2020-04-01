@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -150,5 +151,31 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
         return this.operationOccurrences.stream()
                 .map(currrentOccurrence -> currrentOccurrence.isTargetMID())
                 .anyMatch(currentOccurrence -> currentOccurrence == true);
+    }
+    
+    public int getDAE() {
+        if (this.getSurvey() == null) {
+            return 0;
+        }
+
+        if (this.getSurvey().getEmergenceDate() == null) {
+            return 0;
+        }
+
+        if (this.getSampleDate() == null) {
+            return 0;
+        }
+
+        long diffInMillies = (this.getSampleDate().getTime() - this.getSurvey().getEmergenceDate().getTime());
+
+        if (diffInMillies > 0) {
+            var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+            return (int) (result + 1);
+
+        } else {
+            return 0;
+
+        }
     }
 }
