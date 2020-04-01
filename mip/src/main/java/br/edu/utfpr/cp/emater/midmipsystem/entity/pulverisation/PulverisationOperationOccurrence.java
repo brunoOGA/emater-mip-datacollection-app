@@ -90,6 +90,9 @@ public class PulverisationOperationOccurrence implements Serializable {
 
         } else if (this.getTarget().isInseticidaBiologicoUseClass()) {
             return true;
+            
+        } else if (this.getTarget().isAcaricidaUseClass()) {
+            return true;
 
         } else {
             return false;
