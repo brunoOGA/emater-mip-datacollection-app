@@ -105,15 +105,18 @@ public final class ReportService {
                     .quantitySamplesMIP(mipSamples.size())
                     .dateFirstSampleMIP(minMIPDate.isPresent() ? new Date(minMIPDate.getAsLong()) : null)
                     .dateLastSampleMIP(maxMIPDate.isPresent() ? new Date(maxMIPDate.getAsLong()) : null)
-                    .quantityApplicationsInseticidaMIP(pulverisationSamples.stream()
-                            .flatMap(sample -> sample.getOperationOccurrences().stream())
-                            .filter(PulverisationOperationOccurrence::isTargetMIP)
+                        
+                    .quantityApplicationsInseticidaMIP(
+                            pulverisationSamples.stream()
+                            .filter(currentPulverisation -> 
+                                    currentPulverisation.isTargetMIP() == true)
                             .count()
                     )
-                    .quantityApplicationsInseticidaBiologicoMIP(pulverisationSamples.stream()
-                            .flatMap(sample -> sample.getOperationOccurrences().stream())
-                            .filter(PulverisationOperationOccurrence::isInseticidaBiologico)
-                            .count()
+                    .quantityApplicationsInseticidaBiologicoMIP(
+                            pulverisationSamples.stream()
+                                    .filter(currentPulverisation -> 
+                                            currentPulverisation.isInseticidaBiologico() == true)
+                                    .count()
                     )
                     .caterpillarChartData(caterpillarChartData)
                     .bedBugChartData(bedbugChartData)
@@ -125,10 +128,13 @@ public final class ReportService {
                     )
                     .dateFirstSampleMID(minMIDDate.isPresent() ? new Date(minMIDDate.getAsLong()) : null)
                     .dateLastSampleMID(maxMIDDate.isPresent() ? new Date(maxMIDDate.getAsLong()) : null)
-                    .quantityApplicationsMID(pulverisationSamples.stream()
-                            .flatMap(sample -> sample.getOperationOccurrences().stream())
-                            .filter(PulverisationOperationOccurrence::isTargetMID)
-                            .count()
+                        
+                    .quantityApplicationsMID(
+                                pulverisationSamples.stream()
+                                        .filter(
+                                                currentPulverisation -> 
+                                                        currentPulverisation.isTargetMID() == true)
+                                        .count()
                     )
                     .mipSamples(mipSamples)
                     .midRustSamples(midSamples)
