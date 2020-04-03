@@ -71,7 +71,7 @@ public final class ReportService {
             var mipSamples = mipService.readAllMIPSampleBySurveyId(surveyId);
             var midSamples = midRustService.readAllMIPSampleBySurveyId(surveyId);
             var pulverisationSamples = pulverisationService.readAllPulverisationOperationBySurveyId(surveyId);
-
+            
             var defoliationChartData = analysisService.getDefoliationChart(mipSamples);
             var caterpillarChartData = analysisService.getCaterpillarChart(mipSamples);
             var bedbugChartData = analysisService.getBedBugChart(mipSamples);

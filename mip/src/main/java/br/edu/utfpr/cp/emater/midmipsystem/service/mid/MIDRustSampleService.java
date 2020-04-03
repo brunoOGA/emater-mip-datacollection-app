@@ -59,21 +59,24 @@ public class MIDRustSampleService {
         return List.copyOf(this.midRustSampleRepository.findAll().stream().filter(current -> current.getSurvey().getId().equals(id)).collect(Collectors.toList()));
     }
 
-    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException, AccessDeniedException {
 
         var existentSample = midRustSampleRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
-        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        var createdByName = existentSample.getCreatedBy() != null ? existentSample.getCreatedBy().getUsername() : "none";
-
-        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
-            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-            }
-        }
+//        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+//        var createdByName = existentSample.getCreatedBy() != null ? existentSample.getCreatedBy().getUsername() : "none";
+//
+//        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+//            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+//                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+//            }
+//        }
 
         try {
             midRustSampleRepository.delete(existentSample);
+
+        } catch (AccessDeniedException cve) {
+            throw cve;            
 
         } catch (DataIntegrityViolationException cve) {
             throw new EntityInUseException();

@@ -66,21 +66,23 @@ public class FarmerService implements ICRUDService<Farmer> {
         }
     }
 
-    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException, AccessDeniedException {
 
         var existentFarmer = farmerRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
-        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
-
-        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
-            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-            }
-        }
-
+//        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+//        var createdByName = existentFarmer.getCreatedBy() != null ? existentFarmer.getCreatedBy().getUsername() : "none";
+//
+//        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+//            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+//                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+//            }
+//        }
         try {
             farmerRepository.delete(existentFarmer);
+
+        } catch (AccessDeniedException cve) {
+            throw cve;
 
         } catch (DataIntegrityViolationException cve) {
             throw new EntityInUseException();

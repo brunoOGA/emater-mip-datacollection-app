@@ -76,22 +76,24 @@ public class SurveyService {
         }
     }
 
-    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException, AccessDeniedException {
 
         var existentSurvey = surveyRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
-        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        var createdByName = existentSurvey.getCreatedBy() != null ? existentSurvey.getCreatedBy().getUsername() : "none";
-
-        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
-            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-            }
-        }
-
+//        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+//        var createdByName = existentSurvey.getCreatedBy() != null ? existentSurvey.getCreatedBy().getUsername() : "none";
+//
+//        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+//            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+//                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+//            }
+//        }
         try {
             surveyRepository.delete(existentSurvey);
 
+        } catch (AccessDeniedException cve) {
+            throw cve;
+            
         } catch (DataIntegrityViolationException cve) {
             throw new EntityInUseException();
 
@@ -131,7 +133,6 @@ public class SurveyService {
                 throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
             }
         }
-
 
         if (currentSurvey.getClosingDate() == null) {
             if (updatedSurvey.getClosingDate() != null) {
@@ -214,7 +215,7 @@ public class SurveyService {
     public List<Survey> readByRegion(Region aRegion) {
         return surveyRepository.findByRegionId(aRegion.getId());
     }
-    
+
     public List<Survey> readBySupervisorId(Long aSupervisorId) {
         return surveyRepository.findBySupervisorId(aSupervisorId);
     }

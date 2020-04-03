@@ -77,22 +77,25 @@ public class BladeReadingResponsibleEntityService implements ICRUDService<BladeR
         }
     }
 
-    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+    public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException, AccessDeniedException {
 
         var existentEntity = bladeEntityRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
-        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        var createdByName = existentEntity.getCreatedBy() != null ? existentEntity.getCreatedBy().getUsername() : "none";
-
-        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
-            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-            }
-        }
+//        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+//        var createdByName = existentEntity.getCreatedBy() != null ? existentEntity.getCreatedBy().getUsername() : "none";
+//
+//        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
+//            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
+//                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
+//            }
+//        }
 
         try {
             bladeEntityRepository.delete(existentEntity);
 
+        } catch (AccessDeniedException cve) {
+            throw cve; 
+            
         } catch (DataIntegrityViolationException cve) {
             throw new EntityInUseException();
 
