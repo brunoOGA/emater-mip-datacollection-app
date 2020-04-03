@@ -9,6 +9,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.AnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.Date;
@@ -26,6 +27,7 @@ public final class ReportService {
 
     private final SurveyService surveyService;
     private final AnalysisService analysisService;
+    private final MIPSampleService mipService;
     private final PulverisationOperationService pulverisationService;
     private final MIDRustSampleService midRustService;
 
@@ -66,7 +68,7 @@ public final class ReportService {
         try {
             var currentSurvey = surveyService.readById(surveyId);
 
-            var mipSamples = analysisService.readMIPSamplesByURId(surveyId);
+            var mipSamples = mipService.readAllMIPSampleBySurveyId(surveyId);
             var midSamples = midRustService.readAllMIPSampleBySurveyId(surveyId);
             var pulverisationSamples = pulverisationService.readAllPulverisationOperationBySurveyId(surveyId);
 
