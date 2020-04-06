@@ -27,6 +27,9 @@ public class LoginListener implements ApplicationListener<InteractiveAuthenticat
         var currentUser = ((MIPUserPrincipal)event.getAuthentication().getPrincipal()).getUser();
         session.setAttribute("currentUser", currentUser);
             
-        session.setAttribute("currentSupervisor", supervisorSerice.readByEmail(currentUser.getEmail()).get());
+        var currentSupervisor = supervisorSerice.readByEmail(currentUser.getEmail());
+        
+        if (currentSupervisor.isPresent())
+            session.setAttribute("currentSupervisor", currentSupervisor.get());
     }    
 }
