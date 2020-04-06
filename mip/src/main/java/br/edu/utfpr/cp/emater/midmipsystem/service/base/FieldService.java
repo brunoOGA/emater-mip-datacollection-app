@@ -142,14 +142,6 @@ public class FieldService implements ICRUDService<Field> {
 
         var existentField = fieldRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
-//        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-//        var createdByName = existentField.getCreatedBy() != null ? existentField.getCreatedBy().getUsername() : "none";
-//
-//        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
-//            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-//                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-//            }
-//        }
         try {
             fieldRepository.delete(existentField);
 

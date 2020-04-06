@@ -84,15 +84,6 @@ public class MIPSampleService {
 
         var existentSample = mipSampleRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
-//        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-//        var createdByName = existentSample.getCreatedBy() != null ? existentSample.getCreatedBy().getUsername() : "none";
-//
-//        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
-//            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-//                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-//            }
-//        }
-
         try {
             mipSampleRepository.delete(existentSample);
             

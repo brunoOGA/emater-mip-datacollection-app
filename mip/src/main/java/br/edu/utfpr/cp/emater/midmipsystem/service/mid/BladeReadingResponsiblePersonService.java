@@ -80,15 +80,6 @@ public class BladeReadingResponsiblePersonService implements ICRUDService<BladeR
 
         var existentPerson = bladePersonRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
-//        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-//        var createdByName = existentPerson.getCreatedBy() != null ? existentPerson.getCreatedBy().getUsername() : "none";
-//
-//        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
-//            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-//                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-//            }
-//        }
-
         try {
             bladePersonRepository.delete(existentPerson);
 

@@ -59,15 +59,6 @@ public class PulverisationOperationService {
 
         var existentOperation = pulverisationOperationRepository.findById(anId).orElseThrow(EntityNotFoundException::new);
 
-//        var loggedUser = ((MIPUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-//        var createdByName = existentOperation.getCreatedBy() != null ? existentOperation.getCreatedBy().getUsername() : "none";
-//
-//        if (loggedUser.getAuthorities().stream().noneMatch(currentAuthority -> currentAuthority.getId().equals(1L))) {
-//            if (!loggedUser.getUsername().equalsIgnoreCase(createdByName)) {
-//                throw new AccessDeniedException("Usuário não autorizado para essa exclusão!");
-//            }
-//        }
-
         try {
             pulverisationOperationRepository.delete(existentOperation);
             
