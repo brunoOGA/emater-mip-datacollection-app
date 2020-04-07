@@ -115,8 +115,11 @@ public class ReviewReportController implements Serializable {
         HttpSession session= attr.getRequest().getSession(true);
         
         var currentSupervisor = (Supervisor) session.getAttribute("currentSupervisor");
-        
-        URsAvailable = reportService.readSurveyBySupervisorId(currentSupervisor.getId());
+
+        if (currentSupervisor != null)
+            URsAvailable = reportService.readSurveyBySupervisorId(currentSupervisor.getId());
+        else
+            URsAvailable = reportService.readAllSurveys();
     }
 
 }

@@ -153,4 +153,8 @@ public final class ReportService {
     public List<Survey> readSurveyBySupervisorId(Long surveyId) {
         return surveyService.readBySupervisorId(surveyId);
     }
+
+    public List<Survey> readAllSurveys() {
+        return surveyService.readAll();
+    }
 }
