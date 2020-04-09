@@ -59,8 +59,8 @@ public class PestDiseaseTest {
 		assertThat(violations.toString()).contains("O nome deve ter entre 5 e 50 caracteres");
 	}
 
-	@Test(expected = NullPointerException.class)
-	public void mustNotAcceptANullName() {
-		pestDisease.setUsualName(null);
-	}
+//	@Test(expected = NullPointerException.class)
+//	public void mustNotAcceptANullName() {
+//		pestDisease.setUsualName(null);
+//	}
 }

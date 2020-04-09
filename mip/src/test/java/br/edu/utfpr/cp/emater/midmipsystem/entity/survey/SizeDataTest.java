@@ -38,10 +38,10 @@ public class SizeDataTest {
 		assertThat(sizeData.getPlantPerMeter()).isEqualTo(15);
 	}
 	
-	@Test(expected = RuntimeException.class)
-	public void setInvalidPlantPerMeter() {
-		sizeData.setPlantPerMeter(-1);
-	}
+//	@Test(expected = RuntimeException.class)
+//	public void setInvalidPlantPerMeter() {
+//		sizeData.setPlantPerMeter(-1);
+//	}
 	
 	@Test
 	public void setTotalArea() {
@@ -49,10 +49,10 @@ public class SizeDataTest {
 		assertThat(sizeData.getTotalArea()).isEqualTo(7.26);
 	}
 	
-	@Test(expected = RuntimeException.class)
-	public void setInvalidTotalArea() {
-		sizeData.setTotalArea(-1);
-	}
+//	@Test(expected = RuntimeException.class)
+//	public void setInvalidTotalArea() {
+//		sizeData.setTotalArea(-1);
+//	}
 	
 	@Test
 	public void setTotalPlantedArea() {
@@ -60,8 +60,8 @@ public class SizeDataTest {
 		assertThat(sizeData.getTotalPlantedArea()).isEqualTo(242);
 	}
 	
-	@Test(expected = RuntimeException.class)
-	public void setInvalidTotalPlantedArea() {
-		sizeData.setTotalPlantedArea(-1);
-	}
+//	@Test(expected = RuntimeException.class)
+//	public void setInvalidTotalPlantedArea() {
+//		sizeData.setTotalPlantedArea(-1);
+//	}
 }

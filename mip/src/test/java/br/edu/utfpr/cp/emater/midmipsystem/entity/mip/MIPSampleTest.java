@@ -213,12 +213,12 @@ public class MIPSampleTest {
 		assertThat(mIPSample.getOccurrenceByPest(pest2)).isEmpty();
 	}
 	
-	@Test
-	public void mustReturnEmptyWhenLookingForOccurrenceAndThereIsNoMipSamplePestOccurrence() {
-		Pest pest = Pest.builder().id(1l).usualName("Percevejo Marrom").pestSize(PestSize.ADULTO).scientificName("Euschistus sp.").build();
-		
-		assertThat(mIPSample.getOccurrenceByPest(pest)).isEmpty();
-	}
+//	@Test
+//	public void mustReturnEmptyWhenLookingForOccurrenceAndThereIsNoMipSamplePestOccurrence() {
+//		Pest pest = Pest.builder().id(1l).usualName("Percevejo Marrom").pestSize(PestSize.ADULTO).scientificName("Euschistus sp.").build();
+//		
+//		assertThat(mIPSample.getOccurrenceByPest(pest)).isEmpty();
+//	}
 	
 	@Test
 	public void getOccurrenceByPredator() {
@@ -237,12 +237,12 @@ public class MIPSampleTest {
 		assertThat(mIPSample.getOccurrenceByPredator(pestNaturalPredator2)).isEmpty();
 	}
 	
-	@Test
-	public void mustReturnEmptyWhenLookingForOccurrenceAndThereIsNoMipSampleNaturalPredatorOccurrence() {
-		PestNaturalPredator pestNaturalPredator = PestNaturalPredator.builder().id(1l).usualName("Cycloneda sanguinea").build();
-		
-		assertThat(mIPSample.getOccurrenceByPredator(pestNaturalPredator)).isEmpty();
-	}
+//	@Test
+//	public void mustReturnEmptyWhenLookingForOccurrenceAndThereIsNoMipSampleNaturalPredatorOccurrence() {
+//		PestNaturalPredator pestNaturalPredator = PestNaturalPredator.builder().id(1l).usualName("Cycloneda sanguinea").build();
+//		
+//		assertThat(mIPSample.getOccurrenceByPredator(pestNaturalPredator)).isEmpty();
+//	}
 	
 	@Test 
 	public void getOccurrenceValueByPest() {
@@ -260,12 +260,12 @@ public class MIPSampleTest {
 		assertThat(mIPSample.getOccurrenceValueByPest(pest2)).isEqualTo(0);
 	}
 	
-	@Test 
-	public void mustReturnZeroWhenLookingForOccurrenceAndThereIsNoMipSamplePestOccurrence() {
-		Pest pest = Pest.builder().id(1l).usualName("Percevejo Marrom").pestSize(PestSize.ADULTO).scientificName("Euschistus sp.").build();
-		
-		assertThat(mIPSample.getOccurrenceValueByPest(pest)).isEqualTo(0);
-	}
+//	@Test 
+//	public void mustReturnZeroWhenLookingForOccurrenceAndThereIsNoMipSamplePestOccurrence() {
+//		Pest pest = Pest.builder().id(1l).usualName("Percevejo Marrom").pestSize(PestSize.ADULTO).scientificName("Euschistus sp.").build();
+//		
+//		assertThat(mIPSample.getOccurrenceValueByPest(pest)).isEqualTo(0);
+//	}
 	
 	@Test
 	public void getOccurrenceValueByPredator() {
@@ -284,12 +284,12 @@ public class MIPSampleTest {
 		assertThat(mIPSample.getOccurrenceValueByPredator(pestNaturalPredator2)).isEqualTo(0);
 	}
 	
-	@Test
-	public void mustReturnZeroWhenLookingForOccurrenceAndThereIsNoMipSampleNaturalPredatorOccurrence() {
-		PestNaturalPredator pestNaturalPredator = PestNaturalPredator.builder().id(1l).usualName("Cycloneda sanguinea").build();
-		
-		assertThat(mIPSample.getOccurrenceValueByPredator(pestNaturalPredator)).isEqualTo(0);
-	}
+//	@Test
+//	public void mustReturnZeroWhenLookingForOccurrenceAndThereIsNoMipSampleNaturalPredatorOccurrence() {
+//		PestNaturalPredator pestNaturalPredator = PestNaturalPredator.builder().id(1l).usualName("Cycloneda sanguinea").build();
+//		
+//		assertThat(mIPSample.getOccurrenceValueByPredator(pestNaturalPredator)).isEqualTo(0);
+//	}
 
 	@Test
 	public void getDAEAndPredatorOccurrenceByPredator() {
@@ -312,14 +312,14 @@ public class MIPSampleTest {
 		assertThat(mIPSample.getDAEAndPredatorOccurrenceByPredator(null)).isEmpty();
 	}
 	
-	@Test
-	public void mustReturnEmptyWhenLookingForDAEAndPredatorOccurrenceByPredatorAndThereIsNoMipSampleNaturalPredatorOccurrence() {
-
-		PestNaturalPredator pestNaturalPredator = PestNaturalPredator.builder().id(1l).usualName("Cycloneda sanguinea").build();
-		
-		assertThat(mIPSample.getDAEAndPredatorOccurrenceByPredator(pestNaturalPredator)).isEmpty();
-	
-	}
+//	@Test
+//	public void mustReturnEmptyWhenLookingForDAEAndPredatorOccurrenceByPredatorAndThereIsNoMipSampleNaturalPredatorOccurrence() {
+//
+//		PestNaturalPredator pestNaturalPredator = PestNaturalPredator.builder().id(1l).usualName("Cycloneda sanguinea").build();
+//		
+//		assertThat(mIPSample.getDAEAndPredatorOccurrenceByPredator(pestNaturalPredator)).isEmpty();
+//	
+//	}
 	
 	@Test
 	public void getDAEAndPestOccurrenceByPest() {
@@ -341,13 +341,12 @@ public class MIPSampleTest {
 		assertThat(mIPSample.getDAEAndPestOccurrenceByPest(null)).isEmpty();
 	}
 	
-	@Test
-	public void mustReturnEmptyWhenLookingForDAEAndPestOccurrenceByPestAndThereIsNoMipSamplePestOccurrence() {
-		Pest pest = Pest.builder().id(1l).usualName("Percevejo Marrom").pestSize(PestSize.ADULTO).scientificName("Euschistus sp.").build();
-		
-		assertThat(mIPSample.getDAEAndPestOccurrenceByPest(pest)).isEmpty();
-	
-	}
+//	@Test
+//	public void mustReturnEmptyWhenLookingForDAEAndPestOccurrenceByPestAndThereIsNoMipSamplePestOccurrence() {
+//		Pest pest = Pest.builder().id(1l).usualName("Percevejo Marrom").pestSize(PestSize.ADULTO).scientificName("Euschistus sp.").build();
+//		
+//		assertThat(mIPSample.getDAEAndPestOccurrenceByPest(pest)).isEmpty();
+//	}
 	
 	@Test
 	public void getFieldId() {

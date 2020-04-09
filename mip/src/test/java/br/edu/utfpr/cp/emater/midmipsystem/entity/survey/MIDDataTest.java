@@ -39,8 +39,8 @@ public class MIDDataTest {
 		assertThat(mIDData.getCollectorInstallationDate()).isEqualTo(collectorInstallationDate);
 	}
 
-	@Test(expected = NullPointerException.class)
-	public void setNullCollectorInstallationDate() {
-		mIDData.setCollectorInstallationDate(null);
-	}
+//	@Test(expected = NullPointerException.class)
+//	public void setNullCollectorInstallationDate() {
+//		mIDData.setCollectorInstallationDate(null);
+//	}
 }

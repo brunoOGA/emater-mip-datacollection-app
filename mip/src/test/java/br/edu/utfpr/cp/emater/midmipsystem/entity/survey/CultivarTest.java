@@ -69,10 +69,10 @@ public class CultivarTest {
 		assertThat(violations.toString()).contains("A identificação da cultivar deve ter entre 3 e 50 caracteres");
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void mustNotAcceptANullName() {
-		// execução
-		cultivar.setName(null);
-	}
+//	@Test(expected = RuntimeException.class)
+//	public void mustNotAcceptANullName() {
+//		// execução
+//		cultivar.setName(null);
+//	}
 
 }

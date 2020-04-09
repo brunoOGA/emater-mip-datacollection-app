@@ -37,15 +37,15 @@ public class LocationDataTest {
 		assertThat(locationData.getLatitude()).isEqualTo("52°48'45.68\"");
 	}
 
-	@Test(expected = NullPointerException.class)
-	public void setNullLatitude() {
-		locationData.setLatitude(null);
-	}
+//	@Test(expected = NullPointerException.class)
+//	public void setNullLatitude() {
+//		locationData.setLatitude(null);
+//	}
 	
-	@Test(expected = RuntimeException.class)
-	public void setInvalidLatitude() {
-		locationData.setLatitude("");
-	}
+//	@Test(expected = RuntimeException.class)
+//	public void setInvalidLatitude() {
+//		locationData.setLatitude("");
+//	}
 
 	@Test
 	public void setLongitude() {
@@ -54,15 +54,15 @@ public class LocationDataTest {
 	}
 	
 	
-	@Test(expected = NullPointerException.class)
-	public void setNullLongitude() {
-		locationData.setLongitude(null);
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void setInvalidLongitude() {
-		locationData.setLongitude("");
-	}
+//	@Test(expected = NullPointerException.class)
+//	public void setNullLongitude() {
+//		locationData.setLongitude(null);
+//	}
+
+//	@Test(expected = RuntimeException.class)
+//	public void setInvalidLongitude() {
+//		locationData.setLongitude("");
+//	}
 	
 	
 }

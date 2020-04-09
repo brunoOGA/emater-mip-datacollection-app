@@ -88,10 +88,10 @@ public class HarvestTest {
 		assertThat(harvest.getBegin()).isEqualTo(begin);
 	}
 	
-	@Test(expected = NullPointerException.class)
-	public void setNullBegin() {
-		harvest.setBegin(null);
-	}
+//	@Test(expected = NullPointerException.class)
+//	public void setNullBegin() {
+//		harvest.setBegin(null);
+//	}
 	
 	@Test
 	public void setEnd() {
@@ -100,9 +100,9 @@ public class HarvestTest {
 		assertThat(harvest.getEnd()).isEqualTo(end);
 	}
 	
-	@Test(expected = NullPointerException.class)
-	public void setNullEnd() {
-		harvest.setBegin(null);
-	}
+//	@Test(expected = NullPointerException.class)
+//	public void setNullEnd() {
+//		harvest.setBegin(null);
+//	}
 	
 }

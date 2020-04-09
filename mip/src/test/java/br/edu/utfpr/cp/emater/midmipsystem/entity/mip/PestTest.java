@@ -84,10 +84,10 @@ public class PestTest {
 		assertThat(pest.getPestSizeName()).isEqualTo("Adulto");
 	}
 	
-	@Test(expected = NullPointerException.class)
-	public void mustNotAcceptANullPestSize() {
-		pest.setPestSize(null);
-	}
+//	@Test(expected = NullPointerException.class)
+//	public void mustNotAcceptANullPestSize() {
+//		pest.setPestSize(null);
+//	}
 	
 	@Test
 	public void mustReturnADescriptionWithScientificNameAndPestSize() {

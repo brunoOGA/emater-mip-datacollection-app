@@ -42,10 +42,10 @@ public class MIPSampleNaturalPredatorOccurrenceTest {
 		assertThat(mIPSampleNaturalPredatorOccurrence.getValue()).isEqualTo(0);
 	}
 	
-	@Test(expected = RuntimeException.class)
-	public void shouldNotAcceptNegativeValue() {
-		mIPSampleNaturalPredatorOccurrence.setValue(-1);
-	}
+//	@Test(expected = RuntimeException.class)
+//	public void shouldNotAcceptNegativeValue() {
+//		mIPSampleNaturalPredatorOccurrence.setValue(-1);
+//	}
 	
 	@Test
 	public void getPestNaturalPredatorUsualName() {
