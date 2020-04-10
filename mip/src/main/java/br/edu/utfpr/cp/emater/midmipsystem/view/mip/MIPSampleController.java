@@ -12,7 +12,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
@@ -26,9 +28,21 @@ import org.springframework.stereotype.Component;
 
 @Component(value = "mipSampleController")
 @ViewScoped
-public class MIPSampleController extends MIPSample {
+public class MIPSampleController extends AbstractCRUDController<MIPSample> {
 
     private final MIPSampleService mipSampleService;
+
+    @Setter
+    @Getter
+    private Date sampleDate;
+
+    @Setter
+    @Getter
+    private int defoliation;
+
+    @Setter
+    @Getter
+    private GrowthPhase growthPhase;
 
     @Setter
     @Getter
@@ -153,31 +167,6 @@ public class MIPSampleController extends MIPSample {
         }
     }
 
-    public String delete(Long aSampleId) {
-
-        try {
-            mipSampleService.delete(aSampleId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Amostra excluída!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque o usuário não está autorizado!"));
-            return "index.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque está sendo usada no sistema!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-    }
-
     public String selectTargetSurvey(Long id) {
 
         try {
@@ -198,5 +187,25 @@ public class MIPSampleController extends MIPSample {
 
     public GrowthPhase[] readAllGrowthPhases() {
         return GrowthPhase.values();
+    }
+
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        mipSampleService.delete(anId);
+    }
+
+    @Override
+    protected String getItemName() {
+        return "Amostra";
+    }
+
+    @Override
+    public String prepareUpdate(Long anId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

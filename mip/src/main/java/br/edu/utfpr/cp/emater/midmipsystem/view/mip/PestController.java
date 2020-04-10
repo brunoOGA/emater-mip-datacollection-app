@@ -2,35 +2,56 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.mip;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSize;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.Arrays;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Size;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class PestController extends Pest implements ICRUDController<Pest> {
+public class PestController extends AbstractCRUDController<Pest> {
 
     private final PestService pestService;
-    
+
+    @Getter
+    @Setter
+    private Long id;
+
+    @Getter
+    @Setter
+    @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")
+    private String usualName;
+
+    @Getter
+    @Setter
+    private String scientificName;
+
+    @Getter
+    @Setter
+    private PestSize pestSize;
+
     @Override
     public List<Pest> readAll() {
         return pestService.readAll();
     }
-    
+
     public List<PestSize> readAllPestSizes() {
         return Arrays.asList(PestSize.values());
-    }    
+    }
 
     @Override
     public String create() {
@@ -60,7 +81,7 @@ public class PestController extends Pest implements ICRUDController<Pest> {
             this.setUsualName(existentPest.getUsualName());
             this.setScientificName(existentPest.getScientificName());
             this.setPestSize(existentPest.getPestSize());
-            
+
             return "update.xhtml";
 
         } catch (EntityNotFoundException ex) {
@@ -93,24 +114,13 @@ public class PestController extends Pest implements ICRUDController<Pest> {
 
     }
 
-    public String delete(Long anId) {
-        
-        try {
-            pestService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Inseto praga excluído!"));
-            return "index.xhtml";
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        pestService.delete(anId);
+    }
 
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inseto praga não pode ser excluído porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-            
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inseto praga não pode ser excluído porque está sendo usado em uma amostra!"));
-            return "index.xhtml";
-            
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+    @Override
+    protected String getItemName() {
+        return "Inseto praga";
     }
 }
