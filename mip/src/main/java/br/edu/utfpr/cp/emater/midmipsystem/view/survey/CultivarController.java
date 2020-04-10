@@ -1,25 +1,36 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Cultivar;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.CultivarService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Size;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class CultivarController extends Cultivar implements ICRUDController<Cultivar> {
+public class CultivarController extends AbstractCRUDController<Cultivar> {
 
     private final CultivarService cultivarService;
+    
+    @Getter @Setter
+    private Long id;
+
+    @Getter @Setter
+    @Size(min = 3, max = 50, message = "A identificação da cultivar deve ter entre 3 e 50 caracteres")
+    private String name;
 
     @Override
     public List<Cultivar> readAll() {
@@ -91,25 +102,14 @@ public class CultivarController extends Cultivar implements ICRUDController<Cult
 
     }
 
-    public String delete(Long anId) {
-        
-        try {
-            cultivarService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Cultivar excluída!"));
-            return "index.xhtml";
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        cultivarService.delete(anId);
+    }
 
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Cultivar não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-            
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Cultivar não pode ser excluída porque está sendo usada em uma pesquisa!"));
-            return "index.xhtml";
-            
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+    @Override
+    protected String getItemName() {
+        return "Cultivar";
     }
 
 }

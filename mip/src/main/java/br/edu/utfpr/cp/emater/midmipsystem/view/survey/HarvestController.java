@@ -1,25 +1,43 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.HarvestService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Size;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class HarvestController extends Harvest implements ICRUDController<Harvest> {
+public class HarvestController extends AbstractCRUDController<Harvest> {
 
     private final HarvestService harvestService;
+    
+    @Getter @Setter
+    private Long id;
+
+    @Getter @Setter
+    @Size(min = 5, max = 50, message = "A identificação da safra deve ter entre 5 e 50 caracteres")
+    private String name;
+
+    @Getter @Setter
+    private Date begin;
+
+    @Getter @Setter
+    private Date end;
 
     @Override
     public List<Harvest> readAll() {
@@ -95,25 +113,14 @@ public class HarvestController extends Harvest implements ICRUDController<Harves
 
     }
 
-    public String delete(Long anId) {
-        
-        try {
-            harvestService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Safra excluída!"));
-            return "index.xhtml";
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        harvestService.delete(anId);
+    }
 
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-            
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser excluída porque está sendo usada em uma pesquisa!"));
-            return "index.xhtml";
-            
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+    @Override
+    protected String getItemName() {
+        return "Safra";
     }
 
 }

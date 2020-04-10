@@ -3,11 +3,12 @@ package br.edu.utfpr.cp.emater.midmipsystem.view;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.springframework.security.access.AccessDeniedException;
 
-public abstract class AbstractCRUDController<T> implements ICRUDController {
+public abstract class AbstractCRUDController<T> implements ICRUDController, Serializable {
 
     @Override
     public String delete(Long anId) {

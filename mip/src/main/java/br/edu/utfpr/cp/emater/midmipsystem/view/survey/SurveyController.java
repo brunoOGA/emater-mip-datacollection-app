@@ -9,12 +9,13 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
-import java.util.ArrayList;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ViewScoped
 @RequiredArgsConstructor
-public class SurveyController extends Survey {
+public class SurveyController extends AbstractCRUDController<Survey> {
 
     private final SurveyService surveyService;
 
@@ -33,6 +34,11 @@ public class SurveyController extends Survey {
     @Setter
     @Size(min = 3, max = 50, message = "A identificação da cultivar deve ter entre 3 e 50 caracteres")
     private String cultivarName;
+
+    @Getter
+    @Setter
+    @NotNull(message = "Uma pesquisa deve conter uma unidade de referência")
+    private Field field;
 
     @Getter
     @Setter
@@ -101,7 +107,7 @@ public class SurveyController extends Survey {
     @Getter
     @Setter
     private Date closingDate;
-    
+
     @Getter
     @Setter
     private String statusInstallationDatePanel = "hidden-sm hidden-md hidden-lg hidden-xs";
@@ -163,31 +169,6 @@ public class SurveyController extends Survey {
         }
     }
 
-    public String delete(Long anId) {
-
-        try {
-            surveyService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "UR removida da pesquisa!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser removida da pesquisa porque o usuário não está autorizado!"));
-            return "index.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser removida da pesquisa porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser removida da pesquisa porque já existem dados MID/MIP para ela!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-    }
-
     public String prepareUpdate(Long surveyId) {
         try {
             var currentSurvey = surveyService.readById(surveyId);
@@ -195,34 +176,34 @@ public class SurveyController extends Survey {
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyFieldName", currentSurvey.getFieldName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyHarvestName", currentSurvey.getHarvestName());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", surveyId);
-            
+
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSowedDate", currentSurvey.getSowedDate());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentEmergenceDate", currentSurvey.getEmergenceDate());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentHarvestDate", currentSurvey.getHarvestDate());
-            
+
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentProductivityField", currentSurvey.getProductivityField());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentProductivityFarmer", currentSurvey.getProductivityFarmer());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSeparatedWeight", currentSurvey.isSeparatedWeight());
-            
+
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSoyaPrice", currentSurvey.getSoyaPrice());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSoyaPrice", currentSurvey.getApplicationCostCurrency());
-            
+
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentLongitude", currentSurvey.getLongitude());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentLatitude", currentSurvey.getLatitude());
-            
+
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentCultivarName", currentSurvey.getCultivarName());
             this.setCultivarName(currentSurvey.getCultivarName());
-            
+
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentRestResistant", currentSurvey.isRustResistant());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentBT", currentSurvey.isBt());
-            
+
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSporeCollectorPresent", currentSurvey.isSporeCollectorPresent());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentCollectorInstallationDate", currentSurvey.getCollectorInstallationDate());
-            
+
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentTotalArea", currentSurvey.getTotalArea());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentTotalPlantedArea", currentSurvey.getTotalPlantedArea());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentPlantPerMeter", currentSurvey.getPlantPerMeter());
-            
+
             return "/survey/survey/update.xhtml?faces-redirect=true";
 
         } catch (EntityNotFoundException ex) {
@@ -230,16 +211,31 @@ public class SurveyController extends Survey {
             return "index.xhtml";
         }
     }
-    
+
     public void showInstallationDatePanel() {
-        if (this.getStatusInstallationDatePanel().equals("hidden-sm hidden-md hidden-lg hidden-xs"))
+        if (this.getStatusInstallationDatePanel().equals("hidden-sm hidden-md hidden-lg hidden-xs")) {
             this.setStatusInstallationDatePanel("");
-        
-        else
+        } else {
             this.setStatusInstallationDatePanel("hidden-sm hidden-md hidden-lg hidden-xs");
+        }
     }
-    
+
     public List<String> searchCultivar(String excerpt) {
         return surveyService.searchCultivar(excerpt);
+    }
+
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        surveyService.delete(anId);
+    }
+
+    @Override
+    protected String getItemName() {
+        return "UR";
+    }
+
+    @Override
+    public String update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
