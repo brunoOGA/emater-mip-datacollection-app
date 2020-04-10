@@ -10,6 +10,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class MacroRegionController extends AbstractCRUDController<MacroRegion> {
     
     @Getter
     @Setter
+    @Size (min = 3, max = 50, message = "O nome da macrorregião deve ter entre 3 e 50 caracteres")
     private String name;
 
     @Override

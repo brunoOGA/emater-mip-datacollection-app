@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -34,6 +35,7 @@ public class RegionController extends AbstractCRUDController<Region> {
     private Long id;
 
     @Getter @Setter
+    @Size(min = 5, max = 50, message = "O nome da região deve ter entre 5 e 50 caracteres")
     private String name;
 
     @Getter @Setter

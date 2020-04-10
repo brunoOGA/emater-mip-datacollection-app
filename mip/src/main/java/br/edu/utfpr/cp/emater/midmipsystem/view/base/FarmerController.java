@@ -1,7 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Farmer;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -11,6 +10,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -29,6 +29,7 @@ public class FarmerController extends AbstractCRUDController<Farmer> {
     private Long id;
 
     @Getter @Setter
+    @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
     private String name;
 
     @Override

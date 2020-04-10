@@ -2,7 +2,6 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
@@ -12,6 +11,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -26,16 +28,24 @@ public class SupervisorController extends AbstractCRUDController<Supervisor> {
 
     private final SupervisorService supervisorService;
 
-    @Getter @Setter
+    @Getter
+    @Setter
+    @Email(message = "Deve ser informado um e-mail válido")
+    @NotNull(message = "Deve ser informado um e-mail válido")
+
     private String email;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Region region;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
+    @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
     private String name;
 
     @Getter
