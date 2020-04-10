@@ -7,10 +7,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsiblePersonService;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,10 +22,19 @@ import org.springframework.web.context.annotation.RequestScope;
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class BladeReadingResponsiblePersonController extends BladeReadingResponsibleEntity implements ICRUDController<BladeReadingResponsiblePerson> {
+public class BladeReadingResponsiblePersonController extends AbstractCRUDController<BladeReadingResponsiblePerson> {
 
     private final BladeReadingResponsiblePersonService bladeReadingPersonService;
 
+    @Getter
+    @Setter
+    private Long id;
+
+    @Getter
+    @Setter
+    @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
+    private String name;
+    
     @Getter
     @Setter
     private Long selectedEntityId;
@@ -114,27 +124,14 @@ public class BladeReadingResponsiblePersonController extends BladeReadingRespons
 
     }
 
-    public String delete(Long anId) {
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        bladeReadingPersonService.delete(anId);
+    }
 
-        try {
-            bladeReadingPersonService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Profissional excluído!"));
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Profissional não pode ser excluído porque o usuário não está autorizado!"));
-            return "index.xhtml";
-            
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Profissional não pode ser excluído porque não foi encontrado na base de dados!"));
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Profissional não pode ser excluído porque está sendo usado no sistema!"));
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-        }
-
-        return "index.xhtml";
+    @Override
+    protected String getItemName() {
+        return "Profissional";
     }
 
 }

@@ -7,10 +7,11 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsibleEntityService;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,9 +22,16 @@ import org.springframework.web.context.annotation.RequestScope;
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class BladeReadingResponsibleEntityController extends BladeReadingResponsibleEntity implements ICRUDController<BladeReadingResponsibleEntity> {
+public class BladeReadingResponsibleEntityController extends AbstractCRUDController<BladeReadingResponsibleEntity> {
 
     private final BladeReadingResponsibleEntityService bladeReadingEntityService;
+    
+    @Getter @Setter
+    private Long id;
+
+    @Getter @Setter
+    @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
+    private String name;
 
     @Getter
     @Setter
@@ -114,27 +122,14 @@ public class BladeReadingResponsibleEntityController extends BladeReadingRespons
 
     }
 
-    public String delete(Long anId) {
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        bladeReadingEntityService.delete(anId);
+    }
 
-        try {
-            bladeReadingEntityService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Entidade excluída!"));
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Entidade não pode ser excluída porque o usuário não está autorizado!"));
-            return "index.xhtml";
-            
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Entidade não pode ser excluída porque não foi encontrada na base de dados!"));
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Entidade não pode ser excluída porque está sendo usada por uma pessoa responsável pela leitura!"));
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-        }
-
-        return "index.xhtml";
+    @Override
+    protected String getItemName() {
+        return "Entidade";
     }
 
 }

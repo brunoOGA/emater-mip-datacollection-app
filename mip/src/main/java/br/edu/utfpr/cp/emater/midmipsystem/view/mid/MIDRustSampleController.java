@@ -13,11 +13,13 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -27,13 +29,18 @@ import org.springframework.stereotype.Component;
 @Component(value = "midRustSampleController")
 @ViewScoped
 @RequiredArgsConstructor
-public class MIDRustSampleController extends MIDRustSample {
+public class MIDRustSampleController extends AbstractCRUDController<MIDRustSample> {
 
     private final MIDRustSampleService midRustSampleService;
 
     @Setter
     @Getter
     private Long currentSurveyId;
+
+    @Setter
+    @Getter
+    @NotNull(message = "A data da coleta precisa ser informada!")
+    private Date sampleDate;
 
     @Setter
     @Getter
@@ -129,31 +136,6 @@ public class MIDRustSampleController extends MIDRustSample {
         }
     }
 
-    public String delete(Long aSampleId) {
-
-        try {
-            midRustSampleService.delete(aSampleId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Amostra excluída!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque o usuário não está autorizado!"));
-            return "index.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser excluída porque está sendo usada no sistema!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-    }
-
     public String selectTargetSurvey(Long id) {
 
         try {
@@ -182,6 +164,31 @@ public class MIDRustSampleController extends MIDRustSample {
 
     public AsiaticRustTypesLeafInspection[] readAllAsiaticRustTypesLeafInspection() {
         return AsiaticRustTypesLeafInspection.values();
+    }
+
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        midRustSampleService.delete(anId);
+    }
+
+    @Override
+    protected String getItemName() {
+        return "Amostra";
+    }
+
+    @Override
+    public List readAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String prepareUpdate(Long anId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
