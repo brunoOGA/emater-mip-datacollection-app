@@ -11,7 +11,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -26,9 +28,27 @@ import org.springframework.web.context.annotation.RequestScope;
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class FieldController extends Field implements ICRUDController<Field> {
+public class FieldController extends AbstractCRUDController<Field> {
 
     private final FieldService fieldService;
+    
+    @Getter @Setter
+    private Long id;
+
+    @Getter @Setter
+    private String name;
+    
+    @Getter @Setter
+    private String location;
+
+    @Getter @Setter
+    private City city;
+
+    @Getter @Setter
+    private Farmer farmer;
+
+    @Getter @Setter
+    private Set<Supervisor> supervisors;
 
     @Getter
     @Setter
@@ -151,29 +171,14 @@ public class FieldController extends Field implements ICRUDController<Field> {
 
     }
 
-    public String delete(Long anId) {
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        fieldService.delete(anId);
+    }
 
-        try {
-            fieldService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Unidade de referência excluída!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "UR não pode ser excluída porque o usuário não está autorizado!"));
-            return "index.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Unidade de referência não pode ser excluída porque está sendo usado em uma pesquisa!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+    @Override
+    protected String getItemName() {
+        return "Unidade de referência";
     }
 
 }

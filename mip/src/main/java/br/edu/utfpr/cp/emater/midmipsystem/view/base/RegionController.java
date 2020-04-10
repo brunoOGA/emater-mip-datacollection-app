@@ -8,16 +8,17 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -25,9 +26,21 @@ import org.springframework.web.context.annotation.RequestScope;
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class RegionController extends Region implements ICRUDController<Region> {
+public class RegionController extends AbstractCRUDController<Region> {
 
     private final RegionService regionService;
+
+    @Getter @Setter
+    private Long id;
+
+    @Getter @Setter
+    private String name;
+
+    @Getter @Setter
+    private MacroRegion macroRegion;
+
+    @Getter @Setter
+    private Set<City> cities;
 
     @Getter
     @Setter
@@ -149,23 +162,13 @@ public class RegionController extends Region implements ICRUDController<Region> 
 
     }
 
-    public String delete(Long anId) {
-
-        try {
-            regionService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Região excluída!"));
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser excluída porque não foi encontrada na base de dados!"));
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser excluída porque está sendo usada no sistema!"));
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-        }
-
-        return "index.xhtml";
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        regionService.delete(anId);
     }
 
+    @Override
+    protected String getItemName() {
+        return "Região";
+    }
 }

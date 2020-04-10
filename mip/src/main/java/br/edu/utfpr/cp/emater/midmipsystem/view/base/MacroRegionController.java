@@ -2,24 +2,35 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
-import br.edu.utfpr.cp.emater.midmipsystem.view.ICRUDController;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class MacroRegionController extends MacroRegion implements ICRUDController<MacroRegion> {
+public class MacroRegionController extends AbstractCRUDController<MacroRegion> {
 
     private final MacroRegionService macroRegionService;
+
+    @Getter
+    @Setter
+    private Long id;
+    
+    @Getter
+    @Setter
+    private String name;
 
     @Override
     public List<MacroRegion> readAll() {
@@ -84,25 +95,14 @@ public class MacroRegionController extends MacroRegion implements ICRUDControlle
         }
 
     }
-    
-        public String delete(Long anId) {
-        
-        try {
-            macroRegionService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Macrorregião excluída!"));
-            return "index.xhtml";
 
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-            
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser excluída porque está sendo usada por uma região!"));
-            return "index.xhtml";
-            
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        macroRegionService.delete(anId);
+    }
+
+    @Override
+    protected String getItemName() {
+        return "Macrorregião";
     }
 }

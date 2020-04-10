@@ -8,34 +8,48 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class SupervisorController extends Supervisor implements ICRUDController<Supervisor> {
+public class SupervisorController extends AbstractCRUDController<Supervisor> {
 
     private final SupervisorService supervisorService;
-    
+
+    @Getter @Setter
+    private String email;
+
+    @Getter @Setter
+    private Region region;
+
+    @Getter @Setter
+    private Long id;
+
+    @Getter @Setter
+    private String name;
+
     @Getter
     @Setter
     private Long selectedRegionId;
-    
+
     @Override
     public List<Supervisor> readAll() {
         return supervisorService.readAll();
     }
-    
+
     public List<Region> readAllRegions() {
         return supervisorService.readAllRegions();
-    }    
+    }
 
     @Override
     public String create() {
@@ -98,25 +112,14 @@ public class SupervisorController extends Supervisor implements ICRUDController<
 
     }
 
-    public String delete(Long anId) {
-        
-        try {
-            supervisorService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Responsável técnico excluído!"));
-            return "index.xhtml";
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        supervisorService.delete(anId);
+    }
 
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Responsável técnico não pode ser excluído porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-            
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Responsável técnico não pode ser excluído porque está sendo usado em uma unidade de referência!"));
-            return "index.xhtml";
-            
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+    @Override
+    protected String getItemName() {
+        return "Responsável técnico";
     }
 
 }

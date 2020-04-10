@@ -7,10 +7,13 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -18,9 +21,15 @@ import org.springframework.web.context.annotation.RequestScope;
 @Component
 @RequestScope
 @RequiredArgsConstructor
-public class FarmerController extends Farmer implements ICRUDController<Farmer> {
+public class FarmerController extends AbstractCRUDController<Farmer> {
 
     private final FarmerService farmerService;
+    
+    @Getter @Setter
+    private Long id;
+
+    @Getter @Setter
+    private String name;
 
     @Override
     public List<Farmer> readAll() {
@@ -86,29 +95,14 @@ public class FarmerController extends Farmer implements ICRUDController<Farmer> 
 
     }
 
-    public String delete(Long anId) {
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        farmerService.delete(anId);
+    }
 
-        try {
-            farmerService.delete(anId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Produtor excluído!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque o usuário não está autorizado!"));
-            return "index.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser excluído porque está sendo usado em uma unidade de referência!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+    @Override
+    protected String getItemName() {
+        return "Produtor";
     }
 
 }
