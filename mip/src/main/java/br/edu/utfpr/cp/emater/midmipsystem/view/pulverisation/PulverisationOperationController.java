@@ -3,6 +3,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.view.pulverisation;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.GrowthPhase;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Product;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperation;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperationOccurrence;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.Target;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.UseClass;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
@@ -12,10 +13,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.ProductUseClassDifferFromTargetException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationService;
+import br.edu.utfpr.cp.emater.midmipsystem.view.AbstractCRUDController;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,9 +32,26 @@ import org.springframework.stereotype.Component;
 @Component(value = "pulverisationOperationController")
 @ViewScoped
 @RequiredArgsConstructor
-public class PulverisationOperationController extends PulverisationOperation {
+public class PulverisationOperationController extends AbstractCRUDController<PulverisationOperation> {
 
     private final PulverisationOperationService pulverisationOperationService;
+
+    @Getter
+    @Setter
+    @NotNull(message = "A data da coleta precisa ser informada!")
+    private Date sampleDate;
+    
+    @Getter
+    @Setter
+    private Set<PulverisationOperationOccurrence> operationOccurrences;
+
+    @Setter
+    @Getter
+    private GrowthPhase growthPhase;
+
+    @Setter
+    @Getter
+    private double caldaVolume;
 
     @Setter
     @Getter
@@ -90,8 +114,9 @@ public class PulverisationOperationController extends PulverisationOperation {
                 .survey(currentSurvey)
                 .build();
 
-        if (this.getPulverisationArea() != 0)
+        if (this.getPulverisationArea() != 0) {
             newOperation.setPulverisationArea(this.getPulverisationArea());
+        }
 
         newOperation.setOperationOccurrences(this.getOperationOccurrences());
 
@@ -107,31 +132,6 @@ public class PulverisationOperationController extends PulverisationOperation {
 
         } catch (EntityNotFoundException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser feita porque a UR não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-    }
-
-    public String delete(Long anOperationId) {
-
-        try {
-            pulverisationOperationService.delete(anOperationId);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Operação excluída!"));
-            return "index.xhtml";
-
-        } catch (AccessDeniedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação não pode ser excluída porque o usuário não está autorizado!"));
-            return "index.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação não pode ser excluída porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (EntityInUseException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação não pode ser excluída porque está sendo usada no sistema!"));
             return "index.xhtml";
 
         } catch (AnyPersistenceException e) {
@@ -187,10 +187,55 @@ public class PulverisationOperationController extends PulverisationOperation {
     }
 
     public void showPulverisationAreaPanelPanel() {
-        if (this.getStatusPulverisationAreaPanel().equals("hidden-sm hidden-md hidden-lg hidden-xs"))
+        if (this.getStatusPulverisationAreaPanel().equals("hidden-sm hidden-md hidden-lg hidden-xs")) {
             this.setStatusPulverisationAreaPanel("");
-        
-        else
+        } else {
             this.setStatusPulverisationAreaPanel("hidden-sm hidden-md hidden-lg hidden-xs");
+        }
+    }
+
+    @Override
+    protected void doDelete(Long anId) throws AccessDeniedException, EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+        pulverisationOperationService.delete(anId);
+    }
+
+    @Override
+    protected String getItemName() {
+        return "Operação";
+    }
+
+    @Override
+    public List readAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String prepareUpdate(Long anId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @PostConstruct
+    public void init() {
+        this.operationOccurrences = new HashSet<>();
+    }
+    
+    public boolean addOperationOccurrence(Product product, double productPrice, double productDose, Target target) throws ProductUseClassDifferFromTargetException {
+
+        if (product.getUseClass() != target.getUseClass()) {
+            throw new ProductUseClassDifferFromTargetException();
+
+        } else {
+            var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).dose(productDose).target(target).build();
+
+            var result = this.getOperationOccurrences().add(occurrence);
+
+            return result;
+        }
+
     }
 }
