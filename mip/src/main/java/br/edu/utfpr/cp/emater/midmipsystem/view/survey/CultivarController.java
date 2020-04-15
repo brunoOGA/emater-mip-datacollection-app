@@ -42,24 +42,16 @@ public class CultivarController extends AbstractCRUDController<Cultivar> {
     @Override
     protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var newCultivar = Cultivar.builder().name(this.getName()).build();
-        
+
         cultivarService.create(newCultivar);
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
-
-        try {
-            var existentCultivar = cultivarService.readById(anId);
-            this.setId(existentCultivar.getId());
-            this.setName(existentCultivar.getName());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Cultivar não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        var existentCultivar = cultivarService.readById(anId);
+        
+        this.setId(existentCultivar.getId());
+        this.setName(existentCultivar.getName());
     }
 
     @Override

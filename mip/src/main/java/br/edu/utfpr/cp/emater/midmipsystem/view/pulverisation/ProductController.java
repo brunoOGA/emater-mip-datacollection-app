@@ -104,27 +104,18 @@ public class ProductController extends AbstractCRUDController<Product> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        var existentProduct = productService.readById(anId);
 
-        try {
-            var existentProduct = productService.readById(anId);
-
-            this.setId(existentProduct.getId());
-            this.setName(existentProduct.getName());
-            this.setUnit(existentProduct.getUnit());
-            this.setUseClass(existentProduct.getUseClass());
-            this.setActiveIngredient(existentProduct.getActiveIngredient());
-            this.setCompany(existentProduct.getCompany());
-            this.setConcentrationActiveIngredient(existentProduct.getConcentrationActiveIngredient());
-            this.setRegisterNumber(existentProduct.getRegisterNumber());
-            this.setToxiClass(existentProduct.getToxiClass());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
+        this.setId(existentProduct.getId());
+        this.setName(existentProduct.getName());
+        this.setUnit(existentProduct.getUnit());
+        this.setUseClass(existentProduct.getUseClass());
+        this.setActiveIngredient(existentProduct.getActiveIngredient());
+        this.setCompany(existentProduct.getCompany());
+        this.setConcentrationActiveIngredient(existentProduct.getConcentrationActiveIngredient());
+        this.setRegisterNumber(existentProduct.getRegisterNumber());
+        this.setToxiClass(existentProduct.getToxiClass());
     }
 
     @Override

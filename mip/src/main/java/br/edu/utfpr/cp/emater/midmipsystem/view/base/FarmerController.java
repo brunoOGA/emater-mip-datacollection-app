@@ -24,11 +24,13 @@ import org.springframework.web.context.annotation.RequestScope;
 public class FarmerController extends AbstractCRUDController<Farmer> {
 
     private final FarmerService farmerService;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
     private String name;
 
@@ -45,19 +47,11 @@ public class FarmerController extends AbstractCRUDController<Farmer> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        Farmer existentFarmer = farmerService.readById(anId);
 
-        try {
-            Farmer existentFarmer = farmerService.readById(anId);
-            this.setId(existentFarmer.getId());
-            this.setName(existentFarmer.getName());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
+        this.setId(existentFarmer.getId());
+        this.setName(existentFarmer.getName());
     }
 
     @Override

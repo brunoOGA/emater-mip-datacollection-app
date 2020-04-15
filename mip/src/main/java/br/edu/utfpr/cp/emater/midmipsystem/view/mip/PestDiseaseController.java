@@ -47,19 +47,11 @@ public class PestDiseaseController extends AbstractCRUDController<PestDisease> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        var existentPestDisease = pestDiseaseService.readById(anId);
 
-        try {
-            var existentPestDisease = pestDiseaseService.readById(anId);
-            this.setId(existentPestDisease.getId());
-            this.setUsualName(existentPestDisease.getUsualName());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Doença da praga não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
+        this.setId(existentPestDisease.getId());
+        this.setUsualName(existentPestDisease.getUsualName());
     }
 
     @Override

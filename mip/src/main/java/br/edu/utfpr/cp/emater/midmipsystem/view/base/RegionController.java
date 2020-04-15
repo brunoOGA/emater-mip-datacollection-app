@@ -99,23 +99,14 @@ public class RegionController extends AbstractCRUDController<Region> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        Region existentRegion = regionService.readById(anId);
+        this.setId(existentRegion.getId());
+        this.setName(existentRegion.getName());
+        this.setSelectedMacroRegion(existentRegion.getMacroRegion().getId());
+        this.setCities(existentRegion.getCities());
 
-        try {
-            Region existentRegion = regionService.readById(anId);
-            this.setId(existentRegion.getId());
-            this.setName(existentRegion.getName());
-            this.setSelectedMacroRegion(existentRegion.getMacroRegion().getId());
-            this.setCities(existentRegion.getCities());
-
-            this.setSelectedCities(new ArrayList<City>(existentRegion.getCities()));
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
+        this.setSelectedCities(new ArrayList<City>(existentRegion.getCities()));
     }
 
     @Override

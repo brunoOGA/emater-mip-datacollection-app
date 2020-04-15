@@ -221,4 +221,9 @@ public class PulverisationOperationController extends AbstractCRUDController<Pul
         }
 
     }
+
+    @Override
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -46,19 +46,10 @@ public class MacroRegionController extends AbstractCRUDController<MacroRegion> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
-
-        try {
-            MacroRegion existentMacroRegion = macroRegionService.readById(anId);
-            this.setId(existentMacroRegion.getId());
-            this.setName(existentMacroRegion.getName());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        MacroRegion existentMacroRegion = macroRegionService.readById(anId);
+        this.setId(existentMacroRegion.getId());
+        this.setName(existentMacroRegion.getName());
     }
 
     @Override

@@ -56,21 +56,12 @@ public class TargetController extends AbstractCRUDController<Target> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        var existentTarget = targetService.readById(anId);
 
-        try {
-            var existentTarget = targetService.readById(anId);
-
-            this.setId(existentTarget.getId());
-            this.setDescription(existentTarget.getDescription());
-            this.setUseClass(existentTarget.getUseClass());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alvo/Função não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
+        this.setId(existentTarget.getId());
+        this.setDescription(existentTarget.getDescription());
+        this.setUseClass(existentTarget.getUseClass());
     }
 
     @Override

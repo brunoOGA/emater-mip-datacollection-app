@@ -192,4 +192,9 @@ public class MIPSampleController extends AbstractCRUDController<MIPSample> {
     public String update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

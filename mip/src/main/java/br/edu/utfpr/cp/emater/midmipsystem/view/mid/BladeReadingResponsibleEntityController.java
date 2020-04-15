@@ -25,11 +25,13 @@ import org.springframework.web.context.annotation.RequestScope;
 public class BladeReadingResponsibleEntityController extends AbstractCRUDController<BladeReadingResponsibleEntity> {
 
     private final BladeReadingResponsibleEntityService bladeReadingEntityService;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
     private String name;
 
@@ -48,29 +50,21 @@ public class BladeReadingResponsibleEntityController extends AbstractCRUDControl
 
     @Override
     protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-            var newEntity = BladeReadingResponsibleEntity.builder()
-                    .name(this.getName())
-                    .city(this.bladeReadingEntityService.readCityById(this.getSelectedCityId()))
-                    .build();
+        var newEntity = BladeReadingResponsibleEntity.builder()
+                .name(this.getName())
+                .city(this.bladeReadingEntityService.readCityById(this.getSelectedCityId()))
+                .build();
 
-            bladeReadingEntityService.create(newEntity);
+        bladeReadingEntityService.create(newEntity);
     }
-    
+
     @Override
-    public String prepareUpdate(Long anId) {
-
-        try {
-            var existentEntity = bladeReadingEntityService.readById(anId);
-            this.setId(existentEntity.getId());
-            this.setName(existentEntity.getName());
-            this.setSelectedCityId(existentEntity.getCityId());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Entidade não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        var existentEntity = bladeReadingEntityService.readById(anId);
+        
+        this.setId(existentEntity.getId());
+        this.setName(existentEntity.getName());
+        this.setSelectedCityId(existentEntity.getCityId());
     }
 
     @Override

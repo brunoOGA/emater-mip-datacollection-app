@@ -56,21 +56,13 @@ public class HarvestController extends AbstractCRUDController<Harvest> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        var existentHarvest = harvestService.readById(anId);
 
-        try {
-            var existentHarvest = harvestService.readById(anId);
-            this.setId(existentHarvest.getId());
-            this.setName(existentHarvest.getName());
-            this.setBegin(existentHarvest.getBegin());
-            this.setEnd(existentHarvest.getEnd());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Macrorregião não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "index.xhtml";
-        }
+        this.setId(existentHarvest.getId());
+        this.setName(existentHarvest.getName());
+        this.setBegin(existentHarvest.getBegin());
+        this.setEnd(existentHarvest.getEnd());
     }
 
     @Override

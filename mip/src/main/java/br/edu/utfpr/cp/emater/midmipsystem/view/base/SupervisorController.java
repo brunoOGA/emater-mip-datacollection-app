@@ -69,21 +69,13 @@ public class SupervisorController extends AbstractCRUDController<Supervisor> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        Supervisor existentSupervisor = supervisorService.readById(anId);
 
-        try {
-            Supervisor existentSupervisor = supervisorService.readById(anId);
-            this.setId(existentSupervisor.getId());
-            this.setName(existentSupervisor.getName());
-            this.setEmail(existentSupervisor.getEmail());
-            this.setSelectedRegionId(existentSupervisor.getRegionId());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
+        this.setId(existentSupervisor.getId());
+        this.setName(existentSupervisor.getName());
+        this.setEmail(existentSupervisor.getEmail());
+        this.setSelectedRegionId(existentSupervisor.getRegionId());
     }
 
     @Override

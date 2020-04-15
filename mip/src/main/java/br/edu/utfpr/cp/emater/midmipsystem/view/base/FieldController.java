@@ -31,24 +31,30 @@ import org.springframework.web.context.annotation.RequestScope;
 public class FieldController extends AbstractCRUDController<Field> {
 
     private final FieldService fieldService;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 5, max = 50, message = "O nome da região deve ter entre 5 e 50 caracteres")
     private String name;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private String location;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private City city;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Farmer farmer;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Set<Supervisor> supervisors;
 
     @Getter
@@ -79,7 +85,7 @@ public class FieldController extends AbstractCRUDController<Field> {
     public List<Supervisor> readAllSupervisors() {
         return fieldService.readAllSupervisors();
     }
-    
+
     @Override
     public String create() {
 
@@ -116,23 +122,15 @@ public class FieldController extends AbstractCRUDController<Field> {
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        Field existentField = fieldService.readById(anId);
 
-        try {
-            Field existentField = fieldService.readById(anId);
-            this.setId(existentField.getId());
-            this.setName(existentField.getName());
-            this.setLocation(existentField.getLocation());
-            this.setSelectedCityId(existentField.getCityId());
-            this.setSelectedFarmerId(existentField.getFarmerId());
-            this.setSelectedSupervisorIds(existentField.getSupervisors().stream().map(Supervisor::getId).collect(Collectors.toList()));
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produtor não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
+        this.setId(existentField.getId());
+        this.setName(existentField.getName());
+        this.setLocation(existentField.getLocation());
+        this.setSelectedCityId(existentField.getCityId());
+        this.setSelectedFarmerId(existentField.getFarmerId());
+        this.setSelectedSupervisorIds(existentField.getSupervisors().stream().map(Supervisor::getId).collect(Collectors.toList()));
     }
 
     @Override

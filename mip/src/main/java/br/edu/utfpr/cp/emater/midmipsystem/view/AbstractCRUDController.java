@@ -37,6 +37,21 @@ public abstract class AbstractCRUDController<T> implements ICRUDController<T>, S
     protected abstract void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException;
 
     @Override
+    public String prepareUpdate(Long anId) {
+        try {
+            this.doPrepareUpdate(anId);
+
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", String.format("%s não pode ser alterado(a) porque não foi encontrado(a) na base de dados!", this.getItemName())));
+            return "index.xhtml";
+        }
+    }
+
+    protected abstract void doPrepareUpdate(Long anId) throws EntityNotFoundException;
+
+    @Override
     public String delete(Long anId) {
         try {
 

@@ -174,4 +174,9 @@ public class MIDRustSampleController extends AbstractCRUDController<MIDRustSampl
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

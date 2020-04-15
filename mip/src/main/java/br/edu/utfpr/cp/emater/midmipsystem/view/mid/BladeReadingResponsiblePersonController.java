@@ -34,7 +34,7 @@ public class BladeReadingResponsiblePersonController extends AbstractCRUDControl
     @Setter
     @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
     private String name;
-    
+
     @Getter
     @Setter
     private Long selectedEntityId;
@@ -50,29 +50,21 @@ public class BladeReadingResponsiblePersonController extends AbstractCRUDControl
 
     @Override
     protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
-            var newPerson = BladeReadingResponsiblePerson.builder()
-                    .name(this.getName())
-                    .entity(this.bladeReadingPersonService.readEntityById(this.getSelectedEntityId()))
-                    .build();
+        var newPerson = BladeReadingResponsiblePerson.builder()
+                .name(this.getName())
+                .entity(this.bladeReadingPersonService.readEntityById(this.getSelectedEntityId()))
+                .build();
 
-            bladeReadingPersonService.create(newPerson);
+        bladeReadingPersonService.create(newPerson);
     }
 
     @Override
-    public String prepareUpdate(Long anId) {
-
-        try {
-            var existentPerson = bladeReadingPersonService.readById(anId);
-            this.setId(existentPerson.getId());
-            this.setName(existentPerson.getName());
-            this.setSelectedEntityId(existentPerson.getEntityId());
-
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Profissional não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "index.xhtml";
-        }
+    protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
+        var existentPerson = bladeReadingPersonService.readById(anId);
+        
+        this.setId(existentPerson.getId());
+        this.setName(existentPerson.getName());
+        this.setSelectedEntityId(existentPerson.getEntityId());
     }
 
     @Override
