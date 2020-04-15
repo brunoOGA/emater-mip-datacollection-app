@@ -24,36 +24,26 @@ import org.springframework.web.context.annotation.RequestScope;
 public class PestNaturalPredatorController extends AbstractCRUDController<PestNaturalPredator> {
 
     private final PestNaturalPredatorService pestNaturalPredatorService;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     protected Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")
     protected String usualName;
-    
+
     @Override
     public List<PestNaturalPredator> readAll() {
         return pestNaturalPredatorService.readAll();
     }
-    
+
     @Override
-    public String create() {
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var newPestNaturalPredator = PestNaturalPredator.builder().usualName(this.getUsualName()).build();
 
-        try {
-            pestNaturalPredatorService.create(newPestNaturalPredator);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Inimigo natural da praga [%s] criado com sucesso!", this.getUsualName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um inimigo natural da praga com esse nome! Use um nome diferente."));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        pestNaturalPredatorService.create(newPestNaturalPredator);
     }
 
     @Override
@@ -63,7 +53,7 @@ public class PestNaturalPredatorController extends AbstractCRUDController<PestNa
             var existentPestNaturalPredator = pestNaturalPredatorService.readById(anId);
             this.setId(existentPestNaturalPredator.getId());
             this.setUsualName(existentPestNaturalPredator.getUsualName());
-            
+
             return "update.xhtml";
 
         } catch (EntityNotFoundException ex) {

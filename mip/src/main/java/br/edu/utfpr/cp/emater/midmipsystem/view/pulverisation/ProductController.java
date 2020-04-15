@@ -28,33 +28,42 @@ import org.springframework.web.context.annotation.RequestScope;
 public class ProductController extends AbstractCRUDController<Product> {
 
     private final ProductService productService;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     protected Long id;
-   
-    @Getter @Setter
+
+    @Getter
+    @Setter
     @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
     private String name;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private ProductUnit unit;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private UseClass useClass;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private String concentrationActiveIngredient;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private Long registerNumber;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private String company;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private String activeIngredient;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private ToxiClass toxiClass;
 
     @Getter
@@ -73,43 +82,25 @@ public class ProductController extends AbstractCRUDController<Product> {
     public UseClass[] readAllUseClasses() {
         return UseClass.values();
     }
-    
-    public ToxiClass[] readAllToxiClasses(){
+
+    public ToxiClass[] readAllToxiClasses() {
         return ToxiClass.values();
     }
 
     @Override
-    public String create() {
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        var newProduct = Product.builder()
+                .name(this.getName())
+                .unit(this.getUnit())
+                .useClass(this.getUseClass())
+                .activeIngredient(this.getActiveIngredient())
+                .company(this.getCompany())
+                .concentrationActiveIngredient(this.getConcentrationActiveIngredient())
+                .registerNumber(this.getRegisterNumber())
+                .toxiClass(this.getToxiClass())
+                .build();
 
-        try {
-            var newProduct = Product.builder()
-                    .name(this.getName())
-                    .unit(this.getUnit())
-                    .useClass(this.getUseClass())
-                    .activeIngredient(this.getActiveIngredient())
-                    .company(this.getCompany())
-                    .concentrationActiveIngredient(this.getConcentrationActiveIngredient())
-                    .registerNumber(this.getRegisterNumber())
-                    .toxiClass(this.getToxiClass())
-                    .build();
-
-            productService.create(newProduct);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Produto [%s] criado com sucesso!", newProduct.getName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um produto com esse nome! Use um nome diferente."));
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não pode ser criado porque o alvo/função não foi encontrado na base de dados!"));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        productService.create(newProduct);
     }
 
     @Override
@@ -141,16 +132,16 @@ public class ProductController extends AbstractCRUDController<Product> {
 
         try {
             var updatedProduct = Product.builder()
-                                        .id(this.getId())
-                                        .name(this.getName())
-                                        .unit(this.getUnit())
-                                        .useClass(this.getUseClass())
-                                        .activeIngredient(this.getActiveIngredient())
-                                        .company(this.getCompany())
-                                        .concentrationActiveIngredient(this.getConcentrationActiveIngredient())
-                                        .registerNumber(this.getRegisterNumber())
-                                        .toxiClass(this.getToxiClass())
-                                     .build();
+                    .id(this.getId())
+                    .name(this.getName())
+                    .unit(this.getUnit())
+                    .useClass(this.getUseClass())
+                    .activeIngredient(this.getActiveIngredient())
+                    .company(this.getCompany())
+                    .concentrationActiveIngredient(this.getConcentrationActiveIngredient())
+                    .registerNumber(this.getRegisterNumber())
+                    .toxiClass(this.getToxiClass())
+                    .build();
 
             productService.update(updatedProduct);
 

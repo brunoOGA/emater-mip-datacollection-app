@@ -25,18 +25,22 @@ import org.springframework.web.context.annotation.RequestScope;
 public class HarvestController extends AbstractCRUDController<Harvest> {
 
     private final HarvestService harvestService;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 5, max = 50, message = "A identificação da safra deve ter entre 5 e 50 caracteres")
     private String name;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date begin;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date end;
 
     @Override
@@ -45,24 +49,10 @@ public class HarvestController extends AbstractCRUDController<Harvest> {
     }
 
     @Override
-    public String create() {
-        
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var newHarvest = Harvest.builder().name(this.getName()).begin(this.getBegin()).end(this.getEnd()).build();
 
-        try {
-            harvestService.create(newHarvest);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Safra [%s] criada com sucesso!", this.getName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma safra iniciando e terminando nessas datas! Use datas diferentes."));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        harvestService.create(newHarvest);
     }
 
     @Override
@@ -85,13 +75,13 @@ public class HarvestController extends AbstractCRUDController<Harvest> {
 
     @Override
     public String update() {
-        
+
         var updatedEntity = Harvest.builder()
-                                    .id(this.getId())
-                                    .name(this.getName())
-                                    .begin(this.getBegin())
-                                    .end(this.getEnd())
-                                    .build();
+                .id(this.getId())
+                .name(this.getName())
+                .begin(this.getBegin())
+                .end(this.getEnd())
+                .build();
 
         try {
             harvestService.update(updatedEntity);

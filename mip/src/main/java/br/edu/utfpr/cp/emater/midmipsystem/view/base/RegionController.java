@@ -31,17 +31,21 @@ public class RegionController extends AbstractCRUDController<Region> {
 
     private final RegionService regionService;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 5, max = 50, message = "O nome da região deve ter entre 5 e 50 caracteres")
     private String name;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private MacroRegion macroRegion;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Set<City> cities;
 
     @Getter
@@ -56,7 +60,7 @@ public class RegionController extends AbstractCRUDController<Region> {
     public List<Region> readAll() {
         return regionService.readAll();
     }
-    
+
     public List<MacroRegion> readAllMacroRegions() {
         return regionService.readAllMacroRegions();
     }
@@ -84,32 +88,14 @@ public class RegionController extends AbstractCRUDController<Region> {
     }
 
     @Override
-    public String create() {
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        var newRegion = Region.builder()
+                .name(this.getName())
+                .macroRegion(this.regionService.readMacroRegionById(this.getSelectedMacroRegion()))
+                .cities(new HashSet<City>(this.getSelectedCities()))
+                .build();
 
-        try {
-            var newRegion = Region.builder()
-                    .name(this.getName())
-                    .macroRegion(this.regionService.readMacroRegionById(this.getSelectedMacroRegion()))
-                    .cities(new HashSet<City>(this.getSelectedCities()))
-                    .build();
-
-            regionService.create(newRegion);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Região [%s] criada com sucesso!", newRegion.getName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma região com esse nome nessa macrorregião! Use um nome diferente, ou selecione outra macrorregião."));
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "A região não pode ser criada porque a cidade ou a macrorregião não foram encontradas na base de dados!"));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        regionService.create(newRegion);
     }
 
     @Override

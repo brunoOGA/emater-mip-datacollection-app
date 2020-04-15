@@ -47,33 +47,15 @@ public class BladeReadingResponsibleEntityController extends AbstractCRUDControl
     }
 
     @Override
-    public String create() {
-
-        try {
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
             var newEntity = BladeReadingResponsibleEntity.builder()
                     .name(this.getName())
                     .city(this.bladeReadingEntityService.readCityById(this.getSelectedCityId()))
                     .build();
 
             bladeReadingEntityService.create(newEntity);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Entidade [%s] criada com sucesso!", newEntity.getName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma entidade com esse nome nessa cidade! Use um nome diferente."));
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "A entidade não pode ser criada porque a cidade não foi encontrada na base de dados!"));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
     }
-
+    
     @Override
     public String prepareUpdate(Long anId) {
 

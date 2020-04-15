@@ -28,10 +28,10 @@ public class MacroRegionController extends AbstractCRUDController<MacroRegion> {
     @Getter
     @Setter
     private Long id;
-    
+
     @Getter
     @Setter
-    @Size (min = 3, max = 50, message = "O nome da macrorregião deve ter entre 3 e 50 caracteres")
+    @Size(min = 3, max = 50, message = "O nome da macrorregião deve ter entre 3 e 50 caracteres")
     private String name;
 
     @Override
@@ -40,22 +40,9 @@ public class MacroRegionController extends AbstractCRUDController<MacroRegion> {
     }
 
     @Override
-    public String create() {
+    protected void doCreate() throws EntityAlreadyExistsException, AnyPersistenceException {
         MacroRegion newMacroRegion = MacroRegion.builder().name(this.getName()).build();
-
-        try {
-            macroRegionService.create(newMacroRegion);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Macrorregião [%s] criada com sucesso!", this.getName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma macrorregião com esse nome! Use um nome diferente."));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        macroRegionService.create(newMacroRegion);
     }
 
     @Override

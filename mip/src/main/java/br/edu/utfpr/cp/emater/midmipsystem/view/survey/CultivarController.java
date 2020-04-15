@@ -24,11 +24,13 @@ import org.springframework.web.context.annotation.RequestScope;
 public class CultivarController extends AbstractCRUDController<Cultivar> {
 
     private final CultivarService cultivarService;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 3, max = 50, message = "A identificação da cultivar deve ter entre 3 e 50 caracteres")
     private String name;
 
@@ -38,24 +40,10 @@ public class CultivarController extends AbstractCRUDController<Cultivar> {
     }
 
     @Override
-    public String create() {
-        
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var newCultivar = Cultivar.builder().name(this.getName()).build();
-
-        try {
-            cultivarService.create(newCultivar);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Cultivar [%s] criada com sucesso!", this.getName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma cultivar com esse nome!"));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        
+        cultivarService.create(newCultivar);
     }
 
     @Override
@@ -76,11 +64,11 @@ public class CultivarController extends AbstractCRUDController<Cultivar> {
 
     @Override
     public String update() {
-        
+
         var updatedEntity = Cultivar.builder()
-                                    .id(this.getId())
-                                    .name(this.getName())
-                                    .build();
+                .id(this.getId())
+                .name(this.getName())
+                .build();
 
         try {
             cultivarService.update(updatedEntity);

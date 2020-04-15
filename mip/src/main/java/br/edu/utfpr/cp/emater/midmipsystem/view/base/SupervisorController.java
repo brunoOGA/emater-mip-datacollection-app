@@ -62,22 +62,10 @@ public class SupervisorController extends AbstractCRUDController<Supervisor> {
     }
 
     @Override
-    public String create() {
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var newSupervisor = Supervisor.builder().name(this.getName()).email(this.getEmail()).region(this.supervisorService.readRegionById(this.getSelectedRegionId())).build();
 
-        try {
-            supervisorService.create(newSupervisor);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Responsável Técnico [%s] criado com sucesso!", this.getName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um responsável técnico com esse nome! Use um nome diferente."));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        supervisorService.create(newSupervisor);
     }
 
     @Override

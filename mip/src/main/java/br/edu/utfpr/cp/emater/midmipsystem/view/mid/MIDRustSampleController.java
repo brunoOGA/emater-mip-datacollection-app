@@ -82,8 +82,8 @@ public class MIDRustSampleController extends AbstractCRUDController<MIDRustSampl
         return midRustSampleService.readAllBladeResponsiblePersons();
     }
 
-    public String create() {
-
+    @Override
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var surveyIdAsString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId");
 
         Survey currentSurvey = null;
@@ -93,7 +93,7 @@ public class MIDRustSampleController extends AbstractCRUDController<MIDRustSampl
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Monitoramento da ferrugem não pode ser feito porque a UR não foi encontrada na base de dados!"));
-            return "index.xhtml";
+//            return "index.xhtml";
         }
 
         var newSample = MIDRustSample.builder()
@@ -116,24 +116,7 @@ public class MIDRustSampleController extends AbstractCRUDController<MIDRustSampl
         newSample.setSporeCollectorOccurrence(sporeCollectorOccurrence);
         newSample.setLeafInspectionOccurrence(leafInspectionOccurrence);
 
-        try {
-            midRustSampleService.create(newSample);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Amostra para monitoramento da ferrugem criada com sucesso!"));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma amostra com essa data para essa UR! Use datas diferentes."));
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Amostra não pode ser feita porque a UR não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        midRustSampleService.create(newSample);
     }
 
     public String selectTargetSurvey(Long id) {

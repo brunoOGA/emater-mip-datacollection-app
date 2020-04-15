@@ -25,35 +25,25 @@ public class PestDiseaseController extends AbstractCRUDController<PestDisease> {
 
     private final PestDiseaseService pestDiseaseService;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     protected Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")
-    protected String usualName;    
-    
+    protected String usualName;
+
     @Override
     public List<PestDisease> readAll() {
         return pestDiseaseService.readAll();
     }
-    
+
     @Override
-    public String create() {
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var newPestDisease = PestDisease.builder().usualName(this.getUsualName()).build();
 
-        try {
-            pestDiseaseService.create(newPestDisease);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Doença da praga [%s] criada com sucesso!", this.getUsualName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma doença da praga com esse nome! Use um nome diferente."));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        pestDiseaseService.create(newPestDisease);
     }
 
     @Override
@@ -63,7 +53,7 @@ public class PestDiseaseController extends AbstractCRUDController<PestDisease> {
             var existentPestDisease = pestDiseaseService.readById(anId);
             this.setId(existentPestDisease.getId());
             this.setUsualName(existentPestDisease.getUsualName());
-            
+
             return "update.xhtml";
 
         } catch (EntityNotFoundException ex) {

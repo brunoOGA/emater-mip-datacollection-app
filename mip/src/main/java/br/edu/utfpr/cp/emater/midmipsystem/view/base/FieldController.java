@@ -79,7 +79,7 @@ public class FieldController extends AbstractCRUDController<Field> {
     public List<Supervisor> readAllSupervisors() {
         return fieldService.readAllSupervisors();
     }
-
+    
     @Override
     public String create() {
 
@@ -180,6 +180,11 @@ public class FieldController extends AbstractCRUDController<Field> {
     @Override
     protected String getItemName() {
         return "Unidade de referência";
+    }
+
+    @Override
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

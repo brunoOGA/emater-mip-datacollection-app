@@ -54,7 +54,7 @@ public class MIPSampleService {
         return List.copyOf(mipSampleRepository.findAll().stream().map(MIPSample::getSurvey).distinct().collect(Collectors.toList()));
     }
 
-    public void create(MIPSample aSample) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+    public void create(MIPSample aSample) throws EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
         if (mipSampleRepository.findAll().stream().anyMatch(currentSample -> currentSample.equals(aSample))) {
             throw new EntityAlreadyExistsException();

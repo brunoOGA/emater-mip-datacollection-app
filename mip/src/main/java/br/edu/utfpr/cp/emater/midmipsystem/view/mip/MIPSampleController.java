@@ -124,7 +124,8 @@ public class MIPSampleController extends AbstractCRUDController<MIPSample> {
         return mipSampleService.readAllSurveysUniqueEntries();
     }
 
-    public String create() {
+    @Override
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 
         var surveyIdAsString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId");
 
@@ -135,7 +136,7 @@ public class MIPSampleController extends AbstractCRUDController<MIPSample> {
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
-            return "index.xhtml";
+//            return "index.xhtml";
         }
 
         var newSample = MIPSample.builder()
@@ -147,24 +148,7 @@ public class MIPSampleController extends AbstractCRUDController<MIPSample> {
 
         this.trimOccurrencesForSample(newSample);
 
-        try {
-            mipSampleService.create(newSample);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Anotação de campo criada com sucesso!"));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma anotação de campo com essa data para essa UR! Use datas diferentes."));
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Anotação de campo não pode ser feita porque a UR não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException | SupervisorNotAllowedInCity e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        mipSampleService.create(newSample);
     }
 
     public String selectTargetSurvey(Long id) {

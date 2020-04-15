@@ -40,7 +40,7 @@ public class PulverisationOperationController extends AbstractCRUDController<Pul
     @Setter
     @NotNull(message = "A data da coleta precisa ser informada!")
     private Date sampleDate;
-    
+
     @Getter
     @Setter
     private Set<PulverisationOperationOccurrence> operationOccurrences;
@@ -93,8 +93,8 @@ public class PulverisationOperationController extends AbstractCRUDController<Pul
         return pulverisationOperationService.readAllSurveysUniqueEntries();
     }
 
-    public String create() {
-
+    @Override
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var surveyIdAsString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("currentSurveyId");
 
         Survey currentSurvey = null;
@@ -104,7 +104,7 @@ public class PulverisationOperationController extends AbstractCRUDController<Pul
 
         } catch (EntityNotFoundException | NumberFormatException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser concluída porque a UR não foi encontrada na base de dados!"));
-            return "index.xhtml";
+//            return "index.xhtml";
         }
 
         var newOperation = PulverisationOperation.builder()
@@ -120,24 +120,7 @@ public class PulverisationOperationController extends AbstractCRUDController<Pul
 
         newOperation.setOperationOccurrences(this.getOperationOccurrences());
 
-        try {
-            pulverisationOperationService.create(newOperation);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Operação de pulverização criada com sucesso!"));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma operação de pulverização com essa data para essa UR! Use datas diferentes."));
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Operação de pulverização não pode ser feita porque a UR não foi encontrada na base de dados!"));
-            return "index.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        pulverisationOperationService.create(newOperation);
     }
 
     public String selectTargetSurvey(Long id) {
@@ -218,12 +201,12 @@ public class PulverisationOperationController extends AbstractCRUDController<Pul
     public String update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @PostConstruct
     public void init() {
         this.operationOccurrences = new HashSet<>();
     }
-    
+
     public boolean addOperationOccurrence(Product product, double productPrice, double productDose, Target target) throws ProductUseClassDifferFromTargetException {
 
         if (product.getUseClass() != target.getUseClass()) {

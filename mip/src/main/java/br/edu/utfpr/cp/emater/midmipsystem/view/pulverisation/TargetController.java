@@ -25,49 +25,34 @@ import org.springframework.web.context.annotation.RequestScope;
 public class TargetController extends AbstractCRUDController<Target> {
 
     private final TargetService targetService;
-    
-    @Getter @Setter
+
+    @Getter
+    @Setter
     protected Long id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Size(min = 3, max = 80, message = "A descrição deve ter entre 3 e 80 caracteres")
     protected String description;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private UseClass useClass;
 
     @Override
     public List<Target> readAll() {
         return targetService.readAll();
     }
-    
+
     public UseClass[] readAllUseClasses() {
         return UseClass.values();
     }
 
     @Override
-    public String create() {
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        var newTarget = Target.builder().description(this.getDescription()).useClass(this.getUseClass()).build();
 
-        try {
-            var newTarget = Target.builder().description(this.getDescription()).useClass(this.getUseClass()).build();
-            
-            targetService.create(newTarget);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Alvo/Função [%s] criado com sucesso!", newTarget.getDescription())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um alvo/função com esse nome para essa categoria! Use um nome diferente."));
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Alvo/Função não pode ser criado porque a categoria não foi encontrada na base de dados!"));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
+        targetService.create(newTarget);
     }
 
     @Override
@@ -75,7 +60,7 @@ public class TargetController extends AbstractCRUDController<Target> {
 
         try {
             var existentTarget = targetService.readById(anId);
-            
+
             this.setId(existentTarget.getId());
             this.setDescription(existentTarget.getDescription());
             this.setUseClass(existentTarget.getUseClass());

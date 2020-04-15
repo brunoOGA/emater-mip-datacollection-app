@@ -49,31 +49,13 @@ public class BladeReadingResponsiblePersonController extends AbstractCRUDControl
     }
 
     @Override
-    public String create() {
-
-        try {
+    protected void doCreate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
             var newPerson = BladeReadingResponsiblePerson.builder()
                     .name(this.getName())
                     .entity(this.bladeReadingPersonService.readEntityById(this.getSelectedEntityId()))
                     .build();
 
             bladeReadingPersonService.create(newPerson);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("Profissional [%s] criado com sucesso!", newPerson.getName())));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um profissional com esse nome nessa cidade! Use um nome diferente."));
-            return "create.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "O profissional não pode ser criado porque a entidade não foi encontrada na base de dados!"));
-            return "create.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
     }
 
     @Override
