@@ -66,8 +66,7 @@ public class HarvestController extends AbstractCRUDController<Harvest> {
     }
 
     @Override
-    public String update() {
-
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var updatedEntity = Harvest.builder()
                 .id(this.getId())
                 .name(this.getName())
@@ -75,24 +74,7 @@ public class HarvestController extends AbstractCRUDController<Harvest> {
                 .end(this.getEnd())
                 .build();
 
-        try {
-            harvestService.update(updatedEntity);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Safra alterada!"));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma safra começando e terminando nessas datas! Use um datas diferentes."));
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Safra não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "update.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-
+        harvestService.update(updatedEntity);
     }
 
     @Override

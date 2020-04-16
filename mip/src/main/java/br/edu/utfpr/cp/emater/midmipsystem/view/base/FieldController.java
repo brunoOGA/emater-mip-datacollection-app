@@ -134,6 +134,11 @@ public class FieldController extends AbstractCRUDController<Field> {
     }
 
     @Override
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public String update() {
 
         try {

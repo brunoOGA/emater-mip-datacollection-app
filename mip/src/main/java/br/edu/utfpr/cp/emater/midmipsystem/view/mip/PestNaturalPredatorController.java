@@ -55,27 +55,10 @@ public class PestNaturalPredatorController extends AbstractCRUDController<PestNa
     }
 
     @Override
-    public String update() {
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var updatedPestNaturalPredator = PestNaturalPredator.builder().id(this.getId()).usualName(this.getUsualName()).build();
-
-        try {
-            pestNaturalPredatorService.update(updatedPestNaturalPredator);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Inimigo natural da praga alterado"));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um inimigo natural da praga com esse nome! Use um nome diferente."));
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Inimigo natural da praga não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "update.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-
+        
+        pestNaturalPredatorService.update(updatedPestNaturalPredator);
     }
 
     @Override

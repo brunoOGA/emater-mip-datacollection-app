@@ -110,35 +110,15 @@ public class RegionController extends AbstractCRUDController<Region> {
     }
 
     @Override
-    public String update() {
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        var updatedRegion = Region.builder()
+                .id(this.getId())
+                .name(this.getName())
+                .macroRegion(this.regionService.readMacroRegionById(this.getSelectedMacroRegion()))
+                .cities(new HashSet<City>(this.getSelectedCities()))
+                .build();
 
-        try {
-            var updatedRegion = Region.builder()
-                    .id(this.getId())
-                    .name(this.getName())
-                    .macroRegion(this.regionService.readMacroRegionById(this.getSelectedMacroRegion()))
-                    .cities(new HashSet<City>(this.getSelectedCities()))
-                    .build();
-
-            regionService.update(updatedRegion);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Região alterada!"));
-
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma região com esse nome! Use um nome diferente."));
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Região não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "update.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-
+        regionService.update(updatedRegion);
     }
 
     @Override

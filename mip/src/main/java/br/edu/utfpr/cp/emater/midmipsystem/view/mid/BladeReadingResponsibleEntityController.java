@@ -61,41 +61,21 @@ public class BladeReadingResponsibleEntityController extends AbstractCRUDControl
     @Override
     protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
         var existentEntity = bladeReadingEntityService.readById(anId);
-        
+
         this.setId(existentEntity.getId());
         this.setName(existentEntity.getName());
         this.setSelectedCityId(existentEntity.getCityId());
     }
 
     @Override
-    public String update() {
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        var updatedEntity = BladeReadingResponsibleEntity.builder()
+                .id(this.getId())
+                .name(this.getName())
+                .city(bladeReadingEntityService.readCityById(this.getSelectedCityId()))
+                .build();
 
-        try {
-            var updatedEntity = BladeReadingResponsibleEntity.builder()
-                    .id(this.getId())
-                    .name(this.getName())
-                    .city(bladeReadingEntityService.readCityById(this.getSelectedCityId()))
-                    .build();
-
-            bladeReadingEntityService.update(updatedEntity);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Entidade alterada!"));
-
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma entidade com esse nome! Use um nome diferente."));
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Entidade não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "update.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-
+        bladeReadingEntityService.update(updatedEntity);
     }
 
     @Override

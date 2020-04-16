@@ -61,41 +61,21 @@ public class BladeReadingResponsiblePersonController extends AbstractCRUDControl
     @Override
     protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
         var existentPerson = bladeReadingPersonService.readById(anId);
-        
+
         this.setId(existentPerson.getId());
         this.setName(existentPerson.getName());
         this.setSelectedEntityId(existentPerson.getEntityId());
     }
 
     @Override
-    public String update() {
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        var updatedPerson = BladeReadingResponsiblePerson.builder()
+                .id(this.getId())
+                .name(this.getName())
+                .entity(this.bladeReadingPersonService.readEntityById(this.getSelectedEntityId()))
+                .build();
 
-        try {
-            var updatedPerson = BladeReadingResponsiblePerson.builder()
-                    .id(this.getId())
-                    .name(this.getName())
-                    .entity(this.bladeReadingPersonService.readEntityById(this.getSelectedEntityId()))
-                    .build();
-
-            bladeReadingPersonService.update(updatedPerson);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Profissional alterado!"));
-
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um profissional com esse nome! Use um nome diferente."));
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Profissional não pode ser alterado porque não foi encontrado na base de dados!"));
-            return "update.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-
+        bladeReadingPersonService.update(updatedPerson);
     }
 
     @Override

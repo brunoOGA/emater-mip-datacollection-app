@@ -49,37 +49,19 @@ public class CultivarController extends AbstractCRUDController<Cultivar> {
     @Override
     protected void doPrepareUpdate(Long anId) throws EntityNotFoundException {
         var existentCultivar = cultivarService.readById(anId);
-        
+
         this.setId(existentCultivar.getId());
         this.setName(existentCultivar.getName());
     }
 
     @Override
-    public String update() {
-
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         var updatedEntity = Cultivar.builder()
                 .id(this.getId())
                 .name(this.getName())
                 .build();
-
-        try {
-            cultivarService.update(updatedEntity);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Cultivar alterada!"));
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe uma cultivar com esse nome."));
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Cultivar não pode ser alterada porque não foi encontrada na base de dados!"));
-            return "update.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-
+        
+        cultivarService.update(updatedEntity);
     }
 
     @Override

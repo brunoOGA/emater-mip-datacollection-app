@@ -119,40 +119,20 @@ public class ProductController extends AbstractCRUDController<Product> {
     }
 
     @Override
-    public String update() {
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        var updatedProduct = Product.builder()
+                .id(this.getId())
+                .name(this.getName())
+                .unit(this.getUnit())
+                .useClass(this.getUseClass())
+                .activeIngredient(this.getActiveIngredient())
+                .company(this.getCompany())
+                .concentrationActiveIngredient(this.getConcentrationActiveIngredient())
+                .registerNumber(this.getRegisterNumber())
+                .toxiClass(this.getToxiClass())
+                .build();
 
-        try {
-            var updatedProduct = Product.builder()
-                    .id(this.getId())
-                    .name(this.getName())
-                    .unit(this.getUnit())
-                    .useClass(this.getUseClass())
-                    .activeIngredient(this.getActiveIngredient())
-                    .company(this.getCompany())
-                    .concentrationActiveIngredient(this.getConcentrationActiveIngredient())
-                    .registerNumber(this.getRegisterNumber())
-                    .toxiClass(this.getToxiClass())
-                    .build();
-
-            productService.update(updatedProduct);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Produto alterado!"));
-
-            return "index.xhtml";
-
-        } catch (EntityAlreadyExistsException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Já existe um produto com esse nome! Use um nome diferente."));
-            return "update.xhtml";
-
-        } catch (EntityNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Produto não pode ser alterado porque não foi encontrada na base de dados!"));
-            return "update.xhtml";
-
-        } catch (AnyPersistenceException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
-            return "index.xhtml";
-        }
-
+        productService.update(updatedProduct);
     }
 
     public List<Target> readAllTargets() {

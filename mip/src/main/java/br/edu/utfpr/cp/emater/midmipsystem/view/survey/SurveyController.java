@@ -156,6 +156,7 @@ public class SurveyController extends AbstractCRUDController<Survey> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public String prepareUpdate(Long surveyId) {
         try {
             var currentSurvey = surveyService.readById(surveyId);
@@ -223,6 +224,11 @@ public class SurveyController extends AbstractCRUDController<Survey> {
 
     @Override
     public String update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

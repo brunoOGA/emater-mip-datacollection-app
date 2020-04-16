@@ -253,4 +253,9 @@ public class MIPUserController extends AbstractCRUDController<MIPUser> {
     protected String getItemName() {
         return "Usuário";
     }
+
+    @Override
+    protected void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

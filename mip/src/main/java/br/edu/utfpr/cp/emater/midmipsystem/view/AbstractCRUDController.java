@@ -52,6 +52,31 @@ public abstract class AbstractCRUDController<T> implements ICRUDController<T>, S
     protected abstract void doPrepareUpdate(Long anId) throws EntityNotFoundException;
 
     @Override
+    public String update() {
+
+        try {
+            this.doUpdate();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("%s alterado(a) com sucesso!", this.getItemName())));
+            return "index.xhtml";
+
+        } catch (EntityAlreadyExistsException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", String.format("Já existe um(a) %s com esse nome! Use um nome diferente.", this.getItemName().toLowerCase())));
+            return "update.xhtml";
+
+        } catch (EntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", String.format("%s não pode ser alterado(a) porque não foi encontrado(a) na base de dados!", this.getItemName())));
+            return "update.xhtml";
+
+        } catch (AnyPersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro na gravação dos dados!"));
+            return "index.xhtml";
+        }
+    }
+
+    protected abstract void doUpdate() throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException;
+
+    @Override
     public String delete(Long anId) {
         try {
 
