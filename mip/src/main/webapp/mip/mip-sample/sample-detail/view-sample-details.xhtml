@@ -57,6 +57,20 @@
                         <h:outputText value="#{aSample.growthPhase.description}" />
                     </p:column>
 
+                    <p:column headerText="Responsável Lançamento">
+                        <h:outputText rendered="#{aSample.createdBy != null}" value="#{aSample.createdBy.fullName}" />
+                        <h:outputText rendered="#{aSample.createdBy == null}" value="-" />
+                    </p:column>
+
+                    <p:column headerText="Última Alteração">
+                        <h:outputText rendered="#{aSample.lastModified != null}" value="#{aSample.lastModified}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                        
+                        <h:outputText rendered="#{aSample.lastModified == null}" value="-" >
+                        </h:outputText>
+                    </p:column>
+
                     <p:column headerText="Ações" width="100">
                         <p:commandButton disabled="#{mipSampleDetailController.currentSurvey.closingDate != null}" immediate="true" update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
                             <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
@@ -79,7 +93,7 @@
                             <p:column headerText="Inseto Praga">
                                 <h:outputText value="#{aPestSample.pestUsualName}" />
                             </p:column>
-                            
+
                             <p:column headerText="Tamanho">
                                 <h:outputText value="#{aPestSample.pestSizeName}" />
                             </p:column>

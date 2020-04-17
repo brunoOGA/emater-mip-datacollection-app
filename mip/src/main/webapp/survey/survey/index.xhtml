@@ -168,6 +168,20 @@
                             </h:outputText>
                         </p:column>
 
+                        <p:column visible="false" headerText="Responsável Lançamento" filterBy="#{aSurvey.createdBy.fullName}" filterMatchMode="contains" >
+                            <h:outputText rendered="#{aSurvey.createdBy != null}" value="#{aSurvey.createdBy.fullName}" />
+                            <h:outputText rendered="#{aSurvey.createdBy == null}" value="-" />
+                        </p:column>
+
+                        <p:column visible="false" headerText="Última Alteração" filterBy="#{aSurvey.lastModified}" filterMatchMode="contains" >
+                            <h:outputText rendered="#{aSurvey.lastModified != null}" value="#{aSurvey.lastModified}" >
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            </h:outputText>
+
+                            <h:outputText rendered="#{aSurvey.lastModified == null}" value="-" >
+                            </h:outputText>
+                        </p:column>
+
                         <p:column headerText="Ações" width="200">
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar anotação de campo para esta UR" position="top" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui" template="/WEB-INF/templates/template.xhtml">
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">
         Operações de Pulverização/Aplicação
@@ -20,8 +20,8 @@
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
                     <p:commandButton ajax="false" value="Voltar" immediate="true"
-                        action="/pulverisation/pulverisation-operation/index.xhtml?faces-redirect=true" process="@this"
-                        icon="fa fa-reply" />
+                                     action="/pulverisation/pulverisation-operation/index.xhtml?faces-redirect=true" process="@this"
+                                     icon="fa fa-reply" />
                 </div>
 
                 <hr />
@@ -29,7 +29,7 @@
                 <h:inputHidden value="#{pulverisationDetailController.currentSurvey}"></h:inputHidden>
 
                 <p:dataTable id="sampleTable" var="aPulverisation"
-                    value="#{pulverisationDetailController.readAllPulverisationOperationBySurvey()}">
+                             value="#{pulverisationDetailController.readAllPulverisationOperationBySurvey()}">
                     <f:facet name="header">
                         Operações Registradas
                     </f:facet>
@@ -90,21 +90,36 @@
                         </h:outputText>
                     </p:column>
 
+                    <p:column headerText="Responsável Lançamento">
+                        <h:outputText rendered="#{aPulverisation.createdBy != null}" value="#{aPulverisation.createdBy.fullName}" />
+                        <h:outputText rendered="#{aPulverisation.createdBy == null}" value="-" />
+                    </p:column>
+
+                    <p:column headerText="Última Alteração">
+                        <h:outputText rendered="#{aPulverisation.lastModified != null}" value="#{aPulverisation.lastModified}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+
+                        <h:outputText rendered="#{aPulverisation.lastModified == null}" value="-" >
+                        </h:outputText>
+                    </p:column>
+
+
                     <p:column headerText="Ações" width="100">
                         <p:commandButton  disabled="#{pulverisationDetailController.currentSurvey.closingDate != null}"  immediate="true" update="@form" styleClass="btn-danger"
-                            icon="fa fa-fw fa-trash"
-                            action="#{pulverisationOperationController.delete(aPulverisation.id)}">
+                                          icon="fa fa-fw fa-trash"
+                                          action="#{pulverisationOperationController.delete(aPulverisation.id)}">
                             <p:confirm header="Confirma Exclusão?"
-                                message="Tem certeza que deseja excluir a operação realizada em '#{aPulverisation.sampleDate}'? Essa ação NÃO pode ser desfeita." />
+                                       message="Tem certeza que deseja excluir a operação realizada em '#{aPulverisation.sampleDate}'? Essa ação NÃO pode ser desfeita." />
                         </p:commandButton>
                         <p:tooltip for="@previous" value="Excluir" position="top" />
 
                         <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade"
-                            closable="false">
+                                         closable="false">
                             <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger"
-                                icon="fa fa-fw fa-trash" />
+                                             icon="fa fa-fw fa-trash" />
                             <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary"
-                                icon="fa fa-fw fa-ban" />
+                                             icon="fa fa-fw fa-ban" />
                         </p:confirmDialog>
 
                     </p:column>
@@ -127,14 +142,14 @@
                             <p:column headerText="Preço">
                                 <h:outputText value="#{anOccurrence.productPrice}">
                                     <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2"
-                                        locale="pt_BR" />
+                                                     locale="pt_BR" />
                                 </h:outputText>
                             </p:column>
 
                             <p:column headerText="Custo Produto (R$/ha)">
                                 <h:outputText value="#{anOccurrence.productCostCurrency}">
                                     <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2"
-                                        locale="pt_BR" />
+                                                     locale="pt_BR" />
                                 </h:outputText>
                             </p:column>
 
