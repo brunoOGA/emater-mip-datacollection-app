@@ -13,7 +13,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.security.MIPUserRepository
 public class MIPUserDetailsService implements UserDetailsService {
     
     private final MIPUserRepository userRepository;
-
+    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
