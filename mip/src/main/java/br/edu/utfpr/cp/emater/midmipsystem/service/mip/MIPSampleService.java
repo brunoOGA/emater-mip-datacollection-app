@@ -53,6 +53,10 @@ public class MIPSampleService {
     public List<Survey> readAllSurveysUniqueEntries() {
         return List.copyOf(mipSampleRepository.findAll().stream().map(MIPSample::getSurvey).distinct().collect(Collectors.toList()));
     }
+    
+    public void update (MIPSample aSample) throws Exception {
+        mipSampleRepository.saveAndFlush(aSample);
+    }
 
     public void create(MIPSample aSample) throws EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 

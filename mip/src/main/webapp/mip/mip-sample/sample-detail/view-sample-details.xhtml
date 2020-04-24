@@ -66,7 +66,7 @@
                         <h:outputText rendered="#{aSample.lastModified != null}" value="#{aSample.lastModified}" >
                             <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                         </h:outputText>
-                        
+
                         <h:outputText rendered="#{aSample.lastModified == null}" value="-" >
                         </h:outputText>
                     </p:column>
@@ -84,11 +84,16 @@
                     </p:column>  
 
                     <p:rowExpansion>
-                        <p:dataTable var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
+                        <p:dataTable editable="true" var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
 
                             <f:facet name="header">
                                 Flutuação das Pragas
                             </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{mipSampleDetailController.onRowEdit}" />
+                            <f:attribute name="currentMIPSample" value="#{aSample}" />
+                            
+                            <p:ajax event="rowEditCancel" listener="#{mipSampleDetailController.onRowCancel}"/>
 
                             <p:column headerText="Inseto Praga">
                                 <h:outputText value="#{aPestSample.pestUsualName}" />
@@ -99,9 +104,19 @@
                             </p:column>
 
                             <p:column headerText="Média Encontrada">
-                                <h:outputText value="#{aPestSample.value}" >
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
-                                </h:outputText>
+
+
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{aPestSample.value}" >
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="#{mipSampleDetailController.value}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:35px">
+                                <p:rowEditor />
                             </p:column>
 
                         </p:dataTable>  
