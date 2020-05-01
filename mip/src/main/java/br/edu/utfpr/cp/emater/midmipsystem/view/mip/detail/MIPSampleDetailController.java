@@ -10,15 +10,12 @@ import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.primefaces.event.RowEditEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -35,22 +32,40 @@ public class MIPSampleDetailController {
 
     @Setter
     @Getter
-    private double value;
+    private double pestValue;
+
+    @Setter
+    @Getter
+    private double pestDiseaseValue;
+
+    @Setter
+    @Getter
+    private double pestNaturalPredatorValue;
+
+    private void doUpdate(MIPSample aSample) {
+
+        try {
+            mipSampleService.update(aSample);
+
+            this.setPestValue(0.0);
+            this.setPestDiseaseValue(0.0);
+            this.setPestNaturalPredatorValue(0.0);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edição feita!", "Edição feita"));
+
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Edição nao salva!", "Edição nao salva"));
+        }
+    }
 
     public void onPestOccurrenceEdit(RowEditEvent event) {
         var currentMIPSample = (MIPSample) event.getComponent().getAttributes().get("currentMIPSample");
 
         var pestOccurrence = (MIPSamplePestOccurrence) event.getObject();
 
-        pestOccurrence.setValue(this.getValue());
+        pestOccurrence.setValue(this.getPestValue());
 
-        try {
-            mipSampleService.update(currentMIPSample);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edição feita!", "" + pestOccurrence.getValue()));
-
-        } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Edição nao salva!", "" + pestOccurrence.getValue()));
-        }
+        this.doUpdate(currentMIPSample);
     }
 
     public void onPestDiseaseOccurrenceEdit(RowEditEvent event) {
@@ -58,15 +73,9 @@ public class MIPSampleDetailController {
 
         var pestDiseaseOccurrence = (MIPSamplePestDiseaseOccurrence) event.getObject();
 
-        pestDiseaseOccurrence.setValue(this.getValue());
+        pestDiseaseOccurrence.setValue(this.getPestDiseaseValue());
 
-        try {
-            mipSampleService.update(currentMIPSample);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edição feita!", "" + pestDiseaseOccurrence.getValue()));
-
-        } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Edição nao salva!", "" + pestDiseaseOccurrence.getValue()));
-        }
+        this.doUpdate(currentMIPSample);
     }
 
     public void onPestNaturalPredatorOccurrenceEdit(RowEditEvent event) {
@@ -74,15 +83,9 @@ public class MIPSampleDetailController {
 
         var pestNaturalPredatorOccurrence = (MIPSampleNaturalPredatorOccurrence) event.getObject();
 
-        pestNaturalPredatorOccurrence.setValue(this.getValue());
+        pestNaturalPredatorOccurrence.setValue(this.getPestNaturalPredatorValue());
 
-        try {
-            mipSampleService.update(currentMIPSample);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edição feita!", "" + pestNaturalPredatorOccurrence.getValue()));
-
-        } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Edição nao salva!", "" + pestNaturalPredatorOccurrence.getValue()));
-        }
+        this.doUpdate(currentMIPSample);
     }
 
     public void onRowCancel(RowEditEvent event) {
