@@ -84,15 +84,16 @@
                     </p:column>  
 
                     <p:rowExpansion>
-                        <p:dataTable editable="true" var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
+
+                        <p:dataTable id="pestOccurrenceTable" editable="true" var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
 
                             <f:facet name="header">
                                 Flutuação das Pragas
                             </f:facet>
 
-                            <p:ajax event="rowEdit" listener="#{mipSampleDetailController.onRowEdit}" />
+                            <p:ajax event="rowEdit" listener="#{mipSampleDetailController.onPestOccurrenceEdit}" />
                             <f:attribute name="currentMIPSample" value="#{aSample}" />
-                            
+
                             <p:ajax event="rowEditCancel" listener="#{mipSampleDetailController.onRowCancel}"/>
 
                             <p:column headerText="Inseto Praga">
@@ -105,14 +106,53 @@
 
                             <p:column headerText="Média Encontrada">
 
-
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{aPestSample.value}" >
+                                <p:cellEditor id="pestCellEditor">
+                                    <f:facet name="output">
+                                        <h:outputText value="#{aPestSample.value}" >
                                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
                                         </h:outputText>
                                     </f:facet>
-                                    <f:facet name="input"><p:inputText id="modelInput" value="#{mipSampleDetailController.value}" style="width:100%"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="modelInput" value="#{mipSampleDetailController.value}" style="width:100%"/>
+                                    </f:facet>
                                 </p:cellEditor>
+
+                            </p:column>
+
+                            <p:column style="width:35px">
+                                <p:rowEditor  />
+                            </p:column>
+
+                        </p:dataTable>  
+
+                        <p:dataTable id="pestDiseaseTable" editable="true" var="aPestDiseaseSample" value="#{aSample.mipSamplePestDiseaseOccurrence}">
+
+                            <f:facet name="header">
+                                Doenças das Pragas
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{mipSampleDetailController.onPestDiseaseOccurrenceEdit}" />
+                            <f:attribute name="currentMIPSample" value="#{aSample}" />
+
+                            <p:ajax event="rowEditCancel" listener="#{mipSampleDetailController.onRowCancel}"/>                            
+
+                            <p:column headerText="Inseto Praga">
+                                <h:outputText value="#{aPestDiseaseSample.pestDiseaseUsualName}" />
+                            </p:column>
+
+                            <p:column headerText="Média Encontrada">
+
+                                <p:cellEditor id="pestDiseaseCellEditor">
+                                    <f:facet name="output">
+                                        <h:outputText value="#{aPestDiseaseSample.value}" >
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{mipSampleDetailController.value}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
 
                             <p:column style="width:35px">
@@ -121,39 +161,42 @@
 
                         </p:dataTable>  
 
-                        <p:dataTable var="aPestDiseaseSample" value="#{aSample.mipSamplePestDiseaseOccurrence}">
-
-                            <f:facet name="header">
-                                Doenças das Pragas
-                            </f:facet>
-
-                            <p:column headerText="Inseto Praga">
-                                <h:outputText value="#{aPestDiseaseSample.pestDiseaseUsualName}" />
-                            </p:column>
-
-                            <p:column headerText="Média Encontrada">
-                                <h:outputText value="#{aPestDiseaseSample.value}" >
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
-                                </h:outputText>
-                            </p:column>
-                        </p:dataTable>  
-
-                        <p:dataTable var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
+                        <p:dataTable id="pestNaturalPredatorTable" editable="true" var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
 
                             <f:facet name="header">
                                 Inimigos Naturais de Pragas
                             </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{mipSampleDetailController.onPestNaturalPredatorOccurrenceEdit}" />
+                            <f:attribute name="currentMIPSample" value="#{aSample}" />                            
+
+                            <p:ajax event="rowEditCancel" listener="#{mipSampleDetailController.onRowCancel}"/>                                                        
 
                             <p:column headerText="Inimigo Natural de Pragas">
                                 <h:outputText value="#{aNaturalPredatorSample.pestNaturalPredatorUsualName}" />
                             </p:column>
 
                             <p:column headerText="Média Encontrada">
-                                <h:outputText value="#{aNaturalPredatorSample.value}" >
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
-                                </h:outputText>
+
+                                <p:cellEditor id="pestNaturalPredatorCellEditor">
+                                    <f:facet name="output">
+                                        <h:outputText value="#{aNaturalPredatorSample.value}" >
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"></f:convertNumber>
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{mipSampleDetailController.value}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
+
+                            <p:column style="width:35px">
+                                <p:rowEditor />
+                            </p:column>                            
+
                         </p:dataTable> 
+
                     </p:rowExpansion>
                 </p:dataTable>  
             </p:panel>
