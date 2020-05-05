@@ -144,8 +144,8 @@ public class PulverisationOperationOccurrenceTest {
 	public void getProductFormattedName() {
 		pulverisationOperationOccurrence.setProduct(createProduct());
 		pulverisationOperationOccurrence.setDose(1.2);
-		
-		assertThat(pulverisationOperationOccurrence.getProductFormattedName()).isEqualTo("2-4d - 1,20 (L)");
+		System.out.println(pulverisationOperationOccurrence.getProductFormattedName());
+		assertThat(pulverisationOperationOccurrence.getProductFormattedName()).isEqualTo("2-4d - 1.20 (L)");
 	}
 	
 	@Test
