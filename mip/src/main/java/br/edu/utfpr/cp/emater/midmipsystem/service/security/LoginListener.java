@@ -16,7 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Log
 public class LoginListener implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
     
-    private final SupervisorService supervisorSerice;
+    private final SupervisorService supervisorService;
 
     @Override
     public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
@@ -27,7 +27,7 @@ public class LoginListener implements ApplicationListener<InteractiveAuthenticat
         var currentUser = (MIPUserPrincipal) event.getAuthentication().getPrincipal();
         session.setAttribute("currentUser", currentUser);
             
-        var currentSupervisor = supervisorSerice.readByEmail(currentUser.getUser().getEmail());
+        var currentSupervisor = supervisorService.readByEmail(currentUser.getUser().getEmail());
         
         if (currentSupervisor.isPresent())
             session.setAttribute("currentSupervisor", currentSupervisor.get());

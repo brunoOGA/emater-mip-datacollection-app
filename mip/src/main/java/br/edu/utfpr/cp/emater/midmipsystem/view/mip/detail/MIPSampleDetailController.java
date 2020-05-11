@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -50,18 +49,20 @@ public class MIPSampleDetailController {
 
     @Deprecated
     public int calculateDaysAfterEmergence(Date sampleDate) {
-        
-        if (currentSurvey.getEmergenceDate() == null)
+
+        if (currentSurvey.getEmergenceDate() == null) {
             return 0;
-        
+        }
+
         long diffInMillies = (sampleDate.getTime() - currentSurvey.getEmergenceDate().getTime());
 
         if (diffInMillies > 0) {
             var result = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
             return (int) (result + 1);
-            
-        } else
+
+        } else {
             return 0;
+        }
     }
 }

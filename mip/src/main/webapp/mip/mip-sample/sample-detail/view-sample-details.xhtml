@@ -36,9 +36,11 @@
                     <f:facet name="header">
                         Amostras Coletadas
                     </f:facet>
+
                     <p:column style="width:16px">
                         <p:rowToggler />
                     </p:column>
+
                     <p:column headerText="Data da Amostra">
                         <h:outputText value="#{aSample.sampleDate}" >
                             <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
@@ -66,12 +68,12 @@
                         <h:outputText rendered="#{aSample.lastModified != null}" value="#{aSample.lastModified}" >
                             <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                         </h:outputText>
-                        
+
                         <h:outputText rendered="#{aSample.lastModified == null}" value="-" >
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Ações" width="100">
+                    <p:column headerText="Ações" width="200">
                         <p:commandButton disabled="#{mipSampleDetailController.currentSurvey.closingDate != null}" immediate="true" update="@form" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
                             <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
                         </p:commandButton>
@@ -84,7 +86,8 @@
                     </p:column>  
 
                     <p:rowExpansion>
-                        <p:dataTable var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
+
+                        <p:dataTable id="pestOccurrenceTable" var="aPestSample" value="#{aSample.mipSamplePestOccurrence}">
 
                             <f:facet name="header">
                                 Flutuação das Pragas
@@ -106,7 +109,7 @@
 
                         </p:dataTable>  
 
-                        <p:dataTable var="aPestDiseaseSample" value="#{aSample.mipSamplePestDiseaseOccurrence}">
+                        <p:dataTable id="pestDiseaseTable" var="aPestDiseaseSample" value="#{aSample.mipSamplePestDiseaseOccurrence}">
 
                             <f:facet name="header">
                                 Doenças das Pragas
@@ -123,7 +126,7 @@
                             </p:column>
                         </p:dataTable>  
 
-                        <p:dataTable var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
+                        <p:dataTable id="pestNaturalPredatorTable" var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
 
                             <f:facet name="header">
                                 Inimigos Naturais de Pragas
@@ -139,6 +142,7 @@
                                 </h:outputText>
                             </p:column>
                         </p:dataTable> 
+
                     </p:rowExpansion>
                 </p:dataTable>  
             </p:panel>
