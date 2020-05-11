@@ -183,6 +183,8 @@
                         </p:column>
 
                         <p:column headerText="Ações" width="200">
+                            <p:button styleClass="bg-info" icon="fa fa-fw fa-eye" outcome="/analysis/ur-dashboard.xhtml?surveyId=#{aSurvey.id}" ></p:button>
+                            
                             <p:commandButton disabled="#{aSurvey.closingDate != null}" ajax="false" styleClass="bg-gray" icon="fa fa-fw fa-bug" action="#{mipSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar anotação de campo para esta UR" position="top" />
 

@@ -19,7 +19,9 @@
         <h:form>
             <p:growl showDetail="true" life="3000"></p:growl>
 
-           #{urDashboardController.message}
+            Survey id: #{urDashboardController.selectTargetSurvey(param['surveyId'])}
+            
+            Component: #{urDashboardController.getSurveyName()}
         </h:form>
     </ui:define>
 </ui:composition>
