@@ -151,4 +151,8 @@ public class AnalysisService {
                 .collect(Collectors.toList());
     }
 
+    public List<MIPSample> readMIPSamplesBySurveyId(Long aSurveyId) {
+        return mipSampleService.readBySurveyId(aSurveyId);
+    }
+
 }

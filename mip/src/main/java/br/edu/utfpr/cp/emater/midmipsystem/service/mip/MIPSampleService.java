@@ -53,8 +53,8 @@ public class MIPSampleService {
     public List<Survey> readAllSurveysUniqueEntries() {
         return List.copyOf(mipSampleRepository.findAll().stream().map(MIPSample::getSurvey).distinct().collect(Collectors.toList()));
     }
-    
-    public void update (MIPSample aSample) throws Exception {
+
+    public void update(MIPSample aSample) throws Exception {
         mipSampleRepository.saveAndFlush(aSample);
     }
 
@@ -88,9 +88,9 @@ public class MIPSampleService {
 
         try {
             mipSampleRepository.delete(existentSample);
-            
+
         } catch (AccessDeniedException cve) {
-            throw cve;            
+            throw cve;
 
         } catch (DataIntegrityViolationException cve) {
             throw new EntityInUseException();
@@ -282,5 +282,12 @@ public class MIPSampleService {
         } catch (EntityNotFoundException ex) {
             return Optional.empty();
         }
+    }
+
+    public List<MIPSample> readBySurveyId(Long aSurveyId) {
+        return this.mipSampleRepository.findAll().stream()
+                .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
+                .filter(currentMIPSample -> currentMIPSample.getSurvey().getId().equals(aSurveyId))
+                .collect(Collectors.toList());
     }
 }

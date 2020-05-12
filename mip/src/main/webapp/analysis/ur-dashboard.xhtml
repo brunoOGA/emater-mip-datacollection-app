@@ -5,7 +5,9 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/template.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+                xmlns:hf="http://highfaces.org"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Painel de Controle da UR XYZ"/> 
@@ -26,7 +28,35 @@
 
             <div class="row" >
                 <div class="col-md-12">
-                    <p:panel id="box-colors-panel" header="Box Colors" styleClass="box-primary" toggleable="true" closable="true">
+                    <p:panel header="Flutuação de Lagartas, Percevejos, Inimigos Naturais e Desfolha" styleClass="box-primary" toggleable="true" toggleableHeader="true" closable="false">
+
+                        <p:tabView>
+                            <p:tab title="Lagartas">
+                                <hf:chart type="line" value="#{urDashboardController.getCaterpillarFluctuationChart(flash['currentSurveyId'])}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                            </p:tab>
+                            
+                            <p:tab title="Percevejos">
+                                <hf:chart type="line" value="#{urDashboardController.getBedBugFluctuationChart(flash['currentSurveyId'])}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                            </p:tab>
+                            
+                            <p:tab title="Inimigos Naturais">
+                                    <hf:chart type="line" value="#{urDashboardController.getNaturalPredatorFluctuationChart(flash['currentSurveyId'])}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                            </p:tab>
+                            
+                            <p:tab title="Desfolha">
+                                <hf:chart type="line" value="#{urDashboardController.getDefoliationFluctuationChart(flash['currentSurveyId'])}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="(%) de Desfolha" ></hf:chart>
+                            </p:tab>
+                        </p:tabView>
+
+                    </p:panel>
+                </div>
+            </div>
+
+            <p:spacer height="15px"/>
+
+<!--            <div class="row" >
+                <div class="col-md-12">
+                    <p:panel header="Box Colors" styleClass="box-primary" toggleable="true" closable="true">
 
                         <f:facet name="actions">
                             <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText
@@ -115,14 +145,9 @@
                 </div>
             </div>
 
-            <p:spacer height="15px"/>
+            <p:spacer height="15px"/>-->
 
 
-
-
-            Survey id: #{urDashboardController.selectTargetSurvey(param['surveyId'])}
-
-            Component: #{urDashboardController.getSurveyName()}
         </h:form>
     </ui:define>
 </ui:composition>

@@ -1,13 +1,14 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.analysis;
 
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.AnalysisService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,66 +21,89 @@ import org.primefaces.model.charts.optionconfig.title.Title;
 import org.primefaces.model.charts.pie.PieChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
 @ViewScoped
-//@SessionScope
-@Component ("urDashboardController")
+@Component("urDashboardController")
 @RequiredArgsConstructor
 public class URDashboardController implements Serializable {
+
+    private final AnalysisService analysisService;
+
+    public Map<String, List<DAEAndOccurrenceDTO>> getCaterpillarFluctuationChart(Long aSurveyId) {
+
+        var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
+
+        return analysisService.getCaterpillarChart(MIPSampleData);
+    }
+
+    public Map<String, List<DAEAndOccurrenceDTO>> getBedBugFluctuationChart(Long aSurveyId) {
+
+        var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
+
+        return analysisService.getBedBugChart(MIPSampleData);
+    }
+
+    public Map<String, List<DAEAndOccurrenceDTO>> getNaturalPredatorFluctuationChart(Long aSurveyId) {
+
+        var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
+
+        return analysisService.getNaturalPredatorChart(MIPSampleData);
+    }
     
-    
+    public List<DAEAndOccurrenceDTO> getDefoliationFluctuationChart(Long aSurveyId) {
+
+        var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
+
+        return analysisService.getDefoliationChart(MIPSampleData);
+    }
+
+
     @Getter
     private List<String> dates = List.of("10/02/2020", "17/02/2020", "03/03/2020");
-    
-    @Getter
-    private Long surveyId;
-    
+
     private final SurveyService surveyService;
-    
-    public void selectTargetSurvey(Long aSurveyId) {
-        this.surveyId = aSurveyId;    
+
+    public String selectTargetSurvey(Long id) {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", id);
+
+        return "/analysis/ur-dashboard.xhtml?faces-redirect=true";
     }
-    
-    public String getSurveyName() throws EntityNotFoundException {
-        return surveyService.readById(this.surveyId).getFieldName();
-    }
-    
+
     public PieChartModel getPieChart() {
-        
+
         PieChartModel pieModel = new PieChartModel();
         ChartData data = new ChartData();
-         
+
         PieChartDataSet dataSet = new PieChartDataSet();
         List<Number> values = new ArrayList<>();
         values.add(300);
         values.add(50);
         values.add(100);
         dataSet.setData(values);
-         
+
         List<String> bgColors = new ArrayList<>();
         bgColors.add("rgb(255, 99, 132)");
         bgColors.add("rgb(54, 162, 235)");
         bgColors.add("rgb(255, 205, 86)");
         dataSet.setBackgroundColor(bgColors);
-         
+
         data.addChartDataSet(dataSet);
         List<String> labels = new ArrayList<>();
         labels.add("Red");
         labels.add("Blue");
         labels.add("Yellow");
         data.setLabels(labels);
-         
+
         pieModel.setData(data);
-        
+
         return pieModel;
     }
-    
+
     public LineChartModel getLineChart() {
-        
+
         var lineModel = new LineChartModel();
         ChartData data = new ChartData();
-         
+
         LineChartDataSet dataSet = new LineChartDataSet();
         List<Number> values = new ArrayList<>();
         values.add(65);
@@ -95,7 +119,7 @@ public class URDashboardController implements Serializable {
         dataSet.setBorderColor("rgb(75, 192, 192)");
         dataSet.setLineTension(0.1);
         data.addChartDataSet(dataSet);
-         
+
         List<String> labels = new ArrayList<>();
         labels.add("January");
         labels.add("February");
@@ -105,28 +129,28 @@ public class URDashboardController implements Serializable {
         labels.add("June");
         labels.add("July");
         data.setLabels(labels);
-         
+
         //Options
-        LineChartOptions options = new LineChartOptions();        
+        LineChartOptions options = new LineChartOptions();
         Title title = new Title();
         title.setDisplay(true);
         title.setText("Line Chart");
         options.setTitle(title);
-         
+
         lineModel.setOptions(options);
         lineModel.setData(data);
-        
+
         return lineModel;
     }
-    
-     public void viewCars() {
-         Map<String,Object> options = new HashMap<String, Object>();
+
+    public void viewCars() {
+        Map<String, Object> options = new HashMap<String, Object>();
         options.put("resizable", false);
-         PrimeFaces.current().dialog().openDynamic("add-mip", options, null);
+        PrimeFaces.current().dialog().openDynamic("add-mip", options, null);
     }
-     
-     public void doSomething(){
-         System.out.println("Hello world?");
-     }
-    
+
+    public void doSomething() {
+        System.out.println("Hello world?");
+    }
+
 }
