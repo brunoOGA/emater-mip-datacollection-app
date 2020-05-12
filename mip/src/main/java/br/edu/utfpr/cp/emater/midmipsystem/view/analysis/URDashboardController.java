@@ -1,5 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.analysis;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.AnalysisService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
@@ -8,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import lombok.Getter;
@@ -29,41 +34,61 @@ public class URDashboardController implements Serializable {
 
     private final AnalysisService analysisService;
 
-    public Map<String, List<DAEAndOccurrenceDTO>> getCaterpillarFluctuationChart(Long aSurveyId) {
+    @Getter
+    private Map<String, List<DAEAndOccurrenceDTO>> caterpillarFluctuationChart;
+
+    @Getter
+    private Map<String, List<DAEAndOccurrenceDTO>> bedBugFluctuationChart;
+
+    @Getter
+    private Map<String, List<DAEAndOccurrenceDTO>> naturalPredatorFluctuationChart;
+
+    @Getter
+    private List<DAEAndOccurrenceDTO> defoliationFluctuationChart;
+
+    @Getter
+    private String fieldName;
+
+    @Getter
+    private String harvestName;
+
+    @PostConstruct
+    public void init() {
+
+        String surveyId = (String) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("aSurveyId");
+
+        this.setDataForFluctuationCharts(new Long(surveyId));
+        this.setURData(new Long(surveyId));
+    }
+
+    private void setURData(Long aSurveyId) {
+
+        try {
+            var currentSurvey = analysisService.readSurveyById(aSurveyId);
+            
+            this.fieldName = currentSurvey.getFieldName();
+            this.harvestName = currentSurvey.getHarvestName();
+                    
+        } catch (EntityNotFoundException ex) {
+            Logger.getLogger(URDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void setDataForFluctuationCharts(Long aSurveyId) {
 
         var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
 
-        return analysisService.getCaterpillarChart(MIPSampleData);
+        this.caterpillarFluctuationChart = analysisService.getCaterpillarChart(MIPSampleData);
+        this.bedBugFluctuationChart = analysisService.getBedBugChart(MIPSampleData);
+        this.naturalPredatorFluctuationChart = analysisService.getNaturalPredatorChart(MIPSampleData);
+        this.defoliationFluctuationChart = analysisService.getDefoliationChart(MIPSampleData);
     }
-
-    public Map<String, List<DAEAndOccurrenceDTO>> getBedBugFluctuationChart(Long aSurveyId) {
-
-        var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
-
-        return analysisService.getBedBugChart(MIPSampleData);
-    }
-
-    public Map<String, List<DAEAndOccurrenceDTO>> getNaturalPredatorFluctuationChart(Long aSurveyId) {
-
-        var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
-
-        return analysisService.getNaturalPredatorChart(MIPSampleData);
-    }
-    
-    public List<DAEAndOccurrenceDTO> getDefoliationFluctuationChart(Long aSurveyId) {
-
-        var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
-
-        return analysisService.getDefoliationChart(MIPSampleData);
-    }
-
 
     @Getter
     private List<String> dates = List.of("10/02/2020", "17/02/2020", "03/03/2020");
 
-    private final SurveyService surveyService;
-
-    public String selectTargetSurvey(Long id) {
+    public String selectTargetSurvey(Long id) throws EntityNotFoundException {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", id);
 
         return "/analysis/ur-dashboard.xhtml?faces-redirect=true";

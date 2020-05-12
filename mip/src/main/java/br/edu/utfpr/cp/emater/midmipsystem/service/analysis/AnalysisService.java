@@ -9,11 +9,13 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.security.MIPUser;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DefoliationChartService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.NaturalPredatorMIPSampleChartService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.PestMIPSampleChartService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +31,8 @@ public class AnalysisService {
     
     @Getter
     private final MIPSampleService mipSampleService;
+    
+    private final SurveyService surveyService;
     
     public Map<String, List<DAEAndOccurrenceDTO>> getCaterpillarChart(List<MIPSample> aSampleList) {
         return new PestMIPSampleChartService().of(aSampleList, this.getCaterpillarTargetList());
@@ -155,4 +159,7 @@ public class AnalysisService {
         return mipSampleService.readBySurveyId(aSurveyId);
     }
 
+    public Survey readSurveyById(Long aSurveyId) throws EntityNotFoundException {
+        return surveyService.readById(aSurveyId);
+    }
 }

@@ -10,7 +10,7 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="metadata">
-        <ui:param name="title" value="Painel de Controle da UR XYZ"/> 
+        <ui:param name="title" value="Painel de Controle da UR #{urDashboardController.fieldName} para a Safra #{urDashboardController.harvestName}"/> 
     </ui:define>
 
     <ui:define name="description">
@@ -19,6 +19,8 @@
 
     <ui:define name="body">
         <h:form>
+            
+            #{flash.putNow("aSurveyId", param['surveyId'])}
 
             <ui:include src="add-mip.xhtml"></ui:include>
 
@@ -32,19 +34,19 @@
 
                         <p:tabView>
                             <p:tab title="Lagartas">
-                                <hf:chart type="line" value="#{urDashboardController.getCaterpillarFluctuationChart(flash['currentSurveyId'])}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                                <hf:chart type="line" value="#{urDashboardController.caterpillarFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
                             </p:tab>
                             
                             <p:tab title="Percevejos">
-                                <hf:chart type="line" value="#{urDashboardController.getBedBugFluctuationChart(flash['currentSurveyId'])}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                                <hf:chart type="line" value="#{urDashboardController.bedBugFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
                             </p:tab>
                             
                             <p:tab title="Inimigos Naturais">
-                                    <hf:chart type="line" value="#{urDashboardController.getNaturalPredatorFluctuationChart(flash['currentSurveyId'])}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                                    <hf:chart type="line" value="#{urDashboardController.naturalPredatorFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
                             </p:tab>
                             
                             <p:tab title="Desfolha">
-                                <hf:chart type="line" value="#{urDashboardController.getDefoliationFluctuationChart(flash['currentSurveyId'])}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="(%) de Desfolha" ></hf:chart>
+                                <hf:chart type="line" value="#{urDashboardController.defoliationFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="(%) de Desfolha" ></hf:chart>
                             </p:tab>
                         </p:tabView>
 
