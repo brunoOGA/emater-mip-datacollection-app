@@ -19,7 +19,7 @@
 
     <ui:define name="body">
         <h:form>
-            
+
             #{flash.putNow("aSurveyId", param['surveyId'])}
 
             <ui:include src="add-mip.xhtml"></ui:include>
@@ -36,15 +36,15 @@
                             <p:tab title="Lagartas">
                                 <hf:chart type="line" value="#{urDashboardController.caterpillarFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
                             </p:tab>
-                            
+
                             <p:tab title="Percevejos">
                                 <hf:chart type="line" value="#{urDashboardController.bedBugFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
                             </p:tab>
-                            
+
                             <p:tab title="Inimigos Naturais">
-                                    <hf:chart type="line" value="#{urDashboardController.naturalPredatorFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
+                                <hf:chart type="line" value="#{urDashboardController.naturalPredatorFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="No. Insetos/Metro" ></hf:chart>
                             </p:tab>
-                            
+
                             <p:tab title="Desfolha">
                                 <hf:chart type="line" value="#{urDashboardController.defoliationFluctuationChart}" var="daeOccurrences" point="#{daeOccurrences.occurrence}" tickLabel="#{daeOccurrences.dae}" xaxisLabel="Dias Após Emergência" yaxisLabel="(%) de Desfolha" ></hf:chart>
                             </p:tab>
@@ -56,30 +56,32 @@
 
             <p:spacer height="15px"/>
 
-<!--            <div class="row" >
-                <div class="col-md-12">
-                    <p:panel header="Box Colors" styleClass="box-primary" toggleable="true" closable="true">
-
-                        <f:facet name="actions">
-                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText
-                                    styleClass="ui-icon ui-icon-help"/></h:commandLink>
-                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText
-                                    styleClass="ui-icon ui-icon-star"/></h:commandLink>
-                        </f:facet>
-
-                        <div class="col-md-3">
-                            <p:pieChart model="#{urDashboardController.getPieChart()}" style="width: 100%; height: 300px;"/>
+            <!--            <div class="row" >
+                            <div class="col-md-12">
+                                <p:panel header="Box Colors" styleClass="box-primary" toggleable="true" closable="true">
+            
+                                    <f:facet name="actions">
+                                        <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText
+                                                styleClass="ui-icon ui-icon-help"/></h:commandLink>
+                                        <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText
+                                                styleClass="ui-icon ui-icon-star"/></h:commandLink>
+                                    </f:facet>
+            
+                                    <div class="col-md-3">
+                                        <p:pieChart model="#{urDashboardController.getPieChart()}" style="width: 100%; height: 300px;"/>
+                                    </div>
+            
+                                    <div class="col-md-7">
+                                        <p:lineChart model="#{urDashboardController.getLineChart()}" style="width: 100%; height: 300px;"/>
+                                    </div>
+            
+                                </p:panel>
+                            </div>
                         </div>
-
-                        <div class="col-md-7">
-                            <p:lineChart model="#{urDashboardController.getLineChart()}" style="width: 100%; height: 300px;"/>
-                        </div>
-
-                    </p:panel>
-                </div>
-            </div>
-
-            <p:spacer height="15px"/>
+            
+                        <p:spacer height="15px"/>
+            
+            -->
 
             <div class="row" >
                 <div class="col-md-12">
@@ -95,10 +97,12 @@
                             <p:scrollPanel style="height:400px">
                                 <ul class="timeline">
 
-                                    <p:repeat value="#{urDashboardController.dates}" var="date">
+                                    <p:repeat value="#{urDashboardController.MIPSampleData}" var="aSample">
                                         <li class="time-label">
                                             <span class="bg-blue">
-                                                #{date}
+                                                <h:outputText value="#{aSample.sampleDate}" >
+                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                </h:outputText>
                                             </span>
                                         </li>
 
@@ -147,7 +151,7 @@
                 </div>
             </div>
 
-            <p:spacer height="15px"/>-->
+            <p:spacer height="15px"/>
 
 
         </h:form>

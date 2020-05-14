@@ -17,12 +17,14 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.SupervisorNotAllowedInCity;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DAEAndOccurrenceDTO;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.CityService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorService;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -285,9 +287,12 @@ public class MIPSampleService {
     }
 
     public List<MIPSample> readBySurveyId(Long aSurveyId) {
+        Comparator<MIPSample> sampleDatesComparator = Comparator.comparingLong(currentSample -> currentSample.getSampleDate().getTime());
+        
         return this.mipSampleRepository.findAll().stream()
                 .filter(currentMIPSample -> currentMIPSample.getSurvey() != null)
                 .filter(currentMIPSample -> currentMIPSample.getSurvey().getId().equals(aSurveyId))
+                .sorted(sampleDatesComparator.reversed())
                 .collect(Collectors.toList());
     }
 }

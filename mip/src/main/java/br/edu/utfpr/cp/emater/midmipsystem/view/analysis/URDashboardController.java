@@ -45,12 +45,9 @@ public class URDashboardController implements Serializable {
 
     @Getter
     private List<DAEAndOccurrenceDTO> defoliationFluctuationChart;
-
+    
     @Getter
-    private String fieldName;
-
-    @Getter
-    private String harvestName;
+    private List<MIPSample> MIPSampleData;
 
     @PostConstruct
     public void init() {
@@ -58,26 +55,11 @@ public class URDashboardController implements Serializable {
         String surveyId = (String) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("aSurveyId");
 
         this.setDataForFluctuationCharts(new Long(surveyId));
-        this.setURData(new Long(surveyId));
-    }
-
-    private void setURData(Long aSurveyId) {
-
-        try {
-            var currentSurvey = analysisService.readSurveyById(aSurveyId);
-            
-            this.fieldName = currentSurvey.getFieldName();
-            this.harvestName = currentSurvey.getHarvestName();
-                    
-        } catch (EntityNotFoundException ex) {
-            Logger.getLogger(URDashboardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     private void setDataForFluctuationCharts(Long aSurveyId) {
 
-        var MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
+        this.MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
 
         this.caterpillarFluctuationChart = analysisService.getCaterpillarChart(MIPSampleData);
         this.bedBugFluctuationChart = analysisService.getBedBugChart(MIPSampleData);
