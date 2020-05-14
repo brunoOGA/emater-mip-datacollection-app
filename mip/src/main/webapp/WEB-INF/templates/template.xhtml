@@ -26,6 +26,19 @@
                 </p:link>
             </li>
             <li class="header">
+                Minhas Unidades de Referência
+            </li>
+            
+            <p:repeat value="#{menuController.myURsList}" var="menuEntry">
+                <li>
+                    <p:link outcome="#{menuEntry.url}" onclick="clearBreadCrumbs()">
+                        <i class="fa fw fa-pie-chart"></i>
+                        <span>#{menuEntry.title}</span>
+                    </p:link>
+                </li>
+            </p:repeat>
+
+            <li class="header">
                 Opções
             </li>
 
