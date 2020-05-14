@@ -91,7 +91,7 @@ public class URDashboardController implements Serializable {
     public String selectTargetSurvey(Long id) throws EntityNotFoundException {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("currentSurveyId", id);
 
-        return "/analysis/ur-dashboard.xhtml?faces-redirect=true";
+        return "/dashboard/ur-dashboard.xhtml?faces-redirect=true";
     }
 
     public PieChartModel getPieChart() {
