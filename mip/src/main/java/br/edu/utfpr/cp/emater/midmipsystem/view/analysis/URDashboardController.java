@@ -1,5 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.view.analysis;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.AnalysisService;
@@ -48,16 +49,20 @@ public class URDashboardController implements Serializable {
     
     @Getter
     private List<MIPSample> MIPSampleData;
+    
+    @Getter
+    private List<MIDRustSample> MIDRustSampleData;
 
     @PostConstruct
     public void init() {
 
         String surveyId = (String) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("aSurveyId");
 
-        this.setDataForFluctuationCharts(new Long(surveyId));
+        this.setDataMIP(new Long(surveyId));
+        this.setDataMID(new Long(surveyId));
     }
 
-    private void setDataForFluctuationCharts(Long aSurveyId) {
+    private void setDataMIP(Long aSurveyId) {
 
         this.MIPSampleData = analysisService.readMIPSamplesBySurveyId(aSurveyId);
 
@@ -65,6 +70,10 @@ public class URDashboardController implements Serializable {
         this.bedBugFluctuationChart = analysisService.getBedBugChart(MIPSampleData);
         this.naturalPredatorFluctuationChart = analysisService.getNaturalPredatorChart(MIPSampleData);
         this.defoliationFluctuationChart = analysisService.getDefoliationChart(MIPSampleData);
+    }
+    
+    private void setDataMID(Long aSurveyId) {
+        this.MIDRustSampleData = analysisService.readMIDSamplesBySurveyId(aSurveyId);
     }
 
     @Getter

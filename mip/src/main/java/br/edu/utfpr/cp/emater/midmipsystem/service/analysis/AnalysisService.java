@@ -5,6 +5,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.City;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.MacroRegion;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Region;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mid.MIDRustSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSample;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.Pest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredator;
@@ -14,6 +15,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.DefoliationChartService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.NaturalPredatorMIPSampleChartService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.analysis.chart.PestMIPSampleChartService;
+import br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
 import java.util.List;
@@ -31,6 +33,8 @@ public class AnalysisService {
     
     @Getter
     private final MIPSampleService mipSampleService;
+    
+    private final MIDRustSampleService midSampleService;
     
     private final SurveyService surveyService;
     
@@ -161,5 +165,9 @@ public class AnalysisService {
 
     public Survey readSurveyById(Long aSurveyId) throws EntityNotFoundException {
         return surveyService.readById(aSurveyId);
+    }
+
+    public List<MIDRustSample> readMIDSamplesBySurveyId(Long aSurveyId) {
+        return midSampleService.readAllMIPSampleBySurveyId(aSurveyId);
     }
 }

@@ -9,6 +9,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyService;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,8 @@ public class MIDRustSampleService {
     }
 
     public List<MIDRustSample> readAllMIPSampleBySurveyId(Long id) {
-        return List.copyOf(this.midRustSampleRepository.findAll().stream().filter(current -> current.getSurvey().getId().equals(id)).collect(Collectors.toList()));
+        Comparator<MIDRustSample> compareSampleDate = Comparator.comparingLong(sample -> sample.getSampleDate().getTime());
+        return List.copyOf(this.midRustSampleRepository.findAll().stream().filter(current -> current.getSurvey().getId().equals(id)).sorted(compareSampleDate.reversed()).collect(Collectors.toList()));
     }
 
     public void delete(Long anId) throws EntityNotFoundException, EntityInUseException, AnyPersistenceException, AccessDeniedException {

@@ -14,7 +14,6 @@
     </ui:define>
 
     <ui:define name="description">
-        <!--Criar, alterar, listar e excluir regiões-->
     </ui:define>
 
     <ui:define name="body">
@@ -183,6 +182,115 @@
 
             <p:spacer height="15px"/>
 
+            <div class="row" >
+                <div class="col-md-12">
+                    <p:panel header="Manejo Integrado de Doenças" styleClass="box-primary" toggleable="true" closable="true">
+                        <div class="col-md-5 col-sm-12">
+                            <p:scrollPanel style="height:500px">
+
+                                <p:spacer height="5px"/>
+
+                                <ul class="timeline">
+
+                                    <p:repeat value="#{urDashboardController.MIDRustSampleData}" var="aSample">
+                                        <li class="time-label">
+                                            <span class="bg-blue">
+                                                <h:outputText title="Data da amostra" value="#{aSample.sampleDate}" >
+                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                </h:outputText>
+                                            </span>
+                                        </li>
+
+                                        <li>
+                                            <i class="fa fa-fw bg-gray">
+
+                                            </i>
+                                            <div class="timeline-item">
+
+
+                                                <div class="time">
+                                                    <i class="fa fa-user"></i> 
+                                                    <h:outputText title="Responsável pelo lançamento" rendered="#{aSample.createdBy != null}" value="#{aSample.createdBy.fullName}" />
+                                                    <h:outputText rendered="#{aSample.createdBy == null}" value="-" />
+
+                                                    <i class="fa fa-calendar"></i> 
+                                                    <h:outputText title="Data do lançamento" rendered="#{aSample.lastModified != null}" value="#{aSample.lastModified}" >
+                                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                                    </h:outputText>
+
+                                                    <h:outputText rendered="#{aSample.lastModified == null}" value="-" >
+                                                    </h:outputText>
+                                                </div>
+
+                                                <div class="timeline-header">
+
+                                                </div>
+
+                                                <div class="timeline-body">
+
+                                                    <p:tabView>
+                                                        
+                                                        <p:tab title="Inspeção Foliar">
+                                                            <p:panelGrid columns="2">
+                                                                <h:outputText value="Estádio das Plantas"></h:outputText>
+                                                                <h:outputText value="#{aSample.leafInspectionOccurrence.growthPhase.description}" />
+                                                                
+                                                                <h:outputText value="Resultado da Inspeção Foliar para Ferrugem Asiática"></h:outputText>
+                                                                <h:outputText value="#{aSample.leafInspectionOccurrence.bladeReadingRustResultLeafInspection.description}" />
+                                                            </p:panelGrid>
+                                                        </p:tab>
+                                                        
+                                                        <p:tab title="Coletor de Esporos">
+                                                            <p:panelGrid columns="2">
+                                                                <h:outputText value="Lâmina Colocada na Véspera da Frente Fria"></h:outputText>
+                                                                <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeInstalledPreCold ? 'Sim' : 'Não'}" />
+                                                                
+                                                                <h:outputText value="Profissional Responsável pela Leitura da Lâmina"></h:outputText>
+                                                                <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.name}" />
+                                                                
+                                                                <h:outputText value="Entidade do Responsável pela Leitura"></h:outputText>
+                                                                <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.entityName}" />
+
+                                                                <h:outputText value="Data de Leitura da Lâmina"></h:outputText>
+                                                                <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingDate}" >
+                                                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                                                </h:outputText>
+                                                                
+                                                                <h:outputText value="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática"></h:outputText>
+                                                                <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingRustResultCollector.description}" />
+                                                                
+                                                            </p:panelGrid>
+                                                        </p:tab>
+
+                                                    </p:tabView>
+
+                                                </div>
+
+                                                <div class="timeline-footer">
+                                                    <p:commandButton ajax="false" styleClass="btn-warning btn-xs" icon="fa fa-fw fa-pencil" ></p:commandButton>
+                                                    <p:commandButton ajax="false" styleClass="btn-danger btn-xs" icon="fa fa-fw fa-trash" ></p:commandButton>
+                                                </div>
+
+                                            </div>
+                                        </li>
+                                    </p:repeat>
+
+                                    <li>
+                                        <i class="fa fa-fw fa-clock-o bg-gray"></i>
+                                    </li>
+                                </ul>
+
+                                <p:spacer height="5px"/>
+
+                            </p:scrollPanel>
+
+                            <p:spacer height="5px"/>
+                        </div>
+
+                    </p:panel>
+                </div>
+            </div>
+
             <!--            <div class="row" >
                             <div class="col-md-12">
                                 <p:panel header="Box Colors" styleClass="box-primary" toggleable="true" closable="true">
@@ -204,11 +312,11 @@
             
                                 </p:panel>
                             </div>
-                        </div>
-            
-                        <p:spacer height="15px"/>
-            
-            -->
+                        </div>-->
+
+            <p:spacer height="15px"/>
+
+
 
 
             <p:spacer height="15px"/>
