@@ -44,7 +44,12 @@ public class MenuController implements Serializable {
                             -> this.myURsList.add(
                                     MenuEntry.builder()
                                             .title(currentSurvey.getFieldName())
-                                            .url("/dashboard/ur-dashboard.xhtml?surveyId=" + currentSurvey.getId())
+                                            .url(
+                                                 String.format("/dashboard/ur-dashboard.xhtml?surveyId=%s&fieldName=%s&harvestName=%s",
+                                                         currentSurvey.getId(),
+                                                         currentSurvey.getFieldName(),
+                                                         currentSurvey.getHarvestName())   
+                                                 )
                                             .build()
                             )
                     );

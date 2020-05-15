@@ -10,7 +10,7 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="metadata">
-        <ui:param name="title" value="Painel de Controle da UR XXX para a Safra YYY"/> 
+        <ui:param name="title" value="Painel de Controle da UR #{param.fieldName} (#{param.harvestName})"/> 
     </ui:define>
 
     <ui:define name="description">
@@ -33,8 +33,7 @@
                     <p:panel header="Manejo Integrado de Pragas" styleClass="box-primary" toggleable="true" closable="false">
 
                         <f:facet name="actions">
-                            <button title="Adicionar anotação de campo" type="button" class="btn btn-primary fa fa-plus"  data-toggle="modal" data-target="#modal-default" style="border-radius: 25px; font-size: 17px; width: 30px;height: 30px;padding: 0px 0px 0px 1px;text-align: center;">
-                            </button>
+                            <a href="#" title="Adicionar anotação de campo" class="btn btn-primary fa fa-plus"  data-toggle="modal" data-target="#modal-default" ></a>
                         </f:facet>
 
                         <div class="col-md-4 col-sm-12">
